@@ -1,1 +1,89 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use "assets/theme/theme.scss" as theme;
+
+@include mat.core();
+
+$my-primary: mat.define-palette(mat.$indigo-palette, 500);
+$my-accent: mat.define-palette(theme.$different-palette, A400, A100, A200);
+
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+  )
+));
+
+// Emit theme-dependent styles for common features used across multiple components.
+@include mat.all-component-themes($my-theme);
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.content {
+  padding: 8px;
+
+  .layout-content {
+    margin: 16px;
+    box-sizing: border-box;
+  }
+}
+
+mat-spinner {
+  margin: 10px auto;
+}
+
+//loading
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #fafafa;
+}
+
+.full-height {
+  min-height: calc(100vh - 116px) !important;
+}
+.loading-overlay {
+  &.fixed {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.4);
+    top: 0;
+    z-index: 10;
+    left: 0;
+  }
+  .loading {
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    margin: -15px 0 0 -15px;
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    animation: loading 2s infinite ease-in-out;
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    background-color: #189383;
+  }
+
+  50% {
+    transform: perspective(120px) rotateX(180deg) rotateY(0deg);
+    background-color: #233588;
+  }
+
+  100% {
+    transform: perspective(120px) rotateX(180deg) rotateY(-180deg);
+    background-color: #189383;
+  }
+}

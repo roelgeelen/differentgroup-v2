@@ -1,0 +1,37 @@
+@use 'sass:map';
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+$different-palette: (
+  50: #e3f2fd,
+  100: #bcdbcf,
+  200: #68ac85,
+  300: #5b9691,
+  400: #65919f,
+  500: #4d7d98,
+  600: #525d9e,
+  700: #415098,
+  800: #334d9c ,
+  900: #2e3785,
+  A100: #68ac85,
+  A200: #525d9e,
+  A400: #334d9c,
+  A700: #2e3785,
+  contrast: (
+    50: $dark-primary-text,
+    200: $dark-primary-text,
+    100: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $light-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);

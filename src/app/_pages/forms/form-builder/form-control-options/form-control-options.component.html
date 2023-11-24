@@ -1,0 +1,40 @@
+<div class="header">
+  <mat-icon>{{ formField.icon }}</mat-icon>
+  <h2>
+    Opties
+  </h2>
+</div>
+
+<hr>
+@if (formField.element.label !== undefined) {
+  <mat-form-field>
+    <mat-label>Label</mat-label>
+    <input matInput [(ngModel)]="formField.element.label" [ngModelOptions]="{standalone:true}">
+  </mat-form-field>
+}
+@if (formField.element.title !== undefined) {
+  <mat-form-field>
+    <mat-label>Titel</mat-label>
+    <input matInput [(ngModel)]="formField.element.title" [ngModelOptions]="{standalone:true}">
+  </mat-form-field>
+}
+@if (formField.element.placeholder !== undefined) {
+  <mat-form-field>
+    <mat-label>Placeholder</mat-label>
+    <input matInput [(ngModel)]="formField.element.placeholder" [ngModelOptions]="{standalone:true}">
+  </mat-form-field>
+}
+@if (formField.element.options !== undefined) {
+  <span>Opties</span>
+  <div cdkDropList class="options-list" (cdkDropListDropped)="drop($event)">
+    @for (option of formField.element.options;track option) {
+      <div class="option-box" cdkDrag>
+        <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+        <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+        <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
+        <mat-icon class="close-icon" (click)="removeOption(option)">close</mat-icon>
+      </div>
+    }
+  </div>
+  <button mat-button color="primary" (click)="addOption()">+ optie toevoegen</button>
+}

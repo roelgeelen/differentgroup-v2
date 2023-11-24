@@ -1,0 +1,52 @@
+<div class="form-field" [ngClass]="selected?'selected':''" cdkDrag>
+  <div class="form-field-placeholder" *cdkDragPlaceholder></div>
+  @if (selected) {
+    <div class="field-handle" cdkDragHandle>
+      <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+        <path d="M0 0h24v24H0z" fill="none"></path>
+      </svg>
+    </div>
+  } @else {
+    <div cdkDragHandle></div>
+  }
+  <div class="row">
+    @if (formField.element?.label) {
+      <mat-label class="label">{{ formField.element.label }}</mat-label>
+    }
+
+    <!--  <img [src]="question.image">-->
+    <div class="field row">
+      @switch (formField.type) {
+        @case ('text') {
+          <mat-form-field class="example-full-width">
+            <mat-label>{{ formField.element.title }}</mat-label>
+            <input matInput [placeholder]="formField.element.placeholder ?? ''">
+          </mat-form-field>
+        }
+        @case ('radio') {
+          <mat-radio-group aria-label="Select an option">
+            @for (option of formField.element.options;track option) {
+              <mat-radio-button [value]="option.value">{{ option.value }}</mat-radio-button>
+            }
+          </mat-radio-group>
+        }
+        @case ('checkbox') {
+          <mat-selection-list color="primary" >
+            @for (option of formField.element.options;track option) {
+              <mat-list-option [value]="option.value" togglePosition="before">{{option.value}}</mat-list-option>
+            }
+          </mat-selection-list>
+
+        }
+        @case ('textarea') {
+          <mat-form-field class="example-full-width">
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput [placeholder]="formField.element.placeholder ?? ''"></textarea>
+          </mat-form-field>
+        }
+      }
+    </div>
+  </div>
+</div>

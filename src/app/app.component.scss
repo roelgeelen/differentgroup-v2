@@ -1,0 +1,30 @@
+.minHeight {
+  min-height: calc(100vh - 116px);
+}
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  padding: 1rem 0;
+  background-color: #fafafa;
+  text-align: center;
+  font-size: 14px;
+
+  #development {
+    a {
+      color: #B2B2B2;
+      text-decoration: none;
+
+      &:hover {
+        span:nth-child(2) {
+          text-decoration: underline;
+          color: black;
+        }
+      }
+
+      span {
+        transition: color 0.2s ease;
+      }
+    }
+  }
+}

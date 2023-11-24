@@ -1,0 +1,12 @@
+<mat-toolbar color="primary" class="navbar">
+  <a routerLink="/"><img src="assets/images/logo.png" alt="Logo" height="45" class="logo"></a>
+<!--  <span class="spacer"></span>-->
+  <button mat-button routerLink="/forms">Formulieren</button>
+  <button mat-button routerLink="/admin">Admin</button>
+  <!-- Voeg meer pagina's toe zoals hierboven -->
+  <span class="spacer"></span>
+  <div class="profile">
+    <span class="profile-name">{{currentUser?.name}}</span>
+    <img [src]="currentUser?.image ? currentUser!.image : 'assets/images/user_placeholder.png'" alt="Profielfoto" height="45" class="profile-pic">
+  </div>
+</mat-toolbar>
