@@ -27,7 +27,7 @@
       @if (item.id !== selectedControl?.id) {
         <div cdkDragHandle></div>
       }
-      @if (item.options !== undefined && item.options?.label !== undefined && item.options?.label !== '') {
+      @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
         <mat-label class="label">{{ item.options!.label }}</mat-label>
       }
       <div class="drag-preview" *cdkDragPlaceholder>

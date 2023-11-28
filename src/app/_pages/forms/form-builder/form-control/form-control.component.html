@@ -12,7 +12,7 @@
     <div cdkDragHandle></div>
   }
   <div class="row">
-    @if (formField.element?.label) {
+    @if (formField.element!.label) {
       <mat-label class="label">{{ formField.element.label }}</mat-label>
     }
 

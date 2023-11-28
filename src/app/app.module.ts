@@ -45,6 +45,7 @@ import {FormControlsModule} from "./_pages/admin/dynamic-form-builder/form-contr
 import {CastPipe} from "./_pages/admin/dynamic-form-builder/cast.pipe";
 import { ControlOptionsComponent } from './_pages/admin/dynamic-form-builder/control-options/control-options.component';
 import {SharedModule} from "./shared.module";
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -60,48 +61,49 @@ import {SharedModule} from "./shared.module";
     FormContainerComponent,
     FormColumnsComponent,
     CastPipe,
-    ControlOptionsComponent,
+    ControlOptionsComponent
   ],
-  imports: [
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: [environment.apiUrl],
-        sendAccessToken: true
-      }
-    }),
-    SharedModule,
-    HttpClientModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    NavbarComponent,
-    CdkDropList,
-    MatFormFieldModule,
-    CdkDrag,
-    MatInputModule,
-    MatSidenavModule,
-    MatGridListModule,
-    FlexLayoutModule,
-    MatCardModule,
-    FormsModule,
-    MatDialogContent,
-    MatDialogTitle,
-    MatDialogActions,
-    MatDialogClose,
-    MatButtonModule,
-    MatListModule,
-    MatIconModule,
-    CdkDropListGroup,
-    MatRadioModule,
-    MatCheckboxModule,
-    CdkDragPlaceholder,
-    CdkDragHandle,
-    NgxEditorModule,
-    MatSelectModule,
-    FormControlsModule,
-    CdkDragPreview,
-  ],
+    imports: [
+        OAuthModule.forRoot({
+            resourceServer: {
+                allowedUrls: [environment.apiUrl],
+                sendAccessToken: true
+            }
+        }),
+        SharedModule,
+        HttpClientModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        NavbarComponent,
+        CdkDropList,
+        MatFormFieldModule,
+        CdkDrag,
+        MatInputModule,
+        MatSidenavModule,
+        MatGridListModule,
+        FlexLayoutModule,
+        MatCardModule,
+        FormsModule,
+        MatDialogContent,
+        MatDialogTitle,
+        MatDialogActions,
+        MatDialogClose,
+        MatButtonModule,
+        MatListModule,
+        MatIconModule,
+        CdkDropListGroup,
+        MatRadioModule,
+        MatCheckboxModule,
+        CdkDragPlaceholder,
+        CdkDragHandle,
+        NgxEditorModule,
+        MatSelectModule,
+        FormControlsModule,
+        CdkDragPreview,
+        MatTabsModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

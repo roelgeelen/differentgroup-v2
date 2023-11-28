@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IFormControl } from '../../form-controls/form-control.interface';
-import { IFormContainer } from '../../models/form-container.interface';
+import { IFormPage } from '../../models/form-container.interface';
 import { DragDropService } from '../../services/drag-drop.service';
 import {FormService} from "../../services/form.service";
 
@@ -24,7 +24,7 @@ import {FormService} from "../../services/form.service";
 })
 export class FormContainerComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
-  @Input() container: IFormContainer | undefined;
+  @Input() container: IFormPage | undefined;
   @Input() showOutline: boolean = true;
   @Input() id: string = "";
   selectedControl:IFormControl | null = null;

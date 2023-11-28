@@ -1,7 +1,8 @@
 import {IFormControl} from "../form-controls/form-control.interface";
 
 
-export interface IFormContainer
+export interface IFormPage
 {
+  tab?: string;
   controls: IFormControl[];
 }

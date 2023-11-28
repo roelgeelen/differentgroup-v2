@@ -1,16 +1,36 @@
-@if (formService.form$ | async; as form) {
+@if (formService.form$ | async;as form) {
   <div class="page">
     <div class="form-header d-flex justify-content-between">
       <div class="logo"><img src="../../../../../assets/images/logo_zwart.png" alt="logo"></div>
       <h1>{{ form.title }}</h1>
-      <div class="spacer"></div>
+      <div class="settings-btn">
+        <button mat-button color="primary" (click)="formService.toggleFormSettings()"><mat-icon>settings</mat-icon></button>
+      </div>
     </div>
-    <div class="form-body">
-      <app-form-container
-        id="form"
-        [container]="form.container"
-        [showOutline]="form.container.controls.length ==0"
-      ></app-form-container>
-    </div>
+    @if (form.pages.length > 1) {
+      <mat-tab-group>
+      @for (page of form.pages;track page) {
+
+          <mat-tab [label]="page.tab!">
+            <div class="form-body">
+              <app-form-container
+                id="form"
+                [container]="page"
+                [showOutline]="page.controls.length ==0"
+              ></app-form-container>
+            </div>
+          </mat-tab>
+
+      }
+      </mat-tab-group>
+    } @else {
+      <div class="form-body">
+        <app-form-container
+          id="form"
+          [container]="form.pages[0]"
+          [showOutline]="form.pages[0].controls.length ==0"
+        ></app-form-container>
+      </div>
+    }
   </div>
 }

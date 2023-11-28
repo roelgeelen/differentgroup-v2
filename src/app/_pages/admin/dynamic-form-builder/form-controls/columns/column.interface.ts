@@ -1,7 +1,7 @@
-import {IFormContainer} from "../../models/form-container.interface";
+import {IFormPage} from "../../models/form-container.interface";
 
 
 export interface IColumn
 {
-  container: IFormContainer
+  container: IFormPage
 }

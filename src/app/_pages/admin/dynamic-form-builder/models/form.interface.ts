@@ -1,7 +1,7 @@
-import { IFormContainer } from "./form-container.interface";
+import { IFormPage } from "./form-container.interface";
 
 export interface IForm
 {
   title: string;
-  container: IFormContainer;
+  pages: IFormPage[];
 }

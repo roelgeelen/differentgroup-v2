@@ -31,8 +31,15 @@
         font-weight: 400;
       }
     }
-    .spacer {
+    .settings-btn {
       width: 150px;
+      text-align: right;
+      button {
+        height: 100%;
+        mat-icon{
+          margin:0;
+        }
+      }
     }
   }
   .form-body {
