@@ -1,0 +1,60 @@
+@if (formService.selectedControl$ | async;as control) {
+  @if (control.options !== undefined) {
+    <div class="control-options">
+      <div class="header">
+        <div class="title">
+          <mat-icon>{{ control?.icon }}</mat-icon>
+          <h2>
+            Opties
+          </h2>
+        </div>
+        <button mat-icon-button (click)="formService.onControlSelected(null)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <hr>
+      @if (control.options?.label !== undefined) {
+        <mat-form-field>
+          <mat-label>Label</mat-label>
+          <input matInput [(ngModel)]="control.options!.label" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+      }
+      @if (control.options?.title !== undefined) {
+        <mat-form-field>
+          <mat-label>Titel</mat-label>
+          <input matInput [(ngModel)]="control.options!.title" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+      }
+      @if (control.options?.subtitle !== undefined) {
+        <div>Subtitle</div>
+        <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+        <ngx-editor
+          [editor]="editor"
+          [placeholder]="'Type hier je tekst...'"
+          [(ngModel)]="control.options!.subtitle"
+        ></ngx-editor>
+      }
+      @if (control.options?.placeholder !== undefined) {
+        <mat-form-field>
+          <mat-label>Placeholder</mat-label>
+          <input matInput [(ngModel)]="control.options!.placeholder" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+      }
+      @if (control.options?.choices !== undefined) {
+        <span>Opties</span>
+        <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options?.choices!, $event)">
+          @for (option of control.options?.choices!;track option;let idx = $index) {
+            <div class="option-box" cdkDrag>
+              <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+              <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+              <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
+              <mat-icon class="close-icon" (click)="removeOption(control.options?.choices!, idx)">close</mat-icon>
+            </div>
+          }
+        </div>
+        <button mat-button color="primary" (click)="addOption(control.options?.choices!)">+ optie toevoegen</button>
+      }
+    </div>
+  }
+}

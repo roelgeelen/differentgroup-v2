@@ -1,0 +1,46 @@
+.page {
+  background-color: #fff;
+  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+  min-height: calc(100vh - 270px);
+  width: 900px;
+  margin: 0 auto 50px auto;
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid black;
+    background-color: white;
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 150px;
+      }
+    }
+    h1 {
+      font-weight: 500;
+      margin: auto 20px;
+      text-align: center;
+      line-height: 20px;
+      padding: 9px;
+      span {
+        font-size: 12px;
+        top: 0;
+        position: relative;
+        font-weight: 400;
+      }
+    }
+    .spacer {
+      width: 150px;
+    }
+  }
+  //.add-icon{
+  //  margin-top: 10px;
+  //  text-align: center;
+  //  button {
+  //    background-color: #eaedf5;
+  //    color: #334d9c;
+  //  }
+  //}
+}

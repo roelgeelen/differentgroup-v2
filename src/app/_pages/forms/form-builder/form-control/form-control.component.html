@@ -19,6 +19,23 @@
     <!--  <img [src]="question.image">-->
     <div class="field row">
       @switch (formField.type) {
+        @case ('column') {
+          <div class="column-row">
+          @for (components of formField.components; track components) {
+            <div cdkDropList class="column-list" [cdkDropListConnectedTo]="components" (cdkDropListDropped)="drop($event)">
+              @for (field of components; track field) {
+                <div class="example-box" cdkDrag>
+                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                  {{field.name}}
+                </div>
+              }
+            </div>
+          }
+          </div>
+        }
+        @case ('title') {
+          <h2>{{formField.element.title}}</h2>
+        }
         @case ('text') {
           <mat-form-field class="example-full-width">
             <mat-label>{{ formField.element.title }}</mat-label>
@@ -33,17 +50,34 @@
           </mat-radio-group>
         }
         @case ('checkbox') {
-          <mat-selection-list color="primary" >
+          <mat-selection-list color="primary">
             @for (option of formField.element.options;track option) {
-              <mat-list-option [value]="option.value" togglePosition="before">{{option.value}}</mat-list-option>
+              <mat-list-option [value]="option.value" togglePosition="before">{{ option.value }}</mat-list-option>
             }
           </mat-selection-list>
 
         }
         @case ('textarea') {
-          <mat-form-field class="example-full-width">
-            <mat-label>Leave a comment</mat-label>
-            <textarea matInput [placeholder]="formField.element.placeholder ?? ''"></textarea>
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+          <ngx-editor
+            [editor]="editor"
+            [placeholder]="formField.element.placeholder ?? ''"
+          ></ngx-editor>
+        }
+        @case ('dropdown') {
+          <mat-form-field>
+            <mat-label>label</mat-label>
+            <mat-select>
+              @for (option of formField.element.options;track option) {
+                <mat-option [value]="option.value">
+                  @if (option.image != null) {
+                    <img width="30" height="30" style="margin-right: 5px"
+                         [src]="option.image" [alt]="option.value">
+                  }
+                  {{ option.value }}
+                </mat-option>
+              }
+            </mat-select>
           </mat-form-field>
         }
       }

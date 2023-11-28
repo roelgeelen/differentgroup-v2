@@ -1,0 +1,12 @@
+import { IFormControlOptions } from '../form-control-options.interface';
+import { IFormControl } from '../form-control.interface';
+import {v4 as uuidV4} from "uuid";
+
+export class Divider implements IFormControl<IFormControlOptions, string> {
+  readonly id: string = uuidV4();
+  readonly icon: string = 'drag_handle';
+  readonly type: string = 'Divider';
+  readonly title: string = 'Divider';
+
+  constructor(public options?: IFormControlOptions, public value?: string) {}
+}

@@ -1,0 +1,69 @@
+<div
+  *ngIf="container"
+  [id]="id"
+  [class.outline]="showOutline"
+  class="drop-container"
+  cdkDropList
+  [cdkDropListData]="container.controls"
+  (cdkDropListDropped)="dropped($event)"
+  [cdkDropListConnectedTo]="connectedLists"
+  [cdkDropListEnterPredicate]="allowDropPredicate"
+>
+  @for (item of container.controls;track item) {
+    <div
+      class="control-container"
+      [class.selected]="item.id == selectedControl?.id"
+      cdkDrag
+      [cdkDragData]="item"
+      (cdkDragMoved)="dragMoved($event)"
+      (cdkDragReleased)="dragReleased($event)"
+      (click)="selectControl(item);$event.stopPropagation()"
+    >
+      @if (item.options !==undefined && item.options?.label !== undefined && item.options?.label !== '') {
+        <mat-label class="label">{{ item.options!.label }}</mat-label>
+      }
+
+
+      <div class="drag-preview" *cdkDragPlaceholder>
+        <mat-icon>{{ item.icon }}</mat-icon>
+        {{ item.title }}
+      </div>
+
+      <div class="drag-preview" *cdkDragPreview>
+        <mat-icon>{{ item.icon }}</mat-icon>
+        {{ item.title }}
+      </div>
+
+      @switch (item.type) {
+        @case ('InfoBox') {
+          <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"></app-info-box>
+        }
+        @case ('Divider') {
+          <app-divider [control]="item" [selected]="item.id == selectedControl?.id"></app-divider>
+        }
+        @case ('TextBox') {
+          <app-text-box class="margin-top" [control]="item" [selected]="item.id == selectedControl?.id"></app-text-box>
+        }
+        @case ('TextArea') {
+          <app-text-area [control]="item" [selected]="item.id == selectedControl?.id"></app-text-area>
+        }
+        @case ('Dropdown') {
+          <app-dropdown class="margin-top" [control]="item" [selected]="item.id == selectedControl?.id"></app-dropdown>
+        }
+        @case ('CheckBox') {
+          <app-check-box class="margin-top" [control]="item"
+                         [selected]="item.id == selectedControl?.id"></app-check-box>
+        }
+        @case ('RadioBtn') {
+          <app-radio-btn class="margin-top" [control]="item"
+                         [selected]="item.id == selectedControl?.id"></app-radio-btn>
+        }
+        @case ('Columns') {
+          <app-form-columns
+            [control]="item | cast" [selected]="item.id == selectedControl?.id"
+          ></app-form-columns>
+        }
+      }
+    </div>
+  }
+</div>

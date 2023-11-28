@@ -1,0 +1,10 @@
+<mat-form-field class="field">
+  <mat-label>{{control?.options?.title}}</mat-label>
+  <mat-select>
+    @for (choice of control?.options?.choices;track choice) {
+      <mat-option [value]="choice.value">
+        {{choice.value}}
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

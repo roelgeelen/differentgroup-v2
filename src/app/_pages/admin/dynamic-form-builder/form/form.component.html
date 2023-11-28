@@ -1,0 +1,29 @@
+@if (formService.form$ | async; as form) {
+  <div class="page">
+    <div class="form-header d-flex justify-content-between">
+      <div class="logo"><img src="../../../../../assets/images/logo_zwart.png" alt="logo"></div>
+      <h1>{{ form.title }}</h1>
+      <div class="spacer"></div>
+    </div>
+    <app-form-container
+      id="form"
+      [container]="form.container"
+      [showOutline]="false"
+    ></app-form-container>
+<!--    <div class="add-icon">-->
+<!--      <button mat-mini-fab disabled="true">-->
+<!--        <mat-icon>add</mat-icon>-->
+<!--      </button>-->
+<!--    </div>-->
+  </div>
+}
+
+<!--<ng-container *ngIf="formService.form$ | async as form">-->
+<!--  <h1>{{ form.title }}</h1>-->
+
+<!--  <app-form-container-->
+<!--    id="form"-->
+<!--    [container]="form.container"-->
+<!--    [showOutline]="false"-->
+<!--  ></app-form-container>-->
+<!--</ng-container>-->

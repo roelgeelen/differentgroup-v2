@@ -1,0 +1,23 @@
+<div
+  id="toolbox"
+  class="controls-nav"
+  cdkDropList
+  [cdkDropListSortingDisabled]="true"
+  (cdkDropListExited)="createItemClone($event)"
+  (cdkDropListEntered)="removeItemClone()"
+  [cdkDropListData]="items"
+  [cdkDropListEnterPredicate]="disallowDropPredicate"
+  [cdkDropListConnectedTo]="connectedLists"
+>
+  @for (item of items;track item) {
+    <div class="available-field-box" cdkDrag [cdkDragData]="item"
+         (cdkDragMoved)="dragMoved($event)"
+         (cdkDragReleased)="dragReleased($event)">
+      <p>
+        <mat-icon>{{ item.icon }}</mat-icon>
+      </p>
+      <span>{{ item.title }}</span>
+    </div>
+  }
+</div>
+

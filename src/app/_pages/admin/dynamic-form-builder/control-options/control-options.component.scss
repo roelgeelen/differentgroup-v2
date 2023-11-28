@@ -1,0 +1,65 @@
+.control-options {
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  width: 350px;
+  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+
+  & > * {
+    width: 100%;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+
+  .title {
+    display: flex;
+    margin-top: 7px;
+
+    mat-icon {
+      margin: 5px;
+    }
+  }
+}
+
+
+.option-box {
+  padding: 5px;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  mat-icon {
+    margin: 5px;
+
+    &.move-icon {
+      &:hover {
+        cursor: move;
+      }
+    }
+
+    &.close-icon {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  input {
+    flex: 1;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid;
+  }
+}
+
+.option-box-placeholder {
+  background: #ccc;
+  border-radius: 5px;
+  border: dotted 3px #999;
+  min-height: 40px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

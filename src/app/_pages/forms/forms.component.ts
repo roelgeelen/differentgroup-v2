@@ -10,12 +10,15 @@ import {v4 as uuidV4} from "uuid";
   styleUrl: './forms.component.scss'
 })
 export class FormsComponent implements OnInit{
+  protected readonly formFields = formFields;
   ngOnInit(): void {
-      formFields.forEach(f => {
+    // for testing
+      formFields.reverse().forEach(f => {
         const clone = JSON.parse(JSON.stringify(f));
         clone.id = uuidV4();
         this.form_controls.splice(0, 0, clone);
-      })
+      });
+      formFields.reverse();
   }
   selectedField: FormControlBase|undefined;
 
@@ -45,5 +48,4 @@ export class FormsComponent implements OnInit{
     });
   }
 
-  protected readonly formFields = formFields;
 }

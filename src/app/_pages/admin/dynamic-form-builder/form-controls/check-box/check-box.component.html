@@ -1,0 +1,5 @@
+<mat-selection-list color="primary">
+  @for (choice of control?.options?.choices;track choice) {
+    <mat-list-option [value]="choice.value" togglePosition="before">{{ choice.value }}</mat-list-option>
+  }
+</mat-selection-list>

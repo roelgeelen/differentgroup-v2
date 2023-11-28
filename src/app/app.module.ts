@@ -12,7 +12,14 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./_helpers/components/navbar/navbar.component";
 import { FormsComponent } from './_pages/forms/forms.component';
 import { AdminComponent } from './_pages/admin/admin.component';
-import {CdkDrag, CdkDragHandle, CdkDragPlaceholder, CdkDropList, CdkDropListGroup} from "@angular/cdk/drag-drop";
+import {
+  CdkDrag,
+  CdkDragHandle,
+  CdkDragPlaceholder,
+  CdkDragPreview,
+  CdkDropList,
+  CdkDropListGroup
+} from "@angular/cdk/drag-drop";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -28,6 +35,16 @@ import { FormControlComponent } from './_pages/forms/form-builder/form-control/f
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { FormControlOptionsComponent } from './_pages/forms/form-builder/form-control-options/form-control-options.component';
+import {NgxEditorModule} from "ngx-editor";
+import {MatSelectModule} from "@angular/material/select";
+import { NewControlsComponent } from './_pages/admin/dynamic-form-builder/new-controls/new-controls.component';
+import {FormComponent} from "./_pages/admin/dynamic-form-builder/form/form.component";
+import {FormColumnsComponent} from "./_pages/admin/dynamic-form-builder/form/form-columns/form-columns.component";
+import {FormContainerComponent} from "./_pages/admin/dynamic-form-builder/form/form-container/form-container.component";
+import {FormControlsModule} from "./_pages/admin/dynamic-form-builder/form-controls/form-controls.module";
+import {CastPipe} from "./_pages/admin/dynamic-form-builder/cast.pipe";
+import { ControlOptionsComponent } from './_pages/admin/dynamic-form-builder/control-options/control-options.component';
+import {SharedModule} from "./shared.module";
 
 @NgModule({
   declarations: [
@@ -37,6 +54,13 @@ import { FormControlOptionsComponent } from './_pages/forms/form-builder/form-co
     AdminComponent,
     FormControlComponent,
     FormControlOptionsComponent,
+    NewControlsComponent,
+    FormComponent,
+    FormComponent,
+    FormContainerComponent,
+    FormColumnsComponent,
+    CastPipe,
+    ControlOptionsComponent,
   ],
   imports: [
     OAuthModule.forRoot({
@@ -45,6 +69,7 @@ import { FormControlOptionsComponent } from './_pages/forms/form-builder/form-co
         sendAccessToken: true
       }
     }),
+    SharedModule,
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
@@ -72,6 +97,10 @@ import { FormControlOptionsComponent } from './_pages/forms/form-builder/form-co
     MatCheckboxModule,
     CdkDragPlaceholder,
     CdkDragHandle,
+    NgxEditorModule,
+    MatSelectModule,
+    FormControlsModule,
+    CdkDragPreview,
   ],
   providers: [],
   bootstrap: [AppComponent]

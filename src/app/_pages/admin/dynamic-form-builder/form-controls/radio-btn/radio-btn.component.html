@@ -1,0 +1,5 @@
+<mat-radio-group class="field" aria-label="Select an option">
+  @for (choice of control?.options?.choices;track choice) {
+    <mat-radio-button [value]="choice.value">{{choice.value}}</mat-radio-button>
+  }
+</mat-radio-group>

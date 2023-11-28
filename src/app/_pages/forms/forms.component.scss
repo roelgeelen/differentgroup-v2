@@ -108,4 +108,17 @@
   width: 200px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  .title {
+    display: flex;
+    margin-top: 7px;
+    mat-icon {
+      margin: 5px;
+    }
+  }
+}
+
 

@@ -1,0 +1,17 @@
+.row {
+display: flex;
+  .column {
+    flex: 1;
+    margin: 5px;
+  }
+  .add-column-btn {
+    margin: auto;
+  }
+  .remove-column-btn {
+    z-index: 1;
+    position: absolute;
+    background-color: #cc0000;
+    width: 30px;
+    height: 30px;
+  }
+}
