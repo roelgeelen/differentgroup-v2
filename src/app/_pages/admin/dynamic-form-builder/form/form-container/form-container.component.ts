@@ -68,4 +68,8 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
   selectControl(item: IFormControl) {
     this.formService.onControlSelected(item);
   }
+
+  removeControl(controls: IFormControl[], index: number) {
+    controls.splice(index, 1);
+  }
 }

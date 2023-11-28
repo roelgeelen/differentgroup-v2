@@ -5,6 +5,7 @@ import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
 import {InfoBox} from "../form-controls/info-box/info-box.class";
+import {Columns} from "../form-controls/columns/columns.class";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
@@ -15,7 +16,8 @@ export class FormService {
       container: {
         controls: [
           new InfoBox(),
-          new TextBox()
+          new TextBox(),
+          new Columns()
         ]
       }
     });

@@ -2,14 +2,14 @@
   *ngIf="container"
   [id]="id"
   [class.outline]="showOutline"
-  class="drop-container"
+  [class.drop-container]="id=='form'"
   cdkDropList
   [cdkDropListData]="container.controls"
   (cdkDropListDropped)="dropped($event)"
   [cdkDropListConnectedTo]="connectedLists"
   [cdkDropListEnterPredicate]="allowDropPredicate"
 >
-  @for (item of container.controls;track item) {
+  @for (item of container.controls;track item;let idx = $index) {
     <div
       class="control-container"
       [class.selected]="item.id == selectedControl?.id"
@@ -19,16 +19,21 @@
       (cdkDragReleased)="dragReleased($event)"
       (click)="selectControl(item);$event.stopPropagation()"
     >
-      @if (item.options !==undefined && item.options?.label !== undefined && item.options?.label !== '') {
+      @if (item.id == selectedControl?.id) {
+        <button mat-mini-fab class="field-remove" (click)="removeControl(container.controls, idx)">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+      @if (item.id !== selectedControl?.id) {
+        <div cdkDragHandle></div>
+      }
+      @if (item.options !== undefined && item.options?.label !== undefined && item.options?.label !== '') {
         <mat-label class="label">{{ item.options!.label }}</mat-label>
       }
-
-
       <div class="drag-preview" *cdkDragPlaceholder>
         <mat-icon>{{ item.icon }}</mat-icon>
         {{ item.title }}
       </div>
-
       <div class="drag-preview" *cdkDragPreview>
         <mat-icon>{{ item.icon }}</mat-icon>
         {{ item.title }}
