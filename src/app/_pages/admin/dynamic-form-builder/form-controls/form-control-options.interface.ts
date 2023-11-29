@@ -7,5 +7,6 @@ export interface IFormControlOptions
   subtitle?: string;
   placeholder?: string;
   choices?: IFormControlOptionsChoices[];
+  type?: string;
   required?:boolean;
 }

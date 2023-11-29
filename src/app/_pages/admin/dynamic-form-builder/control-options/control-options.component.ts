@@ -20,6 +20,19 @@ export class ControlOptionsComponent implements OnInit {
     ['underline', 'strike'],
     ['text_color', 'background_color'],
   ];
+  inputTypes: { value: string, name: string }[] = [
+    {value: 'text', name: 'Tekst'},
+    {value: 'number', name: 'Nummer'},
+    {value: 'date', name: 'Datum'},
+    {value: 'datetime-local', name: 'Datum tijd'},
+    {value: 'email', name: 'Email'},
+    {value: 'month', name: 'Maand'},
+    {value: 'search', name: 'Zoeken'},
+    {value: 'tel', name: 'Telefoon'},
+    {value: 'time', name: 'Tijd'},
+    {value: 'url', name: 'Url'},
+    {value: 'week', name: 'Week'}
+  ]
 
   constructor(public formService: FormService) {
     this.editor = new Editor();
@@ -43,7 +56,7 @@ export class ControlOptionsComponent implements OnInit {
     })
   }
 
-  removeOption(choices: any[], index: number) {
+  removeFromList(choices: any[], index: number) {
     choices.splice(index, 1);
   }
 }

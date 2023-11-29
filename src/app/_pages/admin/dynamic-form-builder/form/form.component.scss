@@ -2,7 +2,8 @@
   background-color: #fff;
   box-shadow: 0 0 11px rgb(0 0 0 / 12%);
   min-height: calc(100vh - 270px);
-  width: 900px;
+  max-width: 900px;
+  min-width: 300px;
   margin: 0 auto 50px auto;
   .form-header {
     display: flex;

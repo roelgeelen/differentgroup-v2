@@ -13,6 +13,14 @@
     <div class="available-field-box" cdkDrag [cdkDragData]="item"
          (cdkDragMoved)="dragMoved($event)"
          (cdkDragReleased)="dragReleased($event)">
+      <div class="drag-placeholder" *cdkDragPlaceholder>
+        <p><mat-icon>{{ item.icon }}</mat-icon></p>
+        {{ item.title }}
+      </div>
+      <div class="available-field-box drag" *cdkDragPreview>
+        <p><mat-icon>{{ item.icon }}</mat-icon></p>
+        {{ item.title }}
+      </div>
       <p>
         <mat-icon>{{ item.icon }}</mat-icon>
       </p>

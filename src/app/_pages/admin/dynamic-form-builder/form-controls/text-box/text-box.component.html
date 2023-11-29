@@ -1,4 +1,4 @@
 <mat-form-field class="field">
   <mat-label>{{control?.options?.title}}</mat-label>
-  <input matInput [placeholder]="control?.options?.placeholder ?? ''">
+  <input matInput [placeholder]="control?.options?.placeholder ?? ''" [type]="control?.options?.type ?? 'text'">
 </mat-form-field>

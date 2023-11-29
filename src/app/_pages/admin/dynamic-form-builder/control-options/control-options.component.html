@@ -41,6 +41,18 @@
           <input matInput [(ngModel)]="control.options!.placeholder" [ngModelOptions]="{standalone:true}">
         </mat-form-field>
       }
+      @if (control.options.type !== undefined) {
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
+            @for (type of inputTypes; track type){
+              <mat-option [value]="type.value">
+                {{type.name}}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
       @if (control.options.choices !== undefined) {
         <span>Opties</span>
         <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
@@ -49,7 +61,7 @@
               <div class="option-box-placeholder" *cdkDragPlaceholder></div>
               <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
               <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
-              <mat-icon class="close-icon" (click)="removeOption(control.options.choices!, idx)">close</mat-icon>
+              <mat-icon class="close-icon" (click)="removeFromList(control.options.choices!, idx)">close</mat-icon>
             </div>
           }
         </div>
@@ -79,18 +91,18 @@
         <input matInput [(ngModel)]="form.title" [ngModelOptions]="{standalone:true}">
       </mat-form-field>
 
-      <span>Opties</span>
+      <span>Pagina's</span>
       <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
         @for (page of form.pages;track page;let idx = $index) {
           <div class="option-box" cdkDrag>
             <div class="option-box-placeholder" *cdkDragPlaceholder></div>
             <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
             <input [(ngModel)]="page.tab" [ngModelOptions]="{standalone:true}">
-            <mat-icon class="close-icon" (click)="removeOption(form.pages, idx)">close</mat-icon>
+            <mat-icon class="close-icon" (click)="removeFromList(form.pages, idx)">close</mat-icon>
           </div>
         }
       </div>
-      <button mat-button color="primary" (click)="addTab(form.pages)">+ optie toevoegen</button>
+      <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
 
 
     }

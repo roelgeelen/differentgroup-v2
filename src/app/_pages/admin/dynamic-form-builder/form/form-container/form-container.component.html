@@ -30,12 +30,12 @@
       @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
         <mat-label class="label">{{ item.options!.label }}</mat-label>
       }
-      <div class="drag-preview" *cdkDragPlaceholder>
-        <mat-icon>{{ item.icon }}</mat-icon>
+      <div class="drag-placeholder" *cdkDragPlaceholder>
+        <p><mat-icon>{{ item.icon }}</mat-icon></p>
         {{ item.title }}
       </div>
       <div class="drag-preview" *cdkDragPreview>
-        <mat-icon>{{ item.icon }}</mat-icon>
+        <p><mat-icon>{{ item.icon }}</mat-icon></p>
         {{ item.title }}
       </div>
 

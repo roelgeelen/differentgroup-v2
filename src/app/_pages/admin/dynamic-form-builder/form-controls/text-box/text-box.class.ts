@@ -11,7 +11,8 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
     this.options = {
       label: 'Label',
       title: 'Titel',
-      placeholder: 'Type hier...'
+      placeholder: 'Type hier...',
+      type: 'text'
     }
   }
 }

@@ -14,7 +14,19 @@
   &:hover {
     box-shadow: 0 0 8px -2px #000;
   }
-  .available-field-box-placeholder {
-    background-color: gray;
+  &.drag {
+    width: 170px;
+    height: 80px;
+    box-shadow: 0 0 8px -2px #000;
   }
+}
+.drag-placeholder {
+  margin:2px;
+  padding: 10px;
+  background: #ccc;
+  border-radius: 5px;
+  border: dotted 3px #999;
+  min-height: 80px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  text-align: center;
 }

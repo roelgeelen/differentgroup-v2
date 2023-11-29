@@ -2,7 +2,7 @@ import {IFormControl} from "../form-control.interface";
 import {IFormControlOptions} from "../form-control-options.interface";
 import {v4 as uuidV4} from "uuid";
 
-export class Dropdown implements IFormControl {
+export class Dropdown implements IFormControl<IFormControlOptions, string> {
   readonly id: string = uuidV4();
   readonly icon: string = "arrow_downward";
   readonly type: string = "Dropdown";

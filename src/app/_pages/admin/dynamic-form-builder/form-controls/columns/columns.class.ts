@@ -14,7 +14,7 @@ export class Columns implements IFormControl {
     { container: { controls: [] } },
   ];
 
-  constructor(public options?: IFormControlOptions, public value?: string) {
+  constructor(public options?: IFormControlOptions) {
     this.options = {
       label: 'Label'
     }
