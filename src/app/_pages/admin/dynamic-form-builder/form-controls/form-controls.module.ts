@@ -16,6 +16,7 @@ import {TextAreaComponent} from "./text-area/text-area.component";
 import {NgxEditorModule} from "ngx-editor";
 import {SharedModule} from "../../../../shared.module";
 import {DividerComponent} from "./divider/divider.component";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {DividerComponent} from "./divider/divider.component";
     MatSelectModule,
     MatRadioModule,
     NgxEditorModule,
+    FormsModule,
   ],
   exports: [
     TextBoxComponent,

@@ -9,13 +9,18 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
   readonly title: string = "Dropdown";
 
   constructor(public options?: IFormControlOptions, public value?: string) {
+    this.value = '';
     this.options = {
-      label: 'Label',
-      title: 'Titel',
-      choices: [
+      label: options?.label ?? 'Label',
+      title: options?.title ?? 'Titel',
+      choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}
-      ]
+      ],
+      validators: options?.validators ?? {
+        required: false
+      },
+      dependent:[]
     }
   }
 }

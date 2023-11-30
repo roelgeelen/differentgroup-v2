@@ -28,14 +28,20 @@
         <div cdkDragHandle></div>
       }
       @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
-        <mat-label class="label">{{ item.options!.label }}</mat-label>
+        <mat-label class="label">{{ item.options!.label }} @if (item.options.validators?.required) {
+          *
+        }</mat-label>
       }
       <div class="drag-placeholder" *cdkDragPlaceholder>
-        <p><mat-icon>{{ item.icon }}</mat-icon></p>
+        <p>
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </p>
         {{ item.title }}
       </div>
       <div class="drag-preview" *cdkDragPreview>
-        <p><mat-icon>{{ item.icon }}</mat-icon></p>
+        <p>
+          <mat-icon>{{ item.icon }}</mat-icon>
+        </p>
         {{ item.title }}
       </div>
 

@@ -16,7 +16,8 @@ export class Columns implements IFormControl {
 
   constructor(public options?: IFormControlOptions) {
     this.options = {
-      label: 'Label'
+      label: 'Label',
+      dependent:[]
     }
   }
 }

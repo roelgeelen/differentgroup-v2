@@ -11,7 +11,8 @@ export class InfoBox implements IFormControl<IFormControlOptions, null> {
   constructor(public options?: IFormControlOptions) {
     this.options = {
       title: 'Titel',
-      subtitle: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut metus ut libero finibus tristique. Donec dictum efficitur blandit. Aliquam laoreet risus mi, et lobortis augue vestibulum a. Praesent posuere interdum tortor eget hendrerit</p>'
+      subtitle: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut metus ut libero finibus tristique. Donec dictum efficitur blandit. Aliquam laoreet risus mi, et lobortis augue vestibulum a. Praesent posuere interdum tortor eget hendrerit</p>',
+      dependent:[]
     }
   }
 }

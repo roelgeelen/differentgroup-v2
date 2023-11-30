@@ -1,10 +1,10 @@
 import {NgModule} from "@angular/core";
 import {SafeHtmlPipe} from "./_helpers/pipes/safe-html.pipe";
+import {IsArrayPipe} from "./_helpers/pipes/is-array.pipe";
 
 
 @NgModule({
-  declarations: [SafeHtmlPipe],
-// exports is required so you can access your component/pipe in other modules
-  exports: [SafeHtmlPipe]
+  declarations: [SafeHtmlPipe, IsArrayPipe],
+  exports: [SafeHtmlPipe, IsArrayPipe]
 })
 export class SharedModule{}

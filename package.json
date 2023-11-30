@@ -24,6 +24,7 @@
     "angular-oauth2-oidc": "^15.0.1",
     "jwt-decode": "^4.0.0",
     "ngx-editor": "^16.0.1",
+    "ngx-select-dropdown": "^3.3.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "uuid": "^9.0.1",

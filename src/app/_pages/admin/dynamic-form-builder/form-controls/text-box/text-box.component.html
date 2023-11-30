@@ -1,4 +1,13 @@
 <mat-form-field class="field">
-  <mat-label>{{control?.options?.title}}</mat-label>
-  <input matInput [placeholder]="control?.options?.placeholder ?? ''" [type]="control?.options?.type ?? 'text'">
+  <mat-label>{{ control?.options?.title }}</mat-label>
+  <input matInput [placeholder]="control?.options?.placeholder ?? ''" [type]="control?.options?.type ?? 'text'"
+         [required]="control?.options?.validators?.required ?? false" [value]="control!.value">
+  <mat-hint>
+    @if(control?.options?.validators?.min){
+      Min: {{control?.options?.validators?.min}}
+    }
+    @if(control?.options?.validators?.max){
+      Max: {{control?.options?.validators?.max}}
+    }
+  </mat-hint>
 </mat-form-field>

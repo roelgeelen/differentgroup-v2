@@ -16,11 +16,20 @@ $my-theme: mat.define-light-theme((
 
 // Emit theme-dependent styles for common features used across multiple components.
 @include mat.all-component-themes($my-theme);
-
-body {
+body, html{
+  height: 100%;
   margin: 0;
+}
+body {
+  background-color: #fafafa;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+:host{
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+}
+
 
 .content {
   padding: 8px;
@@ -34,16 +43,8 @@ body {
 mat-spinner {
   margin: 10px auto;
 }
-
-//loading
-
 *, *::before, *::after {
   box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background-color: #fafafa;
 }
 
 .full-height {

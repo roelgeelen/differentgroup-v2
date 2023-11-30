@@ -1,5 +1,5 @@
-import { IFormControlOptions } from '../form-control-options.interface';
-import { IFormControl } from '../form-control.interface';
+import {IFormControlOptions} from '../form-control-options.interface';
+import {IFormControl} from '../form-control.interface';
 import {v4 as uuidV4} from "uuid";
 
 export class RadioBtn implements IFormControl<IFormControlOptions, string> {
@@ -9,12 +9,17 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
   readonly title: string = 'Enkele keuze';
 
   constructor(public options?: IFormControlOptions, public value?: string) {
+    this.value = '';
     this.options = {
-      label: 'Label',
-      choices: [
+      label: options?.label ?? 'Label',
+      choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}
-      ]
+      ],
+      validators: options?.validators ?? {
+        required: false
+      },
+      dependent:[]
     }
   }
 }

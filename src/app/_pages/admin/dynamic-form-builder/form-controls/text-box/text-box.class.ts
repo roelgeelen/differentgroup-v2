@@ -8,11 +8,16 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
   readonly type: string = 'TextBox';
   readonly title: string = 'Tekst veld';
   constructor(public options?: IFormControlOptions, public value?: string) {
+    this.value = '';
     this.options = {
       label: 'Label',
       title: 'Titel',
       placeholder: 'Type hier...',
-      type: 'text'
+      type: 'text',
+      validators: {
+        required: false
+      },
+      dependent:[]
     }
   }
 }

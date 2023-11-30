@@ -9,9 +9,11 @@ export class TextArea implements IFormControl<IFormControlOptions, string> {
   readonly title: string = 'Textarea';
 
   constructor(public options?: IFormControlOptions, public value?: string) {
+    this.value = '';
     this.options = {
       label: 'Label',
-      placeholder: 'Type hier je tekst...'
+      placeholder: 'Type hier je tekst...',
+      dependent:[]
     }
   }
 }

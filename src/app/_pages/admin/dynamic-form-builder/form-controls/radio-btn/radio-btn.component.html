@@ -1,4 +1,4 @@
-<mat-radio-group class="field" aria-label="Select an option">
+<mat-radio-group class="field" aria-label="Select an option" [required]="control?.options?.validators?.required ?? false" [ngModel]="control!.value">
   @for (choice of control?.options?.choices;track choice) {
     <mat-radio-button [value]="choice.value">{{choice.value}}</mat-radio-button>
   }

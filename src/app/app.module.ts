@@ -26,7 +26,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatCardModule} from "@angular/material/card";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
@@ -46,6 +46,10 @@ import {CastPipe} from "./_pages/admin/dynamic-form-builder/cast.pipe";
 import { ControlOptionsComponent } from './_pages/admin/dynamic-form-builder/control-options/control-options.component';
 import {SharedModule} from "./shared.module";
 import {MatTabsModule} from "@angular/material/tabs";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {SelectDropDownModule} from "ngx-select-dropdown";
 
 @NgModule({
   declarations: [
@@ -63,47 +67,52 @@ import {MatTabsModule} from "@angular/material/tabs";
     CastPipe,
     ControlOptionsComponent
   ],
-    imports: [
-        OAuthModule.forRoot({
-            resourceServer: {
-                allowedUrls: [environment.apiUrl],
-                sendAccessToken: true
-            }
-        }),
-        SharedModule,
-        HttpClientModule,
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        NavbarComponent,
-        CdkDropList,
-        MatFormFieldModule,
-        CdkDrag,
-        MatInputModule,
-        MatSidenavModule,
-        MatGridListModule,
-        FlexLayoutModule,
-        MatCardModule,
-        FormsModule,
-        MatDialogContent,
-        MatDialogTitle,
-        MatDialogActions,
-        MatDialogClose,
-        MatButtonModule,
-        MatListModule,
-        MatIconModule,
-        CdkDropListGroup,
-        MatRadioModule,
-        MatCheckboxModule,
-        CdkDragPlaceholder,
-        CdkDragHandle,
-        NgxEditorModule,
-        MatSelectModule,
-        FormControlsModule,
-        CdkDragPreview,
-        MatTabsModule,
-    ],
+  imports: [
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: [environment.apiUrl],
+        sendAccessToken: true
+      }
+    }),
+    SharedModule,
+    HttpClientModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    NavbarComponent,
+    CdkDropList,
+    MatFormFieldModule,
+    CdkDrag,
+    MatInputModule,
+    MatSidenavModule,
+    MatGridListModule,
+    FlexLayoutModule,
+    MatCardModule,
+    FormsModule,
+    MatDialogContent,
+    MatDialogTitle,
+    MatDialogActions,
+    MatDialogClose,
+    MatButtonModule,
+    MatListModule,
+    MatIconModule,
+    CdkDropListGroup,
+    MatRadioModule,
+    MatCheckboxModule,
+    CdkDragPlaceholder,
+    CdkDragHandle,
+    NgxEditorModule,
+    MatSelectModule,
+    FormControlsModule,
+    CdkDragPreview,
+    MatTabsModule,
+    MatSlideToggleModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatTooltipModule,
+    SelectDropDownModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

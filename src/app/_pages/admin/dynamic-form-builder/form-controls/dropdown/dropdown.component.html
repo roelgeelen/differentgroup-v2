@@ -1,6 +1,6 @@
 <mat-form-field class="field">
   <mat-label>{{control?.options?.title}}</mat-label>
-  <mat-select>
+  <mat-select [required]="control?.options?.validators?.required ?? false" [ngModel]="control!.value">
     @for (choice of control?.options?.choices;track choice) {
       <mat-option [value]="choice.value">
         {{choice.value}}
