@@ -3,7 +3,7 @@
     <div></div>
     <div>
       <mat-slide-toggle [(ngModel)]="showInvisible">verborgen velden</mat-slide-toggle>
-      <button mat-raised-button color="accent">
+      <button mat-raised-button color="accent" (click)="saveForm()">
         <mat-icon>save</mat-icon>
       </button>
       <button mat-raised-button color="accent" (click)="formService.toggleFormSettings()">
@@ -39,7 +39,7 @@
                 @if (tabIndex != (tabCount - 1)) {
                   <button mat-raised-button color="primary" (click)="next()">Volgende</button>
                 }
-                @if (tabIndex == (tabCount - 1) && form.isQuotation) {
+                @if (tabIndex == (tabCount - 1) && form.createQuotation) {
                   <button mat-raised-button color="primary">Offerte maken</button>
                 }
               </div>
@@ -55,7 +55,7 @@
             [showInvisible]="showInvisible"
           ></app-form-container>
           <div class="form-footer">
-            @if (form.isQuotation) {
+            @if (form.createQuotation) {
               <div></div>
               <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
             }

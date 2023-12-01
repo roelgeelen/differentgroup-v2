@@ -10,7 +10,7 @@ export class FormService {
   formGroup$ = new BehaviorSubject<FormGroup>(this.createFormGroup());
   form$ = new BehaviorSubject<IForm>({
     title: 'Nieuw formulier',
-    isQuotation: false,
+    createQuotation: false,
     pages: [],
   });
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
@@ -28,7 +28,9 @@ export class FormService {
   }
 
   public onControlSelected(control: IFormControl | null) {
-    this.editForm$.next(control === null);
+    if (control !== null) {
+      this.editForm$.next(false);
+    }
     this.selectedControl$.next(control);
   }
 
@@ -82,9 +84,8 @@ export class FormService {
     return null;
   }
 
-  private updateFormGroup() {
-    const newFormGroup = this.createFormGroup();
-    this.formGroup$.next(newFormGroup);
+  public updateFormGroup() {
+    this.formGroup$.next(this.createFormGroup());
   }
 
   private createFormGroup(): FormGroup {

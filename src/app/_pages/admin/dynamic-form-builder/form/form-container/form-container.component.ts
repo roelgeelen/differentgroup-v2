@@ -80,22 +80,25 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
 
   public removeControl(controls: IFormControl[], index: number) {
     controls.splice(index, 1);
+    this.formService.updateFormGroup();
   }
 
   private isDependent(item: IFormControl) {
     let found = true;
-    item.options?.dependent?.forEach((dep) => {
+    item.options?.dependent?.forEach((dep, index) => {
       if (dep.values.length !== 0) {
-        const formGroupValue = this.formService.formGroup$.getValue().controls[
-          dep.field
-          ].value;
-        if (Array.isArray(formGroupValue)) {
-          found =
-            formGroupValue.filter((element: string) =>
-              dep.values.includes(element)
-            ).length > 0;
+        const formGroupValue = this.formService.formGroup$.getValue().controls[dep.field];
+        if (formGroupValue !== undefined) {
+          if (Array.isArray(formGroupValue.value)) {
+            found =
+              formGroupValue.value.filter((element: string) =>
+                dep.values.includes(element)
+              ).length > 0;
+          } else {
+            found = dep.values.includes(formGroupValue.value);
+          }
         } else {
-          found = dep.values.includes(formGroupValue);
+          item.options?.dependent?.splice(index, 1);
         }
       }
     });

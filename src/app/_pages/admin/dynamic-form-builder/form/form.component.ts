@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../services/form.service';
-import {FormGroup} from "@angular/forms";
 import {OptionsGeneratorService} from "../services/options-generator.service";
+import {CacheService} from "../../../../_services/cache.service";
 
 @Component({
   selector: 'app-form',
@@ -12,7 +12,7 @@ export class FormComponent implements OnInit {
   tabIndex = 0;
   showInvisible = true;
 
-  constructor(public formService: FormService, public optionsGenerator: OptionsGeneratorService) {
+  constructor(public formService: FormService, public optionsGenerator: OptionsGeneratorService, private cacheService:CacheService) {
   }
 
   ngOnInit(): void {
@@ -34,5 +34,9 @@ export class FormComponent implements OnInit {
 
   submit() {
     console.log(JSON.stringify(this.formService.form$.getValue()));
+  }
+
+  saveForm() {
+    this.cacheService.saveData('form1', JSON.stringify(this.formService.form$.getValue()))
   }
 }

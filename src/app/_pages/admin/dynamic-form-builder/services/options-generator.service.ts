@@ -1,32 +1,23 @@
 import {Injectable} from '@angular/core';
-import {CheckBox} from '../form-controls/check-box/check-box.class';
-import {TextBox} from '../form-controls/text-box/text-box.class';
 import {IForm} from '../models/form.interface';
 import {FormService} from './form.service';
-import {Columns} from '../form-controls/columns/columns.class';
-import {InfoBox} from "../form-controls/info-box/info-box.class";
-import {RadioBtn} from "../form-controls/radio-btn/radio-btn.class";
-import {TextArea} from "../form-controls/text-area/text-area.class";
-import {Dropdown} from "../form-controls/dropdown/dropdown.class";
+import {CacheService} from "../../../../_services/cache.service";
 
 @Injectable({providedIn: 'root'})
 export class OptionsGeneratorService {
-  constructor(private formService: FormService) {
+  constructor(private formService: FormService, private cacheService: CacheService) {
     this.formService.setForm(this.createDefaultOptions());
   }
 
   createDefaultOptions(): IForm {
-    return {
+    const savedForm = this.cacheService.getData('form1');
+    return savedForm !== null ? JSON.parse(savedForm) : {
       title: 'Nieuw formulier',
-      isQuotation: false,
+      createQuotation: false,
       pages: [
         {
           tab: 'Pagina 1',
-          controls: [
-            new CheckBox({label: 'Meerkeuze veld 1'}),
-            new RadioBtn({label: 'Radio veld 1', validators: {required: true}}),
-            new TextBox({label: 'sadasd', type: 'number', validators: {required: true, min: 100}}),
-          ]
+          controls: []
         }
       ]
     }
