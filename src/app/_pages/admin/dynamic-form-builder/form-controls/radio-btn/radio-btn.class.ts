@@ -9,7 +9,7 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
   readonly title: string = 'Enkele keuze';
 
   constructor(public options?: IFormControlOptions, public value?: string) {
-    this.value = '';
+    this.value = value ?? '';
     this.options = {
       label: options?.label ?? 'Label',
       choices: options?.choices ?? [
@@ -19,7 +19,7 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
       validators: options?.validators ?? {
         required: false
       },
-      dependent:[]
+      dependent: options?.dependent ?? []
     }
   }
 }

@@ -1,5 +1,5 @@
-import { IFormControlOptions } from '../form-control-options.interface';
-import { IFormControl } from '../form-control.interface';
+import {IFormControlOptions} from '../form-control-options.interface';
+import {IFormControl} from '../form-control.interface';
 import {v4 as uuidV4} from "uuid";
 
 export class TextBox implements IFormControl<IFormControlOptions, string> {
@@ -7,17 +7,18 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
   readonly icon: string = 'input';
   readonly type: string = 'TextBox';
   readonly title: string = 'Tekst veld';
+
   constructor(public options?: IFormControlOptions, public value?: string) {
-    this.value = '';
+    this.value = value ?? '';
     this.options = {
-      label: 'Label',
-      title: 'Titel',
-      placeholder: 'Type hier...',
-      type: 'text',
-      validators: {
+      label: options?.label ?? 'Label',
+      title: options?.title ?? 'Titel',
+      placeholder: options?.placeholder ?? 'Type hier...',
+      type: options?.type ?? 'text',
+      validators: options?.validators ?? {
         required: false
       },
-      dependent:[]
+      dependent: options?.dependent ?? []
     }
   }
 }

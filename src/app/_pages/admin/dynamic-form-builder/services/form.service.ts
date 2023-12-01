@@ -3,11 +3,11 @@ import {BehaviorSubject} from 'rxjs';
 import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
-  formGroup$ = new BehaviorSubject<FormGroup>(this.generateFormGroup());
+  formGroup$ = new BehaviorSubject<FormGroup>(this.toFormGroup());
   form$ = new BehaviorSubject<IForm>({
     title: 'Nieuw formulier',
     isQuotation: false,
@@ -19,7 +19,7 @@ export class FormService {
   constructor(private dragDropService: DragDropService) {
     this.dragDropService.controlDropped.subscribe((control) => {
       this.onControlDropped(control);
-      this.formGroup$.next(this.generateFormGroup())
+      this.formGroup$.next(this.toFormGroup())
     });
   }
 
@@ -37,7 +37,7 @@ export class FormService {
 
   public setForm(form: IForm) {
     this.form$.next(form);
-    this.formGroup$.next(this.generateFormGroup())
+    this.formGroup$.next(this.toFormGroup())
   }
 
   public toggleFormSettings() {
@@ -66,18 +66,18 @@ export class FormService {
     return null;
   }
 
-  generateFormGroup() {
+  toFormGroup() {
     const group: any = {};
     if (this.form$ != null) {
       this.form$.getValue().pages.forEach(page => {
         page.controls.forEach(control => {
           if (control.value !== undefined) {
-            group[control.id] = new FormControl(control.value || '');
+            group[control.id] = this.createFormControl(control);
           }
           if (control.type === 'Columns') {
             control.columns?.forEach(col => {
               col.container.controls.forEach(c => {
-                group[c.id] = new FormControl(c.value || '');
+                group[c.id] = this.createFormControl(control);
               })
             })
 
@@ -85,7 +85,28 @@ export class FormService {
         })
       })
     }
-    console.log(group)
     return new FormGroup(group);
+  }
+
+  createFormControl(control: IFormControl): FormControl {
+    const validators: ValidatorFn[] = [];
+
+    if (control.options?.validators !== undefined) {
+      const {required, min, max} = control.options.validators;
+
+      if (required) {
+        validators.push(Validators.required);
+      }
+
+      if (typeof min === 'number') {
+        validators.push(Validators.min(min));
+      }
+
+      if (typeof max === 'number') {
+        validators.push(Validators.max(max));
+      }
+    }
+
+    return new FormControl(control.value || '', validators);
   }
 }

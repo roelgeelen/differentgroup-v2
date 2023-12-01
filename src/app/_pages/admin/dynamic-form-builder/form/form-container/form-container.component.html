@@ -33,7 +33,7 @@
             *
           }</span>@if (!isShow(item) && showInvisible) {
             <mat-icon>visibility_off</mat-icon>
-          }</mat-label>
+          } @else if (item.options.dependent!.length > 0 ){<mat-icon>visibility_on</mat-icon>}</mat-label>
         }
         <div class="drag-placeholder" *cdkDragPlaceholder>
           <p>

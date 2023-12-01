@@ -9,7 +9,7 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
   readonly title: string = "Dropdown";
 
   constructor(public options?: IFormControlOptions, public value?: string) {
-    this.value = '';
+    this.value = value ?? '';
     this.options = {
       label: options?.label ?? 'Label',
       title: options?.title ?? 'Titel',
@@ -20,7 +20,7 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
       validators: options?.validators ?? {
         required: false
       },
-      dependent:[]
+      dependent: options?.dependent ?? []
     }
   }
 }
