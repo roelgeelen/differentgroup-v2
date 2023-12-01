@@ -1,17 +1,25 @@
+// Variabelen
+$primary-color: #3498db;
+$form-padding: 20px;
+
+// Stijlen voor de knoppen en schakelaars
 .buttons {
   position: relative;
   z-index: 1;
   display: flex;
-justify-content: space-between;
-  button, mat-slide-toggle {
+  justify-content: space-between;
+
+  button,
+  mat-slide-toggle {
     margin: 10px;
+
     mat-icon {
       margin: 0;
     }
   }
-
 }
 
+// Stijlen voor de pagina met het formulier
 .page {
   background-color: #fff;
   box-shadow: 0 0 11px rgb(0 0 0 / 12%);
@@ -20,6 +28,7 @@ justify-content: space-between;
   min-width: 300px;
   margin: 0 auto 20px auto;
 
+  // Stijlen voor de header van het formulier
   .form-header {
     display: flex;
     justify-content: space-between;
@@ -66,15 +75,19 @@ justify-content: space-between;
     }
   }
 
+  // Stijlen voor het lichaam van het formulier
   .form-body {
-    padding: 20px;
-
+    padding: $form-padding;
   }
 
+  // Stijlen voor de voettekst van het formulier
   .form-footer {
-    padding: 20px;
+    padding: $form-padding;
     display: flex;
     justify-content: space-between;
-  }
 
+    button {
+      // Specifieke stijlen voor knoppen in de voettekst
+    }
+  }
 }

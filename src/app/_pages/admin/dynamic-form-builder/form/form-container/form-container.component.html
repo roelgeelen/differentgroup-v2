@@ -77,7 +77,7 @@
             }
             @case ('Columns') {
               <app-form-columns
-                [control]="item | cast" [selected]="item.id == selectedControl?.id"
+                [control]="item | cast" [selected]="item.id == selectedControl?.id" [showInvisible]="showInvisible"
               ></app-form-columns>
             }
           }

@@ -15,8 +15,7 @@ import {
 import {IFormControl} from '../../form-controls/form-control.interface';
 import {IFormPage} from '../../models/form-container.interface';
 import {DragDropService} from '../../services/drag-drop.service';
-import {FormService} from "../../services/form.service";
-import {isEmpty} from "rxjs";
+import {FormService} from '../../services/form.service';
 
 @Component({
   selector: 'app-form-container',
@@ -26,23 +25,10 @@ import {isEmpty} from "rxjs";
 export class FormContainerComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   @Input() container: IFormPage | undefined;
-  @Input() showOutline: boolean = true;
-  @Input() showInvisible: boolean = false;
-  @Input() id: string = "";
+  @Input() showOutline = true;
+  @Input() showInvisible = false;
+  @Input() id = '';
   selectedControl: IFormControl | null = null;
-
-
-  allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    return this.dragDropService.isDropAllowed(drag, drop);
-  };
-
-  isShow(item: IFormControl) {
-    return item.options?.dependent?.length != 0 ? this.isDependent(item) : true;
-  }
-
-  public get connectedLists() {
-    return this.dragDropService.dropLists;
-  }
 
   constructor(
     public dragDropService: DragDropService,
@@ -62,36 +48,54 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  dropped(event: CdkDragDrop<IFormControl[]>) {
+  public get connectedLists() {
+    return this.dragDropService.dropLists;
+  }
+
+  public allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    return this.dragDropService.isDropAllowed(drag, drop);
+  };
+
+  public isShow(item: IFormControl) {
+    return (
+      item.options?.dependent?.length !== 0 ? this.isDependent(item) : true
+    );
+  }
+
+  public dropped(event: CdkDragDrop<IFormControl[]>) {
     this.dragDropService.drop(event);
   }
 
-  dragMoved(event: CdkDragMove<IFormControl>) {
+  public dragMoved(event: CdkDragMove<IFormControl>) {
     this.dragDropService.dragMoved(event);
   }
 
-  dragReleased(event: CdkDragRelease) {
+  public dragReleased(event: CdkDragRelease) {
     this.dragDropService.dragReleased(event);
   }
 
-  selectControl(item: IFormControl) {
+  public selectControl(item: IFormControl) {
     this.formService.onControlSelected(item);
   }
 
-  removeControl(controls: IFormControl[], index: number) {
+  public removeControl(controls: IFormControl[], index: number) {
     controls.splice(index, 1);
   }
 
   private isDependent(item: IFormControl) {
-    var found = true;
-    item.options?.dependent?.forEach(dep => {
+    let found = true;
+    item.options?.dependent?.forEach((dep) => {
       if (dep.values.length !== 0) {
-        if (Array.isArray(this.formService.formGroup$.getValue().controls[dep.field].value)) {
-          found = this.formService.formGroup$.getValue().controls[dep.field].value.filter((element: string) => dep.values.includes(element)).length > 0;
+        const formGroupValue = this.formService.formGroup$.getValue().controls[
+          dep.field
+          ].value;
+        if (Array.isArray(formGroupValue)) {
+          found =
+            formGroupValue.filter((element: string) =>
+              dep.values.includes(element)
+            ).length > 0;
         } else {
-          if (!dep.values.includes(this.formService.formGroup$.getValue().controls[dep.field].value)) {
-            found = false;
-          }
+          found = dep.values.includes(formGroupValue);
         }
       }
     });

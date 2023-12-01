@@ -1,6 +1,6 @@
 @if (control) {
   <div class="row">
-    @for (column of control.columns; track column;let idx = $index) {
+    @for (column of control?.columns; track column;let idx = $index) {
       <div class="column">
         @if (hasMinColumns(1) && selected) {
           <button mat-mini-fab class="remove-column-btn" (click)="removeColumn(idx)">
@@ -8,7 +8,7 @@
           </button>
         }
 
-        <app-form-container [container]="column.container" [showOutline]="selected||column.container.controls.length==0"></app-form-container>
+        <app-form-container [container]="column.container" [showOutline]="selected||column.container.controls.length==0" [showInvisible]="showInvisible"></app-form-container>
       </div>
     }
     @if (hasMaxColumns(3) && selected) {

@@ -10,21 +10,24 @@
 .drop-container {
   margin-bottom: 80px;
 }
+
 .control-container {
   position: relative;
   padding: 5px;
   border-radius: 5px;
+
   &.selected {
     box-shadow: 0 0 11px #334d9c;
   }
-}
 
-.control-container,
-.drag-preview {
-  display: flex;
-  flex-wrap: wrap;
-  &>* {
-    width: 100%;
+  &,
+  .drag-preview {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > * {
+      width: 100%;
+    }
   }
 }
 
@@ -34,6 +37,7 @@
   font-weight: 500;
   display: flex;
   justify-content: space-between;
+
   span {
     display: inline-flex;
     align-items: center;
@@ -60,8 +64,9 @@
   box-shadow: 0 0 8px -2px #000;
   display: block;
 }
+
 .drag-placeholder {
-  margin:2px;
+  margin: 2px;
   padding: 10px;
   background: #ccc;
   border-radius: 5px;

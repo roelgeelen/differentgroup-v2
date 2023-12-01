@@ -8,7 +8,7 @@ import {IColumn} from "../../form-controls/columns/column.interface";
   styleUrls: ['./form-columns.component.scss']
 })
 export class FormColumnsComponent implements OnInit {
-
+  @Input() showInvisible = false;
   @Input() control?: Columns;
   @Input() selected: boolean = false;
 
@@ -21,7 +21,6 @@ export class FormColumnsComponent implements OnInit {
   addColumn() {
     if (this.hasMaxColumns(3))
       this.control?.columns.push({container: {controls: []}})
-
   }
 
   removeColumn(index: number) {
