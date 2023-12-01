@@ -3,5 +3,25 @@
   box-shadow: 0 0 11px rgb(0 0 0 / 12%);
   margin: 10px;
   background-color: #E8F2F4;
-  padding: 20px;
+  padding: 0 20px;
+
+}
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #E8F2F4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(51, 77, 156, 0.3);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(51, 77, 156, 0.8);
 }

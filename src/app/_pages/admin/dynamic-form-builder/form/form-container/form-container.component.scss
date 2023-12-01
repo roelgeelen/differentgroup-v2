@@ -11,6 +11,7 @@
   margin-bottom: 80px;
 }
 .control-container {
+  position: relative;
   padding: 5px;
   border-radius: 5px;
   &.selected {
@@ -31,6 +32,12 @@ mat-label.label {
   background-color: #ebf2f4;
   padding: 10px;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  span {
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 .margin-top {

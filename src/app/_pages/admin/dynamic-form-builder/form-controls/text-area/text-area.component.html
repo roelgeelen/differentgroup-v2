@@ -1,6 +1,9 @@
-<ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-<ngx-editor
-  [editor]="editor"
-  [placeholder]="control?.options?.placeholder ?? ''"
-  [ngModel]="control!.value"
-></ngx-editor>
+<div [formGroup]="form">
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+  <ngx-editor
+    [editor]="editor"
+    [placeholder]="control?.options?.placeholder ?? ''"
+    [formControlName]="control!.id" [id]="control!.id"
+  ></ngx-editor>
+</div>
+

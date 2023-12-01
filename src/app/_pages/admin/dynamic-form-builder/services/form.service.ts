@@ -1,41 +1,26 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {TextBox} from '../form-controls/text-box/text-box.class';
 import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
-import {Columns} from "../form-controls/columns/columns.class";
-import {InfoBox} from "../form-controls/info-box/info-box.class";
-import {CheckBox} from "../form-controls/check-box/check-box.class";
-import {RadioBtn} from "../form-controls/radio-btn/radio-btn.class";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
-
-  form$ = new BehaviorSubject<IForm>(
-    {
-      title: 'Nieuw formulier',
-      isQuotation: false,
-      pages: [
-        {
-          tab: 'Pagina 1',
-          controls: [
-            new InfoBox(),
-            new CheckBox({label: 'Meerkeuze veld 1'}),
-            new RadioBtn({label: 'Radio veld 1'}),
-            new TextBox(),
-            new Columns()
-          ]
-        }
-      ]
-    });
+  formGroup$ = new BehaviorSubject<FormGroup>(this.generateFormGroup());
+  form$ = new BehaviorSubject<IForm>({
+    title: 'Nieuw formulier',
+    isQuotation: false,
+    pages: []
+  });
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
   editForm$ = new BehaviorSubject<boolean>(false);
 
   constructor(private dragDropService: DragDropService) {
-    this.dragDropService.controlDropped.subscribe((control) =>
-      this.onControlDropped(control)
-    );
+    this.dragDropService.controlDropped.subscribe((control) => {
+      this.onControlDropped(control);
+      this.formGroup$.next(this.generateFormGroup())
+    });
   }
 
   private onControlDropped(control: IFormControl) {
@@ -52,6 +37,7 @@ export class FormService {
 
   public setForm(form: IForm) {
     this.form$.next(form);
+    this.formGroup$.next(this.generateFormGroup())
   }
 
   public toggleFormSettings() {
@@ -66,7 +52,6 @@ export class FormService {
         if (control.id === controlId) {
           return control;
         }
-        // Als het controle-item van het type 'Columns' is, zoek dan binnen de kolommen
         if (control.type === 'Columns' && control.columns) {
           for (const column of control.columns) {
             for (const colControl of column.container.controls) {
@@ -78,19 +63,29 @@ export class FormService {
         }
       }
     }
-    // Als de control niet wordt gevonden, retourneer null
     return null;
   }
 
-  // getFormGroup() {
-  //   const group: any = {};
-  //   this.form$.getValue().pages.forEach(page => {
-  //     page.controls.forEach(control => {
-  //       if (control.type !== 'Columns') {
-  //         group[control.id] = new FormControl(control.value || '');
-  //       }
-  //     })
-  //   })
-  //   return new FormGroup(group);
-  // }
+  generateFormGroup() {
+    const group: any = {};
+    if (this.form$ != null) {
+      this.form$.getValue().pages.forEach(page => {
+        page.controls.forEach(control => {
+          if (control.value !== undefined) {
+            group[control.id] = new FormControl(control.value || '');
+          }
+          if (control.type === 'Columns') {
+            control.columns?.forEach(col => {
+              col.container.controls.forEach(c => {
+                group[c.id] = new FormControl(c.value || '');
+              })
+            })
+
+          }
+        })
+      })
+    }
+    console.log(group)
+    return new FormGroup(group);
+  }
 }

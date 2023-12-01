@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormService } from '../services/form.service';
 import {FormGroup} from "@angular/forms";
+import {OptionsGeneratorService} from "../services/options-generator.service";
 
 @Component({
   selector: 'app-form',
@@ -9,9 +10,9 @@ import {FormGroup} from "@angular/forms";
 })
 export class FormComponent implements OnInit {
   tabIndex = 0;
+  showInvisible = true;
 
-
-  constructor(public formService: FormService) {
+  constructor(public formService: FormService, public optionsGenerator: OptionsGeneratorService) {
   }
 
   ngOnInit(): void {

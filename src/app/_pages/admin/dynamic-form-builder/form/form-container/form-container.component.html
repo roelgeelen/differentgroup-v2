@@ -10,71 +10,79 @@
   [cdkDropListEnterPredicate]="allowDropPredicate"
 >
   @for (item of container.controls;track item;let idx = $index) {
-    <div
-      class="control-container"
-      [class.selected]="item.id == selectedControl?.id"
-      cdkDrag
-      [cdkDragData]="item"
-      (cdkDragMoved)="dragMoved($event)"
-      (cdkDragReleased)="dragReleased($event)"
-      (click)="selectControl(item);$event.stopPropagation()"
-    >
-      @if (item.id == selectedControl?.id) {
-        <button mat-mini-fab class="field-remove" (click)="removeControl(container.controls, idx)">
-          <mat-icon>close</mat-icon>
-        </button>
-      }
-      @if (item.id !== selectedControl?.id) {
-        <div cdkDragHandle></div>
-      }
-      @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
-        <mat-label class="label">{{ item.options!.label }} @if (item.options.validators?.required) {
-          *
-        }</mat-label>
-      }
-      <div class="drag-placeholder" *cdkDragPlaceholder>
-        <p>
-          <mat-icon>{{ item.icon }}</mat-icon>
-        </p>
-        {{ item.title }}
+    @if (isShow(item) || showInvisible) {
+      <div
+        class="control-container"
+        [class.selected]="item.id == selectedControl?.id"
+        cdkDrag
+        [cdkDragData]="item"
+        (cdkDragMoved)="dragMoved($event)"
+        (cdkDragReleased)="dragReleased($event)"
+        (click)="selectControl(item);$event.stopPropagation()"
+      >
+        @if (item.id == selectedControl?.id) {
+          <button mat-mini-fab class="field-remove" (click)="removeControl(container.controls, idx)">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+        @if (item.id !== selectedControl?.id) {
+          <div cdkDragHandle></div>
+        }
+        @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
+          <mat-label class="label"><span>{{ item.options!.label }} @if (item.options.validators?.required) {
+            *
+          }</span>@if (!isShow(item) && showInvisible) {
+            <mat-icon>visibility_off</mat-icon>
+          }</mat-label>
+        }
+        <div class="drag-placeholder" *cdkDragPlaceholder>
+          <p>
+            <mat-icon>{{ item.icon }}</mat-icon>
+          </p>
+          {{ item.title }}
+        </div>
+        <div class="drag-preview" *cdkDragPreview>
+          <p>
+            <mat-icon>{{ item.icon }}</mat-icon>
+          </p>
+          {{ item.title }}
+        </div>
+        @if (formService.formGroup$ | async;as formGroup) {
+          @switch (item.type) {
+            @case ('InfoBox') {
+              <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"></app-info-box>
+            }
+            @case ('Divider') {
+              <app-divider [control]="item" [selected]="item.id == selectedControl?.id"></app-divider>
+            }
+            @case ('TextBox') {
+              <app-text-box class="margin-top" [control]="item" [form]="formGroup"
+                            [selected]="item.id == selectedControl?.id"></app-text-box>
+            }
+            @case ('TextArea') {
+              <app-text-area [control]="item" [form]="formGroup"
+                             [selected]="item.id == selectedControl?.id"></app-text-area>
+            }
+            @case ('Dropdown') {
+              <app-dropdown class="margin-top" [control]="item" [form]="formGroup"
+                            [selected]="item.id == selectedControl?.id"></app-dropdown>
+            }
+            @case ('CheckBox') {
+              <app-check-box class="margin-top" [control]="item" [form]="formGroup"
+                             [selected]="item.id == selectedControl?.id"></app-check-box>
+            }
+            @case ('RadioBtn') {
+              <app-radio-btn class="margin-top" [control]="item" [form]="formGroup"
+                             [selected]="item.id == selectedControl?.id"></app-radio-btn>
+            }
+            @case ('Columns') {
+              <app-form-columns
+                [control]="item | cast" [selected]="item.id == selectedControl?.id"
+              ></app-form-columns>
+            }
+          }
+        }
       </div>
-      <div class="drag-preview" *cdkDragPreview>
-        <p>
-          <mat-icon>{{ item.icon }}</mat-icon>
-        </p>
-        {{ item.title }}
-      </div>
-
-      @switch (item.type) {
-        @case ('InfoBox') {
-          <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"></app-info-box>
-        }
-        @case ('Divider') {
-          <app-divider [control]="item" [selected]="item.id == selectedControl?.id"></app-divider>
-        }
-        @case ('TextBox') {
-          <app-text-box class="margin-top" [control]="item" [selected]="item.id == selectedControl?.id"></app-text-box>
-        }
-        @case ('TextArea') {
-          <app-text-area [control]="item" [selected]="item.id == selectedControl?.id"></app-text-area>
-        }
-        @case ('Dropdown') {
-          <app-dropdown class="margin-top" [control]="item" [selected]="item.id == selectedControl?.id"></app-dropdown>
-        }
-        @case ('CheckBox') {
-          <app-check-box class="margin-top" [control]="item"
-                         [selected]="item.id == selectedControl?.id"></app-check-box>
-        }
-        @case ('RadioBtn') {
-          <app-radio-btn class="margin-top" [control]="item"
-                         [selected]="item.id == selectedControl?.id"></app-radio-btn>
-        }
-        @case ('Columns') {
-          <app-form-columns
-            [control]="item | cast" [selected]="item.id == selectedControl?.id"
-          ></app-form-columns>
-        }
-      }
-    </div>
+    }
   }
 </div>

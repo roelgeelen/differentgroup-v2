@@ -1,6 +1,6 @@
-<mat-form-field class="field">
+<mat-form-field class="field" [formGroup]="form">
   <mat-label>{{control?.options?.title}}</mat-label>
-  <mat-select [required]="control?.options?.validators?.required ?? false" [ngModel]="control!.value">
+  <mat-select [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices;track choice) {
       <mat-option [value]="choice.value">
         {{choice.value}}

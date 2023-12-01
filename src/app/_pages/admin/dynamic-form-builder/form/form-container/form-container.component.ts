@@ -12,10 +12,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { IFormControl } from '../../form-controls/form-control.interface';
-import { IFormPage } from '../../models/form-container.interface';
-import { DragDropService } from '../../services/drag-drop.service';
+import {IFormControl} from '../../form-controls/form-control.interface';
+import {IFormPage} from '../../models/form-container.interface';
+import {DragDropService} from '../../services/drag-drop.service';
 import {FormService} from "../../services/form.service";
+import {isEmpty} from "rxjs";
 
 @Component({
   selector: 'app-form-container',
@@ -26,13 +27,18 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   @Input() container: IFormPage | undefined;
   @Input() showOutline: boolean = true;
+  @Input() showInvisible: boolean = false;
   @Input() id: string = "";
-  selectedControl:IFormControl | null = null;
+  selectedControl: IFormControl | null = null;
 
 
   allowDropPredicate = (drag: CdkDrag, drop: CdkDropList) => {
     return this.dragDropService.isDropAllowed(drag, drop);
   };
+
+  isShow(item: IFormControl) {
+    return item.options?.dependent?.length != 0 ? this.isDependent(item) : true;
+  }
 
   public get connectedLists() {
     return this.dragDropService.dropLists;
@@ -46,13 +52,16 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
       this.selectedControl = control
     );
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+  }
 
   ngAfterViewInit(): void {
     if (this.dropList) {
       this.dragDropService.register(this.dropList);
     }
   }
+
   dropped(event: CdkDragDrop<IFormControl[]>) {
     this.dragDropService.drop(event);
   }
@@ -71,5 +80,21 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
 
   removeControl(controls: IFormControl[], index: number) {
     controls.splice(index, 1);
+  }
+
+  private isDependent(item: IFormControl) {
+    var found = true;
+    item.options?.dependent?.forEach(dep => {
+      if (dep.values.length !== 0) {
+        if (Array.isArray(this.formService.formGroup$.getValue().controls[dep.field].value)) {
+          found = this.formService.formGroup$.getValue().controls[dep.field].value.filter((element: string) => dep.values.includes(element)).length > 0;
+        } else {
+          if (!dep.values.includes(this.formService.formGroup$.getValue().controls[dep.field].value)) {
+            found = false;
+          }
+        }
+      }
+    });
+    return found;
   }
 }

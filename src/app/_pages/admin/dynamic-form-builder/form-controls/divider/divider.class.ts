@@ -8,5 +8,7 @@ export class Divider implements IFormControl<IFormControlOptions, null> {
   readonly type: string = 'Divider';
   readonly title: string = 'Divider';
 
-  constructor(public options?: IFormControlOptions) {}
+  constructor(public options?: IFormControlOptions) {
+
+  }
 }

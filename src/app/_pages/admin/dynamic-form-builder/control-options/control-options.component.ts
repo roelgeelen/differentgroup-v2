@@ -70,6 +70,10 @@ export class ControlOptionsComponent implements OnInit {
     return this.formService.selectedControl$.getValue()!;
   }
 
+  get formControl() {
+    return this.formService.formGroup$.getValue()!.controls[this.control.id];
+  }
+
 
   drop(choices: any[], event: CdkDragDrop<string[]>) {
     moveItemInArray(choices, event.previousIndex, event.currentIndex);
@@ -117,7 +121,7 @@ export class ControlOptionsComponent implements OnInit {
     };
 
     formControls.forEach(control => {
-      if (control.type === 'Columns' && control.columns) {
+      if ((control.type === 'Columns' && control.columns) && this.control.id !== control.id) {
         control.columns.forEach(col => {
           col.container.controls.forEach(subControl => {
             pushControlToList(subControl);
@@ -131,4 +135,7 @@ export class ControlOptionsComponent implements OnInit {
     return list;
   }
 
+  updateValue($event: Event) {
+    this.formControl.setValue($event);
+  }
 }

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { TextArea } from './text-area.class';
 import {Editor, Toolbar} from "ngx-editor";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-text-area',
@@ -9,6 +10,7 @@ import {Editor, Toolbar} from "ngx-editor";
   styleUrls: ['./text-area.component.scss']
 })
 export class TextAreaComponent extends FormControlComponentBase<TextArea> implements OnInit {
+  @Input() form!: FormGroup;
   editor: Editor;
   toolbar: Toolbar = [
     ['bold', 'italic'],

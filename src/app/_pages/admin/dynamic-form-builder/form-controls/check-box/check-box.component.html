@@ -1,5 +1,7 @@
-<mat-selection-list color="primary" [ngModel]="control!.value">
-  @for (choice of control?.options?.choices;track choice) {
-    <mat-list-option [value]="choice.value" togglePosition="before">{{ choice.value }}</mat-list-option>
-  }
-</mat-selection-list>
+<div [formGroup]="form">
+  <mat-selection-list color="primary" [formControlName]="control!.id" [id]="control!.id">
+    @for (choice of control?.options?.choices;track choice) {
+      <mat-list-option [value]="choice.value" togglePosition="before">{{ choice.value }}</mat-list-option>
+    }
+  </mat-selection-list>
+</div>

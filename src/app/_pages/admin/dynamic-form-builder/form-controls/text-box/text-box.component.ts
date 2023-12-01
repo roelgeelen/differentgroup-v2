@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { TextBox } from './text-box.class';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-text-box',
@@ -8,7 +9,7 @@ import { TextBox } from './text-box.class';
   styleUrls: ['./text-box.component.scss']
 })
 export class TextBoxComponent extends FormControlComponentBase<TextBox> implements OnInit {
-
+  @Input() form!: FormGroup;
   constructor() {
     super()
   }

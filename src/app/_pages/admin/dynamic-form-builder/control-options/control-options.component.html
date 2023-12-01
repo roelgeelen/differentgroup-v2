@@ -71,40 +71,44 @@
               <button mat-button color="primary" (click)="addChoice(control.options.choices!)">+ optie toevoegen
               </button>
             }
-            <div class="label">Waarde</div>
-            @if (control.options.choices !== undefined) {
-              @if (control.value | isArray) {
-                <mat-form-field>
-                  <mat-label>Standaard waarde</mat-label>
-                  <mat-select [multiple]="true" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}">
-                    @for (option of control.options.choices!;track option) {
-                      <mat-option [value]="option.value">{{ option.value }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+            @if (control.value !== undefined) {
+              <div class="label">Waarde</div>
+              @if (control.options.choices !== undefined) {
+                @if (control.value | isArray) {
+                  <mat-form-field>
+                    <mat-label>Standaard waarde</mat-label>
+                    <mat-select [multiple]="true" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}" (ngModelChange)="updateValue($event)">
+                      @for (option of control.options.choices!;track option) {
+                        <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                } @else {
+                  <mat-form-field>
+                    <mat-label>Standaard waarde</mat-label>
+                    <mat-select [multiple]="false" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}" (ngModelChange)="updateValue($event)">
+                      @for (option of control.options.choices!;track option) {
+                        <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                }
+              } @else if (control.type === 'TextArea') {
+                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                <ngx-editor
+                  [editor]="editor"
+                  [placeholder]="'Type hier je tekst...'"
+                  [(ngModel)]="control.value"
+                  (ngModelChange)="updateValue($event)"
+                ></ngx-editor>
               } @else {
                 <mat-form-field>
-                  <mat-label>Standaard waarde</mat-label>
-                  <mat-select [multiple]="false" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}">
-                    @for (option of control.options.choices!;track option) {
-                      <mat-option [value]="option.value">{{ option.value }}</mat-option>
-                    }
-                  </mat-select>
+                  <mat-label>Standaard waarded</mat-label>
+                  <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}" (ngModelChange)="updateValue($event)">
                 </mat-form-field>
               }
-            } @else if (control.type === 'TextArea') {
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
-              <ngx-editor
-                [editor]="editor"
-                [placeholder]="'Type hier je tekst...'"
-                [(ngModel)]="control.value"
-              ></ngx-editor>
-            } @else {
-              <mat-form-field>
-                <mat-label>Standaard waarde</mat-label>
-                <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}">
-              </mat-form-field>
             }
+
           </div>
         </mat-tab>
         <mat-tab label="Geavanceerd">
