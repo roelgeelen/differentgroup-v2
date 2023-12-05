@@ -1,7 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {FormControlBase, formFields} from "./form-builder/model/form-fields";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
-import {v4 as uuidV4} from "uuid";
+import {FormService} from "../admin/dynamic-form-builder/services/form.service";
+import {CacheService} from "../../_services/cache.service";
+import {IForm} from "../admin/dynamic-form-builder/models/form.interface";
+import {delay} from "rxjs";
 
 
 @Component({
@@ -10,42 +11,25 @@ import {v4 as uuidV4} from "uuid";
   styleUrl: './forms.component.scss'
 })
 export class FormsComponent implements OnInit{
-  protected readonly formFields = formFields;
-  ngOnInit(): void {
-    // for testing
-      formFields.reverse().forEach(f => {
-        const clone = JSON.parse(JSON.stringify(f));
-        clone.id = uuidV4();
-        this.form_controls.splice(0, 0, clone);
-      });
-      formFields.reverse();
+  constructor(public formService: FormService, private cacheService: CacheService) {
+    this.formService.setForm(null);
   }
-  selectedField: FormControlBase|undefined;
+  async ngOnInit() {
+    this.formService.setForm(await this.loadForm().then(r => r));
+  }
 
-  form_controls:any[] = [];
-
-  drop(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      const clone = JSON.parse(JSON.stringify(event.previousContainer.data[event.previousIndex]));
-      clone.id = uuidV4();
-      event.container.data.splice(event.currentIndex, 0, clone);
-      this.selectedField = clone;
+  async loadForm(): Promise<IForm> {
+    await new Promise(f => setTimeout(f, 1000));
+    const savedForm = this.cacheService.getData('form1');
+    return savedForm !== null ? JSON.parse(savedForm) : {
+      title: 'Nieuw formulier',
+      createQuotation: false,
+      pages: [
+        {
+          tab: 'Pagina 1',
+          controls: []
+        }
+      ]
     }
   }
-
-  selectField(item: FormControlBase) {
-    this.selectedField = item;
-  }
-
-  removeField(item: any) {
-    this.form_controls.forEach((value,index)=>{
-      if(value.id==item.id){
-        this.form_controls.splice(index,1);
-        this.selectedField = undefined;
-      }
-    });
-  }
-
 }

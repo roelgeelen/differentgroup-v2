@@ -9,6 +9,7 @@ import {IColumn} from "../../form-controls/columns/column.interface";
 })
 export class FormColumnsComponent implements OnInit {
   @Input() showInvisible = false;
+  @Input() isBuilder = false;
   @Input() control?: Columns;
   @Input() selected: boolean = false;
 

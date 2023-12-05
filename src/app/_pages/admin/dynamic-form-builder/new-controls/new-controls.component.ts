@@ -4,7 +4,6 @@ import { IFormControl } from '../form-controls/form-control.interface';
 import { FormControlsService } from '../form-controls/form-controls.service';
 import { IDragItem } from '../models/drag-item.interface';
 import { DragDropService } from '../services/drag-drop.service';
-import {formFields} from "../../../forms/form-builder/model/form-fields";
 
 @Component({
   selector: 'app-new-controls',

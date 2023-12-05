@@ -22,14 +22,15 @@
     <form [formGroup]="formService.formGroup$.getValue()">
       @if (form.pages.length > 1) {
         <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
-          @for (page of form.pages;track page) {
+          @for (page of form.pages;track page; let idx = $index) {
             <mat-tab [label]="page.tab!">
               <div class="form-body">
                 <app-form-container
-                  id="form"
+                  [id]="'form'+ idx"
                   [container]="page"
                   [showOutline]="page.controls.length ==0"
                   [showInvisible]="showInvisible"
+                  [isBuilder]="true"
                 ></app-form-container>
               </div>
               <div class="form-footer">
@@ -48,18 +49,23 @@
         </mat-tab-group>
       } @else {
         <div class="form-body">
-          <app-form-container
-            id="form"
-            [container]="form.pages[0]"
-            [showOutline]="form.pages[0].controls.length ==0"
-            [showInvisible]="showInvisible"
-          ></app-form-container>
-          <div class="form-footer">
-            @if (form.createQuotation) {
-              <div></div>
-              <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
-            }
-          </div>
+          @if (form.pages.length > 0) {
+            <app-form-container
+              [id]="'form'"
+              [container]="form.pages[0]"
+              [showOutline]="form.pages[0].controls.length ==0"
+              [showInvisible]="showInvisible"
+              [isBuilder]="true"
+            ></app-form-container>
+            <div class="form-footer">
+              @if (form.createQuotation) {
+                <div></div>
+                <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
+              }
+            </div>
+          } @else {
+            <mat-spinner></mat-spinner>
+          }
         </div>
       }
     </form>

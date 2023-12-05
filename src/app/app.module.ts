@@ -31,10 +31,8 @@ import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
 import {MatIconModule} from "@angular/material/icon";
-import { FormControlComponent } from './_pages/forms/form-builder/form-control/form-control.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import { FormControlOptionsComponent } from './_pages/forms/form-builder/form-control-options/form-control-options.component';
 import {NgxEditorModule} from "ngx-editor";
 import {MatSelectModule} from "@angular/material/select";
 import { NewControlsComponent } from './_pages/admin/dynamic-form-builder/new-controls/new-controls.component';
@@ -50,6 +48,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {SelectDropDownModule} from "ngx-select-dropdown";
+import {DynamicFormComponent} from "./_pages/forms/dynamic-form/dynamic-form.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -57,15 +57,14 @@ import {SelectDropDownModule} from "ngx-select-dropdown";
     HomeComponent,
     FormsComponent,
     AdminComponent,
-    FormControlComponent,
-    FormControlOptionsComponent,
     NewControlsComponent,
     FormComponent,
     FormComponent,
     FormContainerComponent,
     FormColumnsComponent,
     CastPipe,
-    ControlOptionsComponent
+    ControlOptionsComponent,
+    DynamicFormComponent,
   ],
   imports: [
     OAuthModule.forRoot({
@@ -112,6 +111,7 @@ import {SelectDropDownModule} from "ngx-select-dropdown";
     MatExpansionModule,
     MatTooltipModule,
     SelectDropDownModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

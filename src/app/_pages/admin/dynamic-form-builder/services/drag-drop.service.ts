@@ -68,12 +68,14 @@ export class DragDropService {
     if (drop.id == '' && drag.data.type === 'Columns') {
       return false;
     }
+    console.log('drop='+drop.id)
 
     return drop.id === this.currentHoverDropListId;
   }
 
   drop(event: CdkDragDrop<IFormControl[]>) {
     if (event.previousContainer.id !== 'toolbox') {
+      console.log(event.container)
       if (event.previousContainer == event.container) {
         moveItemInArray(
           event.container.data,

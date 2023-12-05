@@ -34,11 +34,13 @@ export class FormService {
     this.selectedControl$.next(control);
   }
 
-  public setForm(form: IForm) {
-    if (form) {
-      this.form$.next(form);
-      this.updateFormGroup();
-    }
+  public setForm(form: IForm | null) {
+    this.form$.next(form!==null ? form : {
+      title: '',
+      createQuotation: false,
+      pages: [],
+    });
+    this.updateFormGroup();
   }
 
   public toggleFormSettings() {

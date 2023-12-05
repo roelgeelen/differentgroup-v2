@@ -2,16 +2,16 @@
   <div class="row">
     @for (column of control?.columns; track column;let idx = $index) {
       <div class="column">
-        @if (hasMinColumns(1) && selected) {
+        @if (hasMinColumns(1) && selected && isBuilder) {
           <button mat-mini-fab class="remove-column-btn" (click)="removeColumn(idx)">
             <mat-icon>remove</mat-icon>
           </button>
         }
 
-        <app-form-container [container]="column.container" [showOutline]="selected||column.container.controls.length==0" [showInvisible]="showInvisible"></app-form-container>
+        <app-form-container [container]="column.container" [showOutline]="selected||column.container.controls.length==0" [showInvisible]="showInvisible" [isBuilder]="isBuilder"></app-form-container>
       </div>
     }
-    @if (hasMaxColumns(3) && selected) {
+    @if (hasMaxColumns(3) && selected && isBuilder) {
       <button class="add-column-btn" mat-mini-fab (click)="addColumn()">
         <mat-icon>add</mat-icon>
       </button>

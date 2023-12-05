@@ -27,6 +27,7 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
   @Input() container: IFormPage | undefined;
   @Input() showOutline = true;
   @Input() showInvisible = false;
+  @Input() isBuilder = false;
   @Input() id = '';
   selectedControl: IFormControl | null = null;
 
@@ -67,10 +68,13 @@ export class FormContainerComponent implements OnInit, AfterViewInit {
   }
 
   public dragMoved(event: CdkDragMove<IFormControl>) {
+    // @ts-ignore
+    console.log(event.source.dropContainer.id);
     this.dragDropService.dragMoved(event);
   }
 
   public dragReleased(event: CdkDragRelease) {
+    console.log("released")
     this.dragDropService.dragReleased(event);
   }
 
