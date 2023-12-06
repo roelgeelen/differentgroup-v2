@@ -1,0 +1,29 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Formulieren</h1>
+      <button mat-flat-button color="accent" routerLink="create">
+        Nieuw
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <hr>
+    @defer (when forms !== null) {
+      @for (form of forms;track form) {
+        <mat-card [routerLink]="form.id+'/builder'">
+          <mat-card-header>
+            <mat-card-title>{{ form.title }}</mat-card-title>
+            <mat-card-subtitle>{{ form.kind }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content></mat-card-content>
+        </mat-card>
+      } @empty {
+        <div>
+          Nog geen formulieren aangemaakt
+        </div>
+      }
+    } @placeholder ()  {
+      <mat-spinner></mat-spinner>
+    }
+  </div>
+</div>

@@ -1,0 +1,110 @@
+@if (isBuilder) {
+  <div
+    [id]="id"
+    [class.outline]="showOutline"
+    [class.drop-container]="id=='form'"
+    cdkDropList
+    [cdkDropListData]="container!.controls"
+    (cdkDropListDropped)="dropped($event)"
+    [cdkDropListConnectedTo]="connectedLists"
+    [cdkDropListEnterPredicate]="allowDropPredicate"
+  >
+    @for (item of container!.controls;track item) {
+      @if (isShow(item) || showInvisible) {
+        <div
+          class="control-container"
+          [class.selected]="item.id == selectedControl?.id"
+          cdkDrag
+          [cdkDragData]="item"
+          (cdkDragMoved)="dragMoved($event)"
+          (cdkDragReleased)="dragReleased($event)"
+          (click)="selectControl(item);$event.stopPropagation()"
+        >
+          @if (item.id == selectedControl?.id) {
+            <button mat-mini-fab class="field-remove" (click)="removeControl(container!.controls, $index)">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          @if (item.id !== selectedControl?.id) {
+            <div cdkDragHandle></div>
+          }
+          @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
+            <mat-label class="label"><span>{{ item.options!.label }} @if (item.options.validators?.required) {
+              *
+            }</span>@if (!isShow(item) && showInvisible) {
+              <mat-icon>visibility_off</mat-icon>
+            } @else if (item.options.dependent!.length > 0) {
+              <mat-icon>visibility_on</mat-icon>
+            }</mat-label>
+          }
+          <div class="drag-placeholder" *cdkDragPlaceholder>
+            <p>
+              <mat-icon>{{ item.icon }}</mat-icon>
+            </p>
+            {{ item.title }}
+          </div>
+          <div class="drag-preview" *cdkDragPreview>
+            <p>
+              <mat-icon>{{ item.icon }}</mat-icon>
+            </p>
+            {{ item.title }}
+          </div>
+          <ng-container [ngTemplateOutlet]="controlSwitch" [ngTemplateOutletContext]="{item:item}"></ng-container>
+        </div>
+      }
+    }
+  </div>
+} @else {
+  @for (item of container!.controls;track item) {
+    @if (isShow(item)) {
+      <div
+        class="control-container"
+        [class.selected]="item.id == selectedControl?.id"
+      >
+        @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
+          <mat-label class="label"><span>{{ item.options!.label }} @if (item.options.validators?.required) {
+            *
+          }</span></mat-label>
+        }
+        <ng-container *ngTemplateOutlet="controlSwitch; context: {item:item}"></ng-container>
+      </div>
+    }
+  }
+}
+<ng-template #controlSwitch let-item='item'>
+  @if (formService.formGroup$ | async;as formGroup) {
+    @switch (item.type) {
+      @case ('InfoBox') {
+        <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"></app-info-box>
+      }
+      @case ('Divider') {
+        <app-divider [control]="item" [selected]="item.id == selectedControl?.id"></app-divider>
+      }
+      @case ('TextBox') {
+        <app-text-box class="margin-top" [control]="item" [form]="formGroup"
+                      [selected]="item.id == selectedControl?.id"></app-text-box>
+      }
+      @case ('TextArea') {
+        <app-text-area [control]="item" [form]="formGroup"
+                       [selected]="item.id == selectedControl?.id"></app-text-area>
+      }
+      @case ('Dropdown') {
+        <app-dropdown class="margin-top" [control]="item" [form]="formGroup"
+                      [selected]="item.id == selectedControl?.id"></app-dropdown>
+      }
+      @case ('CheckBox') {
+        <app-check-box class="margin-top" [control]="item" [form]="formGroup"
+                       [selected]="item.id == selectedControl?.id"></app-check-box>
+      }
+      @case ('RadioBtn') {
+        <app-radio-btn class="margin-top" [control]="item" [form]="formGroup"
+                       [selected]="item.id == selectedControl?.id"></app-radio-btn>
+      }
+      @case ('Columns') {
+        <app-form-columns
+          [control]="item" [selected]="item.id == selectedControl?.id" [showInvisible]="showInvisible" [isBuilder]="isBuilder"
+        ></app-form-columns>
+      }
+    }
+  }
+</ng-template>

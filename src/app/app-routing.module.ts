@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {HomeComponent} from "./_pages/home/home.component";
-import {FormsComponent} from "./_pages/forms/forms.component";
-import {AdminComponent} from "./_pages/admin/admin.component";
 
 const routes: Routes = [
   {
@@ -10,12 +8,12 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'forms',
-    component: FormsComponent,
+    path: 'configurations',
+    loadChildren: () => import('./_pages/configurations/routes').then(mod => mod.CONFIGURATIONS_ROUTES)
   },
   {
     path: 'admin',
-    component: AdminComponent,
+    loadChildren: () => import('./_pages/admin/routes').then(mod => mod.ADMIN_ROUTES)
   },
   {path: '**', redirectTo: ''},
 ];

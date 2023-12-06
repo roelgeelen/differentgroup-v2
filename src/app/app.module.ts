@@ -10,61 +10,12 @@ import {HttpClientModule} from "@angular/common/http";
 import { HomeComponent } from './_pages/home/home.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./_helpers/components/navbar/navbar.component";
-import { FormsComponent } from './_pages/forms/forms.component';
-import { AdminComponent } from './_pages/admin/admin.component';
-import {
-  CdkDrag,
-  CdkDragHandle,
-  CdkDragPlaceholder,
-  CdkDragPreview,
-  CdkDropList,
-  CdkDropListGroup
-} from "@angular/cdk/drag-drop";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatGridListModule} from "@angular/material/grid-list";
-import {FlexLayoutModule} from "@angular/flex-layout";
-import {MatCardModule} from "@angular/material/card";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
-import {MatButtonModule} from "@angular/material/button";
-import {MatListModule} from "@angular/material/list";
-import {MatIconModule} from "@angular/material/icon";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {NgxEditorModule} from "ngx-editor";
-import {MatSelectModule} from "@angular/material/select";
-import { NewControlsComponent } from './_pages/admin/dynamic-form-builder/new-controls/new-controls.component';
-import {FormComponent} from "./_pages/admin/dynamic-form-builder/form/form.component";
-import {FormColumnsComponent} from "./_pages/admin/dynamic-form-builder/form/form-columns/form-columns.component";
-import {FormContainerComponent} from "./_pages/admin/dynamic-form-builder/form/form-container/form-container.component";
-import {FormControlsModule} from "./_pages/admin/dynamic-form-builder/form-controls/form-controls.module";
-import {CastPipe} from "./_pages/admin/dynamic-form-builder/cast.pipe";
-import { ControlOptionsComponent } from './_pages/admin/dynamic-form-builder/control-options/control-options.component';
 import {SharedModule} from "./shared.module";
-import {MatTabsModule} from "@angular/material/tabs";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {SelectDropDownModule} from "ngx-select-dropdown";
-import {DynamicFormComponent} from "./_pages/forms/dynamic-form/dynamic-form.component";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    FormsComponent,
-    AdminComponent,
-    NewControlsComponent,
-    FormComponent,
-    FormComponent,
-    FormContainerComponent,
-    FormColumnsComponent,
-    CastPipe,
-    ControlOptionsComponent,
-    DynamicFormComponent,
   ],
   imports: [
     OAuthModule.forRoot({
@@ -80,38 +31,6 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     BrowserAnimationsModule,
     MatToolbarModule,
     NavbarComponent,
-    CdkDropList,
-    MatFormFieldModule,
-    CdkDrag,
-    MatInputModule,
-    MatSidenavModule,
-    MatGridListModule,
-    FlexLayoutModule,
-    MatCardModule,
-    FormsModule,
-    MatDialogContent,
-    MatDialogTitle,
-    MatDialogActions,
-    MatDialogClose,
-    MatButtonModule,
-    MatListModule,
-    MatIconModule,
-    CdkDropListGroup,
-    MatRadioModule,
-    MatCheckboxModule,
-    CdkDragPlaceholder,
-    CdkDragHandle,
-    NgxEditorModule,
-    MatSelectModule,
-    FormControlsModule,
-    CdkDragPreview,
-    MatTabsModule,
-    MatSlideToggleModule,
-    ReactiveFormsModule,
-    MatExpansionModule,
-    MatTooltipModule,
-    SelectDropDownModule,
-    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

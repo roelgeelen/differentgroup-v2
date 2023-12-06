@@ -1,0 +1,237 @@
+@if (formService.selectedControl$ | async;as control) {
+  @if (control.options !== undefined) {
+    <mat-card class="options-card">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>{{ control?.icon }}</mat-icon>
+        </div>
+        <mat-card-title class="header-title">{{ control?.title }}</mat-card-title>
+        <mat-icon matRipple (click)="formService.onControlSelected(null)" class="header-close">close</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-tab-group>
+          <mat-tab label="Opties">
+            <div class="tab-content">
+              @if (control.options.label !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Label</mat-label>
+                  <input matInput [(ngModel)]="control.options!.label" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              }
+              @if (control.options.title !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Titel</mat-label>
+                  <input matInput [(ngModel)]="control.options!.title" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              }
+              @if (control.options.subtitle !== undefined) {
+                <div class="label">Subtitle</div>
+                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                <ngx-editor
+                  [editor]="editor"
+                  [placeholder]="'Type hier je tekst...'"
+                  [(ngModel)]="control.options!.subtitle"
+                ></ngx-editor>
+              }
+              @if (control.options.placeholder !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Placeholder</mat-label>
+                  <input matInput [(ngModel)]="control.options!.placeholder" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              }
+              @if (control.options.type !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
+                    @for (type of inputTypes;track type) {
+                      <mat-option [value]="type.value">
+                        {{ type.name }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              }
+              @if (control.options.choices !== undefined) {
+                <span>Opties</span>
+                <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
+                  @for (option of control.options.choices!;track option) {
+                    <div class="option-box" cdkDrag>
+                      <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+                      <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                      <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
+                      <mat-icon class="close-icon" (click)="removeFromList(control.options.choices!, $index)">close
+                      </mat-icon>
+                    </div>
+                  }
+                </div>
+                <button mat-button color="primary" (click)="addChoice(control.options.choices!)">+ optie toevoegen
+                </button>
+              }
+              @if (control.value !== undefined) {
+                <div class="label">Waarde</div>
+                @if (control.options.choices !== undefined) {
+                  @if (control.value | isArray) {
+                    <mat-form-field>
+                      <mat-label>Standaard waarde</mat-label>
+                      <mat-select [multiple]="true" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
+                                  (ngModelChange)="updateValue($event)">
+                        @for (option of control.options.choices!;track option) {
+                          <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  } @else {
+                    <mat-form-field>
+                      <mat-label>Standaard waarde</mat-label>
+                      <mat-select [multiple]="false" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
+                                  (ngModelChange)="updateValue($event)">
+                        @for (option of control.options.choices!;track option) {
+                          <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  }
+                } @else if (control.type === 'TextArea') {
+                  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                  <ngx-editor
+                    [editor]="editor"
+                    [placeholder]="'Type hier je tekst...'"
+                    [(ngModel)]="control.value"
+                    (ngModelChange)="updateValue($event)"
+                  ></ngx-editor>
+                } @else {
+                  <mat-form-field>
+                    <mat-label>Standaard waarded</mat-label>
+                    <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
+                           (ngModelChange)="updateValue($event)">
+                  </mat-form-field>
+                }
+              }
+
+            </div>
+          </mat-tab>
+          <mat-tab label="Geavanceerd">
+            <div class="tab-content">
+              @if (control.options.validators !== undefined) {
+                <div class="label">Regels</div>
+                <div class="tab-content">
+                  @if (control.options.validators.required !== undefined) {
+                    <mat-slide-toggle [(ngModel)]="control.options.validators.required">Verplicht</mat-slide-toggle>
+                  }
+                  @if (control.options.type == 'number') {
+                    <mat-form-field appearance="outline">
+                      <mat-label>Min</mat-label>
+                      <input matInput [(ngModel)]="control.options!.validators.min" [ngModelOptions]="{standalone:true}"
+                             type="number">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Max</mat-label>
+                      <input matInput [(ngModel)]="control.options!.validators.max" [ngModelOptions]="{standalone:true}"
+                             type="number">
+                    </mat-form-field>
+                  }
+                </div>
+              }
+              @if (control.options.dependent !== undefined) {
+                <div class="label mb">
+                  <span>Afhankelijkheden</span>
+                  <mat-icon matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info</mat-icon>
+                </div>
+                @for (dependent of control.options.dependent;track dependent) {
+                  @if (formService.findControlById(dependent.field);as depControl) {
+                    @if ($index !== 0) {
+                      <div class="dependent-separator">of</div>
+                    }
+                    <div class="dependent-row">
+                      <mat-form-field class="dependent-field" appearance="outline">
+                        <mat-label>{{ depControl.options!.label }}</mat-label>
+                        <mat-select [multiple]="true" [(ngModel)]="dependent.values"
+                                    [ngModelOptions]="{standalone:true}">
+                          @for (choice of depControl.options!.choices!;track choice) {
+                            <mat-option [value]="choice.value">{{ choice.value }}</mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-icon class="close-icon" (click)="removeFromList(control.options.dependent!, $index)">delete
+                      </mat-icon>
+                    </div>
+                  }
+                } @empty {
+                  <div class="no-items">
+                    Nog geen afhankelijkheden
+                  </div>
+                }
+                <hr>
+                <form class="add-dependent" (ngSubmit)="addDependent(control.options.dependent!)">
+                  <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+                    <mat-label>Assignee</mat-label>
+                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      @for (option of filteredOptions | async;track option) {
+                        <mat-option [value]="option">{{ option.options!.label }}</mat-option>
+                      }
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <button mat-raised-button color="primary" type="submit">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </form>
+              }
+
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="warn">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+}
+@if (formService.editForm$ | async) {
+  <mat-card class="options-card">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <mat-icon>description</mat-icon>
+      </div>
+      <mat-card-title class="header-title">Formulier opties</mat-card-title>
+      <mat-icon matRipple (click)="formService.toggleFormSettings()" class="header-close">close</mat-icon>
+    </mat-card-header>
+    <mat-card-content>
+      @if (formService.form$ | async;as form) {
+
+        <mat-form-field>
+          <mat-label>Naam</mat-label>
+          <input matInput [(ngModel)]="form.title" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Soort</mat-label>
+          <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+
+        <span>Pagina's</span>
+        <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
+          @for (page of form.pages;track page) {
+            <div class="option-box" cdkDrag>
+              <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+              <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+              <input [(ngModel)]="page.tab" [ngModelOptions]="{standalone:true}">
+              <mat-icon class="close-icon" (click)="removeFromList(form.pages, $index)">close</mat-icon>
+            </div>
+          }
+        </div>
+        <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
+        <div class="margin-top">
+          <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
+        </div>
+
+      }
+      <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="warn">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+}

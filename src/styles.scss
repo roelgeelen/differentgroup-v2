@@ -37,6 +37,10 @@ body {
   .layout-content {
     margin: 16px;
     box-sizing: border-box;
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 

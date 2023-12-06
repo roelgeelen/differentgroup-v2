@@ -1,0 +1,232 @@
+// Variabelen
+$primary-color: #3498db;
+$form-padding: 20px;
+
+.controls-nav {
+  padding: 10px;
+  width: 200px;
+  min-height: calc(100vh - 116px)
+}
+
+.control-options {
+  background-color: white;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+}
+
+.form-builder {
+  border-radius: 10px;
+  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+  margin: 10px;
+  background-color: #E8F2F4;
+  padding: 0 20px 20px 20px;
+
+  .page {
+    background-color: #fff;
+    box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+    min-height: calc(100vh - 270px);
+    width: 900px;
+    margin: 0 auto 50px auto;
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid black;
+      background-color: white;
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 150px;
+        }
+      }
+
+      h1 {
+        font-weight: 500;
+        margin: auto 20px;
+        text-align: center;
+        line-height: 20px;
+        padding: 9px;
+
+        span {
+          font-size: 12px;
+          top: 0;
+          position: relative;
+          font-weight: 400;
+        }
+      }
+
+      .spacer {
+        width: 150px;
+      }
+    }
+  }
+
+  .builder-list {
+    margin: 0 auto;
+    max-width: 100%;
+    min-width: 500px;
+    min-height: 60px;
+
+    .field-remove {
+      z-index: 1;
+      position: absolute;
+      background-color: #cc0000;
+      transform: translateY(-50%);
+      width: 30px;
+      height: 30px;
+    }
+
+    .empty-form-builder {
+      padding: 20px;
+      text-align: center;
+      background-color: #f1f1f1;
+      border: 2px dashed black;
+      border-radius: 5px;
+    }
+  }
+
+  .add-icon {
+    margin-top: 10px;
+    text-align: center;
+
+    button {
+      background-color: #eaedf5;
+      color: #334d9c;
+    }
+  }
+}
+
+.available-field-box {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 8px -6px #000;
+
+  &:hover {
+    box-shadow: 0 0 8px -2px #000;
+  }
+
+  .available-field-box-placeholder {
+    background-color: gray;
+  }
+}
+
+.dropzone {
+  height: 100px;
+  width: 200px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+
+  .title {
+    display: flex;
+    margin-top: 7px;
+
+    mat-icon {
+      margin: 5px;
+    }
+  }
+}
+
+// Stijlen voor de knoppen en schakelaars
+.buttons {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+
+  button,
+  mat-slide-toggle {
+    margin: 10px;
+
+    mat-icon {
+      margin: 0;
+    }
+  }
+}
+
+// Stijlen voor de pagina met het formulier
+.page {
+  background-color: #fff;
+  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+  min-height: calc(100vh - 230px);
+  max-width: 900px;
+  min-width: 300px;
+  margin: 0 auto 20px auto;
+
+  // Stijlen voor de header van het formulier
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid black;
+    background-color: white;
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 150px;
+      }
+    }
+
+    h1 {
+      font-weight: 500;
+      margin: auto 20px;
+      text-align: center;
+      line-height: 20px;
+      padding: 9px;
+
+      span {
+        font-size: 12px;
+        top: 0;
+        position: relative;
+        font-weight: 400;
+      }
+    }
+
+    .settings-btn {
+      width: 150px;
+      text-align: right;
+
+      button {
+        height: 100%;
+
+        mat-icon {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  // Stijlen voor het lichaam van het formulier
+  .form-body {
+    padding: $form-padding;
+  }
+
+  // Stijlen voor de voettekst van het formulier
+  .form-footer {
+    padding: $form-padding;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      // Specifieke stijlen voor knoppen in de voettekst
+    }
+  }
+}
