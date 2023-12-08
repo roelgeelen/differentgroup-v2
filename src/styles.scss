@@ -16,15 +16,17 @@ $my-theme: mat.define-light-theme((
 
 // Emit theme-dependent styles for common features used across multiple components.
 @include mat.all-component-themes($my-theme);
-body, html{
+body, html {
   height: 100%;
   margin: 0;
 }
+
 body {
   background-color: #fafafa;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-:host{
+
+:host {
   box-sizing: border-box;
   display: block;
   height: 100%;
@@ -37,6 +39,7 @@ body {
   .layout-content {
     margin: 16px;
     box-sizing: border-box;
+
     .page-header {
       display: flex;
       justify-content: space-between;
@@ -44,9 +47,16 @@ body {
   }
 }
 
+button {
+  mat-icon {
+    margin: 0 !important;
+  }
+}
+
 mat-spinner {
   margin: 10px auto;
 }
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -54,16 +64,18 @@ mat-spinner {
 .full-height {
   min-height: calc(100vh - 116px) !important;
 }
+
 .loading-overlay {
   &.fixed {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, .4);
     top: 0;
     z-index: 10;
     left: 0;
   }
+
   .loading {
     position: absolute;
     top: calc(50% - 20px);

@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {map, Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {IForm} from "../_components/dynamic-form-builder/models/form.interface";
 
 @Injectable({
@@ -10,7 +8,7 @@ import {IForm} from "../_components/dynamic-form-builder/models/form.interface";
 })
 export class ApiFormService {
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private http: HttpClient) {
   }
 
   getForms() {
@@ -20,8 +18,10 @@ export class ApiFormService {
   getForm(id: string) {
     return this.http.get<IForm>(`${environment.apiUrl}/v2/forms/${id}`);
   }
-  createForm(form: IForm) {
+  saveForm(form: IForm) {
     return this.http.post<IForm>(`${environment.apiUrl}/v2/forms`, form);
   }
-
+  deleteForm(id: string) {
+    return this.http.delete(`${environment.apiUrl}/v2/forms/${id}`);
+  }
 }

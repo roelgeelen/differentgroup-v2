@@ -33,6 +33,10 @@ import {
 } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options-dependent.interface";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {map, Observable, startWith} from "rxjs";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import Swal from "sweetalert2";
+import {ApiFormService} from "../../../../_services/api-form.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-control-options',
@@ -60,6 +64,7 @@ import {map, Observable, startWith} from "rxjs";
     MatRippleModule,
     MatTooltipModule,
     MatAutocompleteModule,
+    SweetAlert2Module
   ],
   styleUrl: './control-options.component.scss'
 })
@@ -82,10 +87,14 @@ export class ControlOptionsComponent implements OnInit {
     {value: 'url', name: 'Url'},
     {value: 'week', name: 'Week'}
   ]
-  myControl = new FormControl<IFormControl|null>(null, Validators.required);
+  myControl = new FormControl<IFormControl | null>(null, Validators.required);
   filteredOptions: Observable<IFormControl[]> | undefined;
 
-  constructor(public formService: FormService) {
+  constructor(
+    public formService: FormService,
+    private apiFormService: ApiFormService,
+    private router: Router
+  ) {
     this.editor = new Editor();
   }
 
@@ -102,11 +111,13 @@ export class ControlOptionsComponent implements OnInit {
   displayFn(control: IFormControl): string {
     return control?.options?.label ?? '';
   }
+
   private _filter(name: string): IFormControl[] {
     const filterValue = name.toLowerCase();
 
     return this.getAvailableDependentFields.filter(option => option.options!.label!.toLowerCase().includes(filterValue));
   }
+
   get control() {
     return this.formService.selectedControl$.getValue()!;
   }
@@ -132,7 +143,7 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   addDependent(dependents: IFormControlOptionsDependent[]) {
-    if (this.myControl.value!== null){
+    if (this.myControl.value !== null) {
       dependents.push({
         field: this.myControl.getRawValue()!.id, values: []
       });
@@ -180,5 +191,23 @@ export class ControlOptionsComponent implements OnInit {
 
   updateValue($event: Event) {
     this.formControl.setValue($event);
+  }
+
+  deleteForm() {
+    Swal.fire({
+      title: 'Weet je het zeker?',
+      text: 'Wil je dit formulier verwijderen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2e3785',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, verwijderen!',
+      cancelButtonText: 'Annuleren',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe()
+        this.router.navigateByUrl('/admin/forms')
+      }
+    });
   }
 }

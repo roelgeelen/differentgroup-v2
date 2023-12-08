@@ -1,29 +1,26 @@
 <div class="content">
   <div class="layout-content">
     <div class="form">
-      <mat-card class="page">
-        <mat-card-header>
-            <mat-card-title>Klant zoeken</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-        </mat-card-content>
-      </mat-card>
-      <mat-form-field class="page">
-        <span matPrefix> </span>
-        <input type="tel" matInput placeholder="Search" name="search">
-        <button matSuffix mat-button>
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-
-      <!--      <div class="page">-->
-      <!--        <div class="form-header d-flex justify-content-between">-->
-      <!--          <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>-->
-      <!--          <h1>Configuraties klant</h1>-->
-      <!--          <div class="settings-btn">-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+      <div class="page">
+        <div class="form-header d-flex justify-content-between">
+          <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+          <h1>Configuraties</h1>
+          <div class="settings-btn">
+          </div>
+        </div>
+        <div>
+          <h2>Zoeken op nummer</h2>
+          <form class="search">
+            <mat-form-field appearance="fill" class="w-75">
+              <mat-label>Deal nummer</mat-label>
+              <input matInput type="number">
+            </mat-form-field>
+            <button mat-raised-button color="primary">
+              <mat-icon>search</mat-icon>
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

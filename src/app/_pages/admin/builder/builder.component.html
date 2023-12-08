@@ -26,7 +26,7 @@
           @defer (when form.pages.length > 0) {
             <form [formGroup]="formService.formGroup$.getValue()">
               @if (form.pages.length > 1) {
-                <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
+                <mat-tab-group [(selectedIndex)]="tabIndex">
                   @for (page of form.pages;track page) {
                     <mat-tab [label]="page.tab!">
                       <div class="form-body">

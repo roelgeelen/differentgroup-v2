@@ -75,6 +75,13 @@ $form-padding: 20px;
     }
   }
 
+  ::ng-deep {
+    .mdc-tab {
+      min-width: 160px;
+    }
+  }
+
+
   // Stijlen voor het lichaam van het formulier
   .form-body {
     padding: $form-padding;
@@ -100,6 +107,7 @@ $form-padding: 20px;
   padding: 0 20px;
 
 }
+
 /* width */
 ::-webkit-scrollbar {
   width: 7px;

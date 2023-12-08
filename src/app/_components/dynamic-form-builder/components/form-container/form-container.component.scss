@@ -20,8 +20,8 @@
     box-shadow: 0 0 11px #334d9c;
   }
 
-  &,
-  .drag-preview {
+
+  &.drag-preview {
     display: flex;
     flex-wrap: wrap;
 
@@ -52,7 +52,6 @@
   border: 2px dashed #dee2e6;
   min-height: 180px;
 }
-
 .drag-preview {
   margin: 10px;
   padding: 10px;

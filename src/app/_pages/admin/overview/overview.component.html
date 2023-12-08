@@ -12,10 +12,16 @@
       @for (form of forms;track form) {
         <mat-card [routerLink]="form.id+'/builder'">
           <mat-card-header>
+            @if (form.published) {
+              <mat-icon mat-card-avatar class="published-icon">check_circle_outlined</mat-icon>
+            }
             <mat-card-title>{{ form.title }}</mat-card-title>
             <mat-card-subtitle>{{ form.kind }}</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content></mat-card-content>
+          <mat-card-content>
+            <b>Aangemaakt:</b> {{form.createdBy}} {{form.createdAt | date: 'dd-MM-yyyy HH:mm'}}<br>
+            <b>Laast gewijzigd:</b> {{form.updatedBy}} {{form.updatedAt | date: 'dd-MM-yyyy HH:mm'}}
+          </mat-card-content>
         </mat-card>
       } @empty {
         <div>

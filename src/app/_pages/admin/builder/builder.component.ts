@@ -13,9 +13,12 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {
   FormContainerComponent
-} from "../../../_components/dynamic-form-builder/form-container/form-container.component";
+} from "../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
-import {ApiFormService} from "../../../_services/form.service";
+import {ApiFormService} from "../../../_services/api-form.service";
+import {SharedFormBuilderModule} from "../../../_components/dynamic-form-builder/components/shared-form-builder.module";
+import {User} from "../../../_auth/models/User";
+import {AuthenticationService} from "../../../_auth/authentication.service";
 
 @Component({
   selector: 'app-form',
@@ -27,7 +30,7 @@ import {ApiFormService} from "../../../_services/form.service";
     MatSlideToggleModule,
     AsyncPipe,
     MatTabsModule,
-    FormContainerComponent,
+    SharedFormBuilderModule,
     MatProgressSpinnerModule,
     FormsModule,
     MatIconModule,
@@ -40,14 +43,19 @@ import {ApiFormService} from "../../../_services/form.service";
 export class BuilderComponent implements OnInit {
   tabIndex = 0;
   showInvisible = true;
+  currentUser: User | undefined;
 
   constructor(
+    private authService: AuthenticationService,
     public formService: FormService,
     private route: ActivatedRoute,
     private apiFormService: ApiFormService,
     private location: Location,
   ) {
     this.formService.setForm(null);
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user!;
+    });
   }
 
   async ngOnInit() {
@@ -57,6 +65,7 @@ export class BuilderComponent implements OnInit {
       } else {
         this.formService.setForm({
           title: 'Nieuw formulier',
+          published: false,
           pages: [{
             controls: []
           }],
@@ -87,7 +96,12 @@ export class BuilderComponent implements OnInit {
   }
 
   saveForm() {
-    this.apiFormService.createForm(this.formService.form$.getValue()).subscribe(f => this.location.replaceState(`/admin/forms/${f.id}/builder`));
+    const form = this.formService.form$.getValue();
+    form.updatedBy = this.currentUser?.name;
+    this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
+      this.formService.setForm(f);
+      this.location.replaceState(`/admin/forms/${f.id}/builder`);
+    } );
   }
 
   unSelect() {

@@ -1,19 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {Columns} from "../form-controls/columns/columns.class";
-import {MatIconModule} from "@angular/material/icon";
-import {FormContainerComponent} from "../form-container/form-container.component";
-import {MatButtonModule} from "@angular/material/button";
-import {max, min} from "rxjs";
+import {Component, Input} from '@angular/core';
+import {Columns} from "../../form-controls/columns/columns.class";
+
 
 @Component({
   selector: 'app-form-columns',
   templateUrl: './form-columns.component.html',
-  standalone: true,
-  imports: [
-    MatIconModule,
-    MatButtonModule,
-    FormContainerComponent
-  ],
   styleUrls: ['./form-columns.component.scss']
 })
 export class FormColumnsComponent {

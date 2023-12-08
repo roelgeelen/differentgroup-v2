@@ -3,45 +3,24 @@ import {
   CdkDropList,
   CdkDrag,
   CdkDragRelease,
-  CdkDragMove, CdkDragHandle, CdkDragPreview, CdkDragPlaceholder,
+  CdkDragMove
 } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   Component,
   Input,
-  OnInit,
   ViewChild,
 } from '@angular/core';
-import {IFormPage} from '../models/form-container.interface';
-import {DragDropService} from '../services/drag-drop.service';
-import {FormService} from '../services/form.service';
-import {IFormControl} from "../form-controls/form-control.interface";
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {FormControlsModule} from "../form-controls/form-controls.module";
-import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {FormColumnsComponent} from "../form-columns/form-columns.component";
+import {IFormPage} from '../../models/form-container.interface';
+import {DragDropService} from '../../services/drag-drop.service';
+import {FormService} from '../../services/form.service';
+import {IFormControl} from "../../form-controls/form-control.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
-  styleUrls: ['./form-container.component.scss'],
-  imports: [
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
-    MatButtonModule,
-    MatIconModule,
-    CdkDragPreview,
-    CdkDragPlaceholder,
-    FormControlsModule,
-    AsyncPipe,
-    MatFormFieldModule,
-    NgTemplateOutlet,
-    FormColumnsComponent,
-  ],
-  standalone: true
+  styleUrls: ['./form-container.component.scss']
 })
 export class FormContainerComponent implements AfterViewInit {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
@@ -100,8 +79,22 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public removeControl(controls: IFormControl[], index: number) {
-    controls.splice(index, 1);
-    this.formService.updateFormGroup();
+    Swal.fire({
+      title: 'Weet je het zeker?',
+      text: 'Wil je deze vraag verwijderen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2e3785',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, verwijderen!',
+      cancelButtonText: 'Annuleren',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        controls.splice(index, 1);
+        this.formService.updateFormGroup();
+      }
+    });
+
   }
 
   private isDependent(item: IFormControl) {

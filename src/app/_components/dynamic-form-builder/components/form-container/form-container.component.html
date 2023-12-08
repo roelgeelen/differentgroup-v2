@@ -49,7 +49,7 @@
             </p>
             {{ item.title }}
           </div>
-          <ng-container [ngTemplateOutlet]="controlSwitch" [ngTemplateOutletContext]="{item:item}"></ng-container>
+          <ng-container *ngTemplateOutlet="controlSwitch; context: {item:item}"></ng-container>
         </div>
       }
     }

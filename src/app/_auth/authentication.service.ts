@@ -34,6 +34,7 @@ export class AuthenticationService {
 
   convertTokenToUser(): User | null {
     const token = this.oauthService.getAccessToken();
+    console.log(token)
     if (token) {
       try {
         const decodedToken = jwtDecode<Token>(token);

@@ -6,13 +6,14 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 import {
   FormContainerComponent
-} from "../../../_components/dynamic-form-builder/form-container/form-container.component";
+} from "../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {FlexModule} from "@angular/flex-layout";
 import {ActivatedRoute} from "@angular/router";
-import {ApiFormService} from "../../../_services/form.service";
+import {ApiFormService} from "../../../_services/api-form.service";
+import {SharedFormBuilderModule} from "../../../_components/dynamic-form-builder/components/shared-form-builder.module";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -23,7 +24,7 @@ import {ApiFormService} from "../../../_services/form.service";
         AsyncPipe,
         MatButtonModule,
         MatTabsModule,
-        FormContainerComponent,
+        SharedFormBuilderModule,
         MatProgressSpinnerModule,
         MatIconModule,
         FlexModule

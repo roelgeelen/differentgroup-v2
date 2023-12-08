@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
-import {ApiFormService} from "../../../_services/form.service";
+import {ApiFormService} from "../../../_services/api-form.service";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +17,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    DatePipe
   ],
   styleUrl: './overview.component.scss'
 })
