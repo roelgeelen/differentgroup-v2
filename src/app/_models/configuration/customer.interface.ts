@@ -1,5 +1,6 @@
 export interface ICustomer
 {
-  id?: number;
+  id: string;
+  dealId?: string;
   name: string;
 }

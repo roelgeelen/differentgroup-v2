@@ -9,6 +9,11 @@ export class Divider implements IFormControl<IFormControlOptions, null> {
   readonly title: string = 'Divider';
 
   constructor(public options?: IFormControlOptions) {
-
+    this.options = {
+      visibility: options?.visibility ?? {
+        showInForm: options?.visibility?.showInForm ?? true,
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      },
+    }
   }
 }

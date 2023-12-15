@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -11,9 +11,6 @@ import {NewControlsComponent} from "./new-controls/new-controls.component";
 import {ControlOptionsComponent} from "./control-options/control-options.component";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
-import {
-  FormContainerComponent
-} from "../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
 import {ApiFormService} from "../../../_services/api-form.service";
 import {SharedFormBuilderModule} from "../../../_components/dynamic-form-builder/components/shared-form-builder.module";
@@ -36,7 +33,8 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
     MatIconModule,
     FlexModule,
     NewControlsComponent,
-    ControlOptionsComponent
+    ControlOptionsComponent,
+    NgIf
   ],
   standalone: true
 })
@@ -44,6 +42,7 @@ export class BuilderComponent implements OnInit {
   tabIndex = 0;
   showInvisible = true;
   currentUser: User | undefined;
+  loading = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -53,12 +52,13 @@ export class BuilderComponent implements OnInit {
     private location: Location,
   ) {
     this.formService.setForm(null);
+    this.formService.loadingForm$.subscribe(l => this.loading = l)
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
     });
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => this.formService.setForm(f));
@@ -96,10 +96,12 @@ export class BuilderComponent implements OnInit {
   }
 
   saveForm() {
+    this.formService.setLoadingStatus(true);
     const form = this.formService.form$.getValue();
     form.updatedBy = this.currentUser?.name;
     this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
       this.formService.setForm(f);
+      this.formService.setLoadingStatus(false);
       this.location.replaceState(`/admin/forms/${f.id}/builder`);
     } );
   }

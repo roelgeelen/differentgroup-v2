@@ -17,6 +17,11 @@ export class Columns implements IFormControl {
   constructor(public options?: IFormControlOptions) {
     this.options = {
       label: options?.label ?? 'Label',
+      help: options?.help ?? '',
+      note: options?.note ?? '',
+      visibility: {
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      },
       dependent: options?.dependent ?? []
     }
   }

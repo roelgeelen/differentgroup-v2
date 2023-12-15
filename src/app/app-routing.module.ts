@@ -8,7 +8,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'configurations',
+    path: 'customers',
     loadChildren: () => import('./_pages/configurations/routes').then(mod => mod.CONFIGURATIONS_ROUTES)
   },
   {

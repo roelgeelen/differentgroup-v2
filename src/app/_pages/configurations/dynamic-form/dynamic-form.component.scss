@@ -48,18 +48,20 @@ $form-padding: 20px;
         }
       }
 
-      h1 {
-        font-weight: 500;
-        margin: auto 20px;
+      .title {
+        width: 100%;
         text-align: center;
-        line-height: 20px;
-        padding: 9px;
 
-        span {
-          font-size: 12px;
-          top: 0;
-          position: relative;
-          font-weight: 400;
+        mat-form-field {
+          width: 100%;
+          padding: 0 20px;
+          margin: 10px 0 -10px 0;
+          font-weight: bold;
+        }
+
+        h1 {
+          font-weight: 500;
+          margin: auto 20px;
         }
       }
 

@@ -29,7 +29,7 @@ export class OverviewComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.apiFormService.getForms().subscribe(r => this.forms = r)
+    this.apiFormService.getForms(false).subscribe(r => this.forms = r)
   }
 
 }

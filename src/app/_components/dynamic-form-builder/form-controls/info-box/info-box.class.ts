@@ -12,6 +12,10 @@ export class InfoBox implements IFormControl<IFormControlOptions, null> {
     this.options = {
       title: options?.title ?? 'Titel',
       subtitle: options?.subtitle ?? '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ut metus ut libero finibus tristique. Donec dictum efficitur blandit. Aliquam laoreet risus mi, et lobortis augue vestibulum a. Praesent posuere interdum tortor eget hendrerit</p>',
+      visibility: options?.visibility ?? {
+        showInForm: options?.visibility?.showInForm ?? true,
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      },
       dependent: options?.dependent ?? []
     }
   }

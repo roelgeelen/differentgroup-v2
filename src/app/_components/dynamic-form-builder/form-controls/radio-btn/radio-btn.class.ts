@@ -12,12 +12,18 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
     this.value = value ?? '';
     this.options = {
       label: options?.label ?? 'Label',
+      help: options?.help ?? '',
+      image: options?.image ?? null,
+      note: options?.note ?? '',
       choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}
       ],
       validators: options?.validators ?? {
         required: false
+      },
+      visibility: options?.visibility ?? {
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
       },
       dependent: options?.dependent ?? []
     }

@@ -12,6 +12,8 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
     this.value = value ?? '';
     this.options = {
       label: options?.label ?? 'Label',
+      help: options?.help ?? '',
+      note: options?.note ?? '',
       title: options?.title ?? 'Titel',
       choices: options?.choices ?? [
         {value: 'Optie 1'},
@@ -19,6 +21,9 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
       ],
       validators: options?.validators ?? {
         required: false
+      },
+      visibility: options?.visibility ?? {
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
       },
       dependent: options?.dependent ?? []
     }

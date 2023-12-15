@@ -17,6 +17,12 @@ import {NgxEditorModule} from "ngx-editor";
 import {DividerComponent} from "./divider/divider.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared.module";
+import {ImageUploadComponent} from "./image-upload/image-upload.component";
+import {DndDirective} from "../../../_helpers/directives/dnd.directive";
+import {ImageFormControlComponent} from "./image-upload/image-form-control.component";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -27,7 +33,8 @@ import {SharedModule} from "../../../shared.module";
     InfoBoxComponent,
     RadioBtnComponent,
     TextAreaComponent,
-    DividerComponent
+    DividerComponent,
+    ImageUploadComponent
   ],
   imports: [
     SharedModule,
@@ -40,7 +47,12 @@ import {SharedModule} from "../../../shared.module";
     MatRadioModule,
     NgxEditorModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DndDirective,
+    ImageFormControlComponent,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule
   ],
   exports: [
     TextBoxComponent,
@@ -49,7 +61,8 @@ import {SharedModule} from "../../../shared.module";
     InfoBoxComponent,
     RadioBtnComponent,
     TextAreaComponent,
-    DividerComponent
+    DividerComponent,
+    ImageUploadComponent
   ],
 })
 export class FormControlsModule {

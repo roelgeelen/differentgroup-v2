@@ -10,7 +10,7 @@
     [cdkDropListEnterPredicate]="allowDropPredicate"
   >
     @for (item of container!.controls;track item) {
-      @if (isShow(item) || showInvisible) {
+      @if (utilityService.isShow(item) || showInvisible) {
         <div
           class="control-container"
           [class.selected]="item.id == selectedControl?.id"
@@ -20,7 +20,7 @@
           (cdkDragReleased)="dragReleased($event)"
           (click)="selectControl(item);$event.stopPropagation()"
         >
-          @if (item.id == selectedControl?.id) {
+          @if (item.id === selectedControl?.id) {
             <button mat-mini-fab class="field-remove" (click)="removeControl(container!.controls, $index)">
               <mat-icon>close</mat-icon>
             </button>
@@ -28,14 +28,38 @@
           @if (item.id !== selectedControl?.id) {
             <div cdkDragHandle></div>
           }
-          @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
-            <mat-label class="label"><span>{{ item.options!.label }} @if (item.options.validators?.required) {
-              *
-            }</span>@if (!isShow(item) && showInvisible) {
-              <mat-icon>visibility_off</mat-icon>
-            } @else if (item.options.dependent!.length > 0) {
-              <mat-icon>visibility_on</mat-icon>
-            }</mat-label>
+          @if (item.options && item.options.label && item.options.label !== '') {
+            <mat-label class="label">
+              <span>
+                {{ item.options!.label }}
+                @if (item.options?.note) {
+                  <span class="note">({{ item.options.note }})</span>
+                }
+                @if (item.options.validators?.required) {
+                  *
+                }
+              </span>
+              <div>
+                @if (item.options?.help && item.options.help !== '') {
+                  <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">
+                    info_outlined
+                  </mat-icon>
+                }
+                @if (!utilityService.isShow(item) && showInvisible) {
+                  <mat-icon>visibility_off</mat-icon>
+                } @else if (item.options.dependent!.length > 0) {
+                  <mat-icon>visibility_on</mat-icon>
+                }
+              </div>
+            </mat-label>
+          }
+          @if (item.options?.image) {
+            @if (item.options?.image?.url) {
+              <img [src]="item.options?.image?.url+'?name='+item.options?.image?.name" class="control-image"
+                   alt="Afbeelding">
+            } @else {
+              <mat-spinner [diameter]="50"></mat-spinner>
+            }
           }
           <div class="drag-placeholder" *cdkDragPlaceholder>
             <p>
@@ -56,15 +80,30 @@
   </div>
 } @else {
   @for (item of container!.controls;track item) {
-    @if (isShow(item)) {
+    @if (utilityService.isShow(item)) {
       <div
         class="control-container"
         [class.selected]="item.id == selectedControl?.id"
       >
-        @if (item.options !== undefined && item.options.label !== undefined && item.options.label !== '') {
-          <mat-label class="label"><span>{{ item.options!.label }} @if (item.options.validators?.required) {
-            *
-          }</span></mat-label>
+        @if (item.options && item.options.label && item.options.label !== '') {
+          <mat-label class="label">
+            <span>{{ item.options!.label }}
+              @if (item.options?.note) {
+                <span class="note">({{ item.options.note }})</span>
+              }
+              @if (item.options.validators?.required) {
+                *
+              }
+            </span>
+            @if (item.options?.help && item.options.help !== '') {
+              <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">info_outlined
+              </mat-icon>
+            }
+          </mat-label>
+        }
+        @if (item.options?.image) {
+          <img [src]="item.options?.image?.url+'?name='+item.options?.image?.name" class="control-image"
+               alt="Afbeelding">
         }
         <ng-container *ngTemplateOutlet="controlSwitch; context: {item:item}"></ng-container>
       </div>
@@ -100,9 +139,14 @@
         <app-radio-btn class="margin-top" [control]="item" [form]="formGroup"
                        [selected]="item.id == selectedControl?.id"></app-radio-btn>
       }
+      @case ('ImageUpload') {
+        <app-image-upload class="margin-top" [control]="item" [form]="formGroup"
+                       [selected]="item.id == selectedControl?.id"></app-image-upload>
+      }
       @case ('Columns') {
         <app-form-columns
-          [control]="item" [selected]="item.id == selectedControl?.id" [showInvisible]="showInvisible" [isBuilder]="isBuilder"
+          [control]="item" [selected]="item.id == selectedControl?.id" [showInvisible]="showInvisible"
+          [isBuilder]="isBuilder"
         ></app-form-columns>
       }
     }

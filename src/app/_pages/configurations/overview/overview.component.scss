@@ -1,10 +1,13 @@
+.bg-white {
+  background-color: white !important;
+}
 
 .form {
   background-color: #E8F2F4;
   padding: 20px;
 
   .page {
-    background-color: #fff;
+    background-color: #fafafa;
     box-shadow: 0 0 11px rgb(0 0 0 / 12%);
     min-height: calc(100vh - 230px);
     max-width: 900px;
@@ -57,10 +60,55 @@
         }
       }
     }
-    .search {
-      button {
-        height: 50px
+
+    .form-content {
+      h2 {
+        padding: 1rem;
+        margin: 0;
+      }
+
+      hr {
+        margin: 0;
+      }
+
+      mat-card {
+        background-color: white;
+        margin: 10px;
+        mat-card-header {
+          padding: 10px !important;
+          &.clickable{
+            &:hover{
+              cursor: pointer;
+              background-color: #eaedf5;
+            }
+          }
+        }
+        mat-card-actions{
+          button {
+            margin-right: 10px;
+          }
+        }
+      }
+      .search {
+        display: flex;
+        justify-content: center;
+        padding-top: 25px;
+        padding-bottom: 35px;
+
+        button {
+          height: 55px
+        }
+      }
+      .empty {
+        text-align: center;
+        font-size: 16px;
+        padding: 10px;
       }
     }
+
+
   }
+}
+.menu-label {
+  padding-left: 15px;
 }

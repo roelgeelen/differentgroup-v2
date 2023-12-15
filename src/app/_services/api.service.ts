@@ -16,4 +16,8 @@ export class ApiService {
     return this.http.get(`${environment.apiUrl}/profile/avatar`, {observe: 'response', responseType: 'blob'});
   }
 
+  getTest(): Observable<any> {
+    return this.http.get(`http://localhost:8080/test`);
+  }
+
 }

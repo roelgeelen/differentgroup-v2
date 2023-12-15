@@ -1,0 +1,98 @@
+.form {
+  background-color: #E8F2F4;
+  padding: 20px;
+
+  .page {
+    background-color: white;
+    box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+    min-height: calc(100vh - 230px);
+    max-width: 900px;
+    min-width: 300px;
+    margin: 0 auto 20px auto;
+    padding: 0 20px 20px 20px;
+
+    // Stijlen voor de header van het formulier
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 10px 0 10px;
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 170px;
+        }
+      }
+      .title{
+        text-align: center;
+      }
+
+      h1 {
+        font-weight: 500;
+        margin: auto 20px;
+        text-align: center;
+        line-height: 25px;
+        padding: 9px;
+        font-size: 30px;
+
+        span {
+          font-size: 12px;
+          top: 0;
+          position: relative;
+          font-weight: 400;
+        }
+      }
+
+      .settings-btn {
+        width: 150px;
+        text-align: right;
+      }
+    }
+    .form-content {
+      padding-top: 10px;
+      .form-section{
+        border-top: 1px solid black;
+        width: 100%;
+        margin-top: 10px;
+        h2 {
+          margin-top:5px;
+          margin-bottom: 10px;
+          &.break{
+            border-top: 1px solid darkgray;
+          }
+        }
+        img {
+          width: 100%;
+        }
+        table {
+          border-spacing: 0;
+          width: 100%;
+          table-layout: fixed;
+          &:nth-child(even){
+            background-color: #f1f1f1;
+          }
+          th {
+            width: 170px;
+            text-align: start;
+            vertical-align: baseline;
+            span{
+              display: block;
+              font-size: 10px;
+              font-weight: 100;
+            }
+          }
+          td {
+            vertical-align: baseline;
+            padding: 5px 10px;
+            span {
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}

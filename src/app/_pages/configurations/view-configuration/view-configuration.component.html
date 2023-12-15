@@ -1,0 +1,68 @@
+<div class="form">
+  <div class="page">
+    <div class="form-header d-flex justify-content-between">
+      <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+      <div class="title">
+        <h1>{{ configuration?.title }}</h1>
+        <small>{{ configuration?.customer?.name }}</small>
+      </div>
+
+      <div class="settings-btn">
+      </div>
+    </div>
+    <div class="form-content">
+      @defer (when configuration) {
+        @for (page of configuration?.values;track page) {
+          @if (page.values.length > 0) {
+            <div class="form-section">
+              <h2>{{ page.page }}</h2>
+              @for (value of page.values;track value) {
+
+                @switch (value.type) {
+                  @case ('TextArea') {
+                    <h2>{{ value.title }}</h2>
+                    <div [innerHTML]="value.value | safeHtml"></div>
+                  }
+                  @case ('InfoBox') {
+                    <h2>{{ value.title }}</h2>
+                    <div [innerHTML]="value.subtitle | safeHtml"></div>
+                  }
+                  @case ('Divider') {
+                    <hr>
+                  }
+                  @case ('ImageUpload') {
+                    <h2 class="break">{{value.title}}</h2>
+                    <img [src]="value.value.url+'?name='+value.value.name">
+                  }
+                  @default {
+                    <table>
+                      <tr>
+                        <th>{{ value.title }}<br>@if (value.subtitle) {
+                          <span>({{ value.subtitle }})</span>
+                        }</th>
+                        @if (value.columns) {
+                          @for (index of [0, 1, 2];track index) {
+                            <td>
+                              @if (value.columns[index]?.title) {
+                                <span>{{ value.columns[index]?.title }}</span><br>
+                              }
+                              {{ value.columns[index]?.value }}
+                            </td>
+                          }
+                        } @else if (!value.columns) {
+                          <td colspan="3">{{ value.value }}</td>
+                        }
+                      </tr>
+                    </table>
+                  }
+                }
+              }
+            </div>
+          }
+        }
+      } @placeholder {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+  </div>
+</div>

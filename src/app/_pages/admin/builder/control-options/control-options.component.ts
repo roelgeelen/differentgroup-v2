@@ -13,7 +13,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, Location, NgOptimizedImage} from "@angular/common";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -24,19 +24,23 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {SharedModule} from "../../../../shared.module";
 import {IFormControl} from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
-import {
-  IFormControlOptionsChoices
-} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options-choices.interface";
 import {IFormPage} from "../../../../_components/dynamic-form-builder/models/form-container.interface";
-import {
-  IFormControlOptionsDependent
-} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options-dependent.interface";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {map, Observable, startWith} from "rxjs";
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import Swal from "sweetalert2";
 import {ApiFormService} from "../../../../_services/api-form.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {
+  IFormAttachment,
+  IFormControlOptionsChoices, IFormControlOptionsDependent
+} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import {DndDirective} from "../../../../_helpers/directives/dnd.directive";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {User} from "../../../../_auth/models/User";
+import {AuthenticationService} from "../../../../_auth/authentication.service";
 
 @Component({
   selector: 'app-control-options',
@@ -64,7 +68,11 @@ import {Router} from "@angular/router";
     MatRippleModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    DndDirective,
+    NgOptimizedImage,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   styleUrl: './control-options.component.scss'
 })
@@ -87,19 +95,25 @@ export class ControlOptionsComponent implements OnInit {
     {value: 'url', name: 'Url'},
     {value: 'week', name: 'Week'}
   ]
-  myControl = new FormControl<IFormControl | null>(null, Validators.required);
+  dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
   filteredOptions: Observable<IFormControl[]> | undefined;
+  progress: number = 0;
+  currentUser: User | undefined;
 
   constructor(
+    private authService: AuthenticationService,
     public formService: FormService,
     private apiFormService: ApiFormService,
-    private router: Router
+    private router: Router,
   ) {
     this.editor = new Editor();
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user!;
+    });
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptions = this.dependentControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const name = typeof value === 'string' ? value : value?.options?.label;
@@ -143,11 +157,11 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   addDependent(dependents: IFormControlOptionsDependent[]) {
-    if (this.myControl.value !== null) {
+    if (this.dependentControl.value !== null) {
       dependents.push({
-        field: this.myControl.getRawValue()!.id, values: []
+        field: this.dependentControl.getRawValue()!.id, values: []
       });
-      this.myControl.reset();
+      this.dependentControl.reset();
     }
   }
 
@@ -209,5 +223,52 @@ export class ControlOptionsComponent implements OnInit {
         this.router.navigateByUrl('/admin/forms')
       }
     });
+  }
+
+  prepareFilesList(control:IFormControl, files: FileList) {
+    const file = files.item(0);
+    if (file !== null && file.size < 5000000) {
+      this.apiFormService.upload(this.formService.form$.getValue().id!.toString(), control.id, file).subscribe({
+        next: (data: any) => {
+          if (data.type === HttpEventType.UploadProgress) {
+            control.options!.image = {id:''};
+            this.progress = Math.round((100 * data.loaded) / data.total);
+          } else if (data instanceof HttpResponse) {
+            control.options!.image = data.body;
+            this.saveForm();
+            this.progress = 0;
+          }
+        },
+        error: (e) => {
+          console.log(e);
+        }
+      });
+    }
+  }
+
+
+  onFileDropped(control:IFormControl, event: any) {
+    this.prepareFilesList(control, event);
+  }
+
+  fileBrowseHandler(control:IFormControl, event: any) {
+    this.prepareFilesList(control, event.target.files);
+  }
+
+  removeImage(control:IFormControl, image: IFormAttachment) {
+    this.apiFormService.removeFormAttachment(this.formService.form$.getValue().id!.toString(), image.id).subscribe(r => {
+        this.control.options!.image = null;
+        this.saveForm();
+      }
+    )
+  }
+
+  saveForm() {
+    this.formService.setLoadingStatus(true);
+    const form = this.formService.form$.getValue();
+    form.updatedBy = this.currentUser?.name;
+    this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
+      this.formService.setLoadingStatus(false);
+    } );
   }
 }

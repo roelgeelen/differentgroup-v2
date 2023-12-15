@@ -8,6 +8,7 @@ import {InfoBox} from "./info-box/info-box.class";
 import {RadioBtn} from "./radio-btn/radio-btn.class";
 import {TextArea} from "./text-area/text-area.class";
 import {Divider} from "./divider/divider.class";
+import {ImageUpload} from "./image-upload/image-upload.class";
 
 @Injectable({providedIn: 'root'})
 export class FormControlsService {
@@ -19,6 +20,7 @@ export class FormControlsService {
     CheckBox,
     RadioBtn,
     Dropdown,
+    ImageUpload,
     Columns,
   };
 

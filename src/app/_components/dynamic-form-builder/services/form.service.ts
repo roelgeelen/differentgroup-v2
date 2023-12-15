@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {Form, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
@@ -19,6 +19,7 @@ export class FormService {
   });
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
   editForm$ = new BehaviorSubject<boolean>(false);
+  loadingForm$ = new BehaviorSubject<boolean>(false);
 
   constructor(private dragDropService: DragDropService) {
     this.dragDropService.controlDropped.subscribe((control) => {
@@ -31,6 +32,10 @@ export class FormService {
     this.onControlSelected(control);
   }
 
+  setLoadingStatus(status: boolean) {
+    this.loadingForm$.next(status);
+  }
+
   public onControlSelected(control: IFormControl | null) {
     if (control !== null) {
       this.editForm$.next(false);
@@ -38,7 +43,7 @@ export class FormService {
     this.selectedControl$.next(control);
   }
 
-  public setForm(form: IForm | null) {
+  public setForm(form: IForm | null, values?: any) {
     this.selectedControl$.next(null);
     this.editForm$.next(false);
     this.form$.next(form!==null ? form : {
@@ -46,7 +51,7 @@ export class FormService {
       pages: [],
       options: {}
     });
-    this.updateFormGroup();
+    this.updateFormGroup(values);
   }
 
   public toggleFormSettings() {
@@ -92,11 +97,11 @@ export class FormService {
     return null;
   }
 
-  public updateFormGroup() {
-    this.formGroup$.next(this.createFormGroup());
+  public updateFormGroup(values?: any) {
+    this.formGroup$.next(this.createFormGroup(values));
   }
 
-  private createFormGroup(): FormGroup {
+  private createFormGroup(values?: any): FormGroup {
     const group: { [key: string]: FormControl } = {};
     if (this.form$ != null) {
       const formValue = this.form$.value;
@@ -104,12 +109,12 @@ export class FormService {
         formValue.pages.forEach((page) => {
           page.controls.forEach((control) => {
             if (control.value !== undefined) {
-              group[control.id] = this.createFormControl(control);
+              group[control.id] = this.createFormControl(control, values);
             }
             if (control.type === 'Columns' && Array.isArray(control.columns)) {
               control.columns.forEach((col: IColumn) => {
                 col.container.controls.forEach((c) => {
-                  group[c.id] = this.createFormControl(c);
+                  group[c.id] = this.createFormControl(c, values);
                 });
               });
             }
@@ -121,7 +126,7 @@ export class FormService {
     return new FormGroup(group);
   }
 
-  private createFormControl(control: IFormControl): FormControl {
+  private createFormControl(control: IFormControl, values?: any): FormControl {
     const validators: ValidatorFn[] = [];
 
     const optionsValidators = control.options?.validators;
@@ -140,7 +145,7 @@ export class FormService {
         validators.push(Validators.max(max));
       }
     }
-
-    return new FormControl(control.value || '', validators);
+    const value = values?.[control.id] ?? control.value ?? '';
+    return new FormControl(value, validators);
   }
 }

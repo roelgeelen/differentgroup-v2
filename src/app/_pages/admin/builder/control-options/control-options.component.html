@@ -18,6 +18,35 @@
                   <input matInput [(ngModel)]="control.options!.label" [ngModelOptions]="{standalone:true}">
                 </mat-form-field>
               }
+              @if (control.options.note !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Extra informatie</mat-label>
+                  <input matInput [(ngModel)]="control.options!.note" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              }
+              @if (control.options.image !== undefined) {
+                <div class="label">Afbeelding</div>
+                <div class="tab-content">
+                  <div class="dropzone" appDnd (fileDropped)="onFileDropped(control, $event)">
+                    @if (control.options.image !== null) {
+                      @if (progress === 0) {
+                        <button mat-mini-fab class="remove-image" (click)="removeImage(control, control.options.image!)">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                        <img [src]="control.options.image?.url+'?name='+control.options.image?.name" alt="image">
+                      } @else {
+                        <mat-spinner [diameter]="50"></mat-spinner>
+                      }
+                    } @else {
+                      <input type="file" id="fileDropRef" accept="image/*" (change)="fileBrowseHandler(control, $event)"/>
+                      <label for="fileDropRef">Foto kiezen</label>
+                    }
+                  </div>
+                  @if (progress !== 0) {
+                    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+                  }
+                </div>
+              }
               @if (control.options.title !== undefined) {
                 <mat-form-field appearance="outline">
                   <mat-label>Titel</mat-label>
@@ -52,20 +81,22 @@
                 </mat-form-field>
               }
               @if (control.options.choices !== undefined) {
-                <span>Opties</span>
-                <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
-                  @for (option of control.options.choices!;track option) {
-                    <div class="option-box" cdkDrag>
-                      <div class="option-box-placeholder" *cdkDragPlaceholder></div>
-                      <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
-                      <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
-                      <mat-icon class="close-icon" (click)="removeFromList(control.options.choices!, $index)">close
-                      </mat-icon>
-                    </div>
-                  }
+                <div class="label">Opties</div>
+                <div class="tab-content">
+                  <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
+                    @for (option of control.options.choices!;track option) {
+                      <div class="option-box" cdkDrag>
+                        <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+                        <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                        <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
+                        <mat-icon class="close-icon" (click)="removeFromList(control.options.choices!, $index)">close
+                        </mat-icon>
+                      </div>
+                    }
+                  </div>
+                  <button mat-button color="primary" (click)="addChoice(control.options.choices!)">+ optie toevoegen
+                  </button>
                 </div>
-                <button mat-button color="primary" (click)="addChoice(control.options.choices!)">+ optie toevoegen
-                </button>
               }
               @if (control.value !== undefined) {
                 <div class="label">Waarde</div>
@@ -112,6 +143,12 @@
           </mat-tab>
           <mat-tab label="Geavanceerd">
             <div class="tab-content">
+              @if (control.options.help !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Help</mat-label>
+                  <input matInput [(ngModel)]="control.options!.help" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+              }
               @if (control.options.validators !== undefined) {
                 <div class="label">Regels</div>
                 <div class="tab-content">
@@ -132,7 +169,20 @@
                   }
                 </div>
               }
-              @if (control.options.dependent !== undefined) {
+              @if (control.options.visibility !== undefined) {
+                <div class="label">Zichtbaarheid</div>
+                <div class="tab-content">
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.showInConfiguration">
+                    Zichtbaar in configuratie
+                  </mat-slide-toggle>
+                  @if (control.options.visibility.showInForm !== undefined) {
+                    <mat-slide-toggle [(ngModel)]="control.options.visibility.showInForm">
+                      Zichtbaar in formulier
+                    </mat-slide-toggle>
+                  }
+                </div>
+              }
+              @if (control.options.dependent !== undefined && (control.options.visibility?.showInForm === undefined || control.options.visibility?.showInForm)) {
                 <div class="label mb">
                   <span>Afhankelijkheden</span>
                   <mat-icon matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info</mat-icon>
@@ -164,8 +214,8 @@
                 <hr>
                 <form class="add-dependent" (ngSubmit)="addDependent(control.options.dependent!)">
                   <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-                    <mat-label>Assignee</mat-label>
-                    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-label>Veld</mat-label>
+                    <input type="text" matInput [formControl]="dependentControl" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                       @for (option of filteredOptions | async;track option) {
                         <mat-option [value]="option">{{ option.options!.label }}</mat-option>

@@ -1,0 +1,46 @@
+img {
+  width: 100%;
+}
+.dropzone {
+  padding: 1rem;
+  text-align: center;
+  border: dashed 1px #979797;
+  position: relative;
+  margin: 0 auto;
+
+  input {
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  label {
+    color: white;
+    width: 160px;
+    border-radius: 21.5px;
+    background-color: #334d9c;
+    padding: 4px 8px;
+  }
+  span {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #38424c;
+    margin: 5px;
+  }
+}
+.file-over {
+  border-color: #999;
+  background-color: #e2e2e2;
+}
+.remove-image{
+  z-index: 1;
+  position: absolute;
+  background-color: #cc0000;
+  transform: translate(-13px, -13px);
+  width: 30px !important;
+  height: 30px;
+}

@@ -16,6 +16,8 @@ import {DragDropService} from '../../services/drag-drop.service';
 import {FormService} from '../../services/form.service';
 import {IFormControl} from "../../form-controls/form-control.interface";
 import Swal from "sweetalert2";
+import {UtilityService} from "../../services/utility.service";
+import {FormControlsService} from "../../form-controls/form-controls.service";
 
 @Component({
   selector: 'app-form-container',
@@ -32,8 +34,10 @@ export class FormContainerComponent implements AfterViewInit {
   selectedControl: IFormControl | null = null;
 
   constructor(
-    public dragDropService: DragDropService,
-    public formService: FormService
+    private dragDropService: DragDropService,
+    public formService: FormService,
+    public utilityService: UtilityService,
+    private formControlsService: FormControlsService,
   ) {
     this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
@@ -54,12 +58,6 @@ export class FormContainerComponent implements AfterViewInit {
     return this.dragDropService.isDropAllowed(drag, drop);
   };
 
-  public isShow(item: IFormControl) {
-    return (
-      item.options?.dependent?.length !== 0 ? this.isDependent(item) : true
-    );
-  }
-
   public dropped(event: CdkDragDrop<IFormControl[]>) {
     this.dragDropService.drop(event);
   }
@@ -75,6 +73,8 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public selectControl(item: IFormControl) {
+    // Update options
+    item.options = new this.formControlsService.controlTypes[item.type](item.options).options
     this.formService.onControlSelected(item);
   }
 
@@ -95,27 +95,5 @@ export class FormContainerComponent implements AfterViewInit {
       }
     });
 
-  }
-
-  private isDependent(item: IFormControl) {
-    let found = true;
-    item.options?.dependent?.forEach((dep, index) => {
-      if (dep.values.length !== 0) {
-        const formGroupValue = this.formService.formGroup$.getValue().controls[dep.field];
-        if (formGroupValue !== undefined) {
-          if (Array.isArray(formGroupValue.value)) {
-            found =
-              formGroupValue.value.filter((element: string) =>
-                dep.values.includes(element)
-              ).length > 0;
-          } else {
-            found = dep.values.includes(formGroupValue.value);
-          }
-        } else {
-          item.options?.dependent?.splice(index, 1);
-        }
-      }
-    });
-    return found;
   }
 }

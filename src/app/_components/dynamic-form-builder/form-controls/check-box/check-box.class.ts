@@ -13,10 +13,15 @@ export class CheckBox implements IFormControl<IFormControlOptions, string[]> {
     this.value = value ?? [];
     this.options = {
       label: options?.label ?? 'Label',
+      help: options?.help ?? '',
+      note: options?.note ?? '',
       choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}
       ],
+      visibility: {
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      },
       dependent: options?.dependent ?? []
     };
   }

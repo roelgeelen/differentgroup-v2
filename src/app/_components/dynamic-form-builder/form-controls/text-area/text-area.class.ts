@@ -1,5 +1,5 @@
-import { IFormControlOptions } from '../form-control-options.interface';
-import { IFormControl } from '../form-control.interface';
+import {IFormControlOptions} from '../form-control-options.interface';
+import {IFormControl} from '../form-control.interface';
 import {v4 as uuidV4} from "uuid";
 
 export class TextArea implements IFormControl<IFormControlOptions, string> {
@@ -11,9 +11,14 @@ export class TextArea implements IFormControl<IFormControlOptions, string> {
   constructor(public options?: IFormControlOptions, public value?: string) {
     this.value = '';
     this.options = {
-      label: 'Label',
-      placeholder: 'Type hier je tekst...',
-      dependent:[]
+      label: options?.label ?? 'Label',
+      help: options?.help ?? '',
+      note: options?.note ?? '',
+      placeholder: options?.placeholder ?? 'Type hier je tekst...',
+      visibility: options?.visibility ?? {
+        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      },
+      dependent: options?.dependent ?? []
     }
   }
 }

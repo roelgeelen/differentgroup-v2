@@ -7,6 +7,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
 import {FormControlsModule} from "../form-controls/form-controls.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import {FormControlsModule} from "../form-controls/form-controls.module";
     NgTemplateOutlet,
     AsyncPipe,
     FormControlsModule,
-    CdkDragHandle
+    CdkDragHandle,
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   exports: [FormContainerComponent, FormColumnsComponent]
 })

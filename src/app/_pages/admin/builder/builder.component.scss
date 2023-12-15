@@ -17,6 +17,11 @@ $form-padding: 20px;
       margin: 0;
     }
   }
+  ::ng-deep {
+    circle {
+      stroke: white !important;
+    }
+  }
 }
 
 // Stijlen voor de pagina met het formulier

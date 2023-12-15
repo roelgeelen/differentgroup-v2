@@ -18,8 +18,24 @@
       <div class="page">
         <div class="form-header d-flex justify-content-between">
           <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
-          <h1>{{ form.title }}</h1>
+          <div class="title">
+            @if(editTitle){
+              <mat-form-field>
+                <mat-label>Formulier naam</mat-label>
+                <input matInput [(ngModel)]="config!.title" (focusout)="editTitle = !editTitle">
+                <button matSuffix mat-icon-button aria-label="Clear" (click)="editTitle = !editTitle">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            } @else {
+              <h1 (dblclick)="editTitle = !editTitle">{{config?.title}}</h1>
+              <small>{{config?.customer?.name}}</small>
+            }
+          </div>
           <div class="settings-btn">
+            <button mat-button color="accent" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
+              <mat-icon>clear</mat-icon>
+            </button>
           </div>
         </div>
         @defer (when form.pages.length > 0) {
