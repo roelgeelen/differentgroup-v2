@@ -21,7 +21,7 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
   imports: [
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.apiUrl],
+        allowedUrls: [environment.apiUrl, environment.apiLocal],
         sendAccessToken: true
       }
     }),

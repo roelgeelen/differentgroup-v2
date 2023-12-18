@@ -82,7 +82,10 @@ export class OverviewComponent {
   }
 
   getConfigurations() {
-    this.apiCustomerService.getConfigurations(this.customer!.dealId!).subscribe(c => this.configurations = c);
+    this.apiCustomerService.getConfigurations(this.customer!.dealId!).subscribe(c => {
+      this.configurations = c
+      console.log(this.configurations)
+    });
   }
 
   findCustomer(id: string) {
@@ -104,7 +107,7 @@ export class OverviewComponent {
     }
     form.updatedBy = this.currentUser?.name;
     this.apiCustomerService.createConfiguration(this.customer!.dealId!, newConfig).subscribe(c => {
-      this.router.navigate([`/customers/${this.customer?.dealId}/configurations/${c.id}`]);
+      this.router.navigate([`/customers/${this.customer?.dealId}/configurations/${c.id}/edit`]);
     });
   }
 

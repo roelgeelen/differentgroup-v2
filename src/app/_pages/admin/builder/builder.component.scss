@@ -110,7 +110,8 @@ $form-padding: 20px;
   margin: 10px;
   background-color: #E8F2F4;
   padding: 0 20px;
-
+  overflow-y: scroll;
+  max-height: calc(100vh - 136px);
 }
 
 /* width */

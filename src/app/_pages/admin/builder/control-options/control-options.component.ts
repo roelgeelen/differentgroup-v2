@@ -219,8 +219,7 @@ export class ControlOptionsComponent implements OnInit {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe()
-        this.router.navigateByUrl('/admin/forms')
+        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe(f=> this.router.navigateByUrl('/admin/forms'))
       }
     });
   }

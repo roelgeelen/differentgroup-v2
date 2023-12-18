@@ -19,6 +19,7 @@ export class Columns implements IFormControl {
       label: options?.label ?? 'Label',
       help: options?.help ?? '',
       note: options?.note ?? '',
+      image: options?.image ?? null,
       visibility: {
         showInConfiguration: options?.visibility?.showInConfiguration ?? true
       },

@@ -20,6 +20,7 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
 import {MatInputModule} from "@angular/material/input";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
 import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
+import {ApiFormService} from "../../../_services/api-form.service";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -52,6 +53,7 @@ export class DynamicFormComponent implements OnInit {
     public formService: FormService,
     private route: ActivatedRoute,
     private apiCustomerService: ApiCustomerService,
+    private apiFormService: ApiFormService,
     private utilityService: UtilityService
   ) {
     this.formService.setForm(null);
@@ -64,8 +66,10 @@ export class DynamicFormComponent implements OnInit {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('configId') !== null) {
         this.customerId = queryParams.get('dealId')!;
+        // this.apiFormService.getForm()
         this.apiCustomerService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
+          console.log(c)
           this.formService.setForm(c.form, this.convertConfigurationToRawJson(this.config.values || []));
         });
       }
@@ -95,7 +99,6 @@ export class DynamicFormComponent implements OnInit {
       // console.log(this.formService.formGroup$.getValue().getRawValue())
       this.config.updatedBy = this.currentUser?.name;
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
-      console.log(this.config.values)
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe();
     }
   }

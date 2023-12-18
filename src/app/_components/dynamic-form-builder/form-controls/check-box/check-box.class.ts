@@ -15,6 +15,7 @@ export class CheckBox implements IFormControl<IFormControlOptions, string[]> {
       label: options?.label ?? 'Label',
       help: options?.help ?? '',
       note: options?.note ?? '',
+      image: options?.image ?? null,
       choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}

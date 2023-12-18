@@ -18,6 +18,7 @@ import {IFormControl} from "../../form-controls/form-control.interface";
 import Swal from "sweetalert2";
 import {UtilityService} from "../../services/utility.service";
 import {FormControlsService} from "../../form-controls/form-controls.service";
+import {ApiFormService} from "../../../../_services/api-form.service";
 
 @Component({
   selector: 'app-form-container',
@@ -38,6 +39,7 @@ export class FormContainerComponent implements AfterViewInit {
     public formService: FormService,
     public utilityService: UtilityService,
     private formControlsService: FormControlsService,
+    private apiFormService: ApiFormService
   ) {
     this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
@@ -90,8 +92,13 @@ export class FormContainerComponent implements AfterViewInit {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
+        const c = controls[index];
+        if (c.options?.image){
+          this.apiFormService.removeFormAttachment(this.formService.form$.getValue().id!.toString(), c.options.image.id).subscribe();
+        }
         controls.splice(index, 1);
         this.formService.updateFormGroup();
+        this.formService.onControlSelected(null);
       }
     });
 

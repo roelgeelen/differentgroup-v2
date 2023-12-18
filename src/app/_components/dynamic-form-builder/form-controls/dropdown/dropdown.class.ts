@@ -14,6 +14,7 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
       label: options?.label ?? 'Label',
       help: options?.help ?? '',
       note: options?.note ?? '',
+      image: options?.image ?? null,
       title: options?.title ?? 'Titel',
       choices: options?.choices ?? [
         {value: 'Optie 1'},

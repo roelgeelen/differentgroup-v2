@@ -37,7 +37,6 @@ export class ViewConfigurationComponent implements OnInit {
         this.apiCustomerService.getConfiguration(queryParams.get('dealId')!, queryParams.get('configId')!).subscribe(c => {
           this.configuration = c;
           this.removeInvisibleItems()
-          console.log(c)
         });
       }
     });
