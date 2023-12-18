@@ -1,6 +1,0 @@
-<div [formGroup]="form" class="image">
-  @if (progress !== 0) {
-    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
-  }
-  <image-form-control #imageFormControl [formControlName]="control!.id" [id]="control!.id" (fileSelected)="handleFile($event)"></image-form-control>
-</div>

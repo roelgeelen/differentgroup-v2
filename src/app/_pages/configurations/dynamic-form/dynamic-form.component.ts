@@ -109,7 +109,8 @@ export class DynamicFormComponent implements OnInit {
 
       item.controls.forEach((control) => {
         const dep = this.utilityService.isShow(control);
-        if (dep || control.options?.visibility?.showInConfiguration) {
+        console.log(dep)
+        if (dep || (dep&& control.options?.visibility?.showInConfiguration)) {
           let shouldAddValue = false;
 
           if (control.type === 'Columns') {

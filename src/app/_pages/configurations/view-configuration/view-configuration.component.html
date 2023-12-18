@@ -32,7 +32,22 @@
                   }
                   @case ('ImageUpload') {
                     <h2 class="break">{{value.title}}</h2>
-                    <img [src]="value.value.url+'?name='+value.value.name">
+                    <img [src]="value.value.url+'?name='+value.value.name" alt="afbeelding">
+                  }
+                  @case ('FileUpload') {
+                    <h2 class="break">{{value.title}}</h2>
+                    <div class="files-list">
+                      <a class="single-file" [href]="value.value.url" target="_blank">
+                        <div class="file-icon" style="width: 40px; height: 36px">
+                          <img src="assets/images/file-icon.svg" alt="icon">
+                        </div>
+                        <div class="info">
+                          <div class="name">
+                            {{value.value.name}}
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                   }
                   @default {
                     <table>
@@ -44,7 +59,7 @@
                           @for (index of [0, 1, 2];track index) {
                             <td>
                               @if (value.columns[index]?.title) {
-                                <span>{{ value.columns[index]?.title }}</span><br>
+                                <span>{{ value.columns[index].title }}</span><br>
                               }
                               {{ value.columns[index]?.value }}
                             </td>

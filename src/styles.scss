@@ -6,11 +6,13 @@
 
 $my-primary: mat.define-palette(mat.$indigo-palette, 500);
 $my-accent: mat.define-palette(theme.$different-palette, A400, A100, A200);
+$my-warn: mat.define-palette(mat.$red-palette, 700);
 
 $my-theme: mat.define-light-theme((
   color: (
     primary: $my-primary,
     accent: $my-accent,
+    warn: $my-warn
   )
 ));
 

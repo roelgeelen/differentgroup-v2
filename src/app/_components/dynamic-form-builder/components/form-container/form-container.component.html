@@ -140,8 +140,12 @@
                        [selected]="item.id == selectedControl?.id"></app-radio-btn>
       }
       @case ('ImageUpload') {
-        <app-image-upload class="margin-top" [control]="item" [form]="formGroup"
-                       [selected]="item.id == selectedControl?.id"></app-image-upload>
+        <app-upload class="margin-top" [control]="item" [form]="formGroup"
+                       [selected]="item.id == selectedControl?.id"></app-upload>
+      }
+      @case ('FileUpload') {
+        <app-upload class="margin-top" [control]="item" [form]="formGroup"
+                    [selected]="item.id == selectedControl?.id"></app-upload>
       }
       @case ('Columns') {
         <app-form-columns

@@ -1,0 +1,10 @@
+<div [formGroup]="form" class="image">
+  @if (progress !== 0) {
+    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+  }
+  <image-form-control #imageFormControl [formControlName]="control!.id" [id]="control!.id" [accept]="control?.type === 'ImageUpload'?'image/*':'*'" [type]="control?.type==='ImageUpload'?'image':'file'" (fileSelected)="handleFile($event)">
+    <span>Sleep {{control?.type==='ImageUpload'?'de afbeelding':'het bestand'}} hierheen</span>
+    <span>of</span>
+    <label>{{control?.type==='ImageUpload'?'Afbeelding':'Bestand'}} kiezen</label>
+  </image-form-control>
+</div>

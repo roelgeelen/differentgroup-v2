@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subject} from "rxjs";
 import {IConfigurationAttachment} from "../../../../_models/configuration/configuration.interface";
@@ -12,24 +12,41 @@ import {MatInputModule} from "@angular/material/input";
   selector: 'image-form-control',
   template: `
       @if (imageUrl) {
-          <button mat-mini-fab class="remove-image" (click)="removeImage()">
-              <mat-icon>close</mat-icon>
+        @if (type==='image'){
+          <button mat-mini-fab class="remove-image" color="warn" (click)="removeFile()">
+            <mat-icon>close</mat-icon>
           </button>
           <img [src]="imageUrl?.url+'?name='+imageUrl?.name" [alt]="imageUrl?.name"/>
+        } @else {
+          <div class="files-list">
+            <div class="single-file">
+              <div class="file-icon" style="width: 40px; height: 36px">
+                <img src="../../../../../assets/images/file-icon.svg" alt="icon">
+              </div>
+              <div class="info">
+                <div class="name">
+                  {{imageUrl.name}}
+                </div>
+              </div>
+              <button mat-icon-button class="delete" color="warn" (click)="removeFile()">
+                <mat-icon>delete_forever</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+
       } @else {
           @if (error) {
               <mat-error>Bestand is te groot. Max grote is 5MB</mat-error>
           }
           <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
-              <input type="file" id="fileDropRef" #fileInput accept="image/*" (change)="fileBrowseHandler($event)"/>
-              <span>Sleep het bestand hierheen</span>
-              <span>of</span>
-              <label for="fileDropRef">Bestand kiezen</label>
+              <input type="file" id="fileDropRef" #fileInput [accept]="accept" (change)="fileBrowseHandler($event)"/>
+              <ng-content></ng-content>
           </div>
       }
 
   `,
-  styleUrls:['image-form-control.component.scss'],
+  styleUrls:['file-form-control.component.scss'],
   standalone: true,
   imports: [
     DndDirective,
@@ -41,13 +58,15 @@ import {MatInputModule} from "@angular/material/input";
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ImageFormControlComponent),
+      useExisting: forwardRef(() => FileFormControlComponent),
       multi: true
     }
   ]
 })
-export class ImageFormControlComponent implements ControlValueAccessor {
+export class FileFormControlComponent implements ControlValueAccessor {
   @Output() fileSelected = new EventEmitter<File>();
+  @Input() accept: string = '*';
+  @Input() type: 'image'|'file' = 'file';
   imageUrl: IConfigurationAttachment|null = null;
   error = false;
   onChange: any = () => {
@@ -99,7 +118,7 @@ export class ImageFormControlComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  removeImage() {
+  removeFile() {
     this.updateImageUrl(null);
   }
 }

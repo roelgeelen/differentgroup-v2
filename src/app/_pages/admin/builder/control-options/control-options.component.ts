@@ -233,6 +233,7 @@ export class ControlOptionsComponent implements OnInit {
             control.options!.image = {id:''};
             this.progress = Math.round((100 * data.loaded) / data.total);
           } else if (data instanceof HttpResponse) {
+            console.log(data.body)
             control.options!.image = data.body;
             this.saveForm();
             this.progress = 0;

@@ -5,15 +5,15 @@ import {FormGroup} from "@angular/forms";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {ApiCustomerService} from "../../../../_services/api-customer.service";
 import {ActivatedRoute} from "@angular/router";
-import {ImageFormControlComponent} from "./image-form-control.component";
+import {FileFormControlComponent} from "./file-form-control.component";
 
 @Component({
-  selector: 'app-image-upload',
-  templateUrl: './image-upload.component.html',
-  styleUrls: ['./image-upload.component.scss']
+  selector: 'app-upload',
+  templateUrl: './upload.component.html',
+  styleUrls: ['./upload.component.scss']
 })
-export class ImageUploadComponent extends FormControlComponentBase<ImageUpload> implements OnInit {
-  @ViewChild('imageFormControl', { static: false }) imageFormControl: ImageFormControlComponent | undefined;
+export class UploadComponent extends FormControlComponentBase<ImageUpload> implements OnInit {
+  @ViewChild('imageFormControl', { static: false }) imageFormControl: FileFormControlComponent | undefined;
   @Input() form!: FormGroup;
   dealId?: string
   configId?: string

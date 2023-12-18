@@ -17,9 +17,9 @@ import {NgxEditorModule} from "ngx-editor";
 import {DividerComponent} from "./divider/divider.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../shared.module";
-import {ImageUploadComponent} from "./image-upload/image-upload.component";
+import {UploadComponent} from "./upload/upload.component";
 import {DndDirective} from "../../../_helpers/directives/dnd.directive";
-import {ImageFormControlComponent} from "./image-upload/image-form-control.component";
+import {FileFormControlComponent} from "./upload/file-form-control.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -34,7 +34,7 @@ import {MatIconModule} from "@angular/material/icon";
     RadioBtnComponent,
     TextAreaComponent,
     DividerComponent,
-    ImageUploadComponent
+    UploadComponent
   ],
   imports: [
     SharedModule,
@@ -49,7 +49,7 @@ import {MatIconModule} from "@angular/material/icon";
     FormsModule,
     ReactiveFormsModule,
     DndDirective,
-    ImageFormControlComponent,
+    FileFormControlComponent,
     MatProgressBarModule,
     MatButtonModule,
     MatIconModule
@@ -62,7 +62,7 @@ import {MatIconModule} from "@angular/material/icon";
     RadioBtnComponent,
     TextAreaComponent,
     DividerComponent,
-    ImageUploadComponent
+    UploadComponent
   ],
 })
 export class FormControlsModule {
