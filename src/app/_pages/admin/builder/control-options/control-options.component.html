@@ -83,6 +83,9 @@
               @if (control.options.choices !== undefined) {
                 <div class="label">Opties</div>
                 <div class="tab-content">
+                  @if (control.options!.customChoice !== undefined) {
+                    <mat-slide-toggle [(ngModel)]="control.options!.customChoice">Anders</mat-slide-toggle>
+                  }
                   <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
                     @for (option of control.options.choices!;track option) {
                       <div class="option-box" cdkDrag>
@@ -158,12 +161,12 @@
                   @if (control.options.type == 'number') {
                     <mat-form-field appearance="outline">
                       <mat-label>Min</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators.min" [ngModelOptions]="{standalone:true}"
+                      <input matInput [(ngModel)]="control.options!.validators!.min" [ngModelOptions]="{standalone:true}"
                              type="number">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Max</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators.max" [ngModelOptions]="{standalone:true}"
+                      <input matInput [(ngModel)]="control.options!.validators!.max" [ngModelOptions]="{standalone:true}"
                              type="number">
                     </mat-form-field>
                   }

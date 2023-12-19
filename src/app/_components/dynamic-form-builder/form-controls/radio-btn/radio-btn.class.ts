@@ -15,6 +15,7 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
       help: options?.help ?? '',
       image: options?.image ?? null,
       note: options?.note ?? '',
+      customChoice: options?.customChoice ?? false,
       choices: options?.choices ?? [
         {value: 'Optie 1'},
         {value: 'Optie 2'}

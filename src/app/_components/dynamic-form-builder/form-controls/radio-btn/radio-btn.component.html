@@ -1,9 +1,18 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="question">
   <mat-radio-group class="field" aria-label="Select an option"
                    [required]="control?.options?.validators?.required ?? false"
                    [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices;track choice) {
       <mat-radio-button [value]="choice.value">{{ choice.value }}</mat-radio-button>
+    }
+    @if (control?.options?.customChoice){
+      <mat-radio-button [value]="customValue">
+        <mat-form-field>
+          <mat-label>Anders</mat-label>
+          <input matInput [(ngModel)]="customValue" [ngModelOptions]="{standalone: true}"
+                 (focusout)="updateCustom()">
+        </mat-form-field>
+      </mat-radio-button>
     }
   </mat-radio-group>
 </div>

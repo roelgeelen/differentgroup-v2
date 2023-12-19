@@ -10,11 +10,19 @@ import {FormGroup} from "@angular/forms";
 })
 export class RadioBtnComponent extends FormControlComponentBase<RadioBtn> implements OnInit {
   @Input() form!: FormGroup;
+
+  customValue:string|null = null;
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    const val = this.form.controls[this.control!.id!].value;
+    if (val!=='' && !this.control?.options?.choices?.some(choice => choice.value === val)){
+      this.customValue = this.form.controls[this.control!.id!].value
+    }
   }
-
+  updateCustom() {
+    this.form.controls[this.control!.id!].patchValue(this.customValue);
+  }
 }

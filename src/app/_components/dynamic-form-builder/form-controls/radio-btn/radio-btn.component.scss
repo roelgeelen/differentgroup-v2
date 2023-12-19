@@ -1,1 +1,42 @@
+.question {
+  padding: 10px 0;
+  ::ng-deep {
+    .mdc-text-field--filled {
+      background-color: white !important;
+    }
 
+    .mat-mdc-form-field-focus-overlay {
+      background-color: white !important;
+    }
+
+    .mat-mdc-form-field-infix {
+      padding-bottom: 0 !important;
+      min-height: 36px;
+      font-size: 14px;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      padding: 5px !important;
+    }
+
+    .mat-mdc-floating-label {
+      top: 35px !important;
+
+      &.mdc-floating-label--float-above {
+        top: 30px !important;
+      }
+    }
+
+    .mat-mdc-form-field-subscript-wrapper {
+      height: 20px;
+    }
+
+    .mdc-form-field>label {
+      margin-left: -5px;
+    }
+  }
+
+  mat-radio-button {
+    margin-right: 15px;
+  }
+}

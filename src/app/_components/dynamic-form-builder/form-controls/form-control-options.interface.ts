@@ -10,6 +10,7 @@ export interface IFormControlOptions {
   placeholder?: string;
   help?: string;
   image?: IFormAttachment|null;
+  customChoice?: boolean;
   choices?: IFormControlOptionsChoices[];
   type?: string;
   validators?: {

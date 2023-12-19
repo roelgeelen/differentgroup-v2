@@ -10,11 +10,18 @@ import {FormGroup} from "@angular/forms";
 })
 export class CheckBoxComponent extends FormControlComponentBase<CheckBox> implements OnInit {
   @Input() form!: FormGroup;
+  customValue:string|null = null;
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    this.form.controls[this.control!.id!].value.forEach((val: any) => {
+      if (val!=='' && !this.control?.options?.choices?.some(choice => choice.value === val)){
+        this.customValue =val;
+      }
+    })
+
   }
 
 }
