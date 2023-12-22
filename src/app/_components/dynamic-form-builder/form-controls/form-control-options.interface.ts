@@ -9,7 +9,7 @@ export interface IFormControlOptions {
   subtitle?: string;
   placeholder?: string;
   help?: string;
-  image?: IFormAttachment|null;
+  image?: IFormAttachment | null;
   customChoice?: boolean;
   choices?: IFormControlOptionsChoices[];
   type?: string;
@@ -21,9 +21,17 @@ export interface IFormControlOptions {
   visibility?: IFormControlOptionsVisibility;
   dependent?: IFormControlOptionsDependent[];
 }
-export interface IFormControlOptionsChoices
-{
+
+export interface IFormControlOptionsChoices {
+  id: string;
   value: string;
+  quoteLine?: IQuoteLine;
+  duration?: number;
+}
+
+export interface IQuoteLine {
+  sku: string;
+  order: number;
 }
 
 export interface IFormControlOptionsDependent {
@@ -40,7 +48,7 @@ export interface IFormAttachment {
   id: string;
   form?: IForm;
   external?: string;
-  field?:string;
+  field?: string;
   name?: string;
   type?: string;
   url?: string;

@@ -18,8 +18,8 @@ export class CheckBox implements IFormControl<IFormControlOptions, string[]> {
       image: options?.image ?? null,
       customChoice: options?.customChoice ?? false,
       choices: options?.choices ?? [
-        {value: 'Optie 1'},
-        {value: 'Optie 2'}
+        {id: uuidV4(), value: 'Optie 1'},
+        {id: uuidV4(), value: 'Optie 2'}
       ],
       visibility: {
         showInConfiguration: options?.visibility?.showInConfiguration ?? true

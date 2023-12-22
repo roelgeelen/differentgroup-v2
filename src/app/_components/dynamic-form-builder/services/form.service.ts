@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {Form, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
-import {Columns} from "../form-controls/columns/columns.class";
+import {v4 as uuidV4} from "uuid";
 import {IColumn} from "../form-controls/columns/column.interface";
 
 @Injectable({providedIn: 'root'})

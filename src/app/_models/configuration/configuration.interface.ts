@@ -1,5 +1,6 @@
 import {IForm} from "../../_components/dynamic-form-builder/models/form.interface";
 import {ICustomer} from "./customer.interface";
+import {IQuoteLine} from "../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 
 export interface IConfiguration {
   id?: string;
@@ -7,10 +8,11 @@ export interface IConfiguration {
   form: IForm;
   title: string;
   values?: IConfigurationItem[];
-  createdBy?: string
-  createdAt?: string
-  updatedBy?: string
-  updatedAt?: string
+  quote?: {id: string, item: IQuoteLine}[];
+  createdBy?: string;
+  createdAt?: string;
+  updatedBy?: string;
+  updatedAt?: string;
 }
 export interface IConfigurationItem {
   page: string;

@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>{{ data.value }}</h1>
+<div mat-dialog-content>
+  <div class="label">Montage tijd</div>
+  <div class="option-content">
+    <mat-form-field>
+      <mat-label>Tijd</mat-label>
+      <input matInput [(ngModel)]="data.duration" type="number">
+    </mat-form-field>
+  </div>
+  @if (formService.form$.getValue().options.createQuotation){
+  <div class="label">Offerte regel@if (data.quoteLine){<mat-icon color="warn" (click)="removeQuoteLine()" matTooltip="Verwijder offerte regel" matTooltipPosition="above">close</mat-icon>}</div>
+  <div class="option-content">
+  @if (data.quoteLine) {
+      <mat-form-field>
+        <mat-label>SKU</mat-label>
+        <input matInput [(ngModel)]="data.quoteLine!.sku" type="text">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Volgorde</mat-label>
+        <input matInput [(ngModel)]="data.quoteLine!.order" type="number">
+      </mat-form-field>
+
+  } @else {
+    <button mat-flat-button color="primary" (click)="addQuoteLine()">+ Offerte regel toevoegen</button>
+  }
+  </div>
+  }
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">Ok</button>
+</div>

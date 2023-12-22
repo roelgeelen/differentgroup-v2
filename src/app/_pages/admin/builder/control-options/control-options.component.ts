@@ -41,6 +41,9 @@ import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {User} from "../../../../_auth/models/User";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
+import {ChoiceDialogComponent} from "./choice-dialog/choice-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {v4 as uuidV4} from "uuid";
 
 @Component({
   selector: 'app-control-options',
@@ -105,6 +108,7 @@ export class ControlOptionsComponent implements OnInit {
     public formService: FormService,
     private apiFormService: ApiFormService,
     private router: Router,
+    public dialog: MatDialog
   ) {
     this.editor = new Editor();
     this.authService.currentUser.subscribe(user => {
@@ -146,7 +150,12 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   addChoice(choices: IFormControlOptionsChoices[]) {
-    choices.push({value: 'Optie'})
+    choices.push({id: uuidV4(),value: 'Optie'})
+  }
+  openDialog(option: IFormControlOptionsChoices): void {
+    this.dialog.open(ChoiceDialogComponent, {
+      data: option,
+    });
   }
 
   addTab(choices: IFormPage[]) {
@@ -245,8 +254,6 @@ export class ControlOptionsComponent implements OnInit {
       });
     }
   }
-
-
   onFileDropped(control:IFormControl, event: any) {
     this.prepareFilesList(control, event);
   }

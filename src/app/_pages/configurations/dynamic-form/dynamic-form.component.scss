@@ -1,11 +1,32 @@
 // Variabelen
 $primary-color: #3498db;
 $form-padding: 20px;
-
+.container{
+  background-color: #E8F2F4;
+}
 .controls-nav {
   padding: 10px;
   width: 200px;
   min-height: calc(100vh - 116px)
+}
+mat-drawer-content{
+  overflow: visible;
+}
+.quotation-toggle{
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  right: -10px;
+  top: 68px;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 12px 15px 12px 9px;
+  box-shadow: var(--mdc-elevated-card-container-elevation);
+  vertical-align: center;
+  mat-icon{
+    transform: translateY(2px);
+  }
 }
 
 .control-options {
@@ -16,12 +37,15 @@ $form-padding: 20px;
   width: 300px;
   box-shadow: 0 0 11px rgb(0 0 0 / 12%);
 }
+mat-drawer{
+  border: none !important;
+  background-color: transparent;
+  box-shadow: none;
+}
 
 .form-builder {
   border-radius: 10px;
-  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
-  margin: 10px;
-  background-color: #E8F2F4;
+  //box-shadow: 0 0 11px rgb(0 0 0 / 12%);
   padding: 0 20px 20px 20px;
 
   .page {

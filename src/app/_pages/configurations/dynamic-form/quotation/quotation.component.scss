@@ -1,0 +1,45 @@
+mat-card {
+  width: 350px;
+  margin: 56px 20px 0 10px;
+  min-height: calc(100vh - 270px);
+
+  mat-card-title {
+    padding: 8px 0 14px 0 !important;
+  }
+}
+
+.configuration-item {
+  min-height: 66px;
+  border-top: solid 1px #e8e8e8;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  transition: all .3s;
+  padding: 0 10px;
+
+  .item-text {
+    padding: 12px 0 10px 0;
+
+    .txt {
+      color: #4a4a49;
+      font-size: 13px;
+      line-height: 18px;
+      display: block;
+    }
+    .sku {
+      font-size: 11px;
+      line-height: 16px;
+      color: #8a8a89;
+      display: block;
+    }
+
+    &.price {
+      text-align: right;
+
+      .txt {
+        padding-top: 16px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+    }
+  }
+}

@@ -20,7 +20,9 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
 import {MatInputModule} from "@angular/material/input";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
 import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
-import {ApiFormService} from "../../../_services/api-form.service";
+import {MatDialog} from "@angular/material/dialog";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {QuotationComponent} from "./quotation/quotation.component";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -37,7 +39,9 @@ import {ApiFormService} from "../../../_services/api-form.service";
     FlexModule,
     MatInputModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    MatSidenavModule,
+    QuotationComponent
   ],
   styleUrl: './dynamic-form.component.scss'
 })
@@ -53,7 +57,7 @@ export class DynamicFormComponent implements OnInit {
     public formService: FormService,
     private route: ActivatedRoute,
     private apiCustomerService: ApiCustomerService,
-    private apiFormService: ApiFormService,
+    public dialog: MatDialog,
     private utilityService: UtilityService
   ) {
     this.formService.setForm(null);
@@ -69,7 +73,6 @@ export class DynamicFormComponent implements OnInit {
         // this.apiFormService.getForm()
         this.apiCustomerService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
-          console.log(c)
           this.formService.setForm(c.form, this.convertConfigurationToRawJson(this.config.values || []));
         });
       }
@@ -99,8 +102,37 @@ export class DynamicFormComponent implements OnInit {
       // console.log(this.formService.formGroup$.getValue().getRawValue())
       this.config.updatedBy = this.currentUser?.name;
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
+      console.log(this.config.values)
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe();
     }
+  }
+
+  extractQuoteLines(form: IForm, values: IConfigurationItem[]): any[] {
+    const quoteLines: any[] = [];
+
+    values.forEach((configPage) => {
+      const templatePage = form.pages.find((page) => page.tab === configPage.page);
+
+      if (templatePage && configPage.values) {
+        configPage.values.forEach((filledControl) => {
+          if (filledControl.columns) {
+// vul hier de colmns
+          } else {
+            const templateControl = templatePage.controls.find((control) => control.id === filledControl.id);
+
+            if (templateControl && templateControl.options && filledControl.value) {
+              const chosenOption = templateControl.options.choices?.find((option) => option.value === filledControl.value);
+
+              if (chosenOption && chosenOption.quoteLine) {
+                quoteLines.push(chosenOption.quoteLine);
+              }
+            }
+          }
+        });
+      }
+    });
+
+    return quoteLines;
   }
 
   generateConfigurationValue(form: IForm, values: any): IConfigurationItem[] {
@@ -109,8 +141,7 @@ export class DynamicFormComponent implements OnInit {
 
       item.controls.forEach((control) => {
         const dep = this.utilityService.isShow(control);
-        console.log(dep)
-        if (dep || (dep&& control.options?.visibility?.showInConfiguration)) {
+        if (dep || (dep && control.options?.visibility?.showInConfiguration)) {
           let shouldAddValue = false;
 
           if (control.type === 'Columns') {
@@ -142,7 +173,6 @@ export class DynamicFormComponent implements OnInit {
               });
             }
           } else {
-            // console.log(values[control.id]);
             const value: IConfigurationItemValue = {
               id: control.id,
               type: control.type,
@@ -154,8 +184,6 @@ export class DynamicFormComponent implements OnInit {
               newItem.values.push(value);
             }
           }
-        } else {
-          console.log(control)
         }
       });
 
@@ -164,7 +192,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   shouldAddConfigurationItem(value: IConfigurationItemValue): boolean {
-    if (value.value && ((value.value !== ''  && value.value.length > 0) || 'id' in value.value)) {
+    if (value.value && ((value.value !== '' && value.value.length > 0) || 'id' in value.value)) {
       return true;
     }
 
@@ -191,7 +219,6 @@ export class DynamicFormComponent implements OnInit {
         }
       });
     });
-
     return json3;
   }
 

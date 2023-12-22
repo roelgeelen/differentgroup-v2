@@ -9,7 +9,7 @@
     [cdkDropListConnectedTo]="connectedLists"
     [cdkDropListEnterPredicate]="allowDropPredicate"
   >
-    @for (item of container!.controls;track item) {
+    @for (item of container!.controls; track item) {
       @if (utilityService.isShow(item) || showInvisible) {
         <div
           class="control-container"
@@ -79,7 +79,7 @@
     }
   </div>
 } @else {
-  @for (item of container!.controls;track item) {
+  @for (item of container!.controls; track item) {
     @if (utilityService.isShow(item)) {
       <div
         class="control-container"
@@ -111,41 +111,42 @@
   }
 }
 <ng-template #controlSwitch let-item='item'>
-  @if (formService.formGroup$ | async;as formGroup) {
+  @if (formService.formGroup$ | async; as formGroup) {
     @switch (item.type) {
       @case ('InfoBox') {
-        <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"></app-info-box>
+        <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"
+                      [isBuilder]="isBuilder"></app-info-box>
       }
       @case ('Divider') {
-        <app-divider [control]="item" [selected]="item.id == selectedControl?.id"></app-divider>
+        <app-divider [control]="item" [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-divider>
       }
       @case ('TextBox') {
         <app-text-box class="margin-top" [control]="item" [form]="formGroup"
-                      [selected]="item.id == selectedControl?.id"></app-text-box>
+                      [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-text-box>
       }
       @case ('TextArea') {
         <app-text-area [control]="item" [form]="formGroup"
-                       [selected]="item.id == selectedControl?.id"></app-text-area>
+                       [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-text-area>
       }
       @case ('Dropdown') {
         <app-dropdown class="margin-top" [control]="item" [form]="formGroup"
-                      [selected]="item.id == selectedControl?.id"></app-dropdown>
+                      [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-dropdown>
       }
       @case ('CheckBox') {
         <app-check-box class="margin-top" [control]="item" [form]="formGroup"
-                       [selected]="item.id == selectedControl?.id"></app-check-box>
+                       [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-check-box>
       }
       @case ('RadioBtn') {
         <app-radio-btn class="margin-top" [control]="item" [form]="formGroup"
-                       [selected]="item.id == selectedControl?.id"></app-radio-btn>
+                       [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-radio-btn>
       }
       @case ('ImageUpload') {
         <app-upload class="margin-top" [control]="item" [form]="formGroup"
-                       [selected]="item.id == selectedControl?.id"></app-upload>
+                    [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-upload>
       }
       @case ('FileUpload') {
         <app-upload class="margin-top" [control]="item" [form]="formGroup"
-                    [selected]="item.id == selectedControl?.id"></app-upload>
+                    [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-upload>
       }
       @case ('Columns') {
         <app-form-columns

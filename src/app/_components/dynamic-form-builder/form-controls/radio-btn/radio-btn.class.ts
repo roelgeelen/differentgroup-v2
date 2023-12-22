@@ -17,8 +17,8 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
       note: options?.note ?? '',
       customChoice: options?.customChoice ?? false,
       choices: options?.choices ?? [
-        {value: 'Optie 1'},
-        {value: 'Optie 2'}
+        {id: uuidV4(), value: 'Optie 1'},
+        {id: uuidV4(), value: 'Optie 2'}
       ],
       validators: options?.validators ?? {
         required: false

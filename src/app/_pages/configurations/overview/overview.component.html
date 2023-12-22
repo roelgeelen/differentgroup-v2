@@ -1,102 +1,105 @@
-<div class="content">
-  <div class="layout-content">
-    <div class="form">
-      <div class="page">
-        <div class="form-header d-flex justify-content-between">
-          <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
-          <h1>{{ customer !== null ? customer.name : 'Configuraties' }}</h1>
-          <div class="settings-btn">
-            @if (customer !== null) {
-              <button mat-button color="accent" class="clear" routerLink="/customers">
-                <mat-icon>clear</mat-icon>
-              </button>
-            }
-          </div>
-        </div>
-        @defer (when paramId === '' || customer !== null) {
-          <div class="form-content">
-            @if (customer !== null) {
-              <h2 class="bg-white">Nieuw formulier aanmaken</h2>
-              <div class="search bg-white">
-                <mat-form-field appearance="fill" class="w75">
-                  <mat-label>Formulier</mat-label>
-                  <mat-select [(ngModel)]="newForm">
-                    @for (temp of templates;track temp) {
-                      <mat-option [value]="temp">
-                        {{ temp.title }}
-                      </mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
-                <button mat-flat-button color="primary" (click)="addConfiguration(newForm!)"
-                        [disabled]="newForm===null">
-                  <mat-icon>add</mat-icon>
-                  Aanmaken
-                </button>
-              </div>
-              <hr>
-              <h2>Configuraties</h2>
-              @defer (when configurations !== null) {
-                @for (config of configurations;track config) {
-                  <mat-card>
-                    <mat-card-header>
-                      <mat-card-title-group>
-                        <mat-card-title>{{ config.title }}</mat-card-title>
-                        <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}</mat-card-subtitle>
-                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                          <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                          <button mat-menu-item>
-                            <mat-icon>control_point_duplicate</mat-icon>
-                            <span class="menu-label">Dupliceren</span>
-                          </button>
-                          <button mat-menu-item (click)="deleteConfig(config, $index)">
-                            <mat-icon>delete</mat-icon>
-                            <span class="menu-label">Verwijderen</span>
-                          </button>
-                        </mat-menu>
-                      </mat-card-title-group>
-                    </mat-card-header>
-                    <mat-card-content>
-                    </mat-card-content>
-                    <mat-card-actions>
-                      <button mat-raised-button color="primary" [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id+'/edit'"><mat-icon>edit</mat-icon><span class="menu-label">Bewerken</span></button>
-                      <button mat-button color="primary" [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id"><mat-icon>remove_red_eye</mat-icon><span class="menu-label">Bekijken</span></button>
-                    </mat-card-actions>
-                  </mat-card>
-                } @empty {
-                  <div class="empty">Nog geen configuraties</div>
-                }
-              } @placeholder {
-                <mat-spinner></mat-spinner>
-              }
-            } @else {
-
-              <h2 class="bg-white">Zoeken op nummer</h2>
-              <form (ngSubmit)="submitSearch()" class="search bg-white">
-                <mat-form-field appearance="fill" class="w75">
-                  <mat-label>Deal nummer</mat-label>
-                  <input matInput type="number" [formControl]="searchControl">
-                </mat-form-field>
-                <button mat-raised-button color="primary">
-                  <mat-icon>search</mat-icon>
-                </button>
-              </form>
-              <hr>
-              <h2>Recente configuraties</h2>
-              <mat-card>
-                <mat-card-header [routerLink]="'/customers/5056111817'" class="clickable">
-                  <mat-card-title>Different Doors B.V. - Gereedschapkasten</mat-card-title>
-                  <mat-card-subtitle>11-12-2023 14:13</mat-card-subtitle>
-                </mat-card-header>
-              </mat-card>
-            }
-          </div>
-        } @placeholder {
-          <mat-spinner></mat-spinner>
+<div class="form">
+  <div class="page">
+    <div class="form-header d-flex justify-content-between">
+      <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+      <h1>{{ customer !== null ? customer.name : 'Configuraties' }}</h1>
+      <div class="settings-btn">
+        @if (customer !== null) {
+          <button mat-button color="accent" class="clear" routerLink="/customers">
+            <mat-icon>clear</mat-icon>
+          </button>
         }
       </div>
     </div>
+    @defer (when paramId === '' || customer !== null) {
+      <div class="form-content">
+        @if (customer !== null) {
+          <h2 class="bg-white">Nieuw formulier aanmaken</h2>
+          <div class="search bg-white">
+            <mat-form-field appearance="fill" class="w75">
+              <mat-label>Formulier</mat-label>
+              <mat-select [(ngModel)]="newForm">
+                @for (temp of templates; track temp) {
+                  <mat-option [value]="temp">
+                    {{ temp.title }}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="addConfiguration(newForm!)"
+                    [disabled]="newForm===null">
+              <mat-icon>add</mat-icon>
+              Aanmaken
+            </button>
+          </div>
+          <hr>
+          <h2>Configuraties</h2>
+          @defer (when configurations !== null) {
+            @for (config of configurations; track config) {
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title-group>
+                    <mat-card-title>{{ config.title }}</mat-card-title>
+                    <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}</mat-card-subtitle>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item>
+                        <mat-icon>control_point_duplicate</mat-icon>
+                        <span class="menu-label">Dupliceren</span>
+                      </button>
+                      <button mat-menu-item (click)="deleteConfig(config, $index)">
+                        <mat-icon>delete</mat-icon>
+                        <span class="menu-label">Verwijderen</span>
+                      </button>
+                    </mat-menu>
+                  </mat-card-title-group>
+                </mat-card-header>
+                <mat-card-content>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-raised-button color="primary"
+                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id+'/edit'">
+                    <mat-icon>edit</mat-icon>
+                    <span class="menu-label">Bewerken</span></button>
+                  <button mat-button color="primary"
+                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id">
+                    <mat-icon>remove_red_eye</mat-icon>
+                    <span class="menu-label">Bekijken</span></button>
+                </mat-card-actions>
+              </mat-card>
+            } @empty {
+              <div class="empty">Nog geen configuraties</div>
+            }
+          } @placeholder {
+            <mat-spinner></mat-spinner>
+          }
+        } @else {
+
+          <h2 class="bg-white">Zoeken op nummer</h2>
+          <form (ngSubmit)="submitSearch()" class="search bg-white">
+            <mat-form-field appearance="fill" class="w75">
+              <mat-label>Deal nummer</mat-label>
+              <input matInput type="number" [formControl]="searchControl">
+            </mat-form-field>
+            <button mat-raised-button color="primary">
+              <mat-icon>search</mat-icon>
+            </button>
+          </form>
+          <hr>
+          <h2>Recente configuraties</h2>
+          <mat-card>
+            <mat-card-header [routerLink]="'/customers/5056111817'" class="clickable">
+              <mat-card-title>Different Doors B.V. - Gereedschapkasten</mat-card-title>
+              <mat-card-subtitle>11-12-2023 14:13</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        }
+      </div>
+    } @placeholder {
+      <mat-spinner></mat-spinner>
+    }
   </div>
 </div>
+

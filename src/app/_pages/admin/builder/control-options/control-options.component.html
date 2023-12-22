@@ -91,6 +91,7 @@
                       <div class="option-box" cdkDrag>
                         <div class="option-box-placeholder" *cdkDragPlaceholder></div>
                         <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                        <mat-icon class="options-icon" (click)="openDialog(option)">settings</mat-icon>
                         <input [(ngModel)]="option.value" [ngModelOptions]="{standalone:true}">
                         <mat-icon class="close-icon" (click)="removeFromList(control.options.choices!, $index)">close
                         </mat-icon>

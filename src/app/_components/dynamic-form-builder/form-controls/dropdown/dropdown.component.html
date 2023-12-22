@@ -3,6 +3,8 @@
   <mat-select [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices;track choice) {
       <mat-option [value]="choice.value">
+        @if (choice?.quoteLine && isBuilder){<mat-icon>request_quote</mat-icon>}
+        @if (choice?.duration && isBuilder){<mat-icon>schedule</mat-icon>}
         {{choice.value}}
       </mat-option>
     }

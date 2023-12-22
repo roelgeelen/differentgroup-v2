@@ -1,7 +1,15 @@
 <div [formGroup]="form" class="question">
   <mat-selection-list color="primary" [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices; track choice) {
-      <mat-list-option [value]="choice.value" togglePosition="before">{{ choice.value }}</mat-list-option>
+      <mat-list-option [value]="choice.value" togglePosition="before">
+        @if (choice?.quoteLine && isBuilder) {
+          <mat-icon>request_quote</mat-icon>
+        }
+        @if (choice?.duration && isBuilder) {
+          <mat-icon>schedule</mat-icon>
+        }
+        {{ choice.value }}
+      </mat-list-option>
     }
     @if (control?.options?.customChoice) {
       <mat-list-option [value]="customValue" togglePosition="before">
