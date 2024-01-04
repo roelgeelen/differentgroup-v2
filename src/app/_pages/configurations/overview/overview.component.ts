@@ -84,14 +84,12 @@ export class OverviewComponent {
   getConfigurations() {
     this.apiCustomerService.getConfigurations(this.customer!.dealId!).subscribe(c => {
       this.configurations = c
-      console.log(this.configurations)
     });
   }
 
   findCustomer(id: string) {
     this.apiCustomerService.findCustomer(id).subscribe(c => {
       this.customer = c;
-      console.log(this.customer)
       this.location.replaceState(`/customers/${c.dealId}`);
       this.findFormTemplates();
       this.getConfigurations();

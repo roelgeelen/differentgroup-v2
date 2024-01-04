@@ -10,12 +10,11 @@ import {TextArea} from "./text-area/text-area.class";
 import {Divider} from "./divider/divider.class";
 import {ImageUpload} from "./upload/image-upload.class";
 import {FileUpload} from "./upload/file-upload.class";
+import {InfoImage} from "./info-image/info-image.class";
 
 @Injectable({providedIn: 'root'})
 export class FormControlsService {
   controlTypes: any = {
-    InfoBox,
-    Divider,
     TextBox,
     TextArea,
     CheckBox,
@@ -23,6 +22,10 @@ export class FormControlsService {
     Dropdown,
     ImageUpload,
     FileUpload,
+    // Overige
+    InfoBox,
+    InfoImage,
+    Divider,
     Columns,
   };
 

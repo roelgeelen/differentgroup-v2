@@ -9,23 +9,48 @@
   [cdkDropListEnterPredicate]="disallowDropPredicate"
   [cdkDropListConnectedTo]="connectedLists"
 >
-  @for (item of items;track item) {
-    <div class="available-field-box" cdkDrag [cdkDragData]="item"
-         (cdkDragMoved)="dragMoved($event)"
-         (cdkDragReleased)="dragReleased($event)">
-      <div class="drag-placeholder" *cdkDragPlaceholder>
-        <p><mat-icon>{{ item.icon }}</mat-icon></p>
-        {{ item.title }}
-      </div>
-      <div class="available-field-box drag" *cdkDragPreview>
-        <p><mat-icon>{{ item.icon }}</mat-icon></p>
-        {{ item.title }}
-      </div>
-      <p>
-        <mat-icon>{{ item.icon }}</mat-icon>
-      </p>
-      <span>{{ item.title }}</span>
-    </div>
-  }
+  <mat-tab-group>
+    @for (group of groupedItems; track group){
+      <mat-tab [label]="group.title">
+        @for (item of group.items; track item){
+          <div class="available-field-box" cdkDrag [cdkDragData]="item"
+               (cdkDragMoved)="dragMoved($event)"
+               (cdkDragReleased)="dragReleased($event)">
+            <div class="drag-placeholder" *cdkDragPlaceholder>
+              <p><mat-icon>{{ item.icon }}</mat-icon></p>
+              {{ item.title }}
+            </div>
+            <div class="available-field-box drag" *cdkDragPreview>
+              <p><mat-icon>{{ item.icon }}</mat-icon></p>
+              {{ item.title }}
+            </div>
+            <p>
+              <mat-icon>{{ item.icon }}</mat-icon>
+            </p>
+            <span>{{ item.title }}</span>
+          </div>
+        }
+      </mat-tab>
+    }
+  </mat-tab-group>
+
+<!--  @for (item of items;track item) {-->
+<!--    <div class="available-field-box" cdkDrag [cdkDragData]="item"-->
+<!--         (cdkDragMoved)="dragMoved($event)"-->
+<!--         (cdkDragReleased)="dragReleased($event)">-->
+<!--      <div class="drag-placeholder" *cdkDragPlaceholder>-->
+<!--        <p><mat-icon>{{ item.icon }}</mat-icon></p>-->
+<!--        {{ item.title }}-->
+<!--      </div>-->
+<!--      <div class="available-field-box drag" *cdkDragPreview>-->
+<!--        <p><mat-icon>{{ item.icon }}</mat-icon></p>-->
+<!--        {{ item.title }}-->
+<!--      </div>-->
+<!--      <p>-->
+<!--        <mat-icon>{{ item.icon }}</mat-icon>-->
+<!--      </p>-->
+<!--      <span>{{ item.title }}</span>-->
+<!--    </div>-->
+<!--  }-->
 </div>
 

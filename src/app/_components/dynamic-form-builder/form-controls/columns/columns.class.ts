@@ -8,6 +8,7 @@ export class Columns implements IFormControl {
   readonly icon: string = 'table_chart';
   readonly type: string = 'Columns';
   readonly title: string = 'Columns';
+  readonly category: string = 'Overige';
 
   columns: IColumn[] = [
     {container: {controls: []}},

@@ -35,27 +35,27 @@ mat-tab-group {
     padding: 20px 0;
     width: 100%;
 
-    .label {
-      font-size: 16px;
-      border-bottom: 1px solid #0000004a;
-      padding-bottom: 4px;
-      display: flex;
-      justify-content: space-between;
-
-      &.mb {
-        margin-bottom: 5px;
-      }
-
-      mat-icon {
-        background-color: #334d9c;
-        color: #eaedf5;
-        border-radius: 50%;
-      }
-    }
-
     & > * {
       width: 100%;
     }
+  }
+}
+
+.label {
+  font-size: 16px;
+  border-bottom: 1px solid #0000004a;
+  padding-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+
+  &.mb {
+    margin-bottom: 5px;
+  }
+
+  mat-icon {
+    background-color: #334d9c;
+    color: #eaedf5;
+    border-radius: 50%;
   }
 }
 
@@ -139,8 +139,10 @@ mat-slide-toggle {
   input {
     flex: 1;
     padding: 5px;
+    margin: 0 2px;
     border-radius: 5px;
     border: 1px solid;
+    min-width: 20px;
   }
 }
 

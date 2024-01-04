@@ -77,4 +77,5 @@ export class ViewConfigurationComponent implements OnInit {
   }
 
 
+    protected readonly JSON = JSON;
 }

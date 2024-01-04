@@ -30,6 +30,7 @@ export interface IFormControlOptionsChoices {
 }
 
 export interface IQuoteLine {
+  product?: { id: string, properties: { name: string, description: string, price: string } }|null;
   sku: string;
   order: number;
 }

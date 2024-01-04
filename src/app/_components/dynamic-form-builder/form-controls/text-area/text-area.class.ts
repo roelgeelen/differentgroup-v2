@@ -7,7 +7,7 @@ export class TextArea implements IFormControl<IFormControlOptions, string> {
   readonly icon: string = 'notes';
   readonly type: string = 'TextArea';
   readonly title: string = 'Textarea';
-
+  readonly category: string = 'Velden';
   constructor(public options?: IFormControlOptions, public value?: string) {
     this.value = '';
     this.options = {

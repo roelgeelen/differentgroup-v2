@@ -30,7 +30,8 @@
                   <div class="dropzone" appDnd (fileDropped)="onFileDropped(control, $event)">
                     @if (control.options.image !== null) {
                       @if (progress === 0) {
-                        <button mat-mini-fab class="remove-image" (click)="removeImage(control, control.options.image!)">
+                        <button mat-mini-fab class="remove-image"
+                                (click)="removeImage(control, control.options.image!)">
                           <mat-icon>close</mat-icon>
                         </button>
                         <img [src]="control.options.image?.url+'?name='+control.options.image?.name" alt="image">
@@ -38,7 +39,8 @@
                         <mat-spinner [diameter]="50"></mat-spinner>
                       }
                     } @else {
-                      <input type="file" id="fileDropRef" accept="image/*" (change)="fileBrowseHandler(control, $event)"/>
+                      <input type="file" id="fileDropRef" accept="image/*"
+                             (change)="fileBrowseHandler(control, $event)"/>
                       <label for="fileDropRef">Foto kiezen</label>
                     }
                   </div>
@@ -162,12 +164,14 @@
                   @if (control.options.type == 'number') {
                     <mat-form-field appearance="outline">
                       <mat-label>Min</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators!.min" [ngModelOptions]="{standalone:true}"
+                      <input matInput [(ngModel)]="control.options!.validators!.min"
+                             [ngModelOptions]="{standalone:true}"
                              type="number">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                       <mat-label>Max</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators!.max" [ngModelOptions]="{standalone:true}"
+                      <input matInput [(ngModel)]="control.options!.validators!.max"
+                             [ngModelOptions]="{standalone:true}"
                              type="number">
                     </mat-form-field>
                   }
@@ -266,8 +270,7 @@
           <mat-label>Soort</mat-label>
           <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
         </mat-form-field>
-
-        <span>Pagina's</span>
+        <div class="label">Pagina's</div>
         <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
           @for (page of form.pages;track page) {
             <div class="option-box" cdkDrag>
@@ -279,10 +282,20 @@
           }
         </div>
         <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
+        <div class="label">Offerte</div>
         <div class="margin-top">
           <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
         </div>
-
+        @if (form.options.createQuotation) {
+          @for (line of form.options.quoteLines;track line) {
+            <div class="option-box">
+              <input [(ngModel)]="line.sku" placeholder="sku" [ngModelOptions]="{standalone:true}">
+              <input [(ngModel)]="line.order" type="number" placeholder="volgorde" [ngModelOptions]="{standalone:true}">
+              <mat-icon class="close-icon" (click)="removeFromList(form.options.quoteLines!, $index)">close</mat-icon>
+            </div>
+          }
+          <button mat-button color="primary"  (click)="addQuoteLine(form.options.quoteLines!)">+ Offerte regel toevoegen</button>
+        }
       }
       <mat-divider></mat-divider>
     </mat-card-content>

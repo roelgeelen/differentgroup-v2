@@ -7,7 +7,7 @@ export class Dropdown implements IFormControl<IFormControlOptions, string> {
   readonly icon: string = "arrow_downward";
   readonly type: string = "Dropdown";
   readonly title: string = "Dropdown";
-
+  readonly category: string = 'Velden';
   constructor(public options?: IFormControlOptions, public value?: string) {
     this.value = value ?? '';
     this.options = {

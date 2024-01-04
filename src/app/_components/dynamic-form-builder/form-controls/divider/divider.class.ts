@@ -7,7 +7,7 @@ export class Divider implements IFormControl<IFormControlOptions, null> {
   readonly icon: string = 'drag_handle';
   readonly type: string = 'Divider';
   readonly title: string = 'Divider';
-
+  readonly category: string = 'Overige';
   constructor(public options?: IFormControlOptions) {
     this.options = {
       visibility: options?.visibility ?? {

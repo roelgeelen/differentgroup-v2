@@ -73,10 +73,14 @@ export class DynamicFormComponent implements OnInit {
         // this.apiFormService.getForm()
         this.apiCustomerService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
-          this.formService.setForm(c.form, this.convertConfigurationToRawJson(this.config.values || []));
+          this.setForm(c);
         });
       }
     });
+  }
+
+  setForm(configuration: IConfiguration) {
+    this.formService.setForm(configuration.form, this.convertConfigurationToRawJson(configuration.values || []));
   }
 
   get tabCount(): number {
@@ -99,66 +103,44 @@ export class DynamicFormComponent implements OnInit {
 
   saveForm() {
     if (this.config) {
-      // console.log(this.formService.formGroup$.getValue().getRawValue())
       this.config.updatedBy = this.currentUser?.name;
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
-      console.log(this.config.values)
+      this.setForm(this.config);
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe();
     }
   }
-
-  extractQuoteLines(form: IForm, values: IConfigurationItem[]): any[] {
-    const quoteLines: any[] = [];
-
-    values.forEach((configPage) => {
-      const templatePage = form.pages.find((page) => page.tab === configPage.page);
-
-      if (templatePage && configPage.values) {
-        configPage.values.forEach((filledControl) => {
-          if (filledControl.columns) {
-// vul hier de colmns
-          } else {
-            const templateControl = templatePage.controls.find((control) => control.id === filledControl.id);
-
-            if (templateControl && templateControl.options && filledControl.value) {
-              const chosenOption = templateControl.options.choices?.find((option) => option.value === filledControl.value);
-
-              if (chosenOption && chosenOption.quoteLine) {
-                quoteLines.push(chosenOption.quoteLine);
-              }
-            }
-          }
-        });
-      }
-    });
-
-    return quoteLines;
-  }
-
   generateConfigurationValue(form: IForm, values: any): IConfigurationItem[] {
     return form.pages.map((item) => {
-      const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
+      const newItem: IConfigurationItem = { page: item.tab ?? '', values: [] };
 
       item.controls.forEach((control) => {
         const dep = this.utilityService.isShow(control);
-        if (dep || (dep && control.options?.visibility?.showInConfiguration)) {
+        const controlOptions = control.options || {};
+
+        if (dep && (controlOptions.visibility?.showInConfiguration || !controlOptions.visibility)) {
           let shouldAddValue = false;
 
           if (control.type === 'Columns') {
             const columnValues: IConfigurationItemValue[] = [];
+
             control.columns?.forEach((column) => {
               column.container.controls.forEach((colControl) => {
-                const colValue: IConfigurationItemValue = {
-                  id: colControl.id,
-                  type: colControl.type,
-                  title: colControl.options?.title || colControl.options?.label || '',
-                  subtitle: colControl.options?.subtitle || '',
-                  value: values[colControl.id] || colControl.value || ''
-                };
+                const colDep = this.utilityService.isShow(colControl);
+                const colControlOptions = colControl.options || {};
 
-                if (this.shouldAddConfigurationItem(colValue)) {
-                  shouldAddValue = true;
-                  columnValues.push(colValue);
+                if (colDep && (colControlOptions.visibility?.showInConfiguration || !colControlOptions.visibility)) {
+                  const colValue: IConfigurationItemValue = {
+                    id: colControl.id,
+                    type: colControl.type,
+                    title: colControlOptions.title || colControlOptions.label || '',
+                    subtitle: colControlOptions.subtitle || '',
+                    value: values[colControl.id] || colControl.value || ''
+                  };
+
+                  if (this.shouldAddConfigurationItem(colValue)) {
+                    shouldAddValue = true;
+                    columnValues.push(colValue);
+                  }
                 }
               });
             });
@@ -166,9 +148,9 @@ export class DynamicFormComponent implements OnInit {
             if (shouldAddValue) {
               newItem.values.push({
                 id: control.id,
-                title: control.options?.label || '',
+                title: controlOptions.label || '',
                 type: control.type,
-                subtitle: control.options?.note,
+                subtitle: controlOptions.note,
                 columns: columnValues
               });
             }
@@ -176,9 +158,9 @@ export class DynamicFormComponent implements OnInit {
             const value: IConfigurationItemValue = {
               id: control.id,
               type: control.type,
-              title: control.options?.title || control.options?.label || '',
-              subtitle: control.options?.subtitle || control.options?.note || '',
-              value: values[control.id] || control.value || '',
+              title: controlOptions.title || controlOptions.label || '',
+              subtitle: controlOptions.subtitle || controlOptions.note || '',
+              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || control.value || '',
             };
             if (this.shouldAddConfigurationItem(value)) {
               newItem.values.push(value);
@@ -192,11 +174,9 @@ export class DynamicFormComponent implements OnInit {
   }
 
   shouldAddConfigurationItem(value: IConfigurationItemValue): boolean {
-    if (value.value && ((value.value !== '' && value.value.length > 0) || 'id' in value.value)) {
-      return true;
-    }
-
-    return value.type === 'InfoBox' || value.type === 'Divider';
+    const isValueNotEmpty = value.value && ((value.value !== '' && value.value.length > 0) || 'id' in value.value);
+    const isTypeAllowed = ['InfoBox', 'Divider', 'InfoImage'].includes(value.type);
+    return isValueNotEmpty || isTypeAllowed;
   }
 
   convertConfigurationToRawJson(configValues: IConfigurationItem[]): { [key: string]: string; } {

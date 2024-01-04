@@ -10,7 +10,7 @@
     [cdkDropListEnterPredicate]="allowDropPredicate"
   >
     @for (item of container!.controls; track item) {
-      @if (utilityService.isShow(item) || showInvisible) {
+      @if (showControl(item) || showInvisible) {
         <div
           class="control-container"
           [class.selected]="item.id == selectedControl?.id"
@@ -45,7 +45,7 @@
                     info_outlined
                   </mat-icon>
                 }
-                @if (!utilityService.isShow(item) && showInvisible) {
+                @if (!showControl(item) && showInvisible) {
                   <mat-icon>visibility_off</mat-icon>
                 } @else if (item.options.dependent!.length > 0) {
                   <mat-icon>visibility_on</mat-icon>
@@ -80,7 +80,7 @@
   </div>
 } @else {
   @for (item of container!.controls; track item) {
-    @if (utilityService.isShow(item)) {
+    @if (showControl(item)) {
       <div
         class="control-container"
         [class.selected]="item.id == selectedControl?.id"
@@ -116,6 +116,10 @@
       @case ('InfoBox') {
         <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"
                       [isBuilder]="isBuilder"></app-info-box>
+      }
+      @case ('InfoImage') {
+        <app-info-image [control]="item" [selected]="item.id == selectedControl?.id"
+                      [isBuilder]="isBuilder"></app-info-image>
       }
       @case ('Divider') {
         <app-divider [control]="item" [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-divider>

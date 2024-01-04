@@ -7,6 +7,7 @@ export interface IFormControl<TOptions = IFormControlOptions, TValue = any>
   readonly icon: string;
   readonly type: string;
   readonly title: string;
+  readonly category: string;
   value?: TValue;
   options?: TOptions;
   columns?: IColumn[];

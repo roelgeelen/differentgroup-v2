@@ -8,7 +8,7 @@ export class ImageUpload implements IFormControl<IFormControlOptions, IConfigura
   readonly icon: string = 'wallpaper';
   readonly type: string = 'ImageUpload';
   readonly title: string = 'Afbeelding';
-
+  readonly category: string = 'Velden';
   constructor(public options?: IFormControlOptions, public value?: IConfigurationAttachment|null) {
     this.value = value ?? null;
     this.options = {

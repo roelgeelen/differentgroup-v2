@@ -21,6 +21,7 @@ export interface IConfigurationItem {
 export interface IConfigurationItemValue {
   id?: string;
   type: string;
+  image?: string;
   title: string;
   subtitle?: string;
   value?: any;

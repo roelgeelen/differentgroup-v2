@@ -10,7 +10,11 @@ export class ApiQuoteService {
   constructor(private http: HttpClient) {
   }
 
-  findProduct(id: string) {
+  findProducts(id: string[]) {
+    return this.http.get<any>(`${environment.apiLocal}/v2/quote/products?ids=${id}`);
+  }
+
+  getProduct(id: string) {
     return this.http.get<any>(`${environment.apiLocal}/v2/quote/products/${id}`);
   }
 }

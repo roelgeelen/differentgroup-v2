@@ -7,7 +7,7 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
   readonly icon: string = 'input';
   readonly type: string = 'TextBox';
   readonly title: string = 'Tekst veld';
-
+  readonly category: string = 'Velden';
   constructor(public options?: IFormControlOptions, public value?: string) {
     this.value = value ?? '';
     this.options = {

@@ -7,7 +7,7 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
   readonly icon: string = 'radio_button_checked';
   readonly type: string = 'RadioBtn';
   readonly title: string = 'Enkele keuze';
-
+  readonly category: string = 'Velden';
   constructor(public options?: IFormControlOptions, public value?: string) {
     this.value = value ?? '';
     this.options = {

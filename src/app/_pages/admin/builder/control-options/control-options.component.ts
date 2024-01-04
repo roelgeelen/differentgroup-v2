@@ -33,7 +33,7 @@ import {ApiFormService} from "../../../../_services/api-form.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {
   IFormAttachment,
-  IFormControlOptionsChoices, IFormControlOptionsDependent
+  IFormControlOptionsChoices, IFormControlOptionsDependent, IQuoteLine
 } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {DndDirective} from "../../../../_helpers/directives/dnd.directive";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -242,7 +242,6 @@ export class ControlOptionsComponent implements OnInit {
             control.options!.image = {id:''};
             this.progress = Math.round((100 * data.loaded) / data.total);
           } else if (data instanceof HttpResponse) {
-            console.log(data.body)
             control.options!.image = data.body;
             this.saveForm();
             this.progress = 0;
@@ -277,5 +276,20 @@ export class ControlOptionsComponent implements OnInit {
     this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
       this.formService.setLoadingStatus(false);
     } );
+  }
+
+  addQuoteLine(quoteLines: IQuoteLine[]){
+    if (this.formService.form$.getValue().options.quoteLines === undefined){
+      this.formService.form$.getValue().options.quoteLines = [];
+    }
+    this.formService.form$.getValue().options.quoteLines!.push({sku:'', order:100});
+  }
+
+  quoteOptionToggle($event: any) {
+    if ($event) {
+      this.formService.form$.getValue().options.quoteLines = [];
+    } else {
+      this.formService.form$.getValue().options.quoteLines = undefined;
+    }
   }
 }

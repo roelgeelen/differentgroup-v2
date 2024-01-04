@@ -27,15 +27,20 @@
                     <h2>{{ value.title }}</h2>
                     <div [innerHTML]="value.subtitle | safeHtml"></div>
                   }
+                  @case ('InfoImage') {
+                    @if (value.value) {
+                      <img [src]="value.value.url+'?name='+value.value.name" alt="afbeelding">
+                    }
+                  }
                   @case ('Divider') {
                     <hr>
                   }
                   @case ('ImageUpload') {
-                    <h2 class="break">{{value.title}}</h2>
+                    <h2 class="break">{{ value.title }}</h2>
                     <img [src]="value.value.url+'?name='+value.value.name" alt="afbeelding">
                   }
                   @case ('FileUpload') {
-                    <h2 class="break">{{value.title}}</h2>
+                    <h2 class="break">{{ value.title }}</h2>
                     <div class="files-list">
                       <a class="single-file" [href]="value.value.url" target="_blank">
                         <div class="file-icon" style="width: 40px; height: 36px">
@@ -43,7 +48,7 @@
                         </div>
                         <div class="info">
                           <div class="name">
-                            {{value.value.name}}
+                            {{ value.value.name }}
                           </div>
                         </div>
                       </a>

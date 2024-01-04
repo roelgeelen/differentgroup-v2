@@ -8,6 +8,7 @@ export class FileUpload implements IFormControl<IFormControlOptions, IConfigurat
   readonly icon: string = 'upload_file';
   readonly type: string = 'FileUpload';
   readonly title: string = 'Bestand';
+  readonly category: string = 'Velden';
 
   constructor(public options?: IFormControlOptions, public value?: IConfigurationAttachment|null) {
     this.value = value ?? null;

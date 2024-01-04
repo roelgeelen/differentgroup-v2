@@ -14,7 +14,7 @@ export class FormService {
     title: 'Nieuw formulier',
     pages: [],
     options: {
-      createQuotation: false
+      createQuotation: false,
     }
   });
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);

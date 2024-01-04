@@ -11,9 +11,7 @@ export class UtilityService {
   }
 
   public isShow(item: IFormControl) {
-    return (
-      item.options?.dependent?.length !== 0 ? this.isDependent(item) : (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm)
-    );
+    return item.options?.dependent?.length !== 0 ? this.isDependent(item): true;
   }
 
   private isDependent(item: IFormControl) {
