@@ -15,7 +15,7 @@
         <span class="txt">Totaal</span>
       </div>
       <div class="item-text price">
-        <span class="txt">€ {{ calculateTotalPrice() }}</span>
+        <span class="txt">€ {{ calculateTotalPrice() | number : '1.2-2'}}</span>
       </div>
     </div>
   </mat-card-content>

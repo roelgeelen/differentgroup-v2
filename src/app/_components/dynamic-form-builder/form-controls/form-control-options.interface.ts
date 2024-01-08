@@ -30,9 +30,14 @@ export interface IFormControlOptionsChoices {
 }
 
 export interface IQuoteLine {
-  product?: { id: string, properties: { name: string, description: string, price: string } }|null;
+  product?: IQuoteLineProduct | null;
   sku: string;
   order: number;
+}
+
+export interface IQuoteLineProduct {
+  id: string,
+  properties: { name: string, description: string, price: string, hs_sku: string }
 }
 
 export interface IFormControlOptionsDependent {

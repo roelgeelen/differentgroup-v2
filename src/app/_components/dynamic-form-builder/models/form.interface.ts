@@ -1,5 +1,6 @@
 import {IFormPage} from "./form-container.interface";
 import {IQuoteLine} from "../form-controls/form-control-options.interface";
+import {IFormControl} from "../form-controls/form-control.interface";
 
 export interface IForm {
   id?: number;
@@ -16,5 +17,7 @@ export interface IForm {
 
 export interface IFormOptions {
   createQuotation?: boolean;
-  quoteLines?: IQuoteLine[]
+  quoteLines?: IQuoteLine[];
+  quoteSizeCalculation?: 'odo' | 'sdh';
+  quoteSizeFields?: { [key: string]: IFormControl | null };
 }

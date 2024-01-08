@@ -8,7 +8,7 @@
   }
 
   .line-items-scroll {
-    max-height: calc(100vh - 270px - 66px); // Hoogte van de kaart minus de hoogte van de totals
+    max-height: calc(100vh - 370px); // Hoogte van de kaart minus de hoogte van de totals
     overflow-y: auto;
   }
 

@@ -10,7 +10,7 @@ import {TextArea} from "./text-area/text-area.class";
 import {Divider} from "./divider/divider.class";
 import {ImageUpload} from "./upload/image-upload.class";
 import {FileUpload} from "./upload/file-upload.class";
-import {InfoImage} from "./info-image/info-image.class";
+import {InfoImage} from "./info-image/quote-item.class";
 
 @Injectable({providedIn: 'root'})
 export class FormControlsService {

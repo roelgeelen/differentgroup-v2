@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -44,6 +44,7 @@ import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {ChoiceDialogComponent} from "./choice-dialog/choice-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {v4 as uuidV4} from "uuid";
+import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
 
 @Component({
   selector: 'app-control-options',
@@ -75,7 +76,8 @@ import {v4 as uuidV4} from "uuid";
     DndDirective,
     NgOptimizedImage,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    AutocompleteFieldComponent
   ],
   styleUrl: './control-options.component.scss'
 })
@@ -99,9 +101,12 @@ export class ControlOptionsComponent implements OnInit {
     {value: 'week', name: 'Week'}
   ]
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
-  filteredOptions: Observable<IFormControl[]> | undefined;
+  dependentOptions: IFormControl[] = [];
+  // filteredOptions: Observable<IFormControl[]> | undefined;
   progress: number = 0;
   currentUser: User | undefined;
+
+  numberFields: IFormControl[] = [];
 
   constructor(
     private authService: AuthenticationService,
@@ -117,23 +122,19 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.dependentControl.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.options?.label;
-        return name ? this._filter(name as string) : this.getAvailableDependentFields.slice();
-      }),
-    );
-  }
-
-  displayFn(control: IFormControl): string {
-    return control?.options?.label ?? '';
-  }
-
-  private _filter(name: string): IFormControl[] {
-    const filterValue = name.toLowerCase();
-
-    return this.getAvailableDependentFields.filter(option => option.options!.label!.toLowerCase().includes(filterValue));
+    this.formService.editForm$.subscribe(edit => {
+      if (edit) {
+        this.numberFields = this.getAvailableNumberFields;
+      }
+    })
+    this.formService.selectedControl$.subscribe(c => {
+      if (c && c.options?.dependent !== undefined) {
+        this.dependentOptions = this.getAvailableDependentFields;
+      }
+    })
+    this.dependentControl.valueChanges.subscribe(value => {
+      this.dependentOptions = this.getAvailableDependentFields;
+    })
   }
 
   get control() {
@@ -150,8 +151,9 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   addChoice(choices: IFormControlOptionsChoices[]) {
-    choices.push({id: uuidV4(),value: 'Optie'})
+    choices.push({id: uuidV4(), value: 'Optie'})
   }
+
   openDialog(option: IFormControlOptionsChoices): void {
     this.dialog.open(ChoiceDialogComponent, {
       data: option,
@@ -212,6 +214,39 @@ export class ControlOptionsComponent implements OnInit {
     return list;
   }
 
+  get getAvailableNumberFields() {
+    const list: IFormControl[] = [];
+    const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
+
+    const pushControlToList = (control: IFormControl) => {
+      if (control.type === 'TextBox') {
+        list.push(control);
+      }
+    };
+
+    formControls.forEach(control => {
+      if ((control.type === 'Columns' && control.columns)) {
+        control.columns.forEach(col => {
+          col.container.controls.forEach(subControl => {
+            pushControlToList(subControl);
+          });
+        });
+      } else {
+        pushControlToList(control);
+      }
+    });
+
+    return list;
+  }
+
+  controlSearchFunction(option: any): string {
+    return option?.options?.title ?? '';
+  }
+
+  dependentSearchFunction(option: any): string {
+    return option?.options?.label ?? '';
+  }
+
   updateValue($event: Event) {
     this.formControl.setValue($event);
   }
@@ -228,18 +263,18 @@ export class ControlOptionsComponent implements OnInit {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe(f=> this.router.navigateByUrl('/admin/forms'))
+        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe(f => this.router.navigateByUrl('/admin/forms'))
       }
     });
   }
 
-  prepareFilesList(control:IFormControl, files: FileList) {
+  prepareFilesList(control: IFormControl, files: FileList) {
     const file = files.item(0);
     if (file !== null && file.size < 5000000) {
       this.apiFormService.upload(this.formService.form$.getValue().id!.toString(), control.id, file).subscribe({
         next: (data: any) => {
           if (data.type === HttpEventType.UploadProgress) {
-            control.options!.image = {id:''};
+            control.options!.image = {id: ''};
             this.progress = Math.round((100 * data.loaded) / data.total);
           } else if (data instanceof HttpResponse) {
             control.options!.image = data.body;
@@ -253,15 +288,16 @@ export class ControlOptionsComponent implements OnInit {
       });
     }
   }
-  onFileDropped(control:IFormControl, event: any) {
+
+  onFileDropped(control: IFormControl, event: any) {
     this.prepareFilesList(control, event);
   }
 
-  fileBrowseHandler(control:IFormControl, event: any) {
+  fileBrowseHandler(control: IFormControl, event: any) {
     this.prepareFilesList(control, event.target.files);
   }
 
-  removeImage(control:IFormControl, image: IFormAttachment) {
+  removeImage(control: IFormControl, image: IFormAttachment) {
     this.apiFormService.removeFormAttachment(this.formService.form$.getValue().id!.toString(), image.id).subscribe(r => {
         this.control.options!.image = null;
         this.saveForm();
@@ -275,14 +311,14 @@ export class ControlOptionsComponent implements OnInit {
     form.updatedBy = this.currentUser?.name;
     this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
       this.formService.setLoadingStatus(false);
-    } );
+    });
   }
 
-  addQuoteLine(quoteLines: IQuoteLine[]){
-    if (this.formService.form$.getValue().options.quoteLines === undefined){
+  addQuoteLine(quoteLines: IQuoteLine[]) {
+    if (this.formService.form$.getValue().options.quoteLines === undefined) {
       this.formService.form$.getValue().options.quoteLines = [];
     }
-    this.formService.form$.getValue().options.quoteLines!.push({sku:'', order:100});
+    this.formService.form$.getValue().options.quoteLines!.push({sku: '', order: 100});
   }
 
   quoteOptionToggle($event: any) {
@@ -290,6 +326,22 @@ export class ControlOptionsComponent implements OnInit {
       this.formService.form$.getValue().options.quoteLines = [];
     } else {
       this.formService.form$.getValue().options.quoteLines = undefined;
+    }
+  }
+
+  propertyExists(property:string, object:any){
+    return property in object;
+  }
+
+  selectSizeCalculation($event: any) {
+    if ($event === 'odo') {
+      this.formService.form$.getValue().options.quoteSizeFields = {
+        height: null,
+        width: null
+      }
+    }
+    if ($event === 'sdh'){
+      this.formService.form$.getValue().options.quoteSizeFields = undefined;
     }
   }
 }

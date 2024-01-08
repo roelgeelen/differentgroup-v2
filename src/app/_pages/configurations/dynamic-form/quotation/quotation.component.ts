@@ -4,10 +4,14 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
 import {IFormControl} from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
-import {IQuoteLine} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import {
+  IQuoteLine,
+  IQuoteLineProduct
+} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {QuotationItemComponent} from "./quotation-item.component";
 import {ApiQuoteService} from "../../../../_services/api-quote.service";
 import {isArray} from "@angular/compiler-cli/src/ngtsc/annotations/common";
+import {DecimalPipe} from "@angular/common";
 
 @Component({
   selector: 'app-quotation',
@@ -17,7 +21,8 @@ import {isArray} from "@angular/compiler-cli/src/ngtsc/annotations/common";
     MatCardModule,
     MatButtonModule,
     MatDividerModule,
-    QuotationItemComponent
+    QuotationItemComponent,
+    DecimalPipe
   ],
   styleUrl: './quotation.component.scss'
 })
@@ -25,6 +30,7 @@ export class QuotationComponent {
   choiceControls: IFormControl[] = [];
   quoteItems: IQuoteLine[] = [];
   fetchedSKUs: Set<string> = new Set<string>();
+  fetchedProducts: IQuoteLineProduct[] = [];
 
   constructor(
     private formService: FormService,
@@ -41,9 +47,26 @@ export class QuotationComponent {
 
   async setQuoteItems(formGroup: any) {
     let selectedQuoteLines: IQuoteLine[] = [];
+    const form = this.formService.form$.getValue();
 
-    if (this.formService.form$.getValue().options.quoteLines){
-      selectedQuoteLines.push(...this.formService.form$.getValue().options.quoteLines!);
+    if (form.options.quoteLines) {
+      selectedQuoteLines.push(...form.options.quoteLines!);
+    }
+
+    // Set size quoteline
+    if (form.options.quoteSizeCalculation === 'odo' && 'width' in form.options.quoteSizeFields! && 'height' in form.options.quoteSizeFields!) {
+      const width = formGroup[form.options!.quoteSizeFields['width']!.id]
+      const height = formGroup[form.options!.quoteSizeFields['height']!.id]
+      if (width && height) {
+        const size = Math.ceil((((width < 2000 ? 2000 : width) - 2000) / 100) + 1) + (Math.ceil(((height < 2000 ? 2000 : height) - 2000) / 100) * 11)
+        const sku1 = 'ODO0' + ('0' + size).slice(-2);
+        const sku2 = 'ODO' + (size + 99);
+        selectedQuoteLines.push(...[{sku: sku1, order: 20, product: this.findQuoteLineProductBySku(sku1)}, {
+          sku: sku2,
+          order: 20,
+          product: this.findQuoteLineProductBySku(sku2)
+        }])
+      }
     }
 
     for (const groupId of Object.keys(formGroup)) {
@@ -57,7 +80,7 @@ export class QuotationComponent {
       const formControl = this.choiceControls.find(control => control.id === groupId);
 
       if (formControl) {
-        selectedValues.forEach((selectedValue:any) => {
+        selectedValues.forEach((selectedValue: any) => {
           const selectedChoice = formControl.options!.choices!.find(choice => choice.value === selectedValue);
 
           if (selectedChoice && selectedChoice.quoteLine) {
@@ -74,25 +97,28 @@ export class QuotationComponent {
 
     // Update the fetched SKUs
     newSKUs.forEach(sku => this.fetchedSKUs.add(sku));
-
+    selectedQuoteLines.sort((a, b) => a.order - b.order || a.sku.localeCompare(b.sku));
     this.quoteItems = selectedQuoteLines;
     this.findProducts(newSKUs);
   }
 
+  findQuoteLineProductBySku(hs_sku: string): IQuoteLineProduct | undefined {
+    return this.fetchedProducts.find(product => product.properties.hs_sku === hs_sku);
+  }
+
   async findProducts(skus: string[]) {
     for (const sku of skus) {
-      await new Promise(f => setTimeout(f, 300));
-      this.apiQuoteService.getProduct(sku).subscribe(r => {
-        const quoteLine = this.quoteItems.find(item => item.sku === sku);
-        if (quoteLine) {
+      const quoteLine = this.quoteItems.find(item => item.sku === sku);
+      if (quoteLine) {
+        await new Promise(f => setTimeout(f, 450));
+        this.apiQuoteService.getProduct(sku).subscribe(r => {
+          console.log("api")
+          this.fetchedProducts.push(r);
           quoteLine.product = r;
-        }
-      }, error => {
-        const quoteLine = this.quoteItems.find(item => item.sku === sku);
-        if (quoteLine) {
+        }, error => {
           quoteLine.product = null;
-        }
-      })
+        })
+      }
     }
   }
 

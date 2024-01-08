@@ -210,7 +210,9 @@
                           }
                         </mat-select>
                       </mat-form-field>
-                      <mat-icon class="close-icon" (click)="removeFromList(control.options.dependent!, $index)">delete
+                      <mat-icon class="close-icon"
+                                (click)="removeFromList(control.options.dependent!, $index);dependentControl.reset()">
+                        delete
                       </mat-icon>
                     </div>
                   }
@@ -221,15 +223,18 @@
                 }
                 <hr>
                 <form class="add-dependent" (ngSubmit)="addDependent(control.options.dependent!)">
-                  <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-                    <mat-label>Veld</mat-label>
-                    <input type="text" matInput [formControl]="dependentControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                      @for (option of filteredOptions | async;track option) {
-                        <mat-option [value]="option">{{ option.options!.label }}</mat-option>
-                      }
-                    </mat-autocomplete>
-                  </mat-form-field>
+                  <app-autocomplete-field [options]="dependentOptions" title="Veld"
+                                          [searchFunction]="dependentSearchFunction"
+                                          [formControl]="dependentControl"></app-autocomplete-field>
+                  <!--                  <mat-form-field appearance="outline" [hideRequiredMarker]="true">-->
+                  <!--                    <mat-label>Veld</mat-label>-->
+                  <!--                    <input type="text" matInput [formControl]="dependentControl" [matAutocomplete]="auto">-->
+                  <!--                    <mat-autocomplete #auto="matAutocomplete" [requireSelection]="true" [displayWith]="displayFn">-->
+                  <!--                      @for (option of filteredOptions | async;track option) {-->
+                  <!--                        <mat-option [value]="option">{{ option.options!.label }}</mat-option>-->
+                  <!--                      }-->
+                  <!--                    </mat-autocomplete>-->
+                  <!--                  </mat-form-field>-->
                   <button mat-raised-button color="primary" type="submit">
                     <mat-icon>add</mat-icon>
                   </button>
@@ -270,7 +275,7 @@
           <mat-label>Soort</mat-label>
           <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
         </mat-form-field>
-        <div class="label">Pagina's</div>
+        <div class="label margin-bottom">Pagina's</div>
         <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
           @for (page of form.pages;track page) {
             <div class="option-box" cdkDrag>
@@ -282,7 +287,7 @@
           }
         </div>
         <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
-        <div class="label">Offerte</div>
+        <div class="label margin-bottom margin-top">Offerte</div>
         <div class="margin-top">
           <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
         </div>
@@ -294,7 +299,32 @@
               <mat-icon class="close-icon" (click)="removeFromList(form.options.quoteLines!, $index)">close</mat-icon>
             </div>
           }
-          <button mat-button color="primary"  (click)="addQuoteLine(form.options.quoteLines!)">+ Offerte regel toevoegen</button>
+          <button mat-button color="primary" (click)="addQuoteLine(form.options.quoteLines!)">+ Offerte regel
+            toevoegen
+          </button>
+
+          <div class="label margin-bottom margin-top">Maatvoering</div>
+          <mat-form-field appearance="outline">
+            <mat-label>Berekening</mat-label>
+            <mat-select (valueChange)="selectSizeCalculation($event)"
+                        [(ngModel)]="form.options.quoteSizeCalculation">
+              <mat-option [value]="'odo'">
+                ODO
+              </mat-option>
+<!--              <mat-option [value]="'sdh'">-->
+<!--                SDH-->
+<!--              </mat-option>-->
+            </mat-select>
+          </mat-form-field>
+          @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
+            <app-autocomplete-field [options]="numberFields" title="Breedte" [searchFunction]="controlSearchFunction"
+                                    [(ngModel)]="form.options.quoteSizeFields['width']"></app-autocomplete-field>
+          }
+          @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
+            <app-autocomplete-field [options]="numberFields" title="Hoogte" [searchFunction]="controlSearchFunction"
+                                    [(ngModel)]="form.options.quoteSizeFields['height']"></app-autocomplete-field>
+          }
+
         }
       }
       <mat-divider></mat-divider>

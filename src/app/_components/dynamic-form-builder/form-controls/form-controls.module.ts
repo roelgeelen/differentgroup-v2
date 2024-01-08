@@ -23,13 +23,13 @@ import {FileFormControlComponent} from "./upload/file-form-control.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {InfoImageComponent} from "./info-image/info-image.component";
+import {QuoteItemComponent} from "./info-image/quote-item.component";
 
 
 @NgModule({
   declarations: [
     TextBoxComponent,
-    InfoImageComponent,
+    QuoteItemComponent,
     DropdownComponent,
     CheckBoxComponent,
     InfoBoxComponent,
@@ -65,7 +65,7 @@ import {InfoImageComponent} from "./info-image/info-image.component";
     TextAreaComponent,
     DividerComponent,
     UploadComponent,
-    InfoImageComponent
+    QuoteItemComponent
   ],
 })
 export class FormControlsModule {
