@@ -34,7 +34,7 @@
                                 (click)="removeImage(control, control.options.image!)">
                           <mat-icon>close</mat-icon>
                         </button>
-                        <img [src]="control.options.image?.url+'?name='+control.options.image?.name" alt="image">
+                        <img [src]="control.options.image.url+'?name='+control.options.image.name" alt="image">
                       } @else {
                         <mat-spinner [diameter]="50"></mat-spinner>
                       }

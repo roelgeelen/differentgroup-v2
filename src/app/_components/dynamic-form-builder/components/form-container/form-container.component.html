@@ -32,7 +32,7 @@
             <mat-label class="label">
               <span>
                 {{ item.options!.label }}
-                @if (item.options?.note) {
+                @if (item.options.note) {
                   <span class="note">({{ item.options.note }})</span>
                 }
                 @if (item.options.validators?.required) {
@@ -40,7 +40,7 @@
                 }
               </span>
               <div>
-                @if (item.options?.help && item.options.help !== '') {
+                @if (item.options.help && item.options.help !== '') {
                   <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">
                     info_outlined
                   </mat-icon>
@@ -53,7 +53,7 @@
               </div>
             </mat-label>
           }
-          @if (item.options?.image) {
+          @if (item.options!.image) {
             @if (item.options?.image?.url) {
               <img [src]="item.options?.image?.url+'?name='+item.options?.image?.name" class="control-image"
                    alt="Afbeelding">
@@ -88,14 +88,14 @@
         @if (item.options && item.options.label && item.options.label !== '') {
           <mat-label class="label">
             <span>{{ item.options!.label }}
-              @if (item.options?.note) {
+              @if (item.options.note) {
                 <span class="note">({{ item.options.note }})</span>
               }
               @if (item.options.validators?.required) {
                 *
               }
             </span>
-            @if (item.options?.help && item.options.help !== '') {
+            @if (item.options.help && item.options.help !== '') {
               <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">info_outlined
               </mat-icon>
             }

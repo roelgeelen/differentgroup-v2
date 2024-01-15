@@ -16,7 +16,7 @@ import {MatInputModule} from "@angular/material/input";
           <button mat-mini-fab class="remove-image" color="warn" (click)="removeFile()">
             <mat-icon>close</mat-icon>
           </button>
-          <img [src]="imageUrl?.url+'?name='+imageUrl?.name" [alt]="imageUrl?.name"/>
+          <img [src]="imageUrl.url+'?name='+imageUrl.name" [alt]="imageUrl.name"/>
         } @else {
           <div class="files-list">
             <div class="single-file">

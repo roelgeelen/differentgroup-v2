@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>3D Model</h2>
+<mat-dialog-content>
+  <div class="full-width"></div>
+  @if (!editUrl && data){
+    {{data.url3D}}
+    <button mat-icon-button color="primary" (click)="editUrl= true">
+      <mat-icon>edit</mat-icon>
+    </button>
+  } @else {
+    <form #urlForm="ngForm" (ngSubmit)="submit(urlForm)">
+      <mat-form-field appearance="outline">
+        <mat-label>URL</mat-label>
+        <input matInput [(ngModel)]="data.url3D" [ngModelOptions]="{standalone:true}" required>
+      </mat-form-field>
+    </form>
+  }
+
+  @if (showIframe && url) {
+    <iframe style="height: 900px; width: 100%" [src]="url" frameborder="0"></iframe>
+  }
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Sluiten</button>
+</mat-dialog-actions>
