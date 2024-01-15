@@ -19,10 +19,12 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
       placeholder: options?.placeholder ?? 'Type hier...',
       type: options?.type ?? 'text',
       validators: options?.validators ?? {
-        required: false
+        required: options?.validators?.required ?? false
       },
-      visibility: options?.visibility ?? {
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      visibility: {
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
       dependent: options?.dependent ?? []
     }

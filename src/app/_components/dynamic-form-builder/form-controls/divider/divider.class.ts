@@ -10,9 +10,11 @@ export class Divider implements IFormControl<IFormControlOptions, null> {
   readonly category: string = 'Overige';
   constructor(public options?: IFormControlOptions) {
     this.options = {
-      visibility: options?.visibility ?? {
+      visibility: {
         showInForm: options?.visibility?.showInForm ?? true,
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
     }
   }

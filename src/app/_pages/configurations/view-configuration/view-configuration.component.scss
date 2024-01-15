@@ -1,5 +1,15 @@
-.form {
+.container{
   background-color: #E8F2F4;
+}
+mat-drawer-content{
+  overflow: visible;
+}
+mat-drawer{
+  border: none !important;
+  background-color: transparent;
+  box-shadow: none;
+}
+.form {
   padding: 20px;
 
   .page {
@@ -118,5 +128,22 @@
         }
       }
     }
+  }
+}
+
+.quotation-toggle{
+  position: absolute;
+  cursor: pointer;
+  z-index: 1;
+  right: -10px;
+  top: 35px;
+  background-color: white;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  padding: 12px 15px 12px 9px;
+  box-shadow: var(--mdc-elevated-card-container-elevation);
+  vertical-align: center;
+  mat-icon{
+    transform: translateY(2px);
   }
 }

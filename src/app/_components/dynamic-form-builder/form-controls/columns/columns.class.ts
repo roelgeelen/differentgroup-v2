@@ -22,7 +22,9 @@ export class Columns implements IFormControl {
       note: options?.note ?? '',
       image: options?.image ?? null,
       visibility: {
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
       dependent: options?.dependent ?? []
     }

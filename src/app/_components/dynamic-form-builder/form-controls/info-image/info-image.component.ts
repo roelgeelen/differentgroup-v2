@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
-import { InfoImage } from './quote-item.class';
+import { InfoImage } from './info-image.class';
 
 @Component({
   selector: 'app-info-image',
-  templateUrl: './quote-item.component.html',
-  styleUrls: ['./quote-item.component.scss']
+  templateUrl: './info-image.component.html',
+  styleUrls: ['./info-image.component.scss']
 })
-export class QuoteItemComponent extends FormControlComponentBase<InfoImage> implements OnInit {
+export class InfoImageComponent extends FormControlComponentBase<InfoImage> implements OnInit {
 
   constructor() {
     super()

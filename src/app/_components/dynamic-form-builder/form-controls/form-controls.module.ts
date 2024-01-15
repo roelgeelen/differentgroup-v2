@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TextBoxComponent} from './text-box/text-box.component';
+import {SliderComponent} from './slider/slider.component';
 import {DropdownComponent} from './dropdown/dropdown.component';
 
 import {CheckBoxComponent} from './check-box/check-box.component';
@@ -23,20 +23,25 @@ import {FileFormControlComponent} from "./upload/file-form-control.component";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {QuoteItemComponent} from "./info-image/quote-item.component";
+import {InfoImageComponent} from "./info-image/info-image.component";
+import {MatSliderModule} from "@angular/material/slider";
+import {TextBoxComponent} from "./text-box/text-box.component";
+import {SliderFormControlComponent} from "./slider/slider-form-control.component";
+
 
 
 @NgModule({
   declarations: [
-    TextBoxComponent,
-    QuoteItemComponent,
+    SliderComponent,
+    InfoImageComponent,
     DropdownComponent,
     CheckBoxComponent,
     InfoBoxComponent,
     RadioBtnComponent,
     TextAreaComponent,
     DividerComponent,
-    UploadComponent
+    UploadComponent,
+    TextBoxComponent
   ],
   imports: [
     SharedModule,
@@ -54,10 +59,12 @@ import {QuoteItemComponent} from "./info-image/quote-item.component";
     FileFormControlComponent,
     MatProgressBarModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatSliderModule,
+SliderFormControlComponent
   ],
   exports: [
-    TextBoxComponent,
+    SliderComponent,
     DropdownComponent,
     CheckBoxComponent,
     InfoBoxComponent,
@@ -65,7 +72,8 @@ import {QuoteItemComponent} from "./info-image/quote-item.component";
     TextAreaComponent,
     DividerComponent,
     UploadComponent,
-    QuoteItemComponent
+    InfoImageComponent,
+    TextBoxComponent
   ],
 })
 export class FormControlsModule {

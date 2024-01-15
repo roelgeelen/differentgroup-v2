@@ -7,8 +7,10 @@ export interface IConfiguration {
   customer: ICustomer;
   form: IForm;
   title: string;
+  preview?: {
+    url3D?: string;
+  };
   values?: IConfigurationItem[];
-  quote?: {id: string, item: IQuoteLine}[];
   createdBy?: string;
   createdAt?: string;
   updatedBy?: string;

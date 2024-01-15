@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -23,6 +23,9 @@ import {UtilityService} from "../../../_components/dynamic-form-builder/services
 import {MatDialog} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "./quotation/quotation.component";
+import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component";
+import {IFieldChange, IConfigChanges} from "../../../_models/configuration/configuration-change.interface";
+import {ApiConfigurationService} from "../../../_services/api-configuration.service";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -41,7 +44,8 @@ import {QuotationComponent} from "./quotation/quotation.component";
     FormsModule,
     RouterLink,
     MatSidenavModule,
-    QuotationComponent
+    QuotationComponent,
+    NgIf
   ],
   styleUrl: './dynamic-form.component.scss'
 })
@@ -50,7 +54,8 @@ export class DynamicFormComponent implements OnInit {
   config: IConfiguration | null = null;
   tabIndex = 0;
   currentUser: User | undefined;
-  editTitle: boolean = false;
+  editTitle = false;
+  loading = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -58,7 +63,8 @@ export class DynamicFormComponent implements OnInit {
     private route: ActivatedRoute,
     private apiCustomerService: ApiCustomerService,
     public dialog: MatDialog,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private apiConfigurationService: ApiConfigurationService
   ) {
     this.formService.setForm(null);
     this.authService.currentUser.subscribe(user => {
@@ -103,21 +109,30 @@ export class DynamicFormComponent implements OnInit {
 
   saveForm() {
     if (this.config) {
+      this.loading = true;
       this.config.updatedBy = this.currentUser?.name;
-      this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
+      const currentConfigValues = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
+      if (this.config.values) {
+        const change = this.detectChanges(this.config.values!, currentConfigValues);
+        if (change.changes.length > 0) {
+          this.apiConfigurationService.createConfigurationChange(this.config.id!, change).subscribe();
+        }
+      }
+      this.config.values = currentConfigValues;
       this.setForm(this.config);
-      this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe();
+      this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe((_)=> this.loading=false);
     }
   }
+
   generateConfigurationValue(form: IForm, values: any): IConfigurationItem[] {
     return form.pages.map((item) => {
-      const newItem: IConfigurationItem = { page: item.tab ?? '', values: [] };
+      const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
 
       item.controls.forEach((control) => {
         const dep = this.utilityService.isShow(control);
         const controlOptions = control.options || {};
 
-        if (dep && (controlOptions.visibility?.showInConfiguration || !controlOptions.visibility)) {
+        if (dep) {
           let shouldAddValue = false;
 
           if (control.type === 'Columns') {
@@ -128,7 +143,7 @@ export class DynamicFormComponent implements OnInit {
                 const colDep = this.utilityService.isShow(colControl);
                 const colControlOptions = colControl.options || {};
 
-                if (colDep && (colControlOptions.visibility?.showInConfiguration || !colControlOptions.visibility)) {
+                if (colDep) {
                   const colValue: IConfigurationItemValue = {
                     id: colControl.id,
                     type: colControl.type,
@@ -200,6 +215,67 @@ export class DynamicFormComponent implements OnInit {
       });
     });
     return json3;
+  }
+
+
+  openPreviewDialog() {
+    if (this.config?.preview === undefined) {
+      this.config!.preview = {url3D: ''}
+    }
+    this.dialog.open(PreviewDialogComponent, {data: this.config?.preview, width: '100vw'});
+  }
+
+  detectChanges(originalValues: IConfigurationItem[], updatedValues: IConfigurationItem[]): IConfigChanges {
+    const changes: IFieldChange[] = [];
+
+    const detectChangesRecursive = (originalItems: IConfigurationItemValue[], updatedItems: IConfigurationItemValue[], parentField: string = '') => {
+      updatedItems.forEach((updatedItem) => {
+        const originalItem = originalItems.find(item => item.id === updatedItem.id);
+
+        if (!['InfoImage', 'InfoBox', 'Divider'].includes(updatedItem.type)) {
+          if (!originalItem) {
+            changes.push({
+              fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
+              fieldType: updatedItem.type,
+              oldValue: null,
+              newValue: updatedItem.value
+            });
+          } else if (originalItem.value !== updatedItem.value) {
+            changes.push({
+              fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
+              fieldType: updatedItem.type,
+              oldValue: originalItem.value,
+              newValue: updatedItem.value
+            });
+          }
+        }
+
+        if (updatedItem.columns && originalItem?.columns) {
+          detectChangesRecursive(originalItem.columns, updatedItem.columns, `${parentField}${parentField ? '.' : ''}${updatedItem.title}`);
+        }
+      });
+
+      originalItems.forEach((originalItem) => {
+        const updatedItem = updatedItems.find(item => item.id === originalItem.id);
+        if (!updatedItem && !['InfoImage', 'InfoBox', 'Divider'].includes(originalItem.type)) {
+          changes.push({
+            fieldName: `${parentField}${parentField ? '.' : ''}${originalItem.title}`,
+            fieldType: originalItem.type,
+            oldValue: originalItem.value,
+            newValue: null
+          });
+        }
+      });
+    };
+
+    updatedValues.forEach((updatedItem) => {
+      const originalItem = originalValues.find(item => item.page === updatedItem.page);
+      if (originalItem) {
+        detectChangesRecursive(originalItem.values, updatedItem.values);
+      }
+    });
+
+    return {createdBy: this.currentUser?.name, changes: changes};
   }
 
 

@@ -16,6 +16,7 @@ export interface IForm {
 }
 
 export interface IFormOptions {
+  model3D?: boolean;
   createQuotation?: boolean;
   quoteLines?: IQuoteLine[];
   quoteSizeCalculation?: 'odo' | 'sdh';

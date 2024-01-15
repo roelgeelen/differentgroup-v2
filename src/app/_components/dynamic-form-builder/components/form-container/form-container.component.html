@@ -128,6 +128,10 @@
         <app-text-box class="margin-top" [control]="item" [form]="formGroup"
                       [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-text-box>
       }
+      @case ('Slider') {
+        <app-slider class="margin-top" [control]="item" [form]="formGroup"
+                      [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-slider>
+      }
       @case ('TextArea') {
         <app-text-area [control]="item" [form]="formGroup"
                        [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-text-area>

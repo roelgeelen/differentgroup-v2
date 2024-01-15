@@ -1,0 +1,96 @@
+.card-container {
+  width: 350px;
+  margin: 20px 20px 0 10px;
+  min-height: calc(100vh - 230px);
+
+  mat-card-title {
+    padding: 8px 0 14px 0 !important;
+  }
+
+  .items-scroll {
+    max-height: calc(100vh - 370px); // Hoogte van de kaart minus de hoogte van de totals
+    overflow-y: auto;
+  }
+  .load-more{
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.history-item {
+  min-height: 66px;
+  border-top: solid 1px #e8e8e8;
+  display: grid;
+  transition: all .3s;
+  padding: 0 10px 10px 10px;
+
+  .title {
+    padding: 12px 0 10px 0;
+    justify-content: space-between;
+    display: flex;
+
+    .name {
+      color: #4a4a49;
+      font-size: 14px;
+      line-height: 18px;
+      display: block;
+      font-weight: 500;
+    }
+
+    .date {
+      font-size: 13px;
+      line-height: 16px;
+      color: #8a8a89;
+      display: block;
+    }
+  }
+
+  .bullet-item {
+    display: flex;
+    align-items: center;
+
+    .bullet {
+      display: block;
+      margin: 5px 10px 5px 5px;
+      background-color: black;
+      border-radius: 50%;
+      padding: 3px;
+    }
+
+    .change-text {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      .block {
+        display: inline-block;
+        color: #4a4a49;
+        font-size: 11px;
+        padding: 0 2px;
+
+        &.file {
+          padding: 1px 5px;
+          border: solid 1px #979797;
+          background-color: #f8fafb;
+          border-radius: 5px;
+        }
+
+        &.full {
+          width: 100%;
+        }
+
+        &.name {
+          font-weight: 500;
+          font-size: 14px;
+          margin: 3px 10px 3px 0;
+        }
+
+        img {
+          flex: 1;
+          height: 50px;
+        }
+      }
+    }
+  }
+
+}

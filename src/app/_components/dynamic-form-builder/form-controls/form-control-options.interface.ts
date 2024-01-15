@@ -13,6 +13,7 @@ export interface IFormControlOptions {
   customChoice?: boolean;
   choices?: IFormControlOptionsChoices[];
   type?: string;
+  steps?: number;
   validators?: {
     required?: boolean;
     min?: number;
@@ -46,7 +47,9 @@ export interface IFormControlOptionsDependent {
 }
 
 export interface IFormControlOptionsVisibility {
-  showInConfiguration: boolean;
+  intern: boolean;
+  extern: boolean;
+  customer: boolean;
   showInForm?: boolean;
 }
 

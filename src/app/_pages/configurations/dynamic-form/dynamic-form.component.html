@@ -1,26 +1,32 @@
-@if (formService.form$ | async; as form) {
-<mat-drawer-container class="container" [hasBackdrop]="false">
+@if (formService.form$ | async;as form) {
+  <mat-drawer-container class="container" [hasBackdrop]="false">
 
-  <mat-drawer #drawer class="example-sidenav" mode="side" position="end">
-    @if(form.options.createQuotation){
-    <app-quotation></app-quotation>
-    }
-  </mat-drawer>
+    <mat-drawer #drawer mode="side" position="end">
+      @if (form.options.createQuotation) {
+        <app-quotation></app-quotation>
+      }
+    </mat-drawer>
 
-  <mat-drawer-content>
-    @if(form.options.createQuotation){
-    <div class="quotation-toggle" (click)="drawer.toggle()">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </div>
-    }
-    <div class="form-builder">
+    <mat-drawer-content>
+      @if (form.options.createQuotation) {
+        <div class="quotation-toggle" (click)="drawer.toggle()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </div>
+      }
+      <div class="form-builder">
 
         <div>
           <div class="buttons">
             <div></div>
             <div>
+              @if (form.options.model3D) {
+                <button mat-raised-button color="accent" (click)="openPreviewDialog()">
+                  <mat-icon>3d_rotation</mat-icon>
+                </button>
+              }
               <button mat-raised-button color="accent" (click)="saveForm()">
-                <mat-icon>save</mat-icon>
+                <mat-icon *ngIf="!loading">save</mat-icon>
+                <mat-spinner *ngIf="loading" [diameter]="20">save</mat-spinner>
               </button>
               @if (form.options.createQuotation) {
                 <button mat-raised-button color="accent">
@@ -30,6 +36,7 @@
             </div>
 
           </div>
+
           <div class="page">
             <div class="form-header d-flex justify-content-between">
               <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
@@ -57,7 +64,7 @@
               <form [formGroup]="formService.formGroup$.getValue()">
                 @if (form.pages.length > 1) {
                   <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
-                    @for (page of form.pages; track page) {
+                    @for (page of form.pages;track page) {
                       <mat-tab [label]="page.tab!">
                         <div class="form-body">
                           <app-form-container
@@ -100,7 +107,7 @@
           </div>
         </div>
 
-    </div>
-  </mat-drawer-content>
-</mat-drawer-container>
-      }
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+}

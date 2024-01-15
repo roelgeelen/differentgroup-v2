@@ -1,0 +1,8 @@
+<div class="slider-container" [formGroup]="form">
+  <slider-form-control [min]="control?.options?.validators?.min??0" [max]="control?.options?.validators?.max??100"
+                       [step]="control?.options?.steps??1" [formControlName]="control!.id" [id]="control!.id"></slider-form-control>
+  <div class="slider-info">
+    <span>{{control?.options?.validators?.min}}</span>
+    <span>{{control?.options?.validators?.max}}</span>
+  </div>
+</div>

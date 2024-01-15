@@ -11,6 +11,10 @@ import {ApiCustomerService} from "../../../_services/api-customer.service";
 import {SharedModule} from "../../../shared.module";
 import {IFormControl} from "../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {DomSanitizer} from "@angular/platform-browser";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {QuotationComponent} from "../dynamic-form/quotation/quotation.component";
+import {ConfigurationHistoryComponent} from "./configuration-history/configuration-history.component";
 
 @Component({
   selector: 'app-view-configuration',
@@ -21,23 +25,35 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatIconModule,
     RouterLink,
     SharedModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    QuotationComponent,
+    ConfigurationHistoryComponent
   ],
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
   configuration: IConfiguration | null = null;
+  visibleFor: 'intern' | 'extern' | 'customer' = "intern";
 
-  constructor(private apiCustomerService: ApiCustomerService, private route: ActivatedRoute) {
+  constructor(private apiCustomerService: ApiCustomerService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(queryParams => {
-      if (queryParams.get('configId') !== null) {
-        this.apiCustomerService.getConfiguration(queryParams.get('dealId')!, queryParams.get('configId')!).subscribe(c => {
+    this.route.paramMap.subscribe(params => {
+      if (params.get('configId') !== null) {
+        this.apiCustomerService.getConfiguration(params.get('dealId')!, params.get('configId')!).subscribe(c => {
           this.configuration = c;
           this.removeInvisibleItems()
         });
+      }
+    });
+    this.route.queryParams.subscribe(params => {
+      const typeParam = params['type'];
+      if (typeParam) {
+        if (typeParam === 'intern' || typeParam === 'extern' || typeParam === 'customer') {
+          this.visibleFor = typeParam;
+        }
       }
     });
   }
@@ -71,11 +87,16 @@ export class ViewConfigurationComponent implements OnInit {
     this.configuration?.values?.forEach((page) => {
       page.values = page.values.filter((value) => {
         const parent = this.parentFormControl(controls, value.id!);
-        return !parent || parent.options?.visibility?.showInConfiguration;
+        if (!parent) {
+          return true;
+        }
+        const visibility = parent.options?.visibility?.[this.visibleFor];
+        return visibility !== undefined ? visibility : true;
       });
     });
   }
 
-
-    protected readonly JSON = JSON;
+  getSafeUrl(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 }

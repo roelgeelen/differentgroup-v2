@@ -11,7 +11,6 @@ import { HomeComponent } from './_pages/home/home.component';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./_helpers/components/navbar/navbar.component";
 import {SharedModule} from "./shared.module";
-import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 
 @NgModule({
   declarations: [
@@ -24,9 +23,6 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
         allowedUrls: [environment.apiUrl, environment.apiLocal],
         sendAccessToken: true
       }
-    }),
-    SweetAlert2Module.forRoot({
-
     }),
     SharedModule,
     HttpClientModule,

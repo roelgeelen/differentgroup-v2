@@ -1,0 +1,22 @@
+<mat-card class="card-container">
+  <mat-card-header>
+    <mat-card-title>Geschiedenis</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="items-scroll">
+      @for (item of changesList;track item) {
+        <history-item [item]="item"></history-item>
+      } @empty {
+        <div>Nog geen history</div>
+      }
+      @if (!data?.last) {
+        <mat-divider></mat-divider>
+        <div class="load-more">
+          <button mat-icon-button color="primary" (click)="loadMore()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -16,8 +16,10 @@ export class FileUpload implements IFormControl<IFormControlOptions, IConfigurat
       label: options?.label ?? 'Bestand',
       help: options?.help ?? '',
       note: options?.note ?? '',
-      visibility: options?.visibility ?? {
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      visibility: {
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
       dependent: options?.dependent ?? []
     }

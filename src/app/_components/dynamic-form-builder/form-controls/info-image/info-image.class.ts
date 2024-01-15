@@ -13,7 +13,9 @@ export class InfoImage implements IFormControl<IFormControlOptions, null> {
       image: options?.image ?? null,
       visibility: options?.visibility ?? {
         showInForm: options?.visibility?.showInForm ?? true,
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
       dependent: options?.dependent ?? []
     }

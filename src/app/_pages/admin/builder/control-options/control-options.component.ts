@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -26,11 +26,9 @@ import {IFormControl} from "../../../../_components/dynamic-form-builder/form-co
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
 import {IFormPage} from "../../../../_components/dynamic-form-builder/models/form-container.interface";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {map, Observable, startWith} from "rxjs";
-import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import Swal from "sweetalert2";
 import {ApiFormService} from "../../../../_services/api-form.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
 import {
   IFormAttachment,
   IFormControlOptionsChoices, IFormControlOptionsDependent, IQuoteLine
@@ -72,7 +70,6 @@ import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-f
     MatRippleModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    SweetAlert2Module,
     DndDirective,
     NgOptimizedImage,
     MatProgressSpinnerModule,
@@ -219,7 +216,7 @@ export class ControlOptionsComponent implements OnInit {
     const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
 
     const pushControlToList = (control: IFormControl) => {
-      if (control.type === 'TextBox') {
+      if (control.options?.type === 'number') {
         list.push(control);
       }
     };
@@ -240,7 +237,7 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   controlSearchFunction(option: any): string {
-    return option?.options?.title ?? '';
+    return option?.options?.label !== '' ? option?.options?.label : option?.options?.title ?? '';
   }
 
   dependentSearchFunction(option: any): string {
@@ -314,19 +311,11 @@ export class ControlOptionsComponent implements OnInit {
     });
   }
 
-  addQuoteLine(quoteLines: IQuoteLine[]) {
+  addQuoteLine() {
     if (this.formService.form$.getValue().options.quoteLines === undefined) {
       this.formService.form$.getValue().options.quoteLines = [];
     }
     this.formService.form$.getValue().options.quoteLines!.push({sku: '', order: 100});
-  }
-
-  quoteOptionToggle($event: any) {
-    if ($event) {
-      this.formService.form$.getValue().options.quoteLines = [];
-    } else {
-      this.formService.form$.getValue().options.quoteLines = undefined;
-    }
   }
 
   propertyExists(property:string, object:any){

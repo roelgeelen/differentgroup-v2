@@ -20,11 +20,13 @@ export class RadioBtn implements IFormControl<IFormControlOptions, string> {
         {id: uuidV4(), value: 'Optie 1'},
         {id: uuidV4(), value: 'Optie 2'}
       ],
-      validators: options?.validators ?? {
-        required: false
+      validators: {
+        required: options?.validators?.required ?? false
       },
-      visibility: options?.visibility ?? {
-        showInConfiguration: options?.visibility?.showInConfiguration ?? true
+      visibility: {
+        intern: options?.visibility?.intern ?? true,
+        extern: options?.visibility?.extern ?? true,
+        customer: options?.visibility?.customer ?? true
       },
       dependent: options?.dependent ?? []
     }

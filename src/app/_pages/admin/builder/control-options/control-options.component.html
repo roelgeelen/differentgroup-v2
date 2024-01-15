@@ -70,7 +70,7 @@
                   <input matInput [(ngModel)]="control.options!.placeholder" [ngModelOptions]="{standalone:true}">
                 </mat-form-field>
               }
-              @if (control.options.type !== undefined) {
+              @if (control.options.type !== undefined && control.type ==='TextBox') {
                 <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
@@ -140,7 +140,7 @@
                   <mat-form-field>
                     <mat-label>Standaard waarded</mat-label>
                     <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
-                           (ngModelChange)="updateValue($event)">
+                           (ngModelChange)="updateValue($event)" [type]="control.options.type ?? 'text'">
                   </mat-form-field>
                 }
               }
@@ -161,27 +161,42 @@
                   @if (control.options.validators.required !== undefined) {
                     <mat-slide-toggle [(ngModel)]="control.options.validators.required">Verplicht</mat-slide-toggle>
                   }
-                  @if (control.options.type == 'number') {
-                    <mat-form-field appearance="outline">
-                      <mat-label>Min</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators!.min"
-                             [ngModelOptions]="{standalone:true}"
-                             type="number">
-                    </mat-form-field>
-                    <mat-form-field appearance="outline">
-                      <mat-label>Max</mat-label>
-                      <input matInput [(ngModel)]="control.options!.validators!.max"
-                             [ngModelOptions]="{standalone:true}"
-                             type="number">
-                    </mat-form-field>
+                  @if (control.options.type === 'number') {
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Min</mat-label>
+                        <input matInput [(ngModel)]="control.options!.validators!.min"
+                               [ngModelOptions]="{standalone:true}"
+                               type="number">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Max</mat-label>
+                        <input matInput [(ngModel)]="control.options!.validators!.max"
+                               [ngModelOptions]="{standalone:true}"
+                               type="number">
+                      </mat-form-field>
+
                   }
                 </div>
+              }
+              @if (control.options.steps !== undefined) {
+                <mat-form-field appearance="outline">
+                  <mat-label>Stappen</mat-label>
+                  <input matInput [(ngModel)]="control.options!.steps" [ngModelOptions]="{standalone:true}" type="number">
+                </mat-form-field>
               }
               @if (control.options.visibility !== undefined) {
                 <div class="label">Zichtbaarheid</div>
                 <div class="tab-content">
-                  <mat-slide-toggle [(ngModel)]="control.options.visibility.showInConfiguration">
-                    Zichtbaar in configuratie
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.intern">
+                    Intern zichtbaar
+                  </mat-slide-toggle>
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.extern">
+                    Extern zichtbaar
+                  </mat-slide-toggle>
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.customer">
+                    Zichtbaar voor klant
                   </mat-slide-toggle>
                   @if (control.options.visibility.showInForm !== undefined) {
                     <mat-slide-toggle [(ngModel)]="control.options.visibility.showInForm">
@@ -226,15 +241,6 @@
                   <app-autocomplete-field [options]="dependentOptions" title="Veld"
                                           [searchFunction]="dependentSearchFunction"
                                           [formControl]="dependentControl"></app-autocomplete-field>
-                  <!--                  <mat-form-field appearance="outline" [hideRequiredMarker]="true">-->
-                  <!--                    <mat-label>Veld</mat-label>-->
-                  <!--                    <input type="text" matInput [formControl]="dependentControl" [matAutocomplete]="auto">-->
-                  <!--                    <mat-autocomplete #auto="matAutocomplete" [requireSelection]="true" [displayWith]="displayFn">-->
-                  <!--                      @for (option of filteredOptions | async;track option) {-->
-                  <!--                        <mat-option [value]="option">{{ option.options!.label }}</mat-option>-->
-                  <!--                      }-->
-                  <!--                    </mat-autocomplete>-->
-                  <!--                  </mat-form-field>-->
                   <button mat-raised-button color="primary" type="submit">
                     <mat-icon>add</mat-icon>
                   </button>
@@ -263,69 +269,85 @@
     </mat-card-header>
     <mat-card-content>
       @if (formService.form$ | async;as form) {
-        <div class="margin-top">
-          <mat-slide-toggle [(ngModel)]="form.published">Gepubliceerd</mat-slide-toggle>
-        </div>
-        <mat-form-field>
-          <mat-label>Naam</mat-label>
-          <input matInput [(ngModel)]="form.title" [ngModelOptions]="{standalone:true}">
-        </mat-form-field>
+        <mat-tab-group>
+          <mat-tab label="Algemeen">
+            <div class="tab-content">
+              <div class="margin-top">
+                <mat-slide-toggle [(ngModel)]="form.published">Gepubliceerd</mat-slide-toggle>
+              </div>
+              <mat-form-field>
+                <mat-label>Naam</mat-label>
+                <input matInput [(ngModel)]="form.title" [ngModelOptions]="{standalone:true}">
+              </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Soort</mat-label>
-          <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
-        </mat-form-field>
-        <div class="label margin-bottom">Pagina's</div>
-        <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
-          @for (page of form.pages;track page) {
-            <div class="option-box" cdkDrag>
-              <div class="option-box-placeholder" *cdkDragPlaceholder></div>
-              <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
-              <input [(ngModel)]="page.tab" [ngModelOptions]="{standalone:true}">
-              <mat-icon class="close-icon" (click)="removeFromList(form.pages, $index)">close</mat-icon>
+              <mat-form-field>
+                <mat-label>Soort</mat-label>
+                <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
+              </mat-form-field>
+              <div class="margin-top">
+                <mat-slide-toggle [(ngModel)]="form.options.model3D">3D Model</mat-slide-toggle>
+              </div>
+              <div class="label margin-bottom">Pagina's</div>
+              <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
+                @for (page of form.pages;track page) {
+                  <div class="option-box" cdkDrag>
+                    <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+                    <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                    <input [(ngModel)]="page.tab" [ngModelOptions]="{standalone:true}">
+                    <mat-icon class="close-icon" (click)="removeFromList(form.pages, $index)">close</mat-icon>
+                  </div>
+                }
+              </div>
+              <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
             </div>
-          }
-        </div>
-        <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
-        <div class="label margin-bottom margin-top">Offerte</div>
-        <div class="margin-top">
-          <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
-        </div>
-        @if (form.options.createQuotation) {
-          @for (line of form.options.quoteLines;track line) {
-            <div class="option-box">
-              <input [(ngModel)]="line.sku" placeholder="sku" [ngModelOptions]="{standalone:true}">
-              <input [(ngModel)]="line.order" type="number" placeholder="volgorde" [ngModelOptions]="{standalone:true}">
-              <mat-icon class="close-icon" (click)="removeFromList(form.options.quoteLines!, $index)">close</mat-icon>
+          </mat-tab>
+          <mat-tab label="Offerte">
+            <div class="tab-content">
+              <div class="margin-top">
+                <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
+              </div>
+              @if (form.options.createQuotation) {
+                @for (line of form.options.quoteLines;track line) {
+                  <div class="option-box">
+                    <input [(ngModel)]="line.sku" placeholder="sku" [ngModelOptions]="{standalone:true}">
+                    <input [(ngModel)]="line.order" type="number" placeholder="volgorde"
+                           [ngModelOptions]="{standalone:true}">
+                    <mat-icon class="close-icon" (click)="removeFromList(form.options.quoteLines!, $index)">close
+                    </mat-icon>
+                  </div>
+                }
+                <button mat-button color="primary" (click)="addQuoteLine()">+ Offerte regel
+                  toevoegen
+                </button>
+
+                <div class="label margin-bottom margin-top">Maatvoering</div>
+                <mat-form-field appearance="outline">
+                  <mat-label>Berekening</mat-label>
+                  <mat-select (valueChange)="selectSizeCalculation($event)"
+                              [(ngModel)]="form.options.quoteSizeCalculation">
+                    <mat-option [value]="'odo'">
+                      ODO
+                    </mat-option>
+                    <!--              <mat-option [value]="'sdh'">-->
+                    <!--                SDH-->
+                    <!--              </mat-option>-->
+                  </mat-select>
+                </mat-form-field>
+                @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
+                  <app-autocomplete-field [options]="numberFields" title="Breedte"
+                                          [searchFunction]="controlSearchFunction"
+                                          [(ngModel)]="form.options.quoteSizeFields['width']"></app-autocomplete-field>
+                }
+                @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
+                  <app-autocomplete-field [options]="numberFields" title="Hoogte"
+                                          [searchFunction]="controlSearchFunction"
+                                          [(ngModel)]="form.options.quoteSizeFields['height']"></app-autocomplete-field>
+                }
+
+              }
             </div>
-          }
-          <button mat-button color="primary" (click)="addQuoteLine(form.options.quoteLines!)">+ Offerte regel
-            toevoegen
-          </button>
-
-          <div class="label margin-bottom margin-top">Maatvoering</div>
-          <mat-form-field appearance="outline">
-            <mat-label>Berekening</mat-label>
-            <mat-select (valueChange)="selectSizeCalculation($event)"
-                        [(ngModel)]="form.options.quoteSizeCalculation">
-              <mat-option [value]="'odo'">
-                ODO
-              </mat-option>
-<!--              <mat-option [value]="'sdh'">-->
-<!--                SDH-->
-<!--              </mat-option>-->
-            </mat-select>
-          </mat-form-field>
-          @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
-            <app-autocomplete-field [options]="numberFields" title="Breedte" [searchFunction]="controlSearchFunction"
-                                    [(ngModel)]="form.options.quoteSizeFields['width']"></app-autocomplete-field>
-          }
-          @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
-            <app-autocomplete-field [options]="numberFields" title="Hoogte" [searchFunction]="controlSearchFunction"
-                                    [(ngModel)]="form.options.quoteSizeFields['height']"></app-autocomplete-field>
-          }
-
-        }
+          </mat-tab>
+        </mat-tab-group>
       }
       <mat-divider></mat-divider>
     </mat-card-content>

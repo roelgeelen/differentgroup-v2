@@ -110,7 +110,7 @@ export class QuotationComponent {
     for (const sku of skus) {
       const quoteLine = this.quoteItems.find(item => item.sku === sku);
       if (quoteLine) {
-        await new Promise(f => setTimeout(f, 450));
+        await new Promise(f => setTimeout(f, 600));
         this.apiQuoteService.getProduct(sku).subscribe(r => {
           console.log("api")
           this.fetchedProducts.push(r);
