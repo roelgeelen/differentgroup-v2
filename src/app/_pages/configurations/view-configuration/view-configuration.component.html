@@ -78,10 +78,10 @@
                           @if (value.columns) {
                             @for (index of [0, 1, 2];track index) {
                               <td>
-                                @if (value.columns[index].title) {
+                                @if (value.columns[index]?.title) {
                                   <span>{{ value.columns[index].title }}</span><br>
                                 }
-                                {{ value.columns[index].value }}
+                                {{ value.columns[index]?.value }}
                               </td>
                             }
                           } @else if (!value.columns) {
