@@ -2,7 +2,7 @@
   @if (control.options !== undefined) {
     <mat-card class="options-card">
       <mat-card-header>
-        <div mat-card-avatar>
+        <div mat-card-avatar matTooltip="Kopieer ID" class="clickable" [cdkCopyToClipboard]="control.id">
           <mat-icon>{{ control?.icon }}</mat-icon>
         </div>
         <mat-card-title class="header-title">{{ control?.title }}</mat-card-title>
@@ -70,7 +70,7 @@
                   <input matInput [(ngModel)]="control.options!.placeholder" [ngModelOptions]="{standalone:true}">
                 </mat-form-field>
               }
-              @if (control.options.type !== undefined && control.type ==='TextBox') {
+              @if (control.options.type !== undefined && control.type === 'TextBox') {
                 <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
@@ -81,6 +81,12 @@
                     }
                   </mat-select>
                 </mat-form-field>
+              }
+              @if (control.options!.calcDuration !== undefined) {
+                <mat-slide-toggle [(ngModel)]="control.options!.calcDuration">Bereken tijd</mat-slide-toggle>
+                @if (control.options!.calcDuration) {
+                  <span class="help">Gebruik "this.duration"</span>
+                }
               }
               @if (control.options.choices !== undefined) {
                 <div class="label">Opties</div>
@@ -104,7 +110,30 @@
                   </button>
                 </div>
               }
-              @if (control.value !== undefined) {
+              @if (control.options.columns !== undefined) {
+                <div class="label">Kolommen</div>
+                <div class="tab-content">
+                  <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.columns!, $event)">
+                    @for (option of control.options.columns!;track option) {
+                      <div class="option-box" cdkDrag>
+                        <div class="option-box-placeholder" *cdkDragPlaceholder></div>
+                        <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                        <input [(ngModel)]="option.key" [ngModelOptions]="{standalone:true}">
+                        <select [(ngModel)]="option.type" [ngModelOptions]="{standalone:true}">
+                          @for (option of inputTypes; track option) {
+                            <option [value]="option.value">{{option.name}}</option>
+                          }
+                        </select>
+                        <mat-icon class="close-icon" (click)="removeFromList(control.options.columns!, $index)">close
+                        </mat-icon>
+                      </div>
+                    }
+                  </div>
+                  <button mat-button color="primary" (click)="addColumn(control.options.columns!)">+ Kolom toevoegen
+                  </button>
+                </div>
+              }
+              @if (control.value !== undefined && control.type !== 'Table') {
                 <div class="label">Waarde</div>
                 @if (control.options.choices !== undefined) {
                   @if (control.value | isArray) {
@@ -163,19 +192,19 @@
                   }
                   @if (control.options.type === 'number') {
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>Min</mat-label>
-                        <input matInput [(ngModel)]="control.options!.validators!.min"
-                               [ngModelOptions]="{standalone:true}"
-                               type="number">
-                      </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Min</mat-label>
+                      <input matInput [(ngModel)]="control.options!.validators!.min"
+                             [ngModelOptions]="{standalone:true}"
+                             type="number">
+                    </mat-form-field>
 
-                      <mat-form-field appearance="outline">
-                        <mat-label>Max</mat-label>
-                        <input matInput [(ngModel)]="control.options!.validators!.max"
-                               [ngModelOptions]="{standalone:true}"
-                               type="number">
-                      </mat-form-field>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Max</mat-label>
+                      <input matInput [(ngModel)]="control.options!.validators!.max"
+                             [ngModelOptions]="{standalone:true}"
+                             type="number">
+                    </mat-form-field>
 
                   }
                 </div>
@@ -183,7 +212,8 @@
               @if (control.options.steps !== undefined) {
                 <mat-form-field appearance="outline">
                   <mat-label>Stappen</mat-label>
-                  <input matInput [(ngModel)]="control.options!.steps" [ngModelOptions]="{standalone:true}" type="number">
+                  <input matInput [(ngModel)]="control.options!.steps" [ngModelOptions]="{standalone:true}"
+                         type="number">
                 </mat-form-field>
               }
               @if (control.options.visibility !== undefined) {

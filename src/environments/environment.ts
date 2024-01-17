@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apiUrl:"https://api.differentgroup.nl/differentgroup",
-  apiLocal:"https://api.differentgroup.nl/differentgroupv2"
+  apiLocal:"https://4532-81-173-49-231.ngrok-free.app"
 };

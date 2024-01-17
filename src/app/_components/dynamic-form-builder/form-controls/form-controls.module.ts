@@ -27,6 +27,10 @@ import {InfoImageComponent} from "./info-image/info-image.component";
 import {MatSliderModule} from "@angular/material/slider";
 import {TextBoxComponent} from "./text-box/text-box.component";
 import {SliderFormControlComponent} from "./slider/slider-form-control.component";
+import {TableComponent} from "./table/table.component";
+import {MatTableModule} from "@angular/material/table";
+import {TableFormControlComponent} from "./table/table-form-control.component";
+import {CalculationComponent} from "./calculation/calculation.component";
 
 
 
@@ -41,7 +45,9 @@ import {SliderFormControlComponent} from "./slider/slider-form-control.component
     TextAreaComponent,
     DividerComponent,
     UploadComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    TableComponent,
+    CalculationComponent
   ],
   imports: [
     SharedModule,
@@ -61,7 +67,9 @@ import {SliderFormControlComponent} from "./slider/slider-form-control.component
     MatButtonModule,
     MatIconModule,
     MatSliderModule,
-SliderFormControlComponent
+    SliderFormControlComponent,
+    MatTableModule,
+    TableFormControlComponent
   ],
   exports: [
     SliderComponent,
@@ -73,7 +81,9 @@ SliderFormControlComponent
     DividerComponent,
     UploadComponent,
     InfoImageComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    TableComponent,
+    CalculationComponent
   ],
 })
 export class FormControlsModule {

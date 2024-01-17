@@ -27,7 +27,19 @@
     }
   }
 }
-
+.clickable {
+  cursor: pointer;
+}
+.help {
+  color: #383d41;
+  background-color: #f2f2f3;
+  border: 1px solid #d6d8db;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  line-height: 20px;
+  display: block;
+}
 mat-tab-group {
   border-top: 1px solid black;
 

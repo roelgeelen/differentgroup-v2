@@ -32,7 +32,7 @@
             <mat-label class="label">
               <span>
                 {{ item.options!.label }}
-                @if (item.options?.note) {
+                @if (item.options.note) {
                   <span class="note">({{ item.options.note }})</span>
                 }
                 @if (item.options.validators?.required) {
@@ -40,7 +40,7 @@
                 }
               </span>
               <div>
-                @if (item.options?.help && item.options.help !== '') {
+                @if (item.options.help) {
                   <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">
                     info_outlined
                   </mat-icon>
@@ -88,14 +88,14 @@
         @if (item.options && item.options.label && item.options.label !== '') {
           <mat-label class="label">
             <span>{{ item.options!.label }}
-              @if (item.options?.note) {
+              @if (item.options.note) {
                 <span class="note">({{ item.options.note }})</span>
               }
               @if (item.options.validators?.required) {
                 *
               }
             </span>
-            @if (item.options?.help && item.options.help !== '') {
+            @if (item.options.help) {
               <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">info_outlined
               </mat-icon>
             }
@@ -123,6 +123,9 @@
       }
       @case ('Divider') {
         <app-divider [control]="item" [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-divider>
+      }
+      @case ('Calculation') {
+        <app-calculation [control]="item" [selected]="item.id == selectedControl?.id" [form]="formGroup" [isBuilder]="isBuilder"></app-calculation>
       }
       @case ('TextBox') {
         <app-text-box class="margin-top" [control]="item" [form]="formGroup"
@@ -155,6 +158,10 @@
       @case ('FileUpload') {
         <app-upload class="margin-top" [control]="item" [form]="formGroup"
                     [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-upload>
+      }
+      @case ('Table') {
+        <app-table class="margin-top" [control]="item" [form]="formGroup"
+                    [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-table>
       }
       @case ('Columns') {
         <app-form-columns

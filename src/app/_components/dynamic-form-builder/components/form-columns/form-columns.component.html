@@ -1,6 +1,6 @@
 @if (control) {
   <div class="row">
-    @for (column of control?.columns; track column) {
+    @for (column of control.columns; track column) {
       <div class="column">
         @if (hasMinColumns(1) && selected && isBuilder) {
           <button mat-mini-fab class="remove-column-btn" (click)="removeColumn($index)">

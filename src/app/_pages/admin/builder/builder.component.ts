@@ -62,8 +62,7 @@ export class BuilderComponent implements OnInit {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {
-          console.log(f)
-          this.formService.setForm(f)
+          this.formService.setForm(f,{})
         });
       } else {
         this.formService.setForm({

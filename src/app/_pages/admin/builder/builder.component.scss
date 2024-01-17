@@ -17,9 +17,13 @@ $form-padding: 20px;
       margin: 0;
     }
   }
-  ::ng-deep {
-    circle {
-      stroke: white !important;
+}
+::ng-deep {
+  mat-spinner{
+    &.white{
+      circle {
+        stroke: white !important;
+      }
     }
   }
 }

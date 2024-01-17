@@ -31,7 +31,7 @@ import {ApiFormService} from "../../../../_services/api-form.service";
 import {Router} from "@angular/router";
 import {
   IFormAttachment,
-  IFormControlOptionsChoices, IFormControlOptionsDependent, IQuoteLine
+  IFormControlOptionsChoices, IFormControlOptionsColumns, IFormControlOptionsDependent, inputTypes, IQuoteLine
 } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {DndDirective} from "../../../../_helpers/directives/dnd.directive";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -43,6 +43,7 @@ import {ChoiceDialogComponent} from "./choice-dialog/choice-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {v4 as uuidV4} from "uuid";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
+import {ClipboardModule} from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-control-options',
@@ -74,7 +75,8 @@ import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-f
     NgOptimizedImage,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    AutocompleteFieldComponent
+    AutocompleteFieldComponent,
+    ClipboardModule
   ],
   styleUrl: './control-options.component.scss'
 })
@@ -85,18 +87,7 @@ export class ControlOptionsComponent implements OnInit {
     ['underline', 'strike'],
     ['text_color', 'background_color'],
   ];
-  inputTypes: { value: string, name: string }[] = [
-    {value: 'text', name: 'Tekst'},
-    {value: 'number', name: 'Nummer'},
-    {value: 'date', name: 'Datum'},
-    {value: 'datetime-local', name: 'Datum tijd'},
-    {value: 'email', name: 'Email'},
-    {value: 'month', name: 'Maand'},
-    {value: 'tel', name: 'Telefoon'},
-    {value: 'time', name: 'Tijd'},
-    {value: 'url', name: 'Url'},
-    {value: 'week', name: 'Week'}
-  ]
+  inputTypes: { value: string, name: string }[] = inputTypes;
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
   dependentOptions: IFormControl[] = [];
   // filteredOptions: Observable<IFormControl[]> | undefined;
@@ -149,6 +140,10 @@ export class ControlOptionsComponent implements OnInit {
 
   addChoice(choices: IFormControlOptionsChoices[]) {
     choices.push({id: uuidV4(), value: 'Optie'})
+  }
+
+  addColumn(choices: IFormControlOptionsColumns[]) {
+    choices.push({key: '', type: 'text'})
   }
 
   openDialog(option: IFormControlOptionsChoices): void {

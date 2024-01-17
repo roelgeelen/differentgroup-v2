@@ -24,9 +24,9 @@
                   <mat-icon>3d_rotation</mat-icon>
                 </button>
               }
-              <button mat-raised-button color="accent" (click)="saveForm()">
+              <button mat-raised-button color="accent" (click)="saveForm()" [disabled]="loading">
                 <mat-icon *ngIf="!loading">save</mat-icon>
-                <mat-spinner *ngIf="loading" [diameter]="20">save</mat-spinner>
+                <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
               </button>
               @if (form.options.createQuotation) {
                 <button mat-raised-button color="accent">

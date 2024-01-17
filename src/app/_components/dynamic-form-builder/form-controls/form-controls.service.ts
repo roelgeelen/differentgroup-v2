@@ -12,6 +12,8 @@ import {ImageUpload} from "./upload/image-upload.class";
 import {FileUpload} from "./upload/file-upload.class";
 import {InfoImage} from "./info-image/info-image.class";
 import {TextBox} from "./text-box/text-box.class";
+import {Table} from "./table/table.class";
+import {Calculation} from "./calculation/calculation.class";
 
 @Injectable({providedIn: 'root'})
 export class FormControlsService {
@@ -22,6 +24,7 @@ export class FormControlsService {
     CheckBox,
     RadioBtn,
     Dropdown,
+    Table,
     ImageUpload,
     FileUpload,
     // Overige
@@ -29,6 +32,7 @@ export class FormControlsService {
     InfoImage,
     Divider,
     Columns,
+    Calculation
   };
 
   constructor() {

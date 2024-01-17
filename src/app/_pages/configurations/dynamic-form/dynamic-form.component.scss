@@ -12,8 +12,12 @@ mat-drawer-content{
   overflow: visible;
 }
 ::ng-deep {
-  circle {
-    stroke: white !important;
+  mat-spinner{
+    &.white{
+      circle {
+        stroke: white !important;
+      }
+    }
   }
 }
 .quotation-toggle{

@@ -82,6 +82,9 @@ mat-spinner {
 .full-height {
   min-height: calc(100vh - 116px) !important;
 }
+.full-width {
+  width: 100% !important;
+}
 
 .loading-overlay {
   &.fixed {

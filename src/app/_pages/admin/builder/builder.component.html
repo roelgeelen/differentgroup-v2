@@ -9,7 +9,7 @@
             <mat-slide-toggle [(ngModel)]="showInvisible">verborgen velden</mat-slide-toggle>
             <button mat-raised-button color="accent" [disabled]="loading" (click)="saveForm()">
               <mat-icon *ngIf="!loading">save</mat-icon>
-              <mat-spinner *ngIf="loading" [diameter]="20">save</mat-spinner>
+              <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
 
             </button>
             <button mat-raised-button color="accent" (click)="formService.toggleFormSettings()">
