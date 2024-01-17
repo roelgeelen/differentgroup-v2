@@ -3,9 +3,11 @@
                    [required]="control?.options?.validators?.required ?? false"
                    [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices;track choice) {
-      @if (choice?.quoteLine && isBuilder){<mat-icon>request_quote</mat-icon>}
-      @if (choice?.duration && isBuilder){<mat-icon>schedule</mat-icon>}
-      <mat-radio-button [value]="choice.value">{{ choice.value }}</mat-radio-button>
+      <mat-radio-button [value]="choice.value">
+        @if (choice?.quoteLine && isBuilder){<mat-icon>request_quote</mat-icon>}
+        @if (choice?.duration && isBuilder){<mat-icon>schedule</mat-icon>}
+        {{ choice.value }}
+      </mat-radio-button>
     }
     @if (control?.options?.customChoice){
       <mat-radio-button [value]="customValue">
