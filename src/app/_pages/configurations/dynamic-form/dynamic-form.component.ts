@@ -86,7 +86,9 @@ export class DynamicFormComponent implements OnInit {
   }
 
   setForm(configuration: IConfiguration) {
-    this.formService.setForm(configuration.form, this.convertConfigurationToRawJson(configuration.values || []));
+    const t = this.convertConfigurationToRawJson(configuration.values || []);
+    console.log(t)
+    this.formService.setForm(configuration.form, t);
   }
 
   get tabCount(): number {
@@ -119,6 +121,7 @@ export class DynamicFormComponent implements OnInit {
         }
       }
       this.config.values = currentConfigValues;
+      console.log(currentConfigValues)
       this.setForm(this.config);
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe((_)=> this.loading=false);
     }
@@ -176,6 +179,7 @@ export class DynamicFormComponent implements OnInit {
               title: controlOptions.title || controlOptions.label || '',
               subtitle: controlOptions.subtitle || controlOptions.note || '',
               value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || control.value || '',
+              fields: control.options?.columns
             };
             if (this.shouldAddConfigurationItem(value)) {
               newItem.values.push(value);
@@ -232,7 +236,7 @@ export class DynamicFormComponent implements OnInit {
       updatedItems.forEach((updatedItem) => {
         const originalItem = originalItems.find(item => item.id === updatedItem.id);
 
-        if (!['InfoImage', 'InfoBox', 'Divider'].includes(updatedItem.type)) {
+        if (!['InfoImage', 'InfoBox', 'Divider', 'Calculation'].includes(updatedItem.type)) {
           if (!originalItem) {
             changes.push({
               fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
@@ -240,6 +244,7 @@ export class DynamicFormComponent implements OnInit {
               oldValue: null,
               newValue: updatedItem.value
             });
+            console.log(updatedItem)
           } else if (originalItem.value !== updatedItem.value) {
             changes.push({
               fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
@@ -257,7 +262,7 @@ export class DynamicFormComponent implements OnInit {
 
       originalItems.forEach((originalItem) => {
         const updatedItem = updatedItems.find(item => item.id === originalItem.id);
-        if (!updatedItem && !['InfoImage', 'InfoBox', 'Divider'].includes(originalItem.type)) {
+        if (!updatedItem && !['InfoImage', 'InfoBox', 'Divider', 'Calculation'].includes(originalItem.type)) {
           changes.push({
             fieldName: `${parentField}${parentField ? '.' : ''}${originalItem.title}`,
             fieldType: originalItem.type,

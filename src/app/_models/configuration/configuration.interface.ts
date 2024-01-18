@@ -16,24 +16,28 @@ export interface IConfiguration {
   updatedBy?: string;
   updatedAt?: string;
 }
+
 export interface IConfigurationItem {
   page: string;
   values: IConfigurationItemValue[];
 }
+
 export interface IConfigurationItemValue {
   id?: string;
   type: string;
   image?: string;
   title: string;
   subtitle?: string;
+  fields?: any;
   value?: any;
-  columns?:IConfigurationItemValue[];
+  columns?: IConfigurationItemValue[];
 }
+
 export interface IConfigurationAttachment {
   id: string;
   configuration?: IConfiguration;
   external?: string;
-  field?:string;
+  field?: string;
   name?: string;
   type?: string;
   url?: string;

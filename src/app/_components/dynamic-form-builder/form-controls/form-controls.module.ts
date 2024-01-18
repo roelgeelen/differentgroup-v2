@@ -31,6 +31,7 @@ import {TableComponent} from "./table/table.component";
 import {MatTableModule} from "@angular/material/table";
 import {TableFormControlComponent} from "./table/table-form-control.component";
 import {CalculationComponent} from "./calculation/calculation.component";
+import {CalculationFormControlComponent} from "./calculation/calculation-form-control.component";
 
 
 
@@ -69,7 +70,8 @@ import {CalculationComponent} from "./calculation/calculation.component";
     MatSliderModule,
     SliderFormControlComponent,
     MatTableModule,
-    TableFormControlComponent
+    TableFormControlComponent,
+    CalculationFormControlComponent
   ],
   exports: [
     SliderComponent,

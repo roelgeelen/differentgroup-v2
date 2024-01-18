@@ -15,6 +15,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "../dynamic-form/quotation/quotation.component";
 import {ConfigurationHistoryComponent} from "./configuration-history/configuration-history.component";
+import {KeyValuePipe} from "@angular/common";
 
 @Component({
   selector: 'app-view-configuration',
@@ -28,12 +29,14 @@ import {ConfigurationHistoryComponent} from "./configuration-history/configurati
     MatProgressSpinnerModule,
     MatSidenavModule,
     QuotationComponent,
-    ConfigurationHistoryComponent
+    ConfigurationHistoryComponent,
+    KeyValuePipe
   ],
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
   configuration: IConfiguration | null = null;
+  mappedConfigurationFields: { [id: string]: any } = {};
   visibleFor: 'intern' | 'extern' | 'customer' = "intern";
 
   constructor(private apiCustomerService: ApiCustomerService, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
@@ -60,7 +63,6 @@ export class ViewConfigurationComponent implements OnInit {
 
   mapFormControls() {
     const controls: IFormControl[] = [];
-
     this.configuration?.form.pages.forEach((page) => {
       page.controls.forEach((control) => {
         if ('columns' in control) {
@@ -71,10 +73,8 @@ export class ViewConfigurationComponent implements OnInit {
           });
         }
         controls.push(control);
-
       });
     });
-
     return controls;
   }
 

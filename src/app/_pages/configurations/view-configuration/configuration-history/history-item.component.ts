@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {IConfigChanges} from "../../../../_models/configuration/configuration-change.interface";
 import {DateAgoPipe} from "../../../../_helpers/pipes/date-ago.pipe";
 import {SharedModule} from "../../../../shared.module";
+import {KeyValuePipe} from "@angular/common";
 
 @Component({
   selector: 'history-item',
@@ -63,6 +64,35 @@ import {SharedModule} from "../../../../shared.module";
                           </div>
                       </div>
                   }
+                  @case ('Table') {
+                      <div class="bullet-item">
+                          <div class="bullet"></div>
+                          <div class="change-text">
+                              <span class="block name full">{{ change.fieldName }}</span>
+                              @if (change.oldValue) {
+                                  <table class="full">
+                                      @for (row of change.oldValue;track row) {
+                                          <tr>
+                                              @for (col of row|keyvalue;track col) {
+                                                  <td>{{ col.key }}: {{ col.value }}</td>
+                                              }
+                                          </tr>
+                                      }
+                                  </table>
+                                  <mat-icon>arrow_downward</mat-icon>
+                              }
+                              <table>
+                                  @for (row of change.newValue;track row) {
+                                      <tr>
+                                          @for (col of row|keyvalue;track col) {
+                                              <td>{{ col.key }}: {{ col.value }}</td>
+                                          }
+                                      </tr>
+                                  }
+                              </table>
+                          </div>
+                      </div>
+                  }
                   @default {
                       <div class="bullet-item">
                           <div class="bullet"></div>
@@ -88,7 +118,8 @@ import {SharedModule} from "../../../../shared.module";
     MatProgressSpinnerModule,
     MatIconModule,
     DateAgoPipe,
-    SharedModule
+    SharedModule,
+    KeyValuePipe
   ],
   styleUrl: './configuration-history.component.scss'
 })
@@ -97,4 +128,6 @@ export class HistoryItemComponent {
 
   constructor() {
   }
+
+  protected readonly JSON = JSON;
 }
