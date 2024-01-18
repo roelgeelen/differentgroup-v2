@@ -112,7 +112,6 @@ export class QuotationComponent {
       if (quoteLine) {
         await new Promise(f => setTimeout(f, 600));
         this.apiQuoteService.getProduct(sku).subscribe(r => {
-          console.log("api")
           this.fetchedProducts.push(r);
           quoteLine.product = r;
         }, error => {

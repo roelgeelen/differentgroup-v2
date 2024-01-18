@@ -86,9 +86,7 @@ export class DynamicFormComponent implements OnInit {
   }
 
   setForm(configuration: IConfiguration) {
-    const t = this.convertConfigurationToRawJson(configuration.values || []);
-    console.log(t)
-    this.formService.setForm(configuration.form, t);
+    this.formService.setForm(configuration.form, this.convertConfigurationToRawJson(configuration.values || []));
   }
 
   get tabCount(): number {
@@ -121,7 +119,6 @@ export class DynamicFormComponent implements OnInit {
         }
       }
       this.config.values = currentConfigValues;
-      console.log(currentConfigValues)
       this.setForm(this.config);
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe((_)=> this.loading=false);
     }
@@ -244,7 +241,6 @@ export class DynamicFormComponent implements OnInit {
               oldValue: null,
               newValue: updatedItem.value
             });
-            console.log(updatedItem)
           } else if (originalItem.value !== updatedItem.value) {
             changes.push({
               fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
