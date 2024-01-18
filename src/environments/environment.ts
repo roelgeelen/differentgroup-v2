@@ -3,3 +3,4 @@ export const environment = {
   apiUrl:"https://api.differentgroup.nl/differentgroup",
   apiLocal:"https://api.differentgroup.nl/differentgroupv2"
 };
+

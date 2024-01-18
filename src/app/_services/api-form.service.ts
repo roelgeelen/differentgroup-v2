@@ -23,7 +23,6 @@ export class ApiFormService {
     return this.http.get<IForm>(`${environment.apiLocal}/v2/forms/${id}`);
   }
   saveForm(form: IForm) {
-    console.log(JSON.stringify(form.pages))
     return this.http.post<IForm>(`${environment.apiLocal}/v2/forms`, form);
   }
   deleteForm(id: string) {
