@@ -34,6 +34,8 @@ import {KeyValuePipe} from "@angular/common";
                                   <div class="block">
                                       <img class="block" [src]="change.newValue.url" alt="afbeelding">
                                   </div>
+                              } @else {
+                                  <mat-icon color="warn">close</mat-icon>
                               }
                           </div>
                       </div>
@@ -47,7 +49,11 @@ import {KeyValuePipe} from "@angular/common";
                                   <span class="block file">{{ change.oldValue.name }}</span>
                                   <mat-icon>arrow_forward</mat-icon>
                               }
-                              <span class="block file">{{ change.newValue.name }}</span>
+                              @if (change.newValue) {
+                                  <span class="block file">{{ change.newValue.name }}</span>
+                              } @else {
+                                  <mat-icon color="warn">close</mat-icon>
+                              }
                           </div>
                       </div>
                   }

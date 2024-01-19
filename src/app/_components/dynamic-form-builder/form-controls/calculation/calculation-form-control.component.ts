@@ -8,7 +8,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   selector: 'calculation-form-control',
   template: `
       <div class="calculation">
-          <strong>{{ control?.options?.title }}</strong> {{ value }}
+          <strong>{{ control.options?.title }}</strong> {{ value }}
       </div>
   `,
   styleUrls: ['calculation-form-control.component.scss'],
@@ -58,6 +58,7 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
     this.setDuration(this.form.getRawValue());
     this.onValueChange();
   }
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -119,21 +120,22 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
     try {
 
 
-      const newValue = this.eval(this.control.value).toString();
+      const newValue = this.calculate(this.control.value).toString();
       if (this.value !== newValue) {
         this.value = newValue;
         this.onChange(this.value);
         this.onTouched();
       }
-    }catch (e) {
+    } catch (e) {
 
     }
   }
 
-  eval(calc?: string): any {
+  calculate(calc?: string): any {
     if (calc) {
       try {
-        return eval(calc);
+        const calculate = new Function(`return (${calc})`) as () => any;
+        return calculate.call(this);
       } catch (e) {
         return 'Error';
       }

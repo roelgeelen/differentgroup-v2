@@ -69,7 +69,7 @@ export class TableFormControlComponent implements ControlValueAccessor {
   constructor() {
   }
   writeValue(value: any) {
-    this.data = value;
+    this.data = JSON.parse(JSON.stringify(value)) || [];
     if (this.data.length<1){
       this.addRow()
     }

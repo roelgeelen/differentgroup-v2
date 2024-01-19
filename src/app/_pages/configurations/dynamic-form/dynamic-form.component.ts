@@ -249,6 +249,15 @@ export class DynamicFormComponent implements OnInit {
               newValue: updatedItem.value
             });
           }
+          if (updatedItem.type==='Table'){
+            if (JSON.stringify(originalItem?.value) !== JSON.stringify(updatedItem.value)){
+              console.log("changed")
+            } else {
+              console.log("orgineel")
+            }
+            console.log(originalItem!.value)
+            console.log(updatedItem.value)
+          }
         }
 
         if (updatedItem.columns && originalItem?.columns) {
