@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -81,6 +81,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
   styleUrl: './control-options.component.scss'
 })
 export class ControlOptionsComponent implements OnInit {
+  @Output() onClose = new EventEmitter<any>();
   editor: Editor;
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -90,11 +91,8 @@ export class ControlOptionsComponent implements OnInit {
   inputTypes: { value: string, name: string }[] = inputTypes;
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
   dependentOptions: IFormControl[] = [];
-  // filteredOptions: Observable<IFormControl[]> | undefined;
   progress: number = 0;
   currentUser: User | undefined;
-
-  numberFields: IFormControl[] = [];
 
   constructor(
     private authService: AuthenticationService,
@@ -110,11 +108,6 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formService.editForm$.subscribe(edit => {
-      if (edit) {
-        this.numberFields = this.getAvailableNumberFields;
-      }
-    })
     this.formService.selectedControl$.subscribe(c => {
       if (c && c.options?.dependent !== undefined) {
         this.dependentOptions = this.getAvailableDependentFields;
@@ -123,6 +116,10 @@ export class ControlOptionsComponent implements OnInit {
     this.dependentControl.valueChanges.subscribe(value => {
       this.dependentOptions = this.getAvailableDependentFields;
     })
+  }
+
+  close() {
+    this.onClose.emit();
   }
 
   get control() {
@@ -151,14 +148,6 @@ export class ControlOptionsComponent implements OnInit {
       data: option,
     });
   }
-
-  addTab(choices: IFormPage[]) {
-    choices.push({
-      tab: 'Pagina',
-      controls: []
-    })
-  }
-
   addDependent(dependents: IFormControlOptionsDependent[]) {
     if (this.dependentControl.value !== null) {
       dependents.push({
@@ -204,35 +193,6 @@ export class ControlOptionsComponent implements OnInit {
     });
 
     return list;
-  }
-
-  get getAvailableNumberFields() {
-    const list: IFormControl[] = [];
-    const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
-
-    const pushControlToList = (control: IFormControl) => {
-      if (control.options?.type === 'number') {
-        list.push(control);
-      }
-    };
-
-    formControls.forEach(control => {
-      if ((control.type === 'Columns' && control.columns)) {
-        control.columns.forEach(col => {
-          col.container.controls.forEach(subControl => {
-            pushControlToList(subControl);
-          });
-        });
-      } else {
-        pushControlToList(control);
-      }
-    });
-
-    return list;
-  }
-
-  controlSearchFunction(option: any): string {
-    return option?.options?.label !== '' ? option?.options?.label : option?.options?.title ?? '';
   }
 
   dependentSearchFunction(option: any): string {
@@ -306,26 +266,7 @@ export class ControlOptionsComponent implements OnInit {
     });
   }
 
-  addQuoteLine() {
-    if (this.formService.form$.getValue().options.quoteLines === undefined) {
-      this.formService.form$.getValue().options.quoteLines = [];
-    }
-    this.formService.form$.getValue().options.quoteLines!.push({sku: '', order: 100});
-  }
+  onDelete() {
 
-  propertyExists(property:string, object:any){
-    return property in object;
-  }
-
-  selectSizeCalculation($event: any) {
-    if ($event === 'odo') {
-      this.formService.form$.getValue().options.quoteSizeFields = {
-        height: null,
-        width: null
-      }
-    }
-    if ($event === 'sdh'){
-      this.formService.form$.getValue().options.quoteSizeFields = undefined;
-    }
   }
 }

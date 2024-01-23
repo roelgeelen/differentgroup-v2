@@ -40,7 +40,7 @@ export class PreviewDialogComponent implements OnInit {
 
   private loadUrl() {
     const url = new URL(this.data.url3D!);
-    this.data.url3D = 'https://openslaandegaragedeuren.onecore.website/garagedeur-designer?selected=' + url.searchParams.get('selected');
+    this.data.url3D = 'https://openslaandegaragedeuren.onecore.website/garagedeur-designer?kiosk=1&selected=' + url.searchParams.get('selected');
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.url3D);
     this.showIframe = true;
     this.editUrl = false;

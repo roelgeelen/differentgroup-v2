@@ -5,6 +5,22 @@
   </mat-drawer>
 
   <mat-drawer-content class="form">
+    <div class="buttons">
+      <div></div>
+      <div>
+        <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">
+          {{ visibleFor.label }}
+        </button>
+        <mat-menu #menu="matMenu">
+          @for (view of viewOptions; track view){
+            <button mat-menu-item (click)="changeVisibleFor(view)">{{view.label}}</button>
+          }
+        </mat-menu>
+        <button mat-raised-button color="accent" [routerLink]="'edit'">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+    </div>
     <div class="quotation-toggle" (click)="drawer.toggle()">
       <mat-icon>history</mat-icon>
     </div>
@@ -23,11 +39,11 @@
         @defer (when configuration) {
           @if (configuration?.preview) {
             @if (configuration?.preview?.url3D) {
-              <iframe style="height: 500px; width: 100%" [src]="getSafeUrl(configuration?.preview?.url3D!)"
+              <iframe style="height: 500px; width: 100%" [src]="safe3dUrl"
                       frameborder="0"></iframe>
             }
           }
-          @for (page of configuration?.values;track page) {
+          @for (page of values;track page) {
             @if (page.values.length > 0) {
               <div class="form-section">
                 <h2>{{ page.page }}</h2>

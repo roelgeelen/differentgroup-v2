@@ -15,96 +15,99 @@
       }
       <div class="form-builder">
 
-        <div>
-          <div class="buttons">
-            <div></div>
-            <div>
-              @if (form.options.model3D) {
-                <button mat-raised-button color="accent" (click)="openPreviewDialog()">
-                  <mat-icon>3d_rotation</mat-icon>
-                </button>
-              }
-              <button mat-raised-button color="accent" (click)="saveForm()" [disabled]="loading">
-                <mat-icon *ngIf="!loading">save</mat-icon>
-                <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
+        <div class="buttons">
+          <div></div>
+          <div>
+            <button mat-raised-button color="accent"
+                    [routerLink]="'/customers/'+customerId+'/configurations/'+config?.id"
+                    [queryParams]="{type:'intern'}">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
+            @if (form.options.model3D) {
+              <button mat-raised-button color="accent" (click)="openPreviewDialog()">
+                <mat-icon>3d_rotation</mat-icon>
               </button>
-              @if (form.options.createQuotation) {
-                <button mat-raised-button color="accent">
-                  Offerte maken
-                </button>
-              }
-            </div>
-
-          </div>
-
-          <div class="page">
-            <div class="form-header d-flex justify-content-between">
-              <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
-              <div class="title">
-                @if (editTitle) {
-                  <mat-form-field>
-                    <mat-label>Formulier naam</mat-label>
-                    <input matInput [(ngModel)]="config!.title" (focusout)="editTitle = !editTitle">
-                    <button matSuffix mat-icon-button aria-label="Clear" (click)="editTitle = !editTitle">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </mat-form-field>
-                } @else {
-                  <h1 (dblclick)="editTitle = !editTitle">{{ config?.title }}</h1>
-                  <small>{{ config?.customer?.name }}</small>
-                }
-              </div>
-              <div class="settings-btn">
-                <button mat-button color="accent" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
-                  <mat-icon>clear</mat-icon>
-                </button>
-              </div>
-            </div>
-            @defer (when form.pages.length > 0) {
-              <form [formGroup]="formService.formGroup$.getValue()">
-                @if (form.pages.length > 1) {
-                  <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
-                    @for (page of form.pages;track page) {
-                      <mat-tab [label]="page.tab!">
-                        <div class="form-body">
-                          <app-form-container
-                            [container]="page"
-                          ></app-form-container>
-                        </div>
-                        <div class="form-footer">
-                          <button mat-raised-button color="primary" (click)="prev()"
-                                  [disabled]="tabIndex==0">Vorige
-                          </button>
-                          @if (tabIndex != (tabCount - 1)) {
-                            <button mat-raised-button color="primary" (click)="next()">Volgende</button>
-                          }
-                          @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
-                            <button mat-raised-button color="primary">Offerte maken</button>
-                          }
-                        </div>
-                      </mat-tab>
-                    }
-                  </mat-tab-group>
-                } @else {
-                  <div class="form-body">
-
-                    <app-form-container
-                      [container]="form.pages[0]"
-                    ></app-form-container>
-                    <div class="form-footer">
-                      @if (form.options.createQuotation) {
-                        <div></div>
-                        <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
-                      }
-                    </div>
-
-                  </div>
-                }
-              </form>
-            } @placeholder {
-              <mat-spinner></mat-spinner>
+            }
+            <button mat-raised-button color="accent" (click)="saveForm()" [disabled]="loading">
+              <mat-icon *ngIf="!loading">save</mat-icon>
+              <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
+            </button>
+            @if (form.options.createQuotation) {
+              <button mat-raised-button color="accent">
+                Offerte maken
+              </button>
             }
           </div>
+
+        </div>
+
+        <div class="page">
+          <div class="form-header d-flex justify-content-between">
+            <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+            <div class="title">
+              @if (editTitle) {
+                <mat-form-field>
+                  <mat-label>Formulier naam</mat-label>
+                  <input matInput [(ngModel)]="config!.title" (focusout)="editTitle = !editTitle">
+                  <button matSuffix mat-icon-button aria-label="Clear" (click)="editTitle = !editTitle">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+              } @else {
+                <h1 (dblclick)="editTitle = !editTitle">{{ config?.title }}</h1>
+                <small>{{ config?.customer?.name }}</small>
+              }
+            </div>
+            <div class="settings-btn">
+              <button mat-button color="accent" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </div>
+          </div>
+          @defer (when form.pages.length > 0) {
+            <form [formGroup]="formService.formGroup$.getValue()">
+              @if (form.pages.length > 1) {
+                <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
+                  @for (page of form.pages;track page) {
+                    <mat-tab [label]="page.tab!">
+                      <div class="form-body">
+                        <app-form-container
+                          [container]="page"
+                        ></app-form-container>
+                      </div>
+                      <div class="form-footer">
+                        <button mat-raised-button color="primary" (click)="prev()"
+                                [disabled]="tabIndex==0">Vorige
+                        </button>
+                        @if (tabIndex != (tabCount - 1)) {
+                          <button mat-raised-button color="primary" (click)="next()">Volgende</button>
+                        }
+                        @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
+                          <button mat-raised-button color="primary">Offerte maken</button>
+                        }
+                      </div>
+                    </mat-tab>
+                  }
+                </mat-tab-group>
+              } @else {
+                <div class="form-body">
+
+                  <app-form-container
+                    [container]="form.pages[0]"
+                  ></app-form-container>
+                  <div class="form-footer">
+                    @if (form.options.createQuotation) {
+                      <div></div>
+                      <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
+                    }
+                  </div>
+
+                </div>
+              }
+            </form>
+          } @placeholder {
+            <mat-spinner></mat-spinner>
+          }
         </div>
 
       </div>

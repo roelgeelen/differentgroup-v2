@@ -16,6 +16,14 @@ import {ApiFormService} from "../../../_services/api-form.service";
 import {SharedFormBuilderModule} from "../../../_components/dynamic-form-builder/components/shared-form-builder.module";
 import {User} from "../../../_auth/models/User";
 import {AuthenticationService} from "../../../_auth/authentication.service";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {
+  ConfigurationHistoryComponent
+} from "../../configurations/view-configuration/configuration-history/configuration-history.component";
+import {MatCardModule} from "@angular/material/card";
+import {MatRippleModule} from "@angular/material/core";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {FormOptionsComponent} from "./form-options/form-options.component";
 
 @Component({
   selector: 'app-form',
@@ -34,7 +42,13 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
     FlexModule,
     NewControlsComponent,
     ControlOptionsComponent,
-    NgIf
+    NgIf,
+    MatSidenavModule,
+    ConfigurationHistoryComponent,
+    MatCardModule,
+    MatRippleModule,
+    MatTooltipModule,
+    FormOptionsComponent
   ],
   standalone: true
 })
@@ -43,6 +57,8 @@ export class BuilderComponent implements OnInit {
   showInvisible = true;
   currentUser: User | undefined;
   loading = false;
+  formSettings = false;
+  settingsDrawer = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -62,7 +78,7 @@ export class BuilderComponent implements OnInit {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {
-          this.formService.setForm(f,{})
+          this.formService.setForm(f, {})
         });
       } else {
         this.formService.setForm({
@@ -77,6 +93,17 @@ export class BuilderComponent implements OnInit {
         })
       }
     });
+    this.formService.selectedControl$.subscribe(value => {
+      this.settingsDrawer = !!value;
+      this.formSettings = false;
+      console.log(this.settingsDrawer)
+    })
+  }
+
+  openFormSettings() {
+    this.settingsDrawer = true;
+    this.formSettings = true;
+    console.log(this.settingsDrawer)
   }
 
   get tabCount(): number {
@@ -105,7 +132,7 @@ export class BuilderComponent implements OnInit {
       this.formService.setForm(f);
       this.formService.setLoadingStatus(false);
       this.location.replaceState(`/admin/forms/${f.id}/builder`);
-    } );
+    });
   }
 
   unSelect() {

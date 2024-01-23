@@ -1,7 +1,17 @@
-<div class="container" fxLayout="row">
-  <div fxLayout="row" fxFlex (click)="unSelect()">
+<mat-drawer-container class="container" fxLayout="row" [hasBackdrop]="false">
+  <mat-drawer [opened]="true" mode="side">
     <app-new-controls></app-new-controls>
-    <div class="form-builder" fxFlex>
+  </mat-drawer>
+  <mat-drawer [opened]="settingsDrawer" class="transparent" mode="side" position="end">
+    @if (formSettings) {
+      <app-form-options (onClose)="settingsDrawer=false"></app-form-options>
+    } @else {
+      <app-control-options (onClose)="settingsDrawer=false"></app-control-options>
+    }
+  </mat-drawer>
+
+  <mat-drawer-content (click)="unSelect()">
+    <div class="form-builder">
       @if (formService.form$ | async;as form) {
         <div class="buttons">
           <div></div>
@@ -12,7 +22,7 @@
               <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
 
             </button>
-            <button mat-raised-button color="accent" (click)="formService.toggleFormSettings()">
+            <button mat-raised-button color="accent" (click)="openFormSettings();$event.stopPropagation()">
               <mat-icon>settings</mat-icon>
             </button>
           </div>
@@ -20,7 +30,7 @@
         </div>
         <div class="page">
           <div class="form-header d-flex justify-content-between">
-            <div class="logo"><img src="../../../../../assets/images/logo_zwart.png" alt="logo"></div>
+            <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
             <h1>{{ form.title }}</h1>
             <div class="settings-btn">
             </div>
@@ -79,6 +89,5 @@
         </div>
       }
     </div>
-  </div>
-  <app-control-options></app-control-options>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>

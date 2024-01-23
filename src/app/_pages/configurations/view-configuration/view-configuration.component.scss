@@ -4,13 +4,29 @@
 mat-drawer-content{
   overflow: visible;
 }
+.buttons {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+
+  button,
+  mat-slide-toggle {
+    margin: 10px 0 10px 10px;
+
+    mat-icon {
+      margin: 0;
+    }
+  }
+}
 mat-drawer{
   border: none !important;
   background-color: transparent;
   box-shadow: none;
 }
 .form {
-  padding: 20px;
+  padding: 0 20px 20px 20px;
+  //padding: 20px;
 
   .page {
     background-color: white;
@@ -136,7 +152,7 @@ mat-drawer{
   cursor: pointer;
   z-index: 1;
   right: -10px;
-  top: 35px;
+  top: 68px;
   background-color: white;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;

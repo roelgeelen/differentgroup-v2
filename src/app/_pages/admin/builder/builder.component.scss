@@ -18,105 +18,117 @@ $form-padding: 20px;
     }
   }
 }
+
 ::ng-deep {
-  mat-spinner{
-    &.white{
+  mat-spinner {
+    &.white {
       circle {
         stroke: white !important;
       }
     }
   }
 }
-
-// Stijlen voor de pagina met het formulier
-.page {
-  background-color: #fff;
-  box-shadow: 0 0 11px rgb(0 0 0 / 12%);
-  min-height: calc(100vh - 230px);
-  max-width: 900px;
-  min-width: 300px;
-  margin: 0 auto 20px auto;
-
-  // Stijlen voor de header van het formulier
-  .form-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border-bottom: 1px solid black;
-    background-color: white;
-
-    .logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        width: 150px;
-      }
-    }
-
-    h1 {
-      font-weight: 500;
-      margin: auto 20px;
-      text-align: center;
-      line-height: 20px;
-      padding: 9px;
-
-      span {
-        font-size: 12px;
-        top: 0;
-        position: relative;
-        font-weight: 400;
-      }
-    }
-
-    .settings-btn {
-      width: 150px;
-      text-align: right;
-
-      button {
-        height: 100%;
-
-        mat-icon {
-          margin: 0;
-        }
-      }
-    }
+mat-drawer-content{
+  width: 100%;
+}
+mat-drawer{
+  border: none !important;
+  background-color: #fafafa;
+  box-shadow: none;
+  &.transparent{
+    background-color: transparent;
   }
-
-  ::ng-deep {
-    .mdc-tab {
-      min-width: 160px;
-    }
-  }
-
-
-  // Stijlen voor het lichaam van het formulier
-  .form-body {
-    padding: $form-padding;
-  }
-
-  // Stijlen voor de voettekst van het formulier
-  .form-footer {
-    padding: $form-padding;
-    display: flex;
-    justify-content: space-between;
-
-    button {
-      // Specifieke stijlen voor knoppen in de voettekst
-    }
-  }
+}
+.container{
+  background-color: #E8F2F4;
 }
 
 .form-builder {
-  border-radius: 10px;
   box-shadow: 0 0 11px rgb(0 0 0 / 12%);
-  margin: 10px;
-  background-color: #E8F2F4;
   padding: 0 20px;
   overflow-y: scroll;
   max-height: calc(100vh - 136px);
+
+  // Stijlen voor de pagina met het formulier
+  .page {
+    background-color: #fff;
+    box-shadow: 0 0 11px rgb(0 0 0 / 12%);
+    min-height: calc(100vh - 230px);
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+
+    // Stijlen voor de header van het formulier
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid black;
+      background-color: white;
+
+      .logo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 150px;
+        }
+      }
+
+      h1 {
+        font-weight: 500;
+        margin: auto 20px;
+        text-align: center;
+        line-height: 20px;
+        padding: 9px;
+
+        span {
+          font-size: 12px;
+          top: 0;
+          position: relative;
+          font-weight: 400;
+        }
+      }
+
+      .settings-btn {
+        width: 150px;
+        text-align: right;
+
+        button {
+          height: 100%;
+
+          mat-icon {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    ::ng-deep {
+      .mdc-tab {
+        min-width: 160px;
+      }
+    }
+
+
+    // Stijlen voor het lichaam van het formulier
+    .form-body {
+      padding: $form-padding;
+    }
+
+    // Stijlen voor de voettekst van het formulier
+    .form-footer {
+      padding: $form-padding;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        // Specifieke stijlen voor knoppen in de voettekst
+      }
+    }
+  }
 }
+
 
 /* width */
 ::-webkit-scrollbar {

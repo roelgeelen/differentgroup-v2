@@ -18,7 +18,6 @@ export class FormService {
     }
   });
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
-  editForm$ = new BehaviorSubject<boolean>(false);
   loadingForm$ = new BehaviorSubject<boolean>(false);
 
   constructor(private dragDropService: DragDropService) {
@@ -37,25 +36,17 @@ export class FormService {
   }
 
   public onControlSelected(control: IFormControl | null) {
-    if (control !== null) {
-      this.editForm$.next(false);
-    }
     this.selectedControl$.next(control);
   }
 
   public setForm(form: IForm | null, values?: any) {
     this.selectedControl$.next(null);
-    this.editForm$.next(false);
     this.form$.next(form!==null ? form : {
       title: '',
       pages: [],
       options: {}
     });
     this.updateFormGroup(values);
-  }
-
-  public toggleFormSettings() {
-    this.editForm$.next(!this.editForm$.value);
   }
 
   findControlById(controlId: string): IFormControl | null {
