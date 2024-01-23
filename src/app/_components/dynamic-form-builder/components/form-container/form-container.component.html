@@ -41,7 +41,7 @@
               </span>
               <div class="label-info">
                 @if (item.options.toDeal){
-                  <img class="hubspot-icon" src="assets/images/icons/hubspot.png">
+                  <img class="hubspot-icon" [matTooltip]="item.options.toDeal!" matTooltipPosition="above" src="assets/images/icons/hubspot.png">
                 }
                 @if (item.options.help) {
                   <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">

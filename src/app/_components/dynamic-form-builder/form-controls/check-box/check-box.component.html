@@ -3,10 +3,10 @@
     @for (choice of control?.options?.choices; track choice) {
       <mat-list-option [value]="choice.value" togglePosition="before">
         @if (choice?.quoteLine && isBuilder) {
-          <mat-icon>request_quote</mat-icon>
+          <mat-icon [matTooltip]="choice?.quoteLine?.sku!" matTooltipPosition="above">request_quote</mat-icon>
         }
         @if (choice?.duration && isBuilder) {
-          <mat-icon>schedule</mat-icon>
+          <mat-icon [matTooltip]="choice?.duration!.toString()" matTooltipPosition="above">schedule</mat-icon>
         }
         {{ choice.value }}
       </mat-list-option>
