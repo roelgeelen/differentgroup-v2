@@ -98,7 +98,6 @@ export class ControlOptionsComponent implements OnInit {
     private authService: AuthenticationService,
     public formService: FormService,
     private apiFormService: ApiFormService,
-    private router: Router,
     public dialog: MatDialog
   ) {
     this.editor = new Editor();
@@ -203,23 +202,6 @@ export class ControlOptionsComponent implements OnInit {
     this.formControl.setValue($event);
   }
 
-  deleteForm() {
-    Swal.fire({
-      title: 'Weet je het zeker?',
-      text: 'Wil je dit formulier verwijderen?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#2e3785',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ja, verwijderen!',
-      cancelButtonText: 'Annuleren',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.apiFormService.deleteForm(this.formService.form$.getValue().id!.toString()).subscribe(f => this.router.navigateByUrl('/admin/forms'))
-      }
-    });
-  }
-
   prepareFilesList(control: IFormControl, files: FileList) {
     const file = files.item(0);
     if (file !== null && file.size < 5000000) {
@@ -266,7 +248,4 @@ export class ControlOptionsComponent implements OnInit {
     });
   }
 
-  onDelete() {
-
-  }
 }

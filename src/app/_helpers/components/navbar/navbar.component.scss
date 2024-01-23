@@ -37,3 +37,31 @@
     }
   }
 }
+
+::ng-deep {
+  .mat-mdc-menu-panel {
+    max-width: 330px !important;
+  }
+
+  .mat-mdc-menu-item-text {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.menu-item{
+  display: flex;
+  width: 100%;
+  .menu-item-label {
+    width: 100%;
+  }
+
+  .menu-item-image {
+    height: 35px;
+    margin-right: 0;
+    margin-left: auto;
+    padding-left: 8px;
+    order: 1;
+  }
+}
+

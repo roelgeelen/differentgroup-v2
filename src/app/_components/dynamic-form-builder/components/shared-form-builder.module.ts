@@ -9,6 +9,7 @@ import {AsyncPipe, NgTemplateOutlet} from "@angular/common";
 import {FormControlsModule} from "../form-controls/form-controls.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {FlexModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -16,21 +17,22 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     FormContainerComponent,
     FormColumnsComponent
   ],
-  imports: [
-    MatButtonModule,
-    CdkDropList,
-    CdkDrag,
-    MatFormFieldModule,
-    MatIconModule,
-    CdkDragPlaceholder,
-    CdkDragPreview,
-    NgTemplateOutlet,
-    AsyncPipe,
-    FormControlsModule,
-    CdkDragHandle,
-    MatTooltipModule,
-    MatProgressSpinnerModule
-  ],
+    imports: [
+        MatButtonModule,
+        CdkDropList,
+        CdkDrag,
+        MatFormFieldModule,
+        MatIconModule,
+        CdkDragPlaceholder,
+        CdkDragPreview,
+        NgTemplateOutlet,
+        AsyncPipe,
+        FormControlsModule,
+        CdkDragHandle,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        FlexModule
+    ],
   exports: [FormContainerComponent, FormColumnsComponent]
 })
 export class SharedFormBuilderModule{}

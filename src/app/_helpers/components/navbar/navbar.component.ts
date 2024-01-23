@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostBinding, OnInit, ViewChild} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {User} from "../../../_auth/models/User";
@@ -10,6 +10,10 @@ import {RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
+import {OverlayContainer} from "@angular/cdk/overlay";
+import {LocalStorageService} from "../../../_services/local-storage.service";
+import {Theme, ThemeService} from "../../theme.service";
+import {StyleManager} from "../../style-manager";
 
 @Component({
   selector: 'app-navbar',
@@ -28,17 +32,44 @@ import {MatButtonModule} from "@angular/material/button";
 export class NavbarComponent implements OnInit {
   currentUser: User | undefined;
   profilePic: Blob | null | undefined;
+  themes: Theme[];
+  selectedTheme: Theme;
 
   constructor(
     private oauthService: OAuthService,
     private authService: AuthenticationService,
     private apiService: ApiService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public styleManager: StyleManager,
+    private themeService: ThemeService,
+    private localStorage: LocalStorageService
   ) {
+    this.themes = themeService.themes;
+
+    const themeName = this.localStorage.getValue(LocalStorageService.themeKey);
+
+    if (themeName) {
+      this.selectedTheme = this.selectTheme(themeName);
+    } else { // if the localstorage is empty  set the default light theme
+      this.selectedTheme = this.selectTheme(ThemeService.defaultTheme.name);
+    }
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
       this.loadProfile();
     });
+  }
+
+  selectTheme(themeName: string): Theme {
+    const theme = this.themeService.findTheme(themeName);
+    if (theme) {
+      this.selectedTheme=theme;
+      this.themeService.updateTheme(theme);
+      this.styleManager.removeStyle('theme');
+      this.styleManager.setStyle('theme', `${theme.name}.css`);
+      this.localStorage.store(LocalStorageService.themeKey, theme.name);
+      return theme;
+    }
+    return ThemeService.defaultTheme;
   }
 
 
@@ -51,6 +82,7 @@ export class NavbarComponent implements OnInit {
       }
     })
   }
+
   ngOnInit(): void {
   }
 

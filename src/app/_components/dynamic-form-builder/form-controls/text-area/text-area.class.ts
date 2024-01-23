@@ -16,6 +16,7 @@ export class TextArea implements IFormControl<IFormControlOptions, string> {
       note: options?.note ?? '',
       image: options?.image ?? null,
       placeholder: options?.placeholder ?? 'Type hier je tekst...',
+      toDeal: options?.toDeal ?? '',
       visibility: {
         intern: options?.visibility?.intern ?? true,
         extern: options?.visibility?.extern ?? true,

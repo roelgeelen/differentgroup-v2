@@ -1,0 +1,69 @@
+// from libs
+@use '../../../../node_modules/@angular/material/index' as mat; // Theming APIs
+@use 'sass:map';
+
+// from project
+@use 'theming'; // color config function
+@use "../components.style" as components; // @mixin with custom components
+
+
+@include mat.core(); // Mixin that renders all of the core styles that are not theme-dependent.
+
+// just colors
+$light-primary-text: white;
+$dark-primary-text: rgba(black, 0.87);
+$orange-primary-text: rgba(199,91,57, 0.87);
+$orange-secondary-text: rgba(199,91,57, 0.54);
+$orange-disabled-text: rgba(199,91,57, 0.38);
+$orange-dividers: rgba(199,91,57, 0.12);
+$orange-disabled-button: rgba(199,91,57, 0.12);
+$orange-focused: rgba(199,91,57, 0.12);
+
+$my-orange-palette: (
+  50: #fff3e0,
+  100: #ffe0b2,
+  200: #ffcc80,
+  300: #ffb74d,
+  400: #ffa726,
+  500: #ff9800,
+  600: #fb8c00,
+  700: #f57c00,
+  800: #ef6c00,
+  900: #e65100,
+  A100: #ffd180,
+  A200: #ffab40,
+  A400: #ff9100,
+  A700: #ff6d00,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $dark-primary-text,
+    700: $dark-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: black,
+  )
+);
+
+$orange-primary: mat.define-palette($my-orange-palette);
+$orange-accent: mat.define-palette(mat.$brown-palette);
+$orange-warn: mat.define-palette(mat.$red-palette);
+
+// color config function
+$orange-color-config: mat.define-light-theme( // see src/styles/custom-themes/_theming.scss
+    $orange-primary,
+    $orange-accent,
+    $orange-warn
+);
+
+@include mat.all-component-themes($orange-color-config);
+
+// Add @mixin from our ../components.style
+@include components.theme($orange-color-config);

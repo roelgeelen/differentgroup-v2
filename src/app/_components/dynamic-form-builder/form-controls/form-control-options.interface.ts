@@ -1,4 +1,5 @@
 import {IForm} from "../models/form.interface";
+
 export const inputTypes: { value: string, name: string }[] = [
   {value: 'text', name: 'Tekst'},
   {value: 'number', name: 'Nummer'},
@@ -11,6 +12,7 @@ export const inputTypes: { value: string, name: string }[] = [
   {value: 'url', name: 'Url'},
   {value: 'week', name: 'Week'}
 ]
+
 export interface IFormControlOptions {
   label?: string;
   note?: string;
@@ -20,11 +22,12 @@ export interface IFormControlOptions {
   help?: string;
   image?: IFormAttachment | null;
   customChoice?: boolean;
-  calcDuration?:boolean;
+  calcDuration?: boolean;
   columns?: IFormControlOptionsColumns[];
   choices?: IFormControlOptionsChoices[];
   type?: string;
   steps?: number;
+  toDeal?: string;
   validators?: {
     required?: boolean;
     min?: number;

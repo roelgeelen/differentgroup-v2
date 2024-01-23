@@ -1,0 +1,6 @@
+//@use "app/app.style" as body;
+
+// Styles for the components that are based on the current theme.
+@mixin theme($theme) {
+  //@include body.theme($theme);
+}

@@ -18,6 +18,7 @@ export class Slider implements IFormControl<IFormControlOptions, string> {
       image: options?.image ?? null,
       steps: options?.steps ?? 1,
       type: 'number',
+      toDeal: options?.toDeal ?? '',
       validators: options?.validators ?? {
         required: options?.validators?.required ?? false,
         min: options?.validators?.min ?? 0,

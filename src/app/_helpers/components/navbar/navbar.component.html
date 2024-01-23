@@ -1,12 +1,36 @@
 <mat-toolbar color="primary" class="navbar">
   <a routerLink="/"><img src="assets/images/logo.png" alt="Logo" height="45" class="logo"></a>
-<!--  <span class="spacer"></span>-->
+  <!--  <span class="spacer"></span>-->
   <button mat-button routerLink="/customers">Formulieren</button>
   <button mat-button routerLink="/admin/forms">Admin</button>
   <!-- Voeg meer pagina's toe zoals hierboven -->
   <span class="spacer"></span>
-  <div class="profile">
-    <span class="profile-name">{{currentUser?.name}}</span>
-    <img [src]="currentUser?.image ? currentUser!.image : 'assets/images/user_placeholder.png'" alt="Profielfoto" height="45" class="profile-pic">
+  <div class="profile" [matMenuTriggerFor]="profileMenu">
+    <span class="profile-name">{{ currentUser?.name }}</span>
+    <img [src]="currentUser?.image ? currentUser!.image : 'assets/images/user_placeholder.png'" alt="Profielfoto"
+         height="45" class="profile-pic">
   </div>
 </mat-toolbar>
+<mat-menu class="profile-menu" #profileMenu="matMenu">
+  <a mat-menu-item [matMenuTriggerFor]="enviroments">
+    <mat-icon>apartment</mat-icon>
+    Bedrijf
+  </a>
+  <mat-menu #enviroments="matMenu">
+    @for (theme of themes;track theme) {
+      <button (click)="selectTheme(theme.name)" class="menu-item" mat-menu-item>
+        <mat-icon color="primary">{{selectedTheme.name===theme.name?'radio_button_checked':'radio_button_unchecked'}}radio_button_checked</mat-icon>
+        <span class="menu-item-label">{{ theme.displayName }}</span>
+        <img class="menu-item-image" [src]="theme.image">
+      </button>
+    }
+  </mat-menu>
+  <a mat-menu-item href="https://myaccount.microsoft.com/" target="_blank">
+    <mat-icon>perm_identity</mat-icon>
+    Mijn account
+  </a>
+  <a mat-menu-item (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    logout
+  </a>
+</mat-menu>
