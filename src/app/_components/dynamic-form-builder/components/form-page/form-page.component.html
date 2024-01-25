@@ -1,0 +1,27 @@
+<div class="page">
+  <div class="form-header">
+    <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
+    <div class="title">
+      @if (edit && canEdit) {
+        <mat-form-field>
+          <mat-label>Formulier naam</mat-label>
+          <input matInput [(ngModel)]="title" (focusout)="edit = !edit;save()">
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="edit = !edit">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      } @else {
+        <h1 (dblclick)="edit = !edit">{{ title }}</h1>
+        <small>{{ subtitle }}</small>
+      }
+    </div>
+    <div class="settings-btn">
+      @if (prevLink) {
+        <button mat-button color="primary" class="clear" [routerLink]="prevLink">
+          <mat-icon>clear</mat-icon>
+        </button>
+      }
+    </div>
+  </div>
+  <ng-content></ng-content>
+</div>

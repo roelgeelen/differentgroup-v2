@@ -23,63 +23,15 @@ mat-drawer{
 }
 .form {
   padding: 0 20px 20px 20px;
-  //padding: 20px;
-
-  .page {
-    background-color: white;
-    box-shadow: 0 0 11px rgb(0 0 0 / 12%);
-    min-height: calc(100vh - 230px);
-    max-width: 900px;
-    min-width: 300px;
-    margin: 0 auto 20px auto;
-    padding: 0 20px 20px 20px;
-
-    // Stijlen voor de header van het formulier
-    .form-header {
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 10px 0 10px;
-
-      .logo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        img {
-          width: 170px;
-        }
-      }
-      .title{
-        text-align: center;
-      }
-
-      h1 {
-        font-weight: 500;
-        margin: auto 20px;
-        text-align: center;
-        line-height: 25px;
-        padding: 9px;
-        font-size: 30px;
-
-        span {
-          font-size: 12px;
-          top: 0;
-          position: relative;
-          font-weight: 400;
-        }
-      }
-
-      .settings-btn {
-        width: 150px;
-        text-align: right;
-      }
-    }
     .form-content {
-      padding-top: 10px;
+      padding: 10px 20px 20px 20px;
       .form-section{
         border-top: 1px solid black;
         width: 100%;
         margin-top: 10px;
+        &.first{
+          border-top: none;
+        }
         h2 {
           margin-top:5px;
           margin-bottom: 10px;
@@ -141,7 +93,7 @@ mat-drawer{
         }
       }
     }
-  }
+
 }
 
 .quotation-toggle{
@@ -156,5 +108,4 @@ mat-drawer{
   padding: 12px 15px 12px 9px;
   box-shadow: var(--mdc-elevated-card-container-elevation);
   vertical-align: center;
-
 }

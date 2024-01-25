@@ -21,27 +21,29 @@ import {
   IFormControlOptionsVisibility
 } from "../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {ITheme, ThemeService} from "../../../_helpers/theme.service";
+import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
   selector: 'app-view-configuration',
   templateUrl: './view-configuration.component.html',
   standalone: true,
-  imports: [
-    MatButtonModule,
-    MatIconModule,
-    RouterLink,
-    SharedModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule,
-    QuotationComponent,
-    ConfigurationHistoryComponent,
-    KeyValuePipe,
-    NgIf,
-    MatSelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatMenuModule
-  ],
+    imports: [
+        MatButtonModule,
+        MatIconModule,
+        RouterLink,
+        SharedModule,
+        MatProgressSpinnerModule,
+        MatSidenavModule,
+        QuotationComponent,
+        ConfigurationHistoryComponent,
+        KeyValuePipe,
+        NgIf,
+        MatSelectModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatMenuModule,
+        FormPageComponent
+    ],
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {

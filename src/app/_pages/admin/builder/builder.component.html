@@ -28,13 +28,7 @@
           </div>
 
         </div>
-        <div class="page">
-          <div class="form-header d-flex justify-content-between">
-            <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
-            <h1>{{ form.title }}</h1>
-            <div class="settings-btn">
-            </div>
-          </div>
+        <app-form-page [title]="form.title">
           @defer (when form.pages.length > 0) {
             <form [formGroup]="formService.formGroup$.getValue()">
               @if (form.pages.length > 1) {
@@ -86,7 +80,7 @@
           } @placeholder {
             <mat-spinner></mat-spinner>
           }
-        </div>
+        </app-form-page>
       }
     </div>
   </mat-drawer-content>

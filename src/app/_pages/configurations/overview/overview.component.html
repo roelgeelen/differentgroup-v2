@@ -1,16 +1,5 @@
 <div class="form background-accent">
-  <div class="page">
-    <div class="form-header d-flex justify-content-between">
-      <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
-      <h1>{{ customer !== null ? customer.name : 'Configuraties' }}</h1>
-      <div class="settings-btn">
-        @if (customer !== null) {
-          <button mat-button color="primary" class="clear" routerLink="/customers">
-            <mat-icon>clear</mat-icon>
-          </button>
-        }
-      </div>
-    </div>
+  <app-form-page [title]="customer !== null ? customer.name : 'Configuraties'" [prevLink]="'/customers'">
     @defer (when paramId === '' || customer !== null) {
       <div class="form-content">
         @if (customer !== null) {
@@ -89,17 +78,22 @@
           </form>
           <hr>
           <h2>Recente configuraties</h2>
-          <mat-card>
-            <mat-card-header [routerLink]="'/customers/5056111817'" class="clickable">
-              <mat-card-title>Different Doors B.V. - Gereedschapkasten</mat-card-title>
-              <mat-card-subtitle>11-12-2023 14:13</mat-card-subtitle>
-            </mat-card-header>
-          </mat-card>
+          @for (customer of customers;track customer){
+            <mat-card>
+              <mat-card-header [routerLink]="'/customers/5056111817'" class="clickable">
+                <mat-card-title>Different Doors B.V. - Gereedschapkasten</mat-card-title>
+                <mat-card-subtitle>11-12-2023 14:13</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          } @empty {
+            <div class="w-100 text-center">Nog geen aangemaakte formulieren</div>
+          }
         }
       </div>
     } @placeholder {
       <mat-spinner></mat-spinner>
     }
-  </div>
+  </app-form-page>
+
 </div>
 

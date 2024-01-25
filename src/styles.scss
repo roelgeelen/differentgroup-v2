@@ -42,15 +42,22 @@ body {
   }
 }
 
+.text-center{
+  text-align: center;
+}
+
 .w100 {
   width: 100% !important;
 }
+
 .w75 {
   width: 75% !important;
 }
+
 .w50 {
   width: 50% !important;
 }
+
 .w25 {
   width: 25% !important;
 }
@@ -60,8 +67,9 @@ button {
     //margin: 0 !important;
   }
 }
-mat-icon{
-  vertical-align:middle;
+
+mat-icon {
+  vertical-align: middle;
 }
 
 mat-spinner {
@@ -74,9 +82,6 @@ mat-spinner {
 
 .full-height {
   min-height: calc(100vh - 116px) !important;
-}
-.full-width {
-  width: 100% !important;
 }
 
 .loading-overlay {

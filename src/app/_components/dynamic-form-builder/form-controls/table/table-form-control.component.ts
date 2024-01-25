@@ -11,30 +11,32 @@ import {IFormControlOptionsColumns} from "../form-control-options.interface";
 @Component({
   selector: 'table-form-control',
   template: `
-      <table class="table full-width">
-          @for (row of data;track row; let idx = $index) {
-              <tr class="row">
-                  @for (col of columns;track col; let colLast = $last) {
-                      <td>
-                          <mat-form-field class="form-input">
-                              <mat-label>{{ col.key }}</mat-label>
-                              <input matInput [(ngModel)]="row[col.key]" [placeholder]="col.key" [type]="col.type"
-                                     [ngModelOptions]="{standalone: true}" (focusout)="onValueChange()"/>
-                          </mat-form-field>
-                      </td>
-                      @if (colLast) {
-                          <td style="width: 48px">
-                              <button mat-icon-button color="primary" (click)="removeFromList(idx)">
-                                  <mat-icon>delete</mat-icon>
-                              </button>
+      <div style="overflow-x: auto">
+          <table class="table w100">
+              @for (row of data;track row;let idx = $index) {
+                  <tr class="row">
+                      @for (col of columns;track col;let colLast = $last) {
+                          <td>
+                              <mat-form-field class="form-input">
+                                  <mat-label>{{ col.key }}</mat-label>
+                                  <input matInput [(ngModel)]="row[col.key]" [placeholder]="col.key" [type]="col.type"
+                                         [ngModelOptions]="{standalone: true}" (focusout)="onValueChange()"/>
+                              </mat-form-field>
                           </td>
+                          @if (colLast) {
+                              <td style="width: 48px">
+                                  <button mat-icon-button color="primary" (click)="removeFromList(idx)">
+                                      <mat-icon>delete</mat-icon>
+                                  </button>
+                              </td>
+                          }
                       }
-                  }
-              </tr>
-          }
+                  </tr>
+              }
 
-      </table>
-      <button mat-stroked-button color="primary" class="full-width" (click)="addRow()">
+          </table>
+      </div>
+      <button mat-stroked-button color="primary" class="w100" (click)="addRow()">
           <mat-icon>add</mat-icon>
       </button>
   `,

@@ -25,32 +25,34 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormOptionsComponent} from "./form-options/form-options.component";
 import {ITheme, ThemeService} from "../../../_helpers/theme.service";
+import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
   selector: 'app-form',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss'],
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    AsyncPipe,
-    MatTabsModule,
-    SharedFormBuilderModule,
-    MatProgressSpinnerModule,
-    FormsModule,
-    MatIconModule,
-    FlexModule,
-    NewControlsComponent,
-    ControlOptionsComponent,
-    NgIf,
-    MatSidenavModule,
-    ConfigurationHistoryComponent,
-    MatCardModule,
-    MatRippleModule,
-    MatTooltipModule,
-    FormOptionsComponent
-  ],
+    imports: [
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        AsyncPipe,
+        MatTabsModule,
+        SharedFormBuilderModule,
+        MatProgressSpinnerModule,
+        FormsModule,
+        MatIconModule,
+        FlexModule,
+        NewControlsComponent,
+        ControlOptionsComponent,
+        NgIf,
+        MatSidenavModule,
+        ConfigurationHistoryComponent,
+        MatCardModule,
+        MatRippleModule,
+        MatTooltipModule,
+        FormOptionsComponent,
+        FormPageComponent
+    ],
   standalone: true
 })
 export class BuilderComponent implements OnInit {

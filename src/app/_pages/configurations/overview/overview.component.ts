@@ -21,6 +21,8 @@ import {IConfiguration} from "../../../_models/configuration/configuration.inter
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
 import {ITheme, ThemeService} from "../../../_helpers/theme.service";
+import {IPage} from "../../../_models/page.interface";
+import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
   selector: 'app-overview',
@@ -40,12 +42,18 @@ import {ITheme, ThemeService} from "../../../_helpers/theme.service";
     MatSelectModule,
     DatePipe,
     RouterLink,
-    MatMenuModule
+    MatMenuModule,
+    FormPageComponent
   ],
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent implements OnInit {
   searchControl = new FormControl<string>('', Validators.required);
+
+  page: number = 0;
+  recents?: IPage<any>;
+  customers: ICustomer[] = [];
+
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
   templates: IForm[] = [];
@@ -76,6 +84,15 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.themeService.theme$.subscribe(t => this.theme = t);
+    this.getRecentCustomers();
+  }
+
+  getRecentCustomers() {
+    this.apiCustomerService.findRecentCustomers(this.currentUser!.name, this.page).subscribe(c => {
+      this.recents = c;
+      console.log(c)
+      this.customers?.push(...c.content);
+    })
   }
 
   submitSearch() {

@@ -24,17 +24,7 @@
     <div class="quotation-toggle" (click)="drawer.toggle()">
       <mat-icon>history</mat-icon>
     </div>
-    <div class="page">
-      <div class="form-header d-flex justify-content-between">
-        <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
-        <div class="title">
-          <h1>{{ configuration?.title }}</h1>
-          <small>{{ configuration?.customer?.name }}</small>
-        </div>
-
-        <div class="settings-btn">
-        </div>
-      </div>
+    <app-form-page [title]="configuration?.title??''" [subtitle]="configuration?.customer?.name??''" prevLink="/customers/{{configuration?.customer?.dealId}}">
       <div class="form-content">
         @defer (when configuration) {
           @if (configuration?.preview) {
@@ -45,7 +35,7 @@
           }
           @for (page of values;track page) {
             @if (page.values.length > 0) {
-              <div class="form-section">
+              <div class="form-section" [class.first]="$first">
                 <h2>{{ page.page }}</h2>
                 @for (value of page.values;track value) {
 
@@ -132,6 +122,7 @@
           <mat-spinner></mat-spinner>
         }
       </div>
-    </div>
+    </app-form-page>
+
   </mat-drawer-content>
 </mat-drawer-container>

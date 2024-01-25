@@ -14,7 +14,6 @@
         </div>
       }
       <div class="form-builder">
-
         <div class="buttons">
           <div></div>
           <div>
@@ -40,30 +39,7 @@
           </div>
 
         </div>
-
-        <div class="page">
-          <div class="form-header d-flex justify-content-between">
-            <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
-            <div class="title">
-              @if (editTitle) {
-                <mat-form-field>
-                  <mat-label>Formulier naam</mat-label>
-                  <input matInput [(ngModel)]="config!.title" (focusout)="editTitle = !editTitle">
-                  <button matSuffix mat-icon-button aria-label="Clear" (click)="editTitle = !editTitle">
-                    <mat-icon>close</mat-icon>
-                  </button>
-                </mat-form-field>
-              } @else {
-                <h1 (dblclick)="editTitle = !editTitle">{{ config?.title }}</h1>
-                <small>{{ config?.customer?.name }}</small>
-              }
-            </div>
-            <div class="settings-btn">
-              <button mat-button color="primary" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
-                <mat-icon>clear</mat-icon>
-              </button>
-            </div>
-          </div>
+        <app-form-page [title]="config?.title??''" [subtitle]="config?.customer?.name??''" prevLink="/customers/{{config?.customer?.dealId}}" [canEdit]="true" (newName)="config!.title=$event">
           @defer (when form.pages.length > 0) {
             <form [formGroup]="formService.formGroup$.getValue()">
               @if (form.pages.length > 1) {
@@ -108,8 +84,7 @@
           } @placeholder {
             <mat-spinner></mat-spinner>
           }
-        </div>
-
+        </app-form-page>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>

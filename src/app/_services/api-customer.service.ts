@@ -4,6 +4,8 @@ import {environment} from "../../environments/environment";
 import {ICustomer} from "../_models/configuration/customer.interface";
 import {IConfiguration} from "../_models/configuration/configuration.interface";
 import {IFormAttachment} from "../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import {IPage} from "../_models/page.interface";
+import {IConfigChanges} from "../_models/configuration/configuration-change.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +13,9 @@ import {IFormAttachment} from "../_components/dynamic-form-builder/form-controls
 export class ApiCustomerService {
 
   constructor(private http: HttpClient) {
+  }
+  findRecentCustomers(name:string,page: number) {
+    return this.http.get<IPage<ICustomer[]>>(`${environment.apiLocal}/v2/customer?username=${name}size=5&page=${page}`);
   }
 
   findCustomer(id: string) {

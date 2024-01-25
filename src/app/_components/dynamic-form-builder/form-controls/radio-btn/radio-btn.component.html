@@ -5,7 +5,7 @@
     @for (choice of control?.options?.choices;track choice) {
       <mat-radio-button [value]="choice.value" color="primary">
         @if (choice?.quoteLine && isBuilder){<mat-icon [matTooltip]="choice?.quoteLine?.sku!" matTooltipPosition="above">request_quote</mat-icon>}
-        @if (choice?.duration && isBuilder){<mat-icon [matTooltip]="choice?.duration!.toString()" matTooltipPosition="above">schedule</mat-icon>}
+        @if (choice?.duration && isBuilder){<mat-icon [matTooltip]="choice?.duration!+'m'" matTooltipPosition="above">schedule</mat-icon>}
         {{ choice.value }}
       </mat-radio-button>
     }

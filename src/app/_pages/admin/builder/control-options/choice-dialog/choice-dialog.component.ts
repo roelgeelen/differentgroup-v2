@@ -16,6 +16,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormService} from "../../../../../_components/dynamic-form-builder/services/form.service";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-choice-dialog',
@@ -32,6 +33,7 @@ import {FormService} from "../../../../../_components/dynamic-form-builder/servi
     MatDialogClose,
     MatIconModule,
     MatTooltipModule,
+    MatDivider,
   ],
   styleUrl: './choice-dialog.component.scss'
 })

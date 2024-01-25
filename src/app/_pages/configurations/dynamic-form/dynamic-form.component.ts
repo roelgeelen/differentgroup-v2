@@ -27,27 +27,29 @@ import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component"
 import {IFieldChange, IConfigChanges} from "../../../_models/configuration/configuration-change.interface";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
 import {ITheme, ThemeService} from "../../../_helpers/theme.service";
+import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    MatButtonModule,
-    MatTabsModule,
-    SharedFormBuilderModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    FlexModule,
-    MatInputModule,
-    FormsModule,
-    RouterLink,
-    MatSidenavModule,
-    QuotationComponent,
-    NgIf
-  ],
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        MatButtonModule,
+        MatTabsModule,
+        SharedFormBuilderModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        FlexModule,
+        MatInputModule,
+        FormsModule,
+        RouterLink,
+        MatSidenavModule,
+        QuotationComponent,
+        NgIf,
+        FormPageComponent
+    ],
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent implements OnInit {
