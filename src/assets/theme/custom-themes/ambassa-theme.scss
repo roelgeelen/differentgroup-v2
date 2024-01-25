@@ -1,69 +1,69 @@
-// from libs
-@use '../../../../node_modules/@angular/material/index' as mat; // Theming APIs
+@use '../../../../node_modules/@angular/material/index' as mat;
 @use 'sass:map';
-
-// from project
-@use 'theming'; // color config function
-@use "../components.style" as components; // @mixin with custom components
+@use "../components.style" as components;
 
 
-@include mat.core(); // Mixin that renders all of the core styles that are not theme-dependent.
+@include mat.core();
 
-// just colors
-$light-primary-text: white;
-$dark-primary-text: rgba(black, 0.87);
-$orange-primary-text: rgba(199,91,57, 0.87);
-$orange-secondary-text: rgba(199,91,57, 0.54);
-$orange-disabled-text: rgba(199,91,57, 0.38);
-$orange-dividers: rgba(199,91,57, 0.12);
-$orange-disabled-button: rgba(199,91,57, 0.12);
-$orange-focused: rgba(199,91,57, 0.12);
+$background-color: #fafafa;
+$background-accent-color: #e5e5e5;
 
-$my-orange-palette: (
-  50: #fff3e0,
-  100: #ffe0b2,
-  200: #ffcc80,
-  300: #ffb74d,
-  400: #ffa726,
-  500: #ff9800,
-  600: #fb8c00,
-  700: #f57c00,
-  800: #ef6c00,
-  900: #e65100,
-  A100: #ffd180,
-  A200: #ffab40,
-  A400: #ff9100,
-  A700: #ff6d00,
+$palette: (
+  50 : #ffefe9,
+  100 : #ffcdbd,
+  200 : #ffab91,
+  300 : #fa9c7e,
+  400 : #ff7043,
+  500 : #ff5722,
+  600 : #ff4f1e,
+  700 : #ff4619,
+  800 : #ff3c14,
+  900 : #ff2c0c,
+  A100 : #ffffff,
+  A200 : #fff7f6,
+  A400 : #ffc9c3,
+  A700 : #ffb2a9,
   contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $dark-primary-text,
-    600: $dark-primary-text,
-    700: $dark-primary-text,
-    800: $light-primary-text,
-    900: $light-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: black,
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
   )
 );
 
-$orange-primary: mat.define-palette($my-orange-palette);
-$orange-accent: mat.define-palette(mat.$brown-palette);
-$orange-warn: mat.define-palette(mat.$red-palette);
+$primary: mat.define-palette($palette);
+$accent: mat.define-palette(mat.$brown-palette);
+$warn: mat.define-palette(mat.$red-palette, 700);
 
 // color config function
-$orange-color-config: mat.define-light-theme( // see src/styles/custom-themes/_theming.scss
-    $orange-primary,
-    $orange-accent,
-    $orange-warn
-);
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
 
-@include mat.all-component-themes($orange-color-config);
+$background: map-get($theme, background);
+$background: map_merge($background, (
+  background: $background-color,
+  background-accent:$background-accent-color
+));
+$theme: map_merge($theme, (background: $background));
 
-// Add @mixin from our ../components.style
-@include components.theme($orange-color-config);
+
+@include mat.all-component-themes($theme);
+@include components.theme($theme);
+

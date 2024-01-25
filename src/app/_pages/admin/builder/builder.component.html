@@ -1,4 +1,4 @@
-<mat-drawer-container class="container" fxLayout="row" [hasBackdrop]="false">
+<mat-drawer-container class="background-accent" fxLayout="row" [hasBackdrop]="false">
   <mat-drawer [opened]="true" mode="side">
     <app-new-controls></app-new-controls>
   </mat-drawer>
@@ -16,13 +16,13 @@
         <div class="buttons">
           <div></div>
           <div>
-            <mat-slide-toggle [(ngModel)]="showInvisible">verborgen velden</mat-slide-toggle>
-            <button mat-raised-button color="accent" [disabled]="loading" (click)="saveForm()">
+            <mat-slide-toggle [(ngModel)]="showInvisible" color="primary">verborgen velden</mat-slide-toggle>
+            <button mat-raised-button color="primary" [disabled]="loading" (click)="saveForm()">
               <mat-icon *ngIf="!loading">save</mat-icon>
               <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
 
             </button>
-            <button mat-raised-button color="accent" (click)="openFormSettings();$event.stopPropagation()">
+            <button mat-raised-button color="primary" (click)="openFormSettings();$event.stopPropagation()">
               <mat-icon>settings</mat-icon>
             </button>
           </div>
@@ -30,7 +30,7 @@
         </div>
         <div class="page">
           <div class="form-header d-flex justify-content-between">
-            <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+            <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
             <h1>{{ form.title }}</h1>
             <div class="settings-btn">
             </div>

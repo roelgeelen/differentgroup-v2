@@ -20,6 +20,7 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
 import {IConfiguration} from "../../../_models/configuration/configuration.interface";
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
+import {ITheme, ThemeService} from "../../../_helpers/theme.service";
 
 @Component({
   selector: 'app-overview',
@@ -43,16 +44,18 @@ import {MatMenuModule} from "@angular/material/menu";
   ],
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
   searchControl = new FormControl<string>('', Validators.required);
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
   templates: IForm[] = [];
   currentUser: User | undefined;
-  configurations: IConfiguration[]|null = null
+  configurations: IConfiguration[] | null = null
   paramId: string = '';
+  theme: ITheme | null = null;
 
   constructor(
+    private themeService: ThemeService,
     private authService: AuthenticationService,
     private apiCustomerService: ApiCustomerService,
     private apiFormService: ApiFormService,
@@ -69,6 +72,10 @@ export class OverviewComponent {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
     });
+  }
+
+  ngOnInit(): void {
+    this.themeService.theme$.subscribe(t => this.theme = t);
   }
 
   submitSearch() {

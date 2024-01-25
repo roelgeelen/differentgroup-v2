@@ -3,14 +3,14 @@
                    [required]="control?.options?.validators?.required ?? false"
                    [formControlName]="control!.id" [id]="control!.id">
     @for (choice of control?.options?.choices;track choice) {
-      <mat-radio-button [value]="choice.value">
+      <mat-radio-button [value]="choice.value" color="primary">
         @if (choice?.quoteLine && isBuilder){<mat-icon [matTooltip]="choice?.quoteLine?.sku!" matTooltipPosition="above">request_quote</mat-icon>}
         @if (choice?.duration && isBuilder){<mat-icon [matTooltip]="choice?.duration!.toString()" matTooltipPosition="above">schedule</mat-icon>}
         {{ choice.value }}
       </mat-radio-button>
     }
     @if (control?.options?.customChoice){
-      <mat-radio-button [value]="customValue">
+      <mat-radio-button [value]="customValue" color="primary">
         <mat-form-field>
           <mat-label>Anders</mat-label>
           <input matInput [(ngModel)]="customValue" [ngModelOptions]="{standalone: true}"

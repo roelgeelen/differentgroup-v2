@@ -1,11 +1,11 @@
-<div class="form">
+<div class="form background-accent">
   <div class="page">
     <div class="form-header d-flex justify-content-between">
-      <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+      <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
       <h1>{{ customer !== null ? customer.name : 'Configuraties' }}</h1>
       <div class="settings-btn">
         @if (customer !== null) {
-          <button mat-button color="accent" class="clear" routerLink="/customers">
+          <button mat-button color="primary" class="clear" routerLink="/customers">
             <mat-icon>clear</mat-icon>
           </button>
         }

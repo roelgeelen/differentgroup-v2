@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="navbar">
-  <a routerLink="/"><img src="assets/images/logo.png" alt="Logo" height="45" class="logo"></a>
+  <a routerLink="/"><img [src]="selectedTheme.imageLight" alt="Logo" height="45" class="logo"></a>
   <!--  <span class="spacer"></span>-->
   <button mat-button routerLink="/customers">Formulieren</button>
   <button mat-button routerLink="/admin/forms">Admin</button>
@@ -21,7 +21,7 @@
       <button (click)="selectTheme(theme.name)" class="menu-item" mat-menu-item>
         <mat-icon color="primary">{{selectedTheme.name===theme.name?'radio_button_checked':'radio_button_unchecked'}}radio_button_checked</mat-icon>
         <span class="menu-item-label">{{ theme.displayName }}</span>
-        <img class="menu-item-image" [src]="theme.image">
+        <img class="menu-item-image" [src]="theme.imageDark">
       </button>
     }
   </mat-menu>

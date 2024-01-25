@@ -1,54 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
-//@use "assets/theme/theme.scss" as theme;
 @use "assets/theme/components.style" as components;
-//@use "assets/theme/custom-themes/different-doors-theme" as different-doors-theme;
-@use "assets/theme/custom-themes/ambassa-theme" as ambassa-theme;
-@import "assets/theme/reset";
+@use "assets/theme/custom-themes/different-doors-theme" as different-doors-theme;
+
+$color-config: different-doors-theme.$theme;
 
 @include mat.core();
 
-// Define the default light theme.
+//@include mat.all-component-themes($color-config);
+//@include components.theme($color-config);
 
-$color-config: ambassa-theme.$my-orange-palette;
 
-// Include material core styles.
-@include mat.core();
-@include mat.all-component-themes($color-config);
-@include components.theme($color-config);
-
-//
-//$dd-primary: mat.define-palette(mat.$indigo-palette, 500);
-//$dd-accent: mat.define-palette(theme.$different-palette, A400, A100, A200);
-//$dd-warn: mat.define-palette(mat.$red-palette, 700);
-//
-//$dd-theme: mat.define-light-theme((
-//  color: (
-//    primary: $dd-primary,
-//    accent: $dd-accent,
-//    warn: $dd-warn
-//  )
-//));
-//
-//$ambassa-primary: mat.define-palette(mat.$deep-orange-palette, 500);
-//$ambassa-accent: mat.define-palette(mat.$deep-orange-palette, A400, A100, A200);
-//$ambassa-theme: mat.define-light-theme((
-//  color: (
-//    primary: $ambassa-primary,
-//    accent: $ambassa-accent,
-//    warn: $dd-warn
-//  )
-//));
-
-// Emit theme-dependent styles for common features used across multiple components.
-//@include mat.all-component-themes($ambassa-theme);
 body, html {
   height: 100%;
   margin: 0;
 }
 
 body {
-  background-color: #fafafa;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -69,6 +37,7 @@ body {
     .page-header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
   }
 }

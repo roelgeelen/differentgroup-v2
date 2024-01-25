@@ -1,5 +1,5 @@
 @if (formService.form$ | async;as form) {
-  <mat-drawer-container class="container" [hasBackdrop]="false">
+  <mat-drawer-container class="container background-accent" [hasBackdrop]="false">
 
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
@@ -18,22 +18,22 @@
         <div class="buttons">
           <div></div>
           <div>
-            <button mat-raised-button color="accent"
+            <button mat-raised-button color="primary"
                     [routerLink]="'/customers/'+customerId+'/configurations/'+config?.id"
                     [queryParams]="{type:'intern'}">
               <mat-icon>remove_red_eye</mat-icon>
             </button>
             @if (form.options.model3D) {
-              <button mat-raised-button color="accent" (click)="openPreviewDialog()">
+              <button mat-raised-button color="primary" (click)="openPreviewDialog()">
                 <mat-icon>3d_rotation</mat-icon>
               </button>
             }
-            <button mat-raised-button color="accent" (click)="saveForm()" [disabled]="loading">
+            <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="loading">
               <mat-icon *ngIf="!loading">save</mat-icon>
               <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
             </button>
             @if (form.options.createQuotation) {
-              <button mat-raised-button color="accent">
+              <button mat-raised-button color="primary">
                 Offerte maken
               </button>
             }
@@ -43,7 +43,7 @@
 
         <div class="page">
           <div class="form-header d-flex justify-content-between">
-            <div class="logo"><img src="../../../../assets/images/logo_zwart.png" alt="logo"></div>
+            <div class="logo"><img [src]="theme?.imageDark??'../../../../assets/images/logo_zwart.png'" alt="logo"></div>
             <div class="title">
               @if (editTitle) {
                 <mat-form-field>
@@ -59,7 +59,7 @@
               }
             </div>
             <div class="settings-btn">
-              <button mat-button color="accent" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
+              <button mat-button color="primary" class="clear" routerLink="/customers/{{config?.customer?.dealId}}">
                 <mat-icon>clear</mat-icon>
               </button>
             </div>

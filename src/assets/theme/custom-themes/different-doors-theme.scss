@@ -1,45 +1,36 @@
-// from libs
-@use '../../../../node_modules/@angular/material/index' as mat; // Theming APIs
+@use '../../../../node_modules/@angular/material/index' as mat;
 @use 'sass:map';
-
-// from project
-@use 'theming'; // color config function
-@use "../components.style" as components; // @mixin with custom components
+@use "../components.style" as components;
 
 
-@include mat.core(); // Mixin that renders all of the core styles that are not theme-dependent.
+@include mat.core();
 
-// just colors
-$light-primary-text: white;
 $dark-primary-text: rgba(black, 0.87);
-$orange-primary-text: rgba(199,91,57, 0.87);
-$orange-secondary-text: rgba(199,91,57, 0.54);
-$orange-disabled-text: rgba(199,91,57, 0.38);
-$orange-dividers: rgba(199,91,57, 0.12);
-$orange-disabled-button: rgba(199,91,57, 0.12);
-$orange-focused: rgba(199,91,57, 0.12);
+$light-primary-text: white;
+$background-color: #fafafa;
+$background-accent-color: #ebf2f4;
 
-$my-dd-palette: (
-  50: #e3f2fd,
-  100: #bcdbcf,
-  200: #68ac85,
-  300: #5b9691,
-  400: #65919f,
-  500: #4d7d98,
-  600: #525d9e,
-  700: #415098,
-  800: #334d9c ,
-  900: #2e3785,
-  A100: #68ac85,
-  A200: #525d9e,
-  A400: #334d9c,
-  A700: #2e3785,
+$palette: (
+  50 : #e7eaf3,
+  100 : #c2cae1,
+  200 : #99a6ce,
+  300 : #7082ba,
+  400 : #5268ab,
+  500 : #334d9c,
+  600 : #2e4694,
+  700 : #273d8a,
+  800 : #203480,
+  900 : #14256e,
+  A100 : #a6b3ff,
+  A200 : #7388ff,
+  A400 : #405dff,
+  A700 : #2647ff,
   contrast: (
     50: $dark-primary-text,
-    200: $dark-primary-text,
     100: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $light-primary-text,
+    400: $light-primary-text,
     500: $light-primary-text,
     600: $light-primary-text,
     700: $light-primary-text,
@@ -52,20 +43,28 @@ $my-dd-palette: (
   )
 );
 
+$primary: mat.define-palette($palette);
+$accent: mat.define-palette(mat.$brown-palette);
+$warn: mat.define-palette(mat.$red-palette, 700);
 
-$dd-primary: mat.define-palette(mat.$indigo-palette, 500);
-$dd-accent: mat.define-palette($my-dd-palette, A400, A100, A200);
-$dd-warn: mat.define-palette(mat.$red-palette, 700);
-
-$dd-theme: mat.define-light-theme((
+$theme: mat.define-light-theme((
   color: (
-    primary: $dd-primary,
-    accent: $dd-accent,
-    warn: $dd-warn
-  )
+    primary: $primary,
+    accent: $accent,
+    warn: $warn
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
 ));
 
-@include mat.all-component-themes($dd-theme);
+$background: map-get($theme, background);
+$background: map_merge($background, (
+  background: $background-color,
+  background-accent:$background-accent-color
+));
+$theme: map_merge($theme, (background: $background));
 
-// Add @mixin from our ../components.style
-@include components.theme($dd-theme);
+
+@include mat.all-component-themes($theme);
+@include components.theme($theme);
+

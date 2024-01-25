@@ -20,6 +20,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {
   IFormControlOptionsVisibility
 } from "../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import {ITheme, ThemeService} from "../../../_helpers/theme.service";
 
 @Component({
   selector: 'app-view-configuration',
@@ -44,6 +45,7 @@ import {
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
+  theme: ITheme | null = null;
   configuration: IConfiguration | null = null;
   visibleFor: { key: string, label: string } = {key: 'intern', label: 'Intern'};
   safe3dUrl: SafeResourceUrl = '';
@@ -55,10 +57,16 @@ export class ViewConfigurationComponent implements OnInit {
     {key: 'customer', label: 'Klant'},
   ]
 
-  constructor(private apiCustomerService: ApiCustomerService, private router: Router, private route: ActivatedRoute, private sanitizer: DomSanitizer) {
+  constructor(
+    private themeService: ThemeService,
+    private apiCustomerService: ApiCustomerService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
+  ) {
   }
-
   ngOnInit(): void {
+    this.themeService.theme$.subscribe(t => this.theme = t);
     this.route.paramMap.subscribe(params => {
       if (params.get('configId') !== null) {
         this.apiCustomerService.getConfiguration(params.get('dealId')!, params.get('configId')!).subscribe(c => {

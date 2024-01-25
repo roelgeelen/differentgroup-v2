@@ -12,7 +12,7 @@
         <mat-tab label="Algemeen">
           <div class="tab-content">
             <div class="margin-top">
-              <mat-slide-toggle [(ngModel)]="form.published">Gepubliceerd</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="form.published" color="primary">Gepubliceerd</mat-slide-toggle>
             </div>
             <mat-form-field>
               <mat-label>Naam</mat-label>
@@ -24,7 +24,7 @@
               <input matInput [(ngModel)]="form.kind" [ngModelOptions]="{standalone:true}">
             </mat-form-field>
             <div class="margin-top">
-              <mat-slide-toggle [(ngModel)]="form.options.model3D">3D Model</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="form.options.model3D" color="primary">3D Model</mat-slide-toggle>
             </div>
             <div class="label margin-bottom">Pagina's</div>
             <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
@@ -43,7 +43,7 @@
         <mat-tab label="Offerte">
           <div class="tab-content">
             <div class="margin-top">
-              <mat-slide-toggle [(ngModel)]="form.options.createQuotation">Maak offerte</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="form.options.createQuotation" color="primary">Maak offerte</mat-slide-toggle>
             </div>
             @if (form.options.createQuotation) {
               @for (line of form.options.quoteLines;track line) {

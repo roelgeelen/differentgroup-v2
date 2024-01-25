@@ -41,7 +41,7 @@
                     } @else {
                       <input type="file" id="fileDropRef" accept="image/*"
                              (change)="fileBrowseHandler(control, $event)"/>
-                      <label for="fileDropRef">Foto kiezen</label>
+                      <label for="fileDropRef" class="primary">Foto kiezen</label>
                     }
                   </div>
                   @if (progress !== 0) {
@@ -83,7 +83,7 @@
                 </mat-form-field>
               }
               @if (control.options!.calcDuration !== undefined) {
-                <mat-slide-toggle [(ngModel)]="control.options!.calcDuration">Bereken tijd</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="control.options!.calcDuration" color="primary">Bereken tijd</mat-slide-toggle>
                 @if (control.options!.calcDuration) {
                   <span class="help">Gebruik "this.duration"</span>
                 }
@@ -92,7 +92,7 @@
                 <div class="label">Opties</div>
                 <div class="tab-content">
                   @if (control.options!.customChoice !== undefined) {
-                    <mat-slide-toggle [(ngModel)]="control.options!.customChoice">Anders</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="control.options!.customChoice" color="primary">Anders</mat-slide-toggle>
                   }
                   <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
                     @for (option of control.options.choices!;track option) {
@@ -188,7 +188,7 @@
                 <div class="label">Regels</div>
                 <div class="tab-content">
                   @if (control.options.validators.required !== undefined) {
-                    <mat-slide-toggle [(ngModel)]="control.options.validators.required">Verplicht</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="control.options.validators.required" color="primary">Verplicht</mat-slide-toggle>
                   }
                   @if (control.options.type === 'number') {
 
@@ -219,17 +219,17 @@
               @if (control.options.visibility !== undefined) {
                 <div class="label">Zichtbaarheid</div>
                 <div class="tab-content">
-                  <mat-slide-toggle [(ngModel)]="control.options.visibility.intern">
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.intern" color="primary">
                     Intern zichtbaar
                   </mat-slide-toggle>
-                  <mat-slide-toggle [(ngModel)]="control.options.visibility.extern">
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.extern" color="primary">
                     Extern zichtbaar
                   </mat-slide-toggle>
-                  <mat-slide-toggle [(ngModel)]="control.options.visibility.customer">
+                  <mat-slide-toggle [(ngModel)]="control.options.visibility.customer" color="primary">
                     Zichtbaar voor klant
                   </mat-slide-toggle>
                   @if (control.options.visibility.showInForm !== undefined) {
-                    <mat-slide-toggle [(ngModel)]="control.options.visibility.showInForm">
+                    <mat-slide-toggle [(ngModel)]="control.options.visibility.showInForm" color="primary">
                       Zichtbaar in formulier
                     </mat-slide-toggle>
                   }
@@ -247,7 +247,7 @@
               @if (control.options.dependent !== undefined && (control.options.visibility?.showInForm === undefined || control.options.visibility?.showInForm)) {
                 <div class="label mb">
                   <span>Afhankelijkheden</span>
-                  <mat-icon matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info</mat-icon>
+                  <mat-icon class="primary-text" matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info_outlined</mat-icon>
                 </div>
                 @for (dependent of control.options.dependent;track dependent) {
                   @if (formService.findControlById(dependent.field);as depControl) {

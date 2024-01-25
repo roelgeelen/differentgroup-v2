@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
+import {IForm} from "../_components/dynamic-form-builder/models/form.interface";
 
 
-export interface Theme {
+export interface ITheme {
   name: string;
   displayName: string;
-  image?: string;
+  imageDark?: string;
+  imageLight?: string;
   accent?: string;
   primary?: string;
-  isDark?: boolean;
   isDefault?: boolean;
 }
 
@@ -16,35 +17,32 @@ export interface Theme {
   providedIn: 'root'
 })
 export class ThemeService {
+  theme$ = new BehaviorSubject<ITheme>(ThemeService.defaultTheme); // stores the current theme
 
-  static defaultTheme: Theme =   {
+  static defaultTheme: ITheme = {
     displayName: 'Different Doors',
     name: 'different-doors-theme',
-    image: 'assets/images/logo_zwart.png',
-    isDark: false,
+    imageDark: 'assets/images/logo_zwart.png',
+    imageLight: 'assets/images/logo.png',
   };
-
-  themes: Theme[] = [
+  themes: ITheme[] = [
     ThemeService.defaultTheme,
     {
       displayName: 'Ambassa',
       name: 'ambassa-theme',
-      image: 'assets/images/logo.png',
-      isDark: true,
+      imageDark: 'assets/images/ambassa.png',
+      imageLight: 'assets/images/ambassa-white.png',
     }
   ];
-
-  private themeSUB = new BehaviorSubject(ThemeService.defaultTheme); // stores the current theme
-  themeOBS = this.themeSUB.asObservable();
 
   constructor() {
   }
 
-  updateTheme(theme: Theme): void {
-    this.themeSUB.next(theme);
+  updateTheme(theme: ITheme): void {
+    this.theme$.next(theme);
   }
 
-  findTheme(themeName: string): Theme | undefined {
+  findTheme(themeName: string): ITheme | undefined {
     return this.themes.find(currentTheme => currentTheme.name === themeName);
   }
 }

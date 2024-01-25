@@ -10,9 +10,8 @@ import {RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
-import {OverlayContainer} from "@angular/cdk/overlay";
 import {LocalStorageService} from "../../../_services/local-storage.service";
-import {Theme, ThemeService} from "../../theme.service";
+import {ITheme, ThemeService} from "../../theme.service";
 import {StyleManager} from "../../style-manager";
 
 @Component({
@@ -32,8 +31,8 @@ import {StyleManager} from "../../style-manager";
 export class NavbarComponent implements OnInit {
   currentUser: User | undefined;
   profilePic: Blob | null | undefined;
-  themes: Theme[];
-  selectedTheme: Theme;
+  themes: ITheme[];
+  selectedTheme: ITheme;
 
   constructor(
     private oauthService: OAuthService,
@@ -50,7 +49,7 @@ export class NavbarComponent implements OnInit {
 
     if (themeName) {
       this.selectedTheme = this.selectTheme(themeName);
-    } else { // if the localstorage is empty  set the default light theme
+    } else {
       this.selectedTheme = this.selectTheme(ThemeService.defaultTheme.name);
     }
     this.authService.currentUser.subscribe(user => {
@@ -59,10 +58,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  selectTheme(themeName: string): Theme {
+  selectTheme(themeName: string): ITheme {
     const theme = this.themeService.findTheme(themeName);
     if (theme) {
-      this.selectedTheme=theme;
       this.themeService.updateTheme(theme);
       this.styleManager.removeStyle('theme');
       this.styleManager.setStyle('theme', `${theme.name}.css`);
@@ -84,6 +82,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.themeService.theme$.subscribe(t => this.selectedTheme = t);
   }
 
   public logout() {

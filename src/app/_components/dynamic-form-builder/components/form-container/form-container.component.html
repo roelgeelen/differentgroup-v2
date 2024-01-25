@@ -29,7 +29,7 @@
             <div cdkDragHandle></div>
           }
           @if (item.options && item.options.label && item.options.label !== '') {
-            <mat-label class="label">
+            <mat-label class="label background-accent">
               <span>
                 {{ item.options!.label }}
                 @if (item.options.note) {
@@ -44,7 +44,7 @@
                   <img class="hubspot-icon" [matTooltip]="item.options.toDeal!" matTooltipPosition="above" src="assets/images/icons/hubspot.png">
                 }
                 @if (item.options.help) {
-                  <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">
+                  <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon primary-text">
                     info_outlined
                   </mat-icon>
                 }
@@ -89,7 +89,7 @@
         [class.selected]="item.id == selectedControl?.id"
       >
         @if (item.options && item.options.label && item.options.label !== '') {
-          <mat-label class="label">
+          <mat-label class="label background-accent">
             <span>{{ item.options!.label }}
               @if (item.options.note) {
                 <span class="note">({{ item.options.note }})</span>

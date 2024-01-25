@@ -61,12 +61,6 @@ span{
   &.mb {
     margin-bottom: 5px;
   }
-
-  mat-icon {
-    background-color: #334d9c;
-    color: #eaedf5;
-    border-radius: 50%;
-  }
 }
 
 .no-items {
@@ -200,7 +194,6 @@ mat-slide-toggle {
     color: white;
     width: 160px;
     border-radius: 21.5px;
-    background-color: #334d9c;
     padding: 4px 13px;
     display: inline-block;
     margin: 15px 0;

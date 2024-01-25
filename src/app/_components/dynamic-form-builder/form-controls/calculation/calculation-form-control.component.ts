@@ -7,7 +7,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 @Component({
   selector: 'calculation-form-control',
   template: `
-      <div class="calculation">
+      <div class="calculation primary-text primary-50">
           <strong>{{ control.options?.title }}</strong> {{ value }}
       </div>
   `,
