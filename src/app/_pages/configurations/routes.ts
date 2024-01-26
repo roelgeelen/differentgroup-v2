@@ -2,11 +2,12 @@ import {Route} from "@angular/router";
 import {DynamicFormComponent} from "./dynamic-form/dynamic-form.component";
 import {OverviewComponent} from "./overview/overview.component";
 import {ViewConfigurationComponent} from "./view-configuration/view-configuration.component";
+import {ConfigurationsComponent} from "./configurations.component";
 
 export const CONFIGURATIONS_ROUTES: Route[] = [
   {
     path: '',
-    component: OverviewComponent,
+    component: ConfigurationsComponent,
   },
   {
     path: ':dealId',

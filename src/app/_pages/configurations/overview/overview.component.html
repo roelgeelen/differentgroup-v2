@@ -1,6 +1,6 @@
 <div class="form background-accent">
   <app-form-page [title]="customer !== null ? customer.name : 'Configuraties'" [prevLink]="'/customers'">
-    @defer (when paramId === '' || customer !== null) {
+    @defer (when customer !== null) {
       <div class="form-content">
         @if (customer !== null) {
           <h2 class="bg-white">Nieuw formulier aanmaken</h2>
@@ -64,34 +64,13 @@
           } @placeholder {
             <mat-spinner></mat-spinner>
           }
-        } @else {
-
-          <h2 class="bg-white">Zoeken op nummer</h2>
-          <form (ngSubmit)="submitSearch()" class="search bg-white">
-            <mat-form-field appearance="fill" class="w75">
-              <mat-label>Deal nummer</mat-label>
-              <input matInput type="number" [formControl]="searchControl">
-            </mat-form-field>
-            <button mat-raised-button color="primary">
-              <mat-icon>search</mat-icon>
-            </button>
-          </form>
-          <hr>
-          <h2>Recente configuraties</h2>
-          @for (customer of customers;track customer){
-            <mat-card>
-              <mat-card-header [routerLink]="'/customers/5056111817'" class="clickable">
-                <mat-card-title>Different Doors B.V. - Gereedschapkasten</mat-card-title>
-                <mat-card-subtitle>11-12-2023 14:13</mat-card-subtitle>
-              </mat-card-header>
-            </mat-card>
-          } @empty {
-            <div class="w-100 text-center">Nog geen aangemaakte formulieren</div>
-          }
         }
       </div>
-    } @placeholder {
-      <mat-spinner></mat-spinner>
+    }
+    @if (loading) {
+      <div class="loading-overlay fixed">
+        <div class="loading"></div>
+      </div>
     }
   </app-form-page>
 

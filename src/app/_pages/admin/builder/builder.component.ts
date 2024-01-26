@@ -24,7 +24,6 @@ import {MatCardModule} from "@angular/material/card";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormOptionsComponent} from "./form-options/form-options.component";
-import {ITheme, ThemeService} from "../../../_helpers/theme.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
@@ -56,7 +55,6 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   standalone: true
 })
 export class BuilderComponent implements OnInit {
-  theme: ITheme | null = null;
   tabIndex = 0;
   showInvisible = true;
   currentUser: User | undefined;
@@ -65,7 +63,6 @@ export class BuilderComponent implements OnInit {
   settingsDrawer = false;
 
   constructor(
-    private themeService: ThemeService,
     private authService: AuthenticationService,
     public formService: FormService,
     private route: ActivatedRoute,
@@ -80,7 +77,6 @@ export class BuilderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.themeService.theme$.subscribe(t => this.theme = t);
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {

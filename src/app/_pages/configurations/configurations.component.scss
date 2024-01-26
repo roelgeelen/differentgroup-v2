@@ -1,0 +1,68 @@
+.bg-white {
+  background-color: white !important;
+}
+
+.form {
+  padding: 20px;
+
+  .form-content {
+    h2 {
+      font-weight: 500;
+      padding: 1rem;
+      margin: 0;
+    }
+
+    hr {
+      margin: 0;
+    }
+
+    mat-card {
+      background-color: white;
+      margin: 10px;
+
+      mat-card-header {
+        padding: 10px !important;
+
+        &.clickable {
+          &:hover {
+            cursor: pointer;
+            background-color: #eaedf5;
+          }
+        }
+      }
+
+      mat-card-actions {
+        button {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .search {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      padding-top: 25px;
+      padding-bottom: 35px;
+
+      mat-error {
+        padding: 5px 0;
+        width: calc(75% + 64px);
+      }
+
+      button {
+        height: 55px
+      }
+    }
+
+    .empty {
+      text-align: center;
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+}
+
+.menu-label {
+  padding-left: 15px;
+}

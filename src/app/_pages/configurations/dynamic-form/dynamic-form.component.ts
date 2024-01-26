@@ -26,7 +26,6 @@ import {QuotationComponent} from "./quotation/quotation.component";
 import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component";
 import {IFieldChange, IConfigChanges} from "../../../_models/configuration/configuration-change.interface";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
-import {ITheme, ThemeService} from "../../../_helpers/theme.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
@@ -53,16 +52,13 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent implements OnInit {
-  theme: ITheme | null = null;
   customerId: string = '';
   config: IConfiguration | null = null;
   tabIndex = 0;
   currentUser: User | undefined;
-  editTitle = false;
   loading = false;
 
   constructor(
-    private themeService: ThemeService,
     private authService: AuthenticationService,
     public formService: FormService,
     private route: ActivatedRoute,
@@ -78,7 +74,6 @@ export class DynamicFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.themeService.theme$.subscribe(t => this.theme = t);
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('configId') !== null) {
         this.customerId = queryParams.get('dealId')!;

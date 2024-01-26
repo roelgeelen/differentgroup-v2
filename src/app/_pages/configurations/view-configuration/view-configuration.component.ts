@@ -47,7 +47,6 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
-  theme: ITheme | null = null;
   configuration: IConfiguration | null = null;
   visibleFor: { key: string, label: string } = {key: 'intern', label: 'Intern'};
   safe3dUrl: SafeResourceUrl = '';
@@ -60,7 +59,6 @@ export class ViewConfigurationComponent implements OnInit {
   ]
 
   constructor(
-    private themeService: ThemeService,
     private apiCustomerService: ApiCustomerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -68,7 +66,6 @@ export class ViewConfigurationComponent implements OnInit {
   ) {
   }
   ngOnInit(): void {
-    this.themeService.theme$.subscribe(t => this.theme = t);
     this.route.paramMap.subscribe(params => {
       if (params.get('configId') !== null) {
         this.apiCustomerService.getConfiguration(params.get('dealId')!, params.get('configId')!).subscribe(c => {

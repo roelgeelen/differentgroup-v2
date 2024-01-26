@@ -1,0 +1,37 @@
+<div class="form background-accent">
+  <app-form-page [title]="'Configuraties'">
+    <div class="form-content">
+      <h2 class="bg-white">Zoeken op nummer</h2>
+      <form (ngSubmit)="submitSearch()" class="search bg-white">
+        @if (error) {
+          <mat-error>{{ error }}</mat-error>
+        }
+        <mat-form-field appearance="fill" class="w75">
+          <mat-label>Deal nummer</mat-label>
+          <input matInput type="number" [formControl]="searchControl">
+        </mat-form-field>
+        <button mat-raised-button color="primary">
+          <mat-icon>search</mat-icon>
+        </button>
+      </form>
+      <hr>
+      <h2>Recente configuraties</h2>
+      @defer (when customers !== null) {
+        @for (customer of customers;track customer) {
+          <mat-card>
+            <mat-card-header [routerLink]="'/customers/'+customer.dealId" class="clickable">
+              <mat-card-title>{{ customer.name }}</mat-card-title>
+              <mat-card-subtitle>{{ customer.updatedAt|date: 'dd-MM-yyyy HH:mm' }}</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        } @empty {
+          <div class="w-100 text-center">Nog geen aangemaakte formulieren</div>
+        }
+      } @placeholder {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+
+  </app-form-page>
+</div>
+

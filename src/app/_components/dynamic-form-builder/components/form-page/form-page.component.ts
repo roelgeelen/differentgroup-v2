@@ -42,7 +42,6 @@ export class FormPageComponent implements OnInit{
     this.themeService.theme$.subscribe(t => this.theme = t);
   }
 
-
   save() {
     this.newName.emit(this.title);
   }

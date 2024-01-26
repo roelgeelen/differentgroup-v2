@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
@@ -7,10 +7,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRippleModule} from "@angular/material/core";
 import {ApiCustomerService} from "../../../_services/api-customer.service";
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ICustomer} from "../../../_models/configuration/customer.interface";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {DatePipe, Location} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
@@ -20,8 +20,6 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
 import {IConfiguration} from "../../../_models/configuration/configuration.interface";
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
-import {ITheme, ThemeService} from "../../../_helpers/theme.service";
-import {IPage} from "../../../_models/page.interface";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({
@@ -47,28 +45,20 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   ],
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent implements OnInit {
-  searchControl = new FormControl<string>('', Validators.required);
-
-  page: number = 0;
-  recents?: IPage<any>;
-  customers: ICustomer[] = [];
-
+export class OverviewComponent {
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
   templates: IForm[] = [];
   currentUser: User | undefined;
   configurations: IConfiguration[] | null = null
   paramId: string = '';
-  theme: ITheme | null = null;
+  loading = false;
 
   constructor(
-    private themeService: ThemeService,
     private authService: AuthenticationService,
     private apiCustomerService: ApiCustomerService,
     private apiFormService: ApiFormService,
     private route: ActivatedRoute,
-    private location: Location,
     private router: Router
   ) {
     this.route.paramMap.subscribe(queryParams => {
@@ -82,25 +72,6 @@ export class OverviewComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.themeService.theme$.subscribe(t => this.theme = t);
-    this.getRecentCustomers();
-  }
-
-  getRecentCustomers() {
-    this.apiCustomerService.findRecentCustomers(this.currentUser!.name, this.page).subscribe(c => {
-      this.recents = c;
-      console.log(c)
-      this.customers?.push(...c.content);
-    })
-  }
-
-  submitSearch() {
-    if (this.searchControl.value !== null) {
-      this.findCustomer(this.searchControl.value);
-    }
-  }
-
   findFormTemplates() {
     this.apiFormService.getForms().subscribe(f => this.templates = f);
   }
@@ -112,15 +83,25 @@ export class OverviewComponent implements OnInit {
   }
 
   findCustomer(id: string) {
-    this.apiCustomerService.findCustomer(id).subscribe(c => {
-      this.customer = c;
-      this.location.replaceState(`/customers/${c.dealId}`);
-      this.findFormTemplates();
-      this.getConfigurations();
+    this.loading = true;
+    this.apiCustomerService.findCustomer(id).subscribe({
+      next: (c) => {
+        this.customer = c;
+        this.findFormTemplates();
+        this.getConfigurations();
+      },
+      error: (_) => {
+        this.router.navigate(['/customers'], {
+          queryParams: {'notfound': 'true'},
+        })
+        this.loading = false
+      },
+      complete: () => this.loading = false
     })
   }
 
   addConfiguration(form: IForm) {
+    this.loading = true;
     const newConfig: IConfiguration = {
       customer: this.customer!,
       form: form,
@@ -128,12 +109,19 @@ export class OverviewComponent implements OnInit {
       updatedBy: this.currentUser?.name
     }
     form.updatedBy = this.currentUser?.name;
-    this.apiCustomerService.createConfiguration(this.customer!.dealId!, newConfig).subscribe(c => {
-      this.router.navigate([`/customers/${this.customer?.dealId}/configurations/${c.id}/edit`]);
+    this.apiCustomerService.createConfiguration(this.customer!.dealId!, newConfig).subscribe({
+      next: (c) => {
+        this.router.navigate([`/customers/${this.customer?.dealId}/configurations/${c.id}/edit`])
+      },
+      error: (_) => {
+        this.loading = false
+      },
+      complete: () => this.loading = false
     });
   }
 
   deleteConfig(config: IConfiguration, index: number) {
+    this.loading = true;
     Swal.fire({
       title: 'Weet je het zeker?',
       text: `Wil je "${config.title}" verwijderen?`,
@@ -145,8 +133,14 @@ export class OverviewComponent implements OnInit {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.apiCustomerService.deleteConfiguration(this.customer!.dealId!, config.id!).subscribe(r => {
-          this.configurations!.splice(index, 1);
+        this.apiCustomerService.deleteConfiguration(this.customer!.dealId!, config.id!).subscribe({
+          error: (_) => {
+            this.loading = false
+          },
+          complete: () => {
+            this.configurations!.splice(index, 1);
+            this.loading = false
+          }
         })
       }
     });

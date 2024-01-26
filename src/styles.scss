@@ -106,20 +106,3 @@ mat-spinner {
     animation: loading 2s infinite ease-in-out;
   }
 }
-
-@keyframes loading {
-  0% {
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-    background-color: #189383;
-  }
-
-  50% {
-    transform: perspective(120px) rotateX(180deg) rotateY(0deg);
-    background-color: #233588;
-  }
-
-  100% {
-    transform: perspective(120px) rotateX(180deg) rotateY(-180deg);
-    background-color: #189383;
-  }
-}
