@@ -4,6 +4,7 @@
 @mixin theme($theme) {
   $theme-primary: map.get($theme, primary);
   $theme-accent: map.get($theme, accent);
+  $theme-warn: map.get($theme, warn);
   $theme-background: map.get($theme, background);
   //$theme-foreground: map.get($theme, foreground);
 
@@ -14,6 +15,10 @@
 
   // accent colors
   $accent: map.get($theme-accent, 500);
+
+  // warn colors
+  $warn: map.get($theme-warn, 500);
+  $warn-50: map.get($theme-warn, 50);
 
   // background colors
   $background: map.get($theme-background, background);
@@ -30,6 +35,16 @@
   }
   .primary-50 {
     background-color: $primary-50;
+  }
+
+  .warn-text {
+    color: $warn;
+  }
+  .warn {
+    background-color: $warn;
+  }
+  .warn-50 {
+    background-color: $warn-50;
   }
   .background-accent {
     background-color: $background-accent !important;

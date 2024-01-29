@@ -1,18 +1,40 @@
 .row {
-display: flex;
+  overflow-x: auto;
+  display: flex;
+
   .column {
     flex: 1;
     margin: 5px;
   }
+
   .add-column-btn {
     margin: auto;
   }
+
   .remove-column-btn {
     z-index: 1;
     position: absolute;
-    background-color: #cc0000;
     transform: translate(-5px, -10px);
     width: 30px;
     height: 30px;
   }
+}
+/* width */
+::-webkit-scrollbar {
+  height: 9px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

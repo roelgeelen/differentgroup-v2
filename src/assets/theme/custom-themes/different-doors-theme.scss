@@ -1,6 +1,7 @@
 @use '../../../../node_modules/@angular/material/index' as mat;
 @use 'sass:map';
 @use "../components.style" as components;
+@use "./warn.scss" as warn;
 
 
 @include mat.core();
@@ -78,7 +79,7 @@ $accent: (
 
 $primary: mat.define-palette($palette);
 $accent: mat.define-palette($accent);
-$warn: mat.define-palette(mat.$red-palette, 700);
+$warn: mat.define-palette(warn.$md-warn);
 
 $theme: mat.define-light-theme((
   color: (

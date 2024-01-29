@@ -13,7 +13,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {AsyncPipe, Location, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgOptimizedImage} from "@angular/common";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
@@ -24,14 +24,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {SharedModule} from "../../../../shared.module";
 import {IFormControl} from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
-import {IFormPage} from "../../../../_components/dynamic-form-builder/models/form-container.interface";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import Swal from "sweetalert2";
 import {ApiFormService} from "../../../../_services/api-form.service";
-import {Router} from "@angular/router";
 import {
   IFormAttachment,
-  IFormControlOptionsChoices, IFormControlOptionsColumns, IFormControlOptionsDependent, inputTypes, IQuoteLine
+  IFormControlOptionsChoices, IFormControlOptionsColumns, IFormControlOptionsDependent, inputTypes
 } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {DndDirective} from "../../../../_helpers/directives/dnd.directive";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";

@@ -59,6 +59,7 @@ import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-f
 export class FormOptionsComponent implements OnInit {
   currentUser: User | undefined;
   numberFields: IFormControl[] = [];
+  tableFields: IFormControl[] = [];
   @Output() onClose = new EventEmitter<any>();
 
   constructor(
@@ -74,8 +75,7 @@ export class FormOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("find number fields");
-    this.numberFields = this.getAvailableNumberFields;
+    this.setAvailableFields();
   }
 
   get control() {
@@ -97,13 +97,17 @@ export class FormOptionsComponent implements OnInit {
     choices.splice(index, 1);
   }
 
-  get getAvailableNumberFields() {
-    const list: IFormControl[] = [];
+  setAvailableFields() {
+    const numericFieldList: IFormControl[] = [];
+    const tableList: IFormControl[] = [];
     const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
 
     const pushControlToList = (control: IFormControl) => {
       if (control.options?.type === 'number') {
-        list.push(control);
+        numericFieldList.push(control);
+      }
+      if (control.type === 'Table') {
+        tableList.push(control);
       }
     };
 
@@ -119,7 +123,8 @@ export class FormOptionsComponent implements OnInit {
       }
     });
 
-    return list;
+    this.numberFields = numericFieldList;
+    this.tableFields = tableList;
   }
 
   controlSearchFunction(option: any): string {
@@ -162,7 +167,9 @@ export class FormOptionsComponent implements OnInit {
       }
     }
     if ($event === 'sdh') {
-      this.formService.form$.getValue().options.quoteSizeFields = undefined;
+      this.formService.form$.getValue().options.quoteSizeFields = {
+        sizeTable: null
+      }
     }
   }
 

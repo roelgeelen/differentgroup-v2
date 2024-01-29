@@ -69,6 +69,21 @@ export class QuotationComponent {
       }
     }
 
+    if (form.options.quoteSizeCalculation === 'sdh' && 'sizeTable' in form.options.quoteSizeFields!) {
+      const table = formGroup[form.options!.quoteSizeFields['sizeTable']!.id]
+      for (const row of table) {
+        let size = (Math.ceil(row['Breedte'] / 500) * 500 - 2500) / 500 * 2 + 1;
+        size = size < 1 ? 1 : size;
+        if (row['Hoogte'] > 2500) {
+          size++;
+        }
+        const sku1 = 'SDH' + (size + 100);
+        const sku2 = 'SDH0' + ('0' + size).slice(-2);
+        selectedQuoteLines.push(...[{sku:sku1, order: 100, product: this.findQuoteLineProductBySku(sku1)}, {sku:sku2, order: 100, product: this.findQuoteLineProductBySku(sku2)}])
+      }
+
+    }
+
     for (const groupId of Object.keys(formGroup)) {
       let selectedValues = formGroup[groupId];
 

@@ -1,6 +1,7 @@
 @use '../../../../node_modules/@angular/material/index' as mat;
 @use 'sass:map';
 @use "../components.style" as components;
+@use "./warn.scss" as warn;
 
 
 @include mat.core();
@@ -11,20 +12,20 @@ $background-color: #fafafa;
 $background-accent-color: #e5e5e5;
 
 $palette: (
-  50 : #ffefe9,
-  100 : #ffcdbd,
-  200 : #ffab91,
-  300 : #fa9c7e,
-  400 : #ff7043,
-  500 : #ff5722,
-  600 : #ff4f1e,
-  700 : #ff4619,
-  800 : #ff3c14,
-  900 : #ff2c0c,
+  50 : #fcede5,
+  100 : #f9d2be,
+  200 : #f5b493,
+  300 : #f09568,
+  400 : #ed7f47,
+  500 : #ea6827,
+  600 : #e76023,
+  700 : #e4551d,
+  800 : #e14b17,
+  900 : #db3a0e,
   A100 : #ffffff,
-  A200 : #fff7f6,
-  A400 : #ffc9c3,
-  A700 : #ffb2a9,
+  A200 : #ffdbd4,
+  A400 : #ffb1a1,
+  A700 : #ff9c87,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
@@ -45,7 +46,7 @@ $palette: (
 
 $primary: mat.define-palette($palette);
 $accent: mat.define-palette(mat.$brown-palette);
-$warn: mat.define-palette(mat.$red-palette, 700);
+$warn: mat.define-palette(warn.$md-warn);
 
 // color config function
 $theme: mat.define-light-theme((
