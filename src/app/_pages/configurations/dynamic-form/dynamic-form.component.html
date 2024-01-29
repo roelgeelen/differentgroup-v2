@@ -27,14 +27,12 @@
                 <mat-icon>3d_rotation</mat-icon>
               </button>
             }
-            <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="loading">
-              <mat-icon *ngIf="!loading">save</mat-icon>
-              <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
+            <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="saving">
+              <mat-icon *ngIf="!saving">save</mat-icon>
+              <mat-spinner class="white" *ngIf="saving" [diameter]="20">save</mat-spinner>
             </button>
             @if (form.options.createQuotation) {
-              <button mat-raised-button color="primary">
-                Offerte maken
-              </button>
+              <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
             }
           </div>
 
@@ -59,7 +57,7 @@
                           <button mat-raised-button color="primary" (click)="next()">Volgende</button>
                         }
                         @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
-                          <button mat-raised-button color="primary">Offerte maken</button>
+                          <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
                         }
                       </div>
                     </mat-tab>
@@ -74,7 +72,7 @@
                   <div class="form-footer">
                     @if (form.options.createQuotation) {
                       <div></div>
-                      <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
+                      <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
                     }
                   </div>
 
@@ -86,6 +84,16 @@
           }
         </app-form-page>
       </div>
+      @if (loading) {
+        <div class="loading-overlay fixed">
+          <div class="loading"></div>
+        </div>
+      }
     </mat-drawer-content>
   </mat-drawer-container>
 }
+<ng-template #submitFormBtn>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
+    Offerte maken
+  </button>
+</ng-template>

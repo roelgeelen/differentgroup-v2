@@ -13,4 +13,8 @@ export class ApiQuoteService {
   getProduct(id: string) {
     return this.http.get<any>(`${environment.apiLocal}/v2/quote/products/${id}`);
   }
+
+  createInvoice(dealId: string, configId: string, replace: boolean, values: string[]) {
+    return this.http.put(`${environment.apiUrl}/configs/${dealId}/forms/${configId}/invoice?replace=${replace}`, values);
+  }
 }

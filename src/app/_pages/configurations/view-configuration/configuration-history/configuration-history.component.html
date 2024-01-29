@@ -7,7 +7,7 @@
       @for (item of changesList;track item) {
         <history-item [item]="item"></history-item>
       } @empty {
-        <div>Nog geen history</div>
+        <div class="item-placeholder">Nog geen history</div>
       }
       @if (!data?.last) {
         <mat-divider></mat-divider>

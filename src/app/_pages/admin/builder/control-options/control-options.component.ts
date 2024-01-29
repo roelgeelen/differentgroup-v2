@@ -144,8 +144,12 @@ export class ControlOptionsComponent implements OnInit {
       data: option,
     });
   }
+
   addDependent(dependents: IFormControlOptionsDependent[]) {
     if (this.dependentControl.value !== null) {
+      if (this.formService.selectedControl$.value?.options?.validators?.required) {
+        this.formService.selectedControl$.value.options.validators.required = false;
+      }
       dependents.push({
         field: this.dependentControl.getRawValue()!.id, values: []
       });

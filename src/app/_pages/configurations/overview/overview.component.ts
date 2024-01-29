@@ -121,7 +121,6 @@ export class OverviewComponent {
   }
 
   deleteConfig(config: IConfiguration, index: number) {
-    this.loading = true;
     Swal.fire({
       title: 'Weet je het zeker?',
       text: `Wil je "${config.title}" verwijderen?`,
@@ -133,6 +132,7 @@ export class OverviewComponent {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.loading = true;
         this.apiCustomerService.deleteConfiguration(this.customer!.dealId!, config.id!).subscribe({
           error: (_) => {
             this.loading = false

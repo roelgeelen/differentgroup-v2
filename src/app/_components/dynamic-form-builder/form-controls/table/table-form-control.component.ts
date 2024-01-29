@@ -95,5 +95,6 @@ export class TableFormControlComponent implements ControlValueAccessor {
 
   removeFromList(index: number) {
     this.data.splice(index, 1);
+    this.onValueChange();
   }
 }

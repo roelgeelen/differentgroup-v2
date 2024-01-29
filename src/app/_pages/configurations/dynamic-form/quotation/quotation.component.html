@@ -6,8 +6,10 @@
     <div class="line-items-scroll">
       @for (item of quoteItems;track item) {
         @if (item.sku) {
-          <quotation-item [item]="item" (reloadItem)="reloadItem($event)"></quotation-item>
+          <quotation-item [item]="item" (reloadItem)="reloadItem(item)"></quotation-item>
         }
+      } @empty {
+        <div class="item-placeholder">Nog geen gekozen specificaties</div>
       }
     </div>
     <div class="totals">

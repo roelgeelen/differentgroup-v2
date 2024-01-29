@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
@@ -27,28 +27,32 @@ import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component"
 import {IFieldChange, IConfigChanges} from "../../../_models/configuration/configuration-change.interface";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import Swal from "sweetalert2";
+import {QuoteService} from "./quotation/quote.service";
+import {ApiQuoteService} from "../../../_services/api-quote.service";
 
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
   standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        AsyncPipe,
-        MatButtonModule,
-        MatTabsModule,
-        SharedFormBuilderModule,
-        MatProgressSpinnerModule,
-        MatIconModule,
-        FlexModule,
-        MatInputModule,
-        FormsModule,
-        RouterLink,
-        MatSidenavModule,
-        QuotationComponent,
-        NgIf,
-        FormPageComponent
-    ],
+  imports: [
+    ReactiveFormsModule,
+    AsyncPipe,
+    MatButtonModule,
+    MatTabsModule,
+    SharedFormBuilderModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    FlexModule,
+    MatInputModule,
+    FormsModule,
+    RouterLink,
+    MatSidenavModule,
+    QuotationComponent,
+    NgIf,
+    FormPageComponent,
+    NgTemplateOutlet
+  ],
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent implements OnInit {
@@ -56,6 +60,7 @@ export class DynamicFormComponent implements OnInit {
   config: IConfiguration | null = null;
   tabIndex = 0;
   currentUser: User | undefined;
+  saving = false;
   loading = false;
 
   constructor(
@@ -65,7 +70,9 @@ export class DynamicFormComponent implements OnInit {
     private apiCustomerService: ApiCustomerService,
     public dialog: MatDialog,
     private utilityService: UtilityService,
-    private apiConfigurationService: ApiConfigurationService
+    private apiConfigurationService: ApiConfigurationService,
+    private quoteService: QuoteService,
+    private apiQuoteService: ApiQuoteService,
   ) {
     this.formService.setForm(null);
     this.authService.currentUser.subscribe(user => {
@@ -105,12 +112,48 @@ export class DynamicFormComponent implements OnInit {
   }
 
   submit() {
-    console.log(JSON.stringify(this.formService.form$.getValue()));
+    Swal.fire({
+      title: 'Wil je de artikelen toevoegen aan de huidige offerte?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Ja, toevoegen',
+      confirmButtonColor: '#2e3785',
+      denyButtonText: `Nee, vervangen`,
+      cancelButtonText: 'Annuleren'
+    }).then((result) => {
+      if (!result.isDismissed) {
+        this.loading = true;
+        console.log("create quote")
+        const skus = this.quoteService.getSkuList();
+        this.apiQuoteService.createInvoice(this.customerId, this.config?.id!, !result.isConfirmed, skus).subscribe({
+          error: () => {
+            Swal.fire({
+              title: 'Error',
+              text: 'Er is iets fout gegaan, probeer het later nog eens',
+              icon: 'error',
+              confirmButtonColor: '#2e3785',
+              confirmButtonText: 'sluiten'
+            });
+            this.loading = false;
+          },
+          complete: () => {
+            Swal.fire({
+              title: 'Gelukt!',
+              html: ``,
+              icon: 'success',
+              confirmButtonColor: '#2e3785',
+              confirmButtonText: 'sluiten'
+            })
+            this.loading = false
+          }
+        });
+      }
+    });
   }
 
   saveForm() {
     if (this.config) {
-      this.loading = true;
+      this.saving = true;
       this.config.updatedBy = this.currentUser?.name;
       const currentConfigValues = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
       if (this.config.values) {
@@ -121,7 +164,10 @@ export class DynamicFormComponent implements OnInit {
       }
       this.config.values = currentConfigValues;
       this.setForm(this.config);
-      this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe((_)=> this.loading=false);
+      this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
+        error: () => this.saving = false,
+        complete: () => this.saving = false
+      });
     }
   }
 
@@ -250,15 +296,15 @@ export class DynamicFormComponent implements OnInit {
               newValue: updatedItem.value
             });
           }
-          if (updatedItem.type==='Table'){
-            if (JSON.stringify(originalItem?.value) !== JSON.stringify(updatedItem.value)){
-              console.log("changed")
-            } else {
-              console.log("orgineel")
-            }
-            console.log(originalItem!.value)
-            console.log(updatedItem.value)
-          }
+          // if (updatedItem.type==='Table'){
+          //   if (JSON.stringify(originalItem?.value) !== JSON.stringify(updatedItem.value)){
+          //     console.log("changed")
+          //   } else {
+          //     console.log("orgineel")
+          //   }
+          //   console.log(originalItem!.value)
+          //   console.log(updatedItem.value)
+          // }
         }
 
         if (updatedItem.columns && originalItem?.columns) {

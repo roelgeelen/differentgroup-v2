@@ -1,7 +1,13 @@
 .card-container {
   width: 350px;
   margin: 56px 20px 0 10px;
-  min-height: calc(100vh - 270px);
+  //min-height: calc(100vh - 270px);
+
+  .item-placeholder {
+    text-align: center;
+    padding: 15px 10px 30px 10px;
+    color: #B2B2B2;
+  }
 
   mat-card-title {
     padding: 8px 0 14px 0 !important;

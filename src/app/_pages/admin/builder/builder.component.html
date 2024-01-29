@@ -52,7 +52,7 @@
                           <button mat-raised-button color="primary" (click)="next()">Volgende</button>
                         }
                         @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
-                          <button mat-raised-button color="primary">Offerte maken</button>
+                          <button mat-raised-button color="primary" [disabled]="true">Offerte maken</button>
                         }
                       </div>
                     </mat-tab>
@@ -70,7 +70,7 @@
                   <div class="form-footer">
                     @if (form.options.createQuotation) {
                       <div></div>
-                      <button mat-raised-button color="primary" (click)="submit()">Offerte maken</button>
+                      <button mat-raised-button color="primary" [disabled]="true">Offerte maken</button>
                     }
                   </div>
 

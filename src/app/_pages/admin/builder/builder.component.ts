@@ -98,14 +98,12 @@ export class BuilderComponent implements OnInit {
     this.formService.selectedControl$.subscribe(value => {
       this.settingsDrawer = !!value;
       this.formSettings = false;
-      console.log(this.settingsDrawer)
     })
   }
 
   openFormSettings() {
     this.settingsDrawer = true;
     this.formSettings = true;
-    console.log(this.settingsDrawer)
   }
 
   get tabCount(): number {
