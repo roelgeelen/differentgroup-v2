@@ -30,7 +30,7 @@
                   <div class="dropzone" appDnd (fileDropped)="onFileDropped(control, $event)">
                     @if (control.options.image !== null) {
                       @if (progress === 0) {
-                        <button mat-mini-fab class="remove-image warn"
+                        <button mat-mini-fab class="remove-image" color="warn"
                                 (click)="removeImage(control, control.options.image!)">
                           <mat-icon>close</mat-icon>
                         </button>
