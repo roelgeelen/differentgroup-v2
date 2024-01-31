@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
@@ -19,6 +19,7 @@ import {AuthenticationService} from "../../_auth/authentication.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {IPage} from "../../_models/page.interface";
 import {FormPageComponent} from "../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-configurations',
@@ -43,7 +44,8 @@ import {FormPageComponent} from "../../_components/dynamic-form-builder/componen
   ],
   styleUrl: './configurations.component.scss'
 })
-export class ConfigurationsComponent implements OnInit {
+export class ConfigurationsComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
   currentUser: User | undefined;
   searchControl = new FormControl<string>('', Validators.required);
   customers: IRecentCustomer[] | null = null;
@@ -64,13 +66,17 @@ export class ConfigurationsComponent implements OnInit {
         });
       }
     });
-    this.authService.currentUser.subscribe(user => {
+    this.subscription.add(this.authService.currentUser$.subscribe(user => {
       this.currentUser = user!;
-    });
+    }));
   }
 
   ngOnInit(): void {
     this.getRecentCustomers();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   getRecentCustomers() {

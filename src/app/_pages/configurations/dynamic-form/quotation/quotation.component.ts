@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -10,6 +10,7 @@ import {QuotationItemComponent} from "./quotation-item.component";
 import {ApiQuoteService} from "../../../../_services/api-quote.service";
 import {DecimalPipe} from "@angular/common";
 import {QuoteService} from "./quote.service";
+import { Subscription} from "rxjs";
 
 @Component({
   selector: 'app-quotation',
@@ -24,7 +25,8 @@ import {QuoteService} from "./quote.service";
   ],
   styleUrl: './quotation.component.scss'
 })
-export class QuotationComponent {
+export class QuotationComponent implements OnDestroy{
+  quoteSub: Subscription;
   quoteItems: IQuoteLine[] = [];
   fetchedProducts: IQuoteLineProduct[] = [];
 
@@ -32,10 +34,15 @@ export class QuotationComponent {
     private apiQuoteService: ApiQuoteService,
     private quoteService: QuoteService
   ) {
-    this.quoteService.quoteItems$.subscribe(q => {
+    this.quoteSub = this.quoteService.quoteItems$.subscribe(q => {
       this.quoteItems = q;
       this.setQuoteProducts()
     });
+  }
+
+  ngOnDestroy(): void {
+    this.quoteService.onDestroy();
+    this.quoteSub.unsubscribe();
   }
 
   async setQuoteProducts() {
@@ -43,7 +50,6 @@ export class QuotationComponent {
       await this.findProduct(i);
     }
   }
-
   async findProduct(item: IQuoteLine) {
     let product = this.findQuoteLineProductBySku(item.sku);
     if (product) {

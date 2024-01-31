@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe, Location, NgIf} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -10,7 +10,6 @@ import {FlexModule} from "@angular/flex-layout";
 import {NewControlsComponent} from "./new-controls/new-controls.component";
 import {ControlOptionsComponent} from "./control-options/control-options.component";
 import {ActivatedRoute} from "@angular/router";
-import {Location} from '@angular/common';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
 import {ApiFormService} from "../../../_services/api-form.service";
 import {SharedFormBuilderModule} from "../../../_components/dynamic-form-builder/components/shared-form-builder.module";
@@ -25,36 +24,39 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormOptionsComponent} from "./form-options/form-options.component";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {Subscription} from "rxjs";
+
 
 @Component({
   selector: 'app-form',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        AsyncPipe,
-        MatTabsModule,
-        SharedFormBuilderModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        MatIconModule,
-        FlexModule,
-        NewControlsComponent,
-        ControlOptionsComponent,
-        NgIf,
-        MatSidenavModule,
-        ConfigurationHistoryComponent,
-        MatCardModule,
-        MatRippleModule,
-        MatTooltipModule,
-        FormOptionsComponent,
-        FormPageComponent
-    ],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    AsyncPipe,
+    MatTabsModule,
+    SharedFormBuilderModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    MatIconModule,
+    FlexModule,
+    NewControlsComponent,
+    ControlOptionsComponent,
+    NgIf,
+    MatSidenavModule,
+    ConfigurationHistoryComponent,
+    MatCardModule,
+    MatRippleModule,
+    MatTooltipModule,
+    FormOptionsComponent,
+    FormPageComponent
+  ],
   standalone: true
 })
-export class BuilderComponent implements OnInit {
+export class BuilderComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
   tabIndex = 0;
   showInvisible = true;
   currentUser: User | undefined;
@@ -70,10 +72,10 @@ export class BuilderComponent implements OnInit {
     private location: Location,
   ) {
     this.formService.setForm(null);
-    this.formService.loadingForm$.subscribe(l => this.loading = l)
-    this.authService.currentUser.subscribe(user => {
+    this.subscription.add(this.formService.loadingForm$.subscribe(l => this.loading = l));
+    this.subscription.add(this.authService.currentUser$.subscribe(user => {
       this.currentUser = user!;
-    });
+    }));
   }
 
   ngOnInit() {
@@ -95,10 +97,14 @@ export class BuilderComponent implements OnInit {
         })
       }
     });
-    this.formService.selectedControl$.subscribe(value => {
+    this.subscription.add(this.formService.selectedControl$.subscribe(value => {
       this.settingsDrawer = !!value;
       this.formSettings = false;
-    })
+    }))
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   openFormSettings() {
@@ -118,10 +124,6 @@ export class BuilderComponent implements OnInit {
   public prev() {
     window.scroll(0, 0);
     this.tabIndex = (this.tabIndex - 1) % this.tabCount;
-  }
-
-  submit() {
-    console.log(JSON.stringify(this.formService.form$.getValue()));
   }
 
   saveForm() {

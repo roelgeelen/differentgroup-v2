@@ -57,22 +57,16 @@ import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-f
   styleUrl: '../control-options/control-options.component.scss'
 })
 export class FormOptionsComponent implements OnInit {
-  currentUser: User | undefined;
   numberFields: IFormControl[] = [];
   tableFields: IFormControl[] = [];
   @Output() onClose = new EventEmitter<any>();
 
   constructor(
-    private authService: AuthenticationService,
     public formService: FormService,
     private apiFormService: ApiFormService,
     private router: Router,
     public dialog: MatDialog
-  ) {
-    this.authService.currentUser.subscribe(user => {
-      this.currentUser = user!;
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.setAvailableFields();

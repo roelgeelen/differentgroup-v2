@@ -1,5 +1,5 @@
 @if (control) {
-  <div class="row">
+  <div class="row" [class.builder]="isBuilder">
     @for (column of control.columns; track column) {
       <div class="column">
         @if (hasMinColumns(1) && selected && isBuilder) {

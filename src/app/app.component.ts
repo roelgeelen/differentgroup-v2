@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   }
 
   subscribeToCurrentUser() {
-    this.authService.currentUser.subscribe(user => {
+    this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
   }

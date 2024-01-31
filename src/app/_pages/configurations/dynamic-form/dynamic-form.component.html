@@ -27,8 +27,8 @@
                 <mat-icon>3d_rotation</mat-icon>
               </button>
             }
-            <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="saving">
-              <mat-icon *ngIf="!saving">save</mat-icon>
+            <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="saving||!(cacheService.hasChanges$|async)">
+              <mat-icon *ngIf="!saving">{{ (cacheService.hasChanges$|async) ? 'save' : 'task_alt' }}</mat-icon>
               <mat-spinner class="white" *ngIf="saving" [diameter]="20">save</mat-spinner>
             </button>
             @if (form.options.createQuotation) {
@@ -37,7 +37,9 @@
           </div>
 
         </div>
-        <app-form-page [title]="config?.title??''" [subtitle]="config?.customer?.name??''" prevLink="/customers/{{config?.customer?.dealId}}" [canEdit]="true" (newName)="config!.title=$event">
+        <app-form-page [title]="config?.title??''" [subtitle]="config?.customer?.name??''"
+                       prevLink="/customers/{{config?.customer?.dealId}}" [canEdit]="true"
+                       (newName)="config!.title=$event">
           @defer (when form.pages.length > 0) {
             <form [formGroup]="formService.formGroup$.getValue()">
               @if (form.pages.length > 1) {

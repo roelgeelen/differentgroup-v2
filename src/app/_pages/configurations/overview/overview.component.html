@@ -8,10 +8,14 @@
             <mat-form-field appearance="fill" class="w75">
               <mat-label>Formulier</mat-label>
               <mat-select [(ngModel)]="newForm">
-                @for (temp of templates; track temp) {
-                  <mat-option [value]="temp">
-                    {{ temp.title }}
-                  </mat-option>
+                @for (group of templates;track group) {
+                  <mat-optgroup [label]="group.title">
+                    @for (temp of group.items;track temp) {
+                      <mat-option [value]="temp">
+                        {{ temp.title }}
+                      </mat-option>
+                    }
+                  </mat-optgroup>
                 }
               </mat-select>
             </mat-form-field>
@@ -24,7 +28,7 @@
           <hr>
           <h2>Configuraties</h2>
           @defer (when configurations !== null) {
-            @for (config of configurations; track config) {
+            @for (config of configurations;track config) {
               <mat-card>
                 <mat-card-header>
                   <mat-card-title-group>
@@ -53,7 +57,8 @@
                     <mat-icon>edit</mat-icon>
                     <span class="menu-label">Bewerken</span></button>
                   <button mat-button color="primary"
-                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id" [queryParams]="{type:'intern'}">
+                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id"
+                          [queryParams]="{type:'intern'}">
                     <mat-icon>remove_red_eye</mat-icon>
                     <span class="menu-label">Bekijken</span></button>
                 </mat-card-actions>

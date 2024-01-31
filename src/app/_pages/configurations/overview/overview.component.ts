@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
@@ -21,6 +21,7 @@ import {IConfiguration} from "../../../_models/configuration/configuration.inter
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-overview',
@@ -45,10 +46,11 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   ],
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnDestroy {
+  subscription: Subscription = new Subscription();
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
-  templates: IForm[] = [];
+  templates: { title: string, items: IForm[] }[] = [];
   currentUser: User | undefined;
   configurations: IConfiguration[] | null = null
   paramId: string = '';
@@ -67,13 +69,26 @@ export class OverviewComponent {
         this.findCustomer(queryParams.get('dealId')!)
       }
     });
-    this.authService.currentUser.subscribe(user => {
+    this.subscription.add(this.authService.currentUser$.subscribe(user => {
       this.currentUser = user!;
-    });
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   findFormTemplates() {
-    this.apiFormService.getForms().subscribe(f => this.templates = f);
+    this.apiFormService.getForms().subscribe(f => this.templates = this.groupItemsByKind(f));
+  }
+
+  private groupItemsByKind(items: IForm[]) {
+    return Object.entries(
+      items.reduce<{ [key: string]: IForm[] }>((groups, item) => {
+        groups[item.kind??'Overige'] = [...(groups[item.kind??'Overige'] || []), item];
+        return groups;
+      }, {})
+    ).map(([title, items]) => ({title, items}));
   }
 
   getConfigurations() {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -41,6 +41,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {v4 as uuidV4} from "uuid";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {Subscription} from "rxjs";
+import {Event} from "@angular/router";
 
 @Component({
   selector: 'app-control-options',
@@ -77,7 +79,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
   ],
   styleUrl: './control-options.component.scss'
 })
-export class ControlOptionsComponent implements OnInit {
+export class ControlOptionsComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
   @Output() onClose = new EventEmitter<any>();
   editor: Editor;
   toolbar: Toolbar = [
@@ -98,20 +101,24 @@ export class ControlOptionsComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.editor = new Editor();
-    this.authService.currentUser.subscribe(user => {
+    this.subscription.add(this.authService.currentUser$.subscribe(user => {
       this.currentUser = user!;
-    });
+    }));
   }
 
   ngOnInit(): void {
-    this.formService.selectedControl$.subscribe(c => {
+    this.subscription.add(this.formService.selectedControl$.subscribe(c => {
       if (c && c.options?.dependent !== undefined) {
         this.dependentOptions = this.getAvailableDependentFields;
       }
-    })
-    this.dependentControl.valueChanges.subscribe(value => {
+    }));
+    this.subscription.add(this.dependentControl.valueChanges.subscribe(value => {
       this.dependentOptions = this.getAvailableDependentFields;
-    })
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   close() {

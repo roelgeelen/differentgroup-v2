@@ -52,7 +52,7 @@ export class NavbarComponent implements OnInit {
     } else {
       this.selectedTheme = this.selectTheme(ThemeService.defaultTheme.name);
     }
-    this.authService.currentUser.subscribe(user => {
+    this.authService.currentUser$.subscribe(user => {
       this.currentUser = user!;
       this.loadProfile();
     });

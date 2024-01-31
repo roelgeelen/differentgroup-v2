@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiQuoteService} from "../../../../_services/api-quote.service";
 import Swal from "sweetalert2";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subject, Subscription, takeUntil} from "rxjs";
 import {
   IQuoteLine,
   IQuoteLineProduct
@@ -13,17 +13,28 @@ import {FormService} from "../../../../_components/dynamic-form-builder/services
   providedIn: 'root'
 })
 export class QuoteService {
+  private destroy$ = new Subject<void>();
   quoteItems$ = new BehaviorSubject<IQuoteLine[]>([]);
   choiceControls: IFormControl[] = [];
 
-  constructor(private formService: FormService, private apiQuoteService: ApiQuoteService) {
-    this.formService.formGroup$.subscribe(form => {
+  constructor(private formService: FormService) {}
+
+  onInit() {
+    this.formService.formGroup$.pipe(takeUntil(this.destroy$)).subscribe(form => {
+      console.log("form")
       this.setChoiceControls();
       this.setQuoteItems(this.formService.formGroup$.getValue().getRawValue());
-      form.valueChanges.subscribe(value => {
+      form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value => {
+        console.log("value1")
         this.setQuoteItems(value)
-      })
+      });
     })
+  }
+
+  onDestroy() {
+    console.log('destroy quote')
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

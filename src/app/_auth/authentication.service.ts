@@ -11,16 +11,16 @@ import {environment} from "../../environments/environment";
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private _currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser$: Observable<User | null>;
 
   constructor(private oauthService: OAuthService) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(null);
-    this.currentUser = this.currentUserSubject.asObservable();
+    this._currentUserSubject = new BehaviorSubject<User | null>(null);
+    this.currentUser$ = this._currentUserSubject.asObservable();
   }
 
   login(): void {
-    this.currentUserSubject.next(this.convertTokenToUser());
+    this._currentUserSubject.next(this.convertTokenToUser());
     const returnUrl = localStorage.getItem('returnUrl');
     localStorage.clear();
     if (returnUrl) {
@@ -29,7 +29,7 @@ export class AuthenticationService {
   }
 
   public get currentUserValue(): User | null {
-    return this.currentUserSubject.value;
+    return this._currentUserSubject.value;
   }
 
   convertTokenToUser(): User | null {

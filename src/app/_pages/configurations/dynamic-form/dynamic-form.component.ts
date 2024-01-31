@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
 import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
@@ -30,6 +30,8 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
 import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
 import {ApiQuoteService} from "../../../_services/api-quote.service";
+import {CacheService} from "../../../_components/dynamic-form-builder/services/cache.service";
+import {Subject, Subscription, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -55,7 +57,8 @@ import {ApiQuoteService} from "../../../_services/api-quote.service";
   ],
   styleUrl: './dynamic-form.component.scss'
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   customerId: string = '';
   config: IConfiguration | null = null;
   tabIndex = 0;
@@ -64,24 +67,37 @@ export class DynamicFormComponent implements OnInit {
   loading = false;
 
   constructor(
-    private authService: AuthenticationService,
+    public cacheService: CacheService,
     public formService: FormService,
+    public dialog: MatDialog,
+    private authService: AuthenticationService,
     private route: ActivatedRoute,
     private apiCustomerService: ApiCustomerService,
-    public dialog: MatDialog,
     private utilityService: UtilityService,
     private apiConfigurationService: ApiConfigurationService,
     private quoteService: QuoteService,
     private apiQuoteService: ApiQuoteService,
   ) {
     this.formService.setForm(null);
-    this.authService.currentUser.subscribe(user => {
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe(user => {
       this.currentUser = user!;
     });
+    this.cacheService.onInit();
+    this.quoteService.onInit();
+  }
+
+  ngOnDestroy(): void {
+    this.cacheService.onDestroy();
+    this.quoteService.onDestroy();
+
+    this.destroy$.next();
+    this.destroy$.complete();
+
   }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(queryParams => {
+      console.log("route")
       if (queryParams.get('configId') !== null) {
         this.customerId = queryParams.get('dealId')!;
         // this.apiFormService.getForm()
@@ -166,7 +182,10 @@ export class DynamicFormComponent implements OnInit {
       this.setForm(this.config);
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
         error: () => this.saving = false,
-        complete: () => this.saving = false
+        complete: () => {
+          this.cacheService.clearCache();
+          this.saving = false;
+        }
       });
     }
   }
