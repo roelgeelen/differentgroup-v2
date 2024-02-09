@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ApiService} from "../../_services/api.service";
+import {ApiConfigurationService} from "../../_services/api-configuration.service";
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,6 @@ export class HomeComponent {
   }
 
   test() {
-    this.apiService.getTest().subscribe(r=> console.log(r))
+    console.log("Test")
   }
 }

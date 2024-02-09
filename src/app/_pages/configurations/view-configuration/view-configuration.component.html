@@ -12,8 +12,8 @@
           {{ visibleFor.label }}
         </button>
         <mat-menu #menu="matMenu">
-          @for (view of viewOptions; track view){
-            <button mat-menu-item (click)="changeVisibleFor(view)">{{view.label}}</button>
+          @for (view of viewOptions; track view) {
+            <button mat-menu-item (click)="changeVisibleFor(view)">{{ view.label }}</button>
           }
         </mat-menu>
         <button mat-raised-button color="primary" [routerLink]="'edit'">
@@ -24,7 +24,8 @@
     <div class="quotation-toggle" (click)="drawer.toggle()">
       <mat-icon>history</mat-icon>
     </div>
-    <app-form-page [title]="configuration?.title??''" [subtitle]="configuration?.customer?.name??''" prevLink="/customers/{{configuration?.customer?.dealId}}">
+    <app-form-page [title]="configuration?.title??''" [subtitle]="configuration?.customer?.name??''"
+                   prevLink="/customers/{{configuration?.customer?.dealId}}">
       <div class="form-content">
         @defer (when configuration) {
           @if (configuration?.preview) {
@@ -33,11 +34,11 @@
                       frameborder="0"></iframe>
             }
           }
-          @for (page of values;track page) {
+          @for (page of values; track page) {
             @if (page.values.length > 0) {
               <div class="form-section" [class.first]="$first">
                 <h2>{{ page.page }}</h2>
-                @for (value of page.values;track value) {
+                @for (value of page.values; track value) {
 
                   @switch (value.type) {
                     @case ('TextArea') {
@@ -77,9 +78,9 @@
                     }
                     @case ('Table') {
                       <table>
-                        @for (valueRow of value.value;track valueRow) {
+                        @for (valueRow of value.value; track valueRow) {
                           <tr>
-                            @for (column of value.fields;track column) {
+                            @for (column of value.fields; track column) {
                               @if ($first) {
                                 <th>{{ valueRow[column.key] }}</th>
                               } @else {
@@ -97,7 +98,7 @@
                             <span>({{ value.subtitle }})</span>
                           }</th>
                           @if (value.columns) {
-                            @for (index of [0, 1, 2];track index) {
+                            @for (index of [0, 1, 2]; track index) {
                               @if (value.columns[index]) {
                                 <td>
                                   @if (value.columns[index].title) {
@@ -117,6 +118,10 @@
                 }
               </div>
             }
+          } @empty {
+            <div class="empty-placeholder text-center">
+              Deze configuratie leeg
+            </div>
           }
         } @placeholder {
           <mat-spinner></mat-spinner>

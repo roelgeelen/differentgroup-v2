@@ -25,6 +25,12 @@ mat-drawer{
   padding: 0 20px 20px 20px;
     .form-content {
       padding: 10px 20px 20px 20px;
+
+      .empty-placeholder{
+        padding: 50px 0;
+        color: #8a8a89;
+        font-size: 18px;
+      }
       .form-section{
         border-top: 1px solid black;
         width: 100%;

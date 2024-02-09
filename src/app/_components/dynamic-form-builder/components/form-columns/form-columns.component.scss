@@ -1,7 +1,11 @@
 .row {
   overflow-x: auto;
   display: flex;
-
+  ::ng-deep {
+    .selected {
+      margin: 15px;
+    }
+  }
   .column {
     flex: 1;
     margin: 5px;

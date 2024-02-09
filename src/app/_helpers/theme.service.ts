@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {IForm} from "../_components/dynamic-form-builder/models/form.interface";
-
 
 export interface ITheme {
   name: string;

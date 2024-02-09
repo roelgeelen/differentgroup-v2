@@ -44,7 +44,7 @@ export class QuoteService {
       const width = formGroup[form.options!.quoteSizeFields['width']!.id]
       const height = formGroup[form.options!.quoteSizeFields['height']!.id]
       if (width && height) {
-        const size = Math.ceil((((width < 2000 ? 2000 : width) - 2000) / 100) + 1) + (Math.ceil(((height < 2000 ? 2000 : height) - 2000) / 100) * 11)
+        const size = Math.ceil((((width < 2000 ? 2000 : width) - 2000) / 100) + 1) + (Math.ceil(((height < 2000 ? 2000 : height) - 2000) / 100) * 12)
         const sku1 = 'ODO0' + ('0' + size).slice(-2);
         const sku2 = 'ODO' + (size + 99);
         selectedQuoteLines.push(...[

@@ -15,13 +15,14 @@
         <small>{{ subtitle }}</small>
       }
     </div>
+    @if (prevLink) {
     <div class="settings-btn">
-      @if (prevLink) {
+
         <button mat-button color="primary" class="clear" [routerLink]="prevLink">
           <mat-icon>clear</mat-icon>
         </button>
-      }
     </div>
+    }
   </div>
   <ng-content></ng-content>
 </div>

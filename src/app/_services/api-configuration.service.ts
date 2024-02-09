@@ -15,7 +15,6 @@ export class ApiConfigurationService {
   createConfigurationChange(id: string, change: IConfigChanges) {
     return this.http.post(`${environment.apiLocal}/v2/configuration/${id}/changes`, change);
   }
-
   getConfigurationChanges(id: string, page: number) {
     return this.http.get<IPage<IConfigChanges[]>>(`${environment.apiLocal}/v2/configuration/${id}/changes?size=5&page=${page}`);
   }
