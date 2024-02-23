@@ -1,7 +1,7 @@
 <mat-form-field class="field" [formGroup]="form">
   <mat-label>{{ control?.options?.title }}</mat-label>
   <input matInput [placeholder]="control?.options?.placeholder ?? ''" [type]="control?.options?.type ?? 'text'"
-         [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id">
+         [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id" (focusout)="formService.onControlValueChanged(control!)">
   <mat-hint>
     @if(control?.options?.validators?.min){
       Min: {{control?.options?.validators?.min}}

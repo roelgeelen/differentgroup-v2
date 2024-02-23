@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { CheckBox } from './check-box.class';
 import {FormGroup} from "@angular/forms";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-check-box',
@@ -11,7 +12,7 @@ import {FormGroup} from "@angular/forms";
 export class CheckBoxComponent extends FormControlComponentBase<CheckBox> implements OnInit {
   @Input() form!: FormGroup;
   customValue:string|null = null;
-  constructor() {
+  constructor(protected formService: FormService) {
     super();
   }
 

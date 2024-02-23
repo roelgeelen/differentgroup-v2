@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { RadioBtn } from './radio-btn.class';
 import {FormGroup} from "@angular/forms";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-radio-btn',
@@ -12,7 +13,7 @@ export class RadioBtnComponent extends FormControlComponentBase<RadioBtn> implem
   @Input() form!: FormGroup;
 
   customValue:string|null = null;
-  constructor() {
+  constructor(protected formService: FormService) {
     super();
   }
 

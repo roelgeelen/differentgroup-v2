@@ -7,7 +7,7 @@
     <mat-icon matRipple (click)="close()" class="header-close">close</mat-icon>
   </mat-card-header>
   <mat-card-content>
-    @if (formService.form$ | async;as form) {
+    @if (formService.form$ | async; as form) {
       <mat-tab-group>
         <mat-tab label="Algemeen">
           <div class="tab-content">
@@ -28,7 +28,7 @@
             </div>
             <div class="label margin-bottom">Pagina's</div>
             <div cdkDropList class="options-list" (cdkDropListDropped)="drop(form.pages, $event)">
-              @for (page of form.pages;track page) {
+              @for (page of form.pages; track page) {
                 <div class="option-box" cdkDrag>
                   <div class="option-box-placeholder" *cdkDragPlaceholder></div>
                   <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
@@ -40,14 +40,20 @@
             <button mat-button color="primary" (click)="addTab(form.pages)">+ pagina toevoegen</button>
           </div>
         </mat-tab>
-        <mat-tab label="Offerte">
+        <mat-tab label="Extra">
           <div class="tab-content">
+            <div class="label margin-bottom">Montage tijd</div>
+            <mat-form-field appearance="outline">
+              <mat-label>Standaard tijd (in min)</mat-label>
+              <input matInput [(ngModel)]="form.options.duration" [ngModelOptions]="{standalone:true}" type="number">
+            </mat-form-field>
+            <div class="label margin-bottom">Offerte</div>
             <div class="margin-top">
               <mat-slide-toggle [(ngModel)]="form.options.createQuotation" color="primary">Maak offerte
               </mat-slide-toggle>
             </div>
             @if (form.options.createQuotation) {
-              @for (line of form.options.quoteLines;track line) {
+              @for (line of form.options.quoteLines; track line) {
                 <div class="option-box">
                   <input [(ngModel)]="line.sku" placeholder="sku" [ngModelOptions]="{standalone:true}">
                   <input [(ngModel)]="line.order" type="number" placeholder="volgorde"

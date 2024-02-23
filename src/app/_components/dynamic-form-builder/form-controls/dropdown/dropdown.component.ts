@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { Dropdown } from './dropdown.class';
 import {FormGroup} from "@angular/forms";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-dropdown',
@@ -10,7 +11,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class DropdownComponent extends FormControlComponentBase<Dropdown> implements OnInit {
   @Input() form!: FormGroup;
-  constructor() {
+  constructor(protected formService: FormService) {
     super()
   }
 

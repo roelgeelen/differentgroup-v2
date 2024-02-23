@@ -7,9 +7,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 @Component({
   selector: 'calculation-form-control',
   template: `
-      <div class="calculation primary-text primary-50">
-          <strong>{{ control.options?.title }}</strong> {{ value }}
-      </div>
+    <div class="calculation primary-text primary-50">
+      <strong>{{ control.options?.title }}</strong> {{ value }}
+    </div>
   `,
   styleUrls: ['calculation-form-control.component.scss'],
   providers: [
@@ -41,10 +41,7 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
   }
 
   ngOnInit(): void {
-    if (this.control?.options?.calcDuration) {
-      this.setChoiceControls();
-      this.setDuration(this.form.getRawValue());
-    }
+    this.initValue();
     this.form.valueChanges.subscribe((value) => {
       if (this.control?.options?.calcDuration) {
         this.setDuration(value);
@@ -53,10 +50,17 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
     });
   }
 
+  initValue() {
+    if (this.control?.options?.calcDuration) {
+      this.setChoiceControls();
+      this.setDuration(this.form.getRawValue());
+    }
+    this.onValueChange();
+    this.form.get(this.control.id)?.patchValue(this.value);
+  }
+
   writeValue(value: any): void {
     this.value = value;
-    this.setDuration(this.form.getRawValue());
-    this.onValueChange();
   }
 
   registerOnChange(fn: any): void {
@@ -68,7 +72,7 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
   }
 
   private setDuration(formGroup: any): void {
-    let duration = 0;
+    let duration = this.formService.form$.getValue().options.duration ?? 0;
 
     for (const groupId of Object.keys(formGroup)) {
       let selectedValues = formGroup[groupId];
@@ -118,8 +122,6 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
 
   onValueChange(): void {
     try {
-
-
       const newValue = this.calculate(this.control.value).toString();
       if (this.value !== newValue) {
         this.value = newValue;

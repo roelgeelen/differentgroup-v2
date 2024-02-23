@@ -3,6 +3,7 @@ import { FormControlComponentBase } from '../control-component-base.class';
 import { TextArea } from './text-area.class';
 import {Editor, Toolbar} from "ngx-editor";
 import {FormGroup} from "@angular/forms";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-text-area',
@@ -22,7 +23,7 @@ export class TextAreaComponent extends FormControlComponentBase<TextArea> implem
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
-  constructor() {
+  constructor(protected formService: FormService) {
     super();
     this.editor = new Editor();
   }

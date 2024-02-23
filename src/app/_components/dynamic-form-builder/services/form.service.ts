@@ -8,7 +8,7 @@ import {IColumn} from "../form-controls/columns/column.interface";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
-  formGroup$ = new BehaviorSubject<FormGroup>(this.createFormGroup());
+  formGroup$ = new BehaviorSubject<FormGroup>(new FormGroup({}));
   form$ = new BehaviorSubject<IForm>({
     title: 'Nieuw formulier',
     pages: [],
@@ -16,8 +16,10 @@ export class FormService {
       createQuotation: false,
     }
   });
+  controlValueChanged$ = new BehaviorSubject<IFormControl | null>(null);
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
   loadingForm$ = new BehaviorSubject<boolean>(false);
+  _hubspotFields: { [key: string]: string } = {};
 
   constructor(private dragDropService: DragDropService) {
     this.dragDropService.controlDropped.subscribe((control) => {
@@ -36,6 +38,14 @@ export class FormService {
 
   public onControlSelected(control: IFormControl | null) {
     this.selectedControl$.next(control);
+  }
+
+  public onControlValueChanged(control: IFormControl | null) {
+    this.controlValueChanged$.next(control);
+  }
+
+  public getHubspotFields() {
+    return this._hubspotFields;
   }
 
   public setForm(form: IForm | null, values?: any) {
@@ -112,7 +122,6 @@ export class FormService {
         });
       }
     }
-
     return new FormGroup(group);
   }
 
@@ -136,7 +145,11 @@ export class FormService {
       }
     }
     const value = values?.[control.id] ?? control.value ?? '';
-    // console.log(value)
+
+    if (control.options?.toDeal) {
+      this._hubspotFields[control.id] = control.options.toDeal;
+    }
+
     return new FormControl(value, validators);
   }
 }

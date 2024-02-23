@@ -1,7 +1,7 @@
 <div [formGroup]="form" class="question">
   <mat-radio-group class="field" aria-label="Select an option"
                    [required]="control?.options?.validators?.required ?? false"
-                   [formControlName]="control!.id" [id]="control!.id">
+                   [formControlName]="control!.id" [id]="control!.id" (focusout)="formService.onControlValueChanged(control!)">
     @for (choice of control?.options?.choices;track choice) {
       <mat-radio-button [value]="choice.value" color="primary">
         @if (choice?.quoteLine && isBuilder){<mat-icon [matTooltip]="choice?.quoteLine?.sku!" matTooltipPosition="above">request_quote</mat-icon>}

@@ -18,4 +18,12 @@ export class ApiConfigurationService {
   getConfigurationChanges(id: string, page: number) {
     return this.http.get<IPage<IConfigChanges[]>>(`${environment.apiLocal}/v2/configuration/${id}/changes?size=5&page=${page}`);
   }
+
+  getDeal(id: string, properties: string[]) {
+    return this.http.get<any>(`${environment.apiLocal}/v2/configuration/${id}/deal?properties=${properties.join(',')}`);
+  }
+
+  updateToDeal(id: string, change: any) {
+    return this.http.put(`${environment.apiLocal}/v2/configuration/${id}/deal`, change);
+  }
 }

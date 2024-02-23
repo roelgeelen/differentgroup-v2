@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { Slider } from './slider.class';
 import {FormGroup} from "@angular/forms";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-slider',
@@ -10,7 +11,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class SliderComponent extends FormControlComponentBase<Slider> implements OnInit {
   @Input() form!: FormGroup;
-  constructor() {
+  constructor(protected formService: FormService) {
     super()
   }
 

@@ -24,12 +24,13 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "./quotation/quotation.component";
 import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component";
-import {IFieldChange, IConfigChanges} from "../../../_models/configuration/configuration-change.interface";
+import {IConfigChanges, IFieldChange} from "../../../_models/configuration/configuration-change.interface";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
 import {ApiQuoteService} from "../../../_services/api-quote.service";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -62,6 +63,7 @@ export class DynamicFormComponent implements OnInit {
   currentUser: User | undefined;
   saving = false;
   loading = false;
+  dealFieldsToUpdate: { [key: string]: any } = {};
 
   constructor(
     private authService: AuthenticationService,
@@ -91,10 +93,45 @@ export class DynamicFormComponent implements OnInit {
         });
       }
     });
+    this.formService.controlValueChanged$.subscribe(control => {
+      if (control?.options?.toDeal) {
+        this.dealFieldsToUpdate[control.options.toDeal] = this.formService.formGroup$.getValue().getRawValue()[control.id!];
+      }
+    })
   }
 
-  setForm(configuration: IConfiguration) {
-    this.formService.setForm(configuration.form, this.convertConfigurationToRawJson(configuration.values || []));
+  async setForm(configuration: IConfiguration) {
+    let values = this.convertConfigurationToRawJson(configuration.values || []);
+    this.formService.setForm(configuration.form, values);
+    if (Object.keys(values).length === 0) {
+      this.formService.formGroup$.getValue().patchValue(await this.replaceHubspotFieldValues())
+    }
+  }
+
+  async replaceHubspotFieldValues(): Promise<{ [key: string]: string }> {
+    const fields = this.formService.getHubspotFields();
+    try {
+      const deal = await firstValueFrom(
+        this.apiConfigurationService.getDeal(this.config?.id!, Object.values(fields)).pipe()
+      ) || { properties: {} };
+      return this.replaceValuesBasedOnKeys(deal, fields);
+    } catch (error) {
+      console.error("Error fetching deal:", error);
+      return {};
+    }
+  }
+
+  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: string }): { [key: string]: string } {
+    const result: { [key: string]: string } = {};
+
+    for (const hubspotFieldKey in fields) {
+      if (fields.hasOwnProperty(hubspotFieldKey)) {
+        const propertyKey = fields[hubspotFieldKey];
+        result[hubspotFieldKey] = deal.properties[propertyKey];
+      }
+    }
+
+    return result;
   }
 
   get tabCount(): number {
@@ -168,6 +205,11 @@ export class DynamicFormComponent implements OnInit {
         error: () => this.saving = false,
         complete: () => this.saving = false
       });
+
+      if (Object.keys(this.dealFieldsToUpdate).length !== 0) {
+        this.apiConfigurationService.updateToDeal(this.config.id!, this.dealFieldsToUpdate).subscribe();
+        this.dealFieldsToUpdate = {};
+      }
     }
   }
 
@@ -334,6 +376,4 @@ export class DynamicFormComponent implements OnInit {
 
     return {createdBy: this.currentUser?.name, changes: changes};
   }
-
-
 }
