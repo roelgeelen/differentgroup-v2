@@ -38,6 +38,10 @@ export class ApiCustomerService {
     return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}`, config);
   }
 
+  moveConfiguration(id: string, configId: string, customerId: string) {
+    return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/move`, customerId);
+  }
+
   upload(id:string, configId: string, field: string, file: File){
     const formData: FormData = new FormData();
     formData.append('file', file);

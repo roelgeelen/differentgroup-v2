@@ -34,9 +34,13 @@
                       <mat-icon>more_vert</mat-icon>
                     </button>
                     <mat-menu #menu="matMenu">
-                      <button mat-menu-item>
+                      <button mat-menu-item (click)="duplicateForm(config)">
                         <mat-icon>control_point_duplicate</mat-icon>
                         <span class="menu-label">Dupliceren</span>
+                      </button>
+                      <button mat-menu-item (click)="moveForm(config)">
+                        <mat-icon>swap_horiz</mat-icon>
+                        <span class="menu-label">Verplaatsen</span>
                       </button>
                       <button mat-menu-item (click)="deleteConfig(config, $index)">
                         <mat-icon>delete</mat-icon>
