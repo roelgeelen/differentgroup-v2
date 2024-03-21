@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
 import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
@@ -160,9 +160,7 @@ export class DynamicFormComponent implements OnInit {
     }).then((result) => {
       if (!result.isDismissed) {
         this.loading = true;
-        console.log("create quote")
-        const skus = this.quoteService.getSkuList();
-        this.apiQuoteService.createInvoice(this.customerId, this.config?.id!, !result.isConfirmed, skus).subscribe({
+        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed,  this.quoteService.getSkuList()).subscribe({
           error: () => {
             Swal.fire({
               title: 'Error',

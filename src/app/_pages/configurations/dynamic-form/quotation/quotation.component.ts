@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -10,6 +10,13 @@ import {QuotationItemComponent} from "./quotation-item.component";
 import {ApiQuoteService} from "../../../../_services/api-quote.service";
 import {DecimalPipe} from "@angular/common";
 import {QuoteService} from "./quote.service";
+import {
+  concatMap, delay, filter,
+  forkJoin, from,
+  mergeMap, of, Subscription,
+  tap, timer
+} from "rxjs";
+import {catchError} from "rxjs/operators";
 
 @Component({
   selector: 'app-quotation',
@@ -24,60 +31,44 @@ import {QuoteService} from "./quote.service";
   ],
   styleUrl: './quotation.component.scss'
 })
-export class QuotationComponent {
+export class QuotationComponent implements OnInit, OnDestroy {
   quoteItems: IQuoteLine[] = [];
   fetchedProducts: IQuoteLineProduct[] = [];
+  private quoteItemsSubscription: Subscription | undefined;
 
   constructor(
     private apiQuoteService: ApiQuoteService,
     private quoteService: QuoteService
   ) {
-    this.quoteService.quoteItems$.subscribe(q => {
-      this.quoteItems = q;
-      this.setQuoteProducts()
-    });
   }
 
-  async setQuoteProducts() {
-    for (const i of this.quoteItems) {
-      await this.findProduct(i);
+  ngOnInit(): void {
+    this.quoteItemsSubscription = this.quoteService.quoteItems$.subscribe(i => {
+      setTimeout(() => {
+        this.quoteItems = i;
+        this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
+      });
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.quoteItemsSubscription) {
+      this.quoteItemsSubscription.unsubscribe();
     }
+    this.quoteService.ngOnDestroy();
   }
 
-  async findProduct(item: IQuoteLine) {
-    let product = this.findQuoteLineProductBySku(item.sku);
-    if (product) {
-      item.product = product
-    } else {
-      await new Promise(f => setTimeout(f, 600));
-
-      this.apiQuoteService.getProduct(item.sku).subscribe({
-        next: (r) => {
-          this.fetchedProducts.push(r);
-          item.product = r;
-        },
-        error: (_) => {
-          item.product = null;
-        },
-      })
-    }
-  }
-
-  findQuoteLineProductBySku(hs_sku: string): IQuoteLineProduct | null | undefined {
-    return this.fetchedProducts.find(product => product.properties.hs_sku === hs_sku);
-  }
-
-
-  async reloadItem(item: IQuoteLine) {
-    await this.findProduct(item);
+  protected getFetchedProduct(productSku: string) {
+    return this.fetchedProducts.find(product => product.properties.hs_sku === productSku);
   }
 
   calculateTotalPrice(): number {
     let totalPrice = 0;
 
     for (const quoteItem of this.quoteItems) {
-      if (quoteItem.product && quoteItem.product.properties && quoteItem.product.properties.price) {
-        totalPrice += parseFloat(quoteItem.product.properties.price);
+      const prod = this.getFetchedProduct(quoteItem.sku);
+      if (prod) {
+        totalPrice += (quoteItem.amount! * parseFloat(prod.properties?.price ?? '0'));
       }
     }
     return totalPrice;

@@ -88,6 +88,31 @@ export class FormService {
     return null;
   }
 
+  setAvailableFields(condition:((option: IFormControl) => boolean)) {
+    const fields: IFormControl[] = [];
+    const formControls = this.form$.value.pages.flatMap(page => page.controls);
+
+    const pushControlToList = (control: IFormControl) => {
+      if (condition(control)) {
+        fields.push(control);
+      }
+    };
+
+    formControls.forEach(control => {
+      if ((control.type === 'Columns' && control.columns)) {
+        control.columns.forEach(col => {
+          col.container.controls.forEach(subControl => {
+            pushControlToList(subControl);
+          });
+        });
+      } else {
+        pushControlToList(control);
+      }
+    });
+
+    return fields;
+  }
+
   private findControlInContainer(container: any, controlId: string): IFormControl | null {
     for (const colControl of container.controls) {
       if (colControl.id === controlId) {

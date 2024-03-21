@@ -75,7 +75,12 @@ export class FormOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setAvailableFields();
+    this.tableFields = this.formService.setAvailableFields((control) => {
+      return control.type === 'Table'
+    });
+    this.numberFields = this.formService.setAvailableFields((control) => {
+      return control.options?.type === 'number'
+    });
   }
 
   get control() {
@@ -97,38 +102,12 @@ export class FormOptionsComponent implements OnInit {
     choices.splice(index, 1);
   }
 
-  setAvailableFields() {
-    const numericFieldList: IFormControl[] = [];
-    const tableList: IFormControl[] = [];
-    const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
-
-    const pushControlToList = (control: IFormControl) => {
-      if (control.options?.type === 'number') {
-        numericFieldList.push(control);
-      }
-      if (control.type === 'Table') {
-        tableList.push(control);
-      }
-    };
-
-    formControls.forEach(control => {
-      if ((control.type === 'Columns' && control.columns)) {
-        control.columns.forEach(col => {
-          col.container.controls.forEach(subControl => {
-            pushControlToList(subControl);
-          });
-        });
-      } else {
-        pushControlToList(control);
-      }
-    });
-
-    this.numberFields = numericFieldList;
-    this.tableFields = tableList;
-  }
-
   controlSearchFunction(option: any): string {
     return option?.options?.label !== '' ? option?.options?.label : option?.options?.title ?? '';
+  }
+
+  valueFunction(option: any): any {
+    return option.id;
   }
 
   deleteForm() {

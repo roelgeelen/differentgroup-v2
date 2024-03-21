@@ -78,17 +78,20 @@
               @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
                 <app-autocomplete-field [options]="numberFields" title="Breedte"
                                         [searchFunction]="controlSearchFunction"
+                                        [valueFunction]="valueFunction"
                                         [(ngModel)]="form.options.quoteSizeFields['width']"></app-autocomplete-field>
               }
               @if (form.options.quoteSizeFields && propertyExists('width', form.options!.quoteSizeFields)) {
                 <app-autocomplete-field [options]="numberFields" title="Hoogte"
                                         [searchFunction]="controlSearchFunction"
+                                        [valueFunction]="valueFunction"
                                         [(ngModel)]="form.options.quoteSizeFields['height']"></app-autocomplete-field>
               }
               @if (form.options.quoteSizeFields && propertyExists('sizeTable', form.options!.quoteSizeFields)) {
                 <span class="help warn-50 warn-text">Gebruikt kolom "Breedte" en "Hoogte"</span>
                 <app-autocomplete-field [options]="tableFields" title="Tabel"
                                         [searchFunction]="controlSearchFunction"
+                                        [valueFunction]="valueFunction"
                                         [(ngModel)]="form.options.quoteSizeFields['sizeTable']"></app-autocomplete-field>
               }
             }

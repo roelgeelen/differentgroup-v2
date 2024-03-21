@@ -23,7 +23,10 @@
           <mat-label>Volgorde</mat-label>
           <input matInput [(ngModel)]="data.quoteLine!.order" type="number">
         </mat-form-field>
-
+        <app-autocomplete-field [options]="numberFields" title="Aantal veld"
+                                [searchFunction]="controlSearchFunction"
+                                [valueFunction]="valueFunction"
+                                [(ngModel)]="data.quoteLine!.amountField"></app-autocomplete-field>
       } @else {
         <button mat-flat-button color="primary" (click)="addQuoteLine()">+ Offerte regel toevoegen</button>
       }

@@ -20,7 +20,7 @@ import {MatInputModule} from "@angular/material/input";
           </div>
           <div class="slider-control">
               <mat-slider class="field" [min]="min" [max]="max" [step]="step">
-                  <input matSliderThumb [(ngModel)]="value" (ngModelChange)="onValueChange()">
+                  <input matSliderThumb [(ngModel)]="value" (focusout)="onValueChange()">
               </mat-slider>
           </div>
       </div>

@@ -33,6 +33,7 @@ export class AutocompleteFieldComponent{
   myControl = new FormControl('');
   @Input() options: any[] = [];
   @Input() title: string = '';
+  @Input() valueFunction: ((option: any) => any) | null = null;
   @Input() searchFunction: ((option: any) => string) | null = null;
   // @Output() selectedOption = new EventEmitter<any>();
   onChange: any = () => {
@@ -61,5 +62,13 @@ export class AutocompleteFieldComponent{
 
   registerOnTouched(fn: any) {
     this.onTouched = fn;
+  }
+
+  value(option: any) {
+    return option
+  }
+
+  search(option: any) {
+    return this.searchFunction ? this.searchFunction(this.options.find(i => (this.valueFunction?this.valueFunction(i):i)===option)) : option;
   }
 }

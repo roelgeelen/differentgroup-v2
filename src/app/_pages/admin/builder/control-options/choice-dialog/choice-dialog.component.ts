@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {AfterViewInit, Component, Inject} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions, MatDialogClose,
@@ -17,6 +17,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormService} from "../../../../../_components/dynamic-form-builder/services/form.service";
 import {MatDivider} from "@angular/material/divider";
+import {IFormControl} from "../../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
+import {AutocompleteFieldComponent} from "../../../../../_components/autocomplete-field/autocomplete-field.component";
 
 @Component({
   selector: 'app-choice-dialog',
@@ -34,25 +36,40 @@ import {MatDivider} from "@angular/material/divider";
     MatIconModule,
     MatTooltipModule,
     MatDivider,
+    AutocompleteFieldComponent,
   ],
   styleUrl: './choice-dialog.component.scss'
 })
 export class ChoiceDialogComponent {
+  numberFields: IFormControl[] = [];
+
   constructor(
     protected formService: FormService,
     public dialogRef: MatDialogRef<ChoiceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IFormControlOptionsChoices,
-  ) {}
-
-  addQuoteLine(){
-    this.data.quoteLine = {sku:'', order:100}
+  ) {
+    this.numberFields = this.formService.setAvailableFields((control) => {
+      return control.options?.type === 'number'
+    })
   }
 
-  removeQuoteLine(){
+  addQuoteLine() {
+    this.data.quoteLine = {sku: '', order: 100}
+  }
+
+  removeQuoteLine() {
     this.data.quoteLine = undefined;
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  controlSearchFunction(option: any): string {
+    return option?.options?.label !== '' ? option?.options?.label : option?.options?.title ?? '';
+  }
+
+  valueFunction(option: any): any {
+    return option.id;
   }
 }

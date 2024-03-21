@@ -77,7 +77,14 @@
     }
 
     &.price {
-      text-align: right;
+      display: flex;
+      justify-content: space-between;
+
+      .amount {
+        padding-top: 16px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
 
       .txt {
         padding-top: 16px;

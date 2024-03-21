@@ -50,8 +50,10 @@ export interface IFormControlOptionsChoices {
 }
 
 export interface IQuoteLine {
-  product?: IQuoteLineProduct | null;
+  // product?: IQuoteLineProduct | null;
   sku: string;
+  amount?: number;
+  amountField?: string;
   order: number;
 }
 

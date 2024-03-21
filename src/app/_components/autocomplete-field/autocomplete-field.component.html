@@ -8,9 +8,9 @@
          (input)="filter()"
          (focus)="filter()"
   >
-  <mat-autocomplete [requireSelection]="true" #auto="matAutocomplete" [displayWith]="searchFunction">
+  <mat-autocomplete [requireSelection]="true" #auto="matAutocomplete" [displayWith]="search.bind(this)">
     @for (option of filteredOptions;track option) {
-      <mat-option [value]="option">
+      <mat-option [value]="valueFunction?valueFunction(option):option">
         {{ searchFunction ? searchFunction(option) : option }}
       </mat-option>
     }
