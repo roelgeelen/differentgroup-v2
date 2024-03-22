@@ -1,6 +1,7 @@
 import {IFormControl} from "../form-controls/form-control.interface";
 import {FormService} from "./form.service";
 import {Injectable} from "@angular/core";
+import {IFormControlOptionsDependent} from "../form-controls/form-control-options.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,13 @@ export class UtilityService {
   constructor(private formService: FormService) {
   }
 
-  public isShow(item: IFormControl) {
-    return item.options?.dependent?.length !== 0 ? this.isDependent(item): true;
+  public isShow(item: IFormControlOptionsDependent[]) {
+    return item.length !== 0 ? this.isDependent(item): true;
   }
 
-  private isDependent(item: IFormControl) {
+  private isDependent(item: IFormControlOptionsDependent[]) {
     let found = true;
-    item.options?.dependent?.forEach((dep, index) => {
+    item.forEach((dep, index) => {
       if (dep.values.length !== 0) {
         const formGroupValue = this.formService.formGroup$.getValue().controls[dep.field];
         if (formGroupValue !== undefined) {
@@ -29,7 +30,7 @@ export class UtilityService {
             found = dep.values.includes(formGroupValue.value);
           }
         } else {
-          item.options?.dependent?.splice(index, 1);
+          item.splice(index, 1);
         }
       }
     });

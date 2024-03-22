@@ -34,7 +34,16 @@
               @if (form.pages.length > 1) {
                 <mat-tab-group [(selectedIndex)]="tabIndex">
                   @for (page of form.pages;track page) {
-                    <mat-tab [label]="page.tab!">
+                    @if (showPage(page) || showInvisible) {
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        @if (!showPage(page) && showInvisible) {
+                          <mat-icon class="tab-icon">visibility_off</mat-icon>
+                        } @else if (page.dependent!.length > 0) {
+                          <mat-icon class="tab-icon">visibility_on</mat-icon>
+                        }
+                        {{page.tab!}}
+                      </ng-template>
                       <div class="form-body">
                         <app-form-container
                           [id]="'form'"
@@ -56,6 +65,7 @@
                         }
                       </div>
                     </mat-tab>
+                    }
                   }
                 </mat-tab-group>
               } @else {

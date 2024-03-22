@@ -29,6 +29,8 @@ import {User} from "../../../../_auth/models/User";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
+import {ChoiceDialogComponent} from "../control-options/choice-dialog/choice-dialog.component";
+import {TabSettingsDialogComponent} from "./tab-settings-dialog/tab-settings-dialog.component";
 
 @Component({
   selector: 'app-form-options',
@@ -75,10 +77,10 @@ export class FormOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tableFields = this.formService.setAvailableFields((control) => {
+    this.tableFields = this.formService.getAvailableFields((control) => {
       return control.type === 'Table'
     });
-    this.numberFields = this.formService.setAvailableFields((control) => {
+    this.numberFields = this.formService.getAvailableFields((control) => {
       return control.options?.type === 'number'
     });
   }
@@ -154,5 +156,11 @@ export class FormOptionsComponent implements OnInit {
 
   close() {
     this.onClose.emit();
+  }
+
+  openDialog(page: IFormPage) {
+    this.dialog.open(TabSettingsDialogComponent, {
+      data: page,
+    });
   }
 }

@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>Pagina: {{ data.tab }}</h1>
+<div mat-dialog-content>
+  <div class="label">Naam</div>
+  <div class="option-content">
+    <mat-form-field>
+      <mat-label>Naam</mat-label>
+      <input matInput [(ngModel)]="data.tab" type="text">
+    </mat-form-field>
+  </div>
+
+    <div class="label mb">
+      <span>Afhankelijkheden</span>
+      <mat-icon class="primary-text" matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info_outlined</mat-icon>
+    </div>
+    @for (dependent of data.dependent;track dependent) {
+      @if (formService.findControlById(dependent.field);as depControl) {
+        @if ($index !== 0) {
+          <div class="dependent-separator">of</div>
+        }
+        <div class="dependent-row">
+          <mat-form-field class="dependent-field" appearance="outline">
+            <mat-label>{{ depControl.options!.label }}</mat-label>
+            <mat-select [multiple]="true" [(ngModel)]="dependent.values"
+                        [ngModelOptions]="{standalone:true}">
+              @for (choice of depControl.options!.choices!;track choice) {
+                <mat-option [value]="choice.value">{{ choice.value }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <mat-icon class="close-icon"
+                    (click)="removeFromList(data.dependent!, $index);dependentControl.reset()">
+            delete
+          </mat-icon>
+        </div>
+      }
+    } @empty {
+      <div class="no-items">
+        Nog geen afhankelijkheden
+      </div>
+    }
+    <hr>
+    <form class="add-dependent" (ngSubmit)="addDependent()">
+      <app-autocomplete-field [options]="dependentFields" title="Veld"
+                              [searchFunction]="dependentSearchFunction"
+                              [formControl]="dependentControl"></app-autocomplete-field>
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">Ok</button>
+</div>

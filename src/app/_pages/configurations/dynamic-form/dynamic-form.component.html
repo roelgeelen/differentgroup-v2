@@ -1,4 +1,4 @@
-@if (formService.form$ | async;as form) {
+@if (formService.form$ | async; as form) {
   <mat-drawer-container class="container background-accent" [hasBackdrop]="false">
 
     <mat-drawer #drawer mode="side" position="end">
@@ -37,30 +37,34 @@
           </div>
 
         </div>
-        <app-form-page [title]="config?.title??''" [subtitle]="config?.customer?.name??''" prevLink="/customers/{{config?.customer?.dealId}}" [canEdit]="true" (newName)="config!.title=$event">
+        <app-form-page [title]="config?.title??''" [subtitle]="config?.customer?.name??''"
+                       prevLink="/customers/{{config?.customer?.dealId}}" [canEdit]="true"
+                       (newName)="config!.title=$event">
           @defer (when form.pages.length > 0) {
             <form [formGroup]="formService.formGroup$.getValue()">
               @if (form.pages.length > 1) {
                 <mat-tab-group [(selectedIndex)]="tabIndex" color="primary">
-                  @for (page of form.pages;track page) {
-                    <mat-tab [label]="page.tab!">
-                      <div class="form-body">
-                        <app-form-container
-                          [container]="page"
-                        ></app-form-container>
-                      </div>
-                      <div class="form-footer">
-                        <button mat-raised-button color="primary" (click)="prev()"
-                                [disabled]="tabIndex==0">Vorige
-                        </button>
-                        @if (tabIndex != (tabCount - 1)) {
-                          <button mat-raised-button color="primary" (click)="next()">Volgende</button>
-                        }
-                        @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
-                          <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
-                        }
-                      </div>
-                    </mat-tab>
+                  @for (page of form.pages; track page) {
+                    @if (showPage(page)) {
+                      <mat-tab [label]="page.tab!">
+                        <div class="form-body">
+                          <app-form-container
+                            [container]="page"
+                          ></app-form-container>
+                        </div>
+                        <div class="form-footer">
+                          <button mat-raised-button color="primary" (click)="prev()"
+                                  [disabled]="tabIndex==0">Vorige
+                          </button>
+                          @if (tabIndex != (tabCount - 1)) {
+                            <button mat-raised-button color="primary" (click)="next()">Volgende</button>
+                          }
+                          @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
+                            <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
+                          }
+                        </div>
+                      </mat-tab>
+                    }
                   }
                 </mat-tab-group>
               } @else {

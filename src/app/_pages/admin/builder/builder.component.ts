@@ -25,6 +25,9 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormOptionsComponent} from "./form-options/form-options.component";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {IFormControl} from "../../../_components/dynamic-form-builder/form-controls/form-control.interface";
+import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
+import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
 
 @Component({
   selector: 'app-form',
@@ -68,6 +71,7 @@ export class BuilderComponent implements OnInit {
     private route: ActivatedRoute,
     private apiFormService: ApiFormService,
     private location: Location,
+    private utilityService: UtilityService
   ) {
     this.formService.setForm(null);
     this.formService.loadingForm$.subscribe(l => this.loading = l)
@@ -120,10 +124,9 @@ export class BuilderComponent implements OnInit {
     this.tabIndex = (this.tabIndex - 1) % this.tabCount;
   }
 
-  submit() {
-    console.log(JSON.stringify(this.formService.form$.getValue()));
+  public showPage(page: IFormPage) {
+    return(this.utilityService.isShow(page.dependent??[]))
   }
-
   saveForm() {
     this.formService.setLoadingStatus(true);
     const form = this.formService.form$.getValue();

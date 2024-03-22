@@ -88,7 +88,7 @@ export class FormService {
     return null;
   }
 
-  setAvailableFields(condition:((option: IFormControl) => boolean)) {
+  getAvailableFields(condition:((option: IFormControl) => boolean)) {
     const fields: IFormControl[] = [];
     const formControls = this.form$.value.pages.flatMap(page => page.controls);
 

@@ -134,7 +134,7 @@ mat-slide-toggle {
       }
     }
 
-    &.close-icon {
+    &.close-icon, &.options-icon {
       &:hover {
         cursor: pointer;
       }

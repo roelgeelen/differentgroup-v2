@@ -48,7 +48,7 @@ export class ChoiceDialogComponent {
     public dialogRef: MatDialogRef<ChoiceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IFormControlOptionsChoices,
   ) {
-    this.numberFields = this.formService.setAvailableFields((control) => {
+    this.numberFields = this.formService.getAvailableFields((control) => {
       return control.options?.type === 'number'
     })
   }

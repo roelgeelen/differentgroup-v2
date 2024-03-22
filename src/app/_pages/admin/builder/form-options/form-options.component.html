@@ -32,6 +32,7 @@
                 <div class="option-box" cdkDrag>
                   <div class="option-box-placeholder" *cdkDragPlaceholder></div>
                   <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
+                  <mat-icon class="options-icon" (click)="openDialog(page)">settings</mat-icon>
                   <input [(ngModel)]="page.tab" [ngModelOptions]="{standalone:true}">
                   <mat-icon class="close-icon" (click)="removeFromList(form.pages, $index)">close</mat-icon>
                 </div>

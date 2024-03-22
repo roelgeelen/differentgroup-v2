@@ -53,7 +53,7 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public showControl(item: IFormControl) {
-    return(this.utilityService.isShow(item) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
+    return(this.utilityService.isShow(item.options?.dependent??[]) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
   }
   public get connectedLists() {
     return this.dragDropService.dropLists;

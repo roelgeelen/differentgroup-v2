@@ -31,6 +31,7 @@ import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
 import {ApiQuoteService} from "../../../_services/api-quote.service";
 import {firstValueFrom} from "rxjs";
+import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -148,6 +149,9 @@ export class DynamicFormComponent implements OnInit {
     this.tabIndex = (this.tabIndex - 1) % this.tabCount;
   }
 
+  public showPage(page: IFormPage) {
+    return(this.utilityService.isShow(page.dependent??[]))
+  }
   submit() {
     Swal.fire({
       title: 'Wil je de artikelen toevoegen aan de huidige offerte?',
@@ -216,7 +220,7 @@ export class DynamicFormComponent implements OnInit {
       const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
 
       item.controls.forEach((control) => {
-        const dep = this.utilityService.isShow(control);
+        const dep = this.utilityService.isShow(control.options?.dependent??[]);
         const controlOptions = control.options || {};
 
         if (dep) {
@@ -227,7 +231,7 @@ export class DynamicFormComponent implements OnInit {
 
             control.columns?.forEach((column) => {
               column.container.controls.forEach((colControl) => {
-                const colDep = this.utilityService.isShow(colControl);
+                const colDep = this.utilityService.isShow(colControl.options?.dependent??[]);
                 const colControlOptions = colControl.options || {};
 
                 if (colDep) {
@@ -310,7 +314,7 @@ export class DynamicFormComponent implements OnInit {
     if (this.config?.preview === undefined) {
       this.config!.preview = {url3D: ''}
     }
-    this.dialog.open(PreviewDialogComponent, {data: this.config?.preview, width: '100vw'});
+    this.dialog.open(PreviewDialogComponent, {data: this.config?.preview});
   }
 
   detectChanges(originalValues: IConfigurationItem[], updatedValues: IConfigurationItem[]): IConfigChanges {
