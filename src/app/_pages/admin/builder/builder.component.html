@@ -39,7 +39,7 @@
                       <ng-template mat-tab-label>
                         @if (!showPage(page) && showInvisible) {
                           <mat-icon class="tab-icon">visibility_off</mat-icon>
-                        } @else if (page.dependent!.length > 0) {
+                        } @else if (page.dependent && page.dependent!.length > 0) {
                           <mat-icon class="tab-icon">visibility_on</mat-icon>
                         }
                         {{page.tab!}}
