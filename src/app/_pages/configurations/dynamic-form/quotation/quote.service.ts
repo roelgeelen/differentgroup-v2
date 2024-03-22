@@ -1,78 +1,44 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
-import {ApiQuoteService} from "../../../../_services/api-quote.service";
-import Swal from "sweetalert2";
-import {BehaviorSubject, Subscription, switchMap, take} from "rxjs";
-import {
-  IQuoteLine,
-  IQuoteLineProduct
-} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
-import {IFormControl} from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
-import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
-import {FormGroup} from "@angular/forms";
+import { Injectable } from '@angular/core';
+import { IQuoteLine } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import { IFormControl } from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
+import { IForm } from "../../../../_components/dynamic-form-builder/models/form.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuoteService{
-  quoteItems$ = new BehaviorSubject<IQuoteLine[]>([]);
-  choiceControls: IFormControl[] = [];
-  formGroupSubscription: Subscription | undefined;
+export class QuoteService {
 
-  constructor(private formService: FormService) {
-    this.formGroupSubscription = this.formService.formGroup$.pipe(
-      switchMap((form: FormGroup) => {
-        this.setChoiceControls();
-        this.setQuoteItems(this.formService.formGroup$.getValue().getRawValue())
-        return form.valueChanges;
-      })
-    ).subscribe(value => {
-      this.setQuoteItems(value);
-    });
-  }
+  constructor() {}
 
-  ngOnDestroy() {
-    if (this.formGroupSubscription) {
-      this.formGroupSubscription.unsubscribe();
+  getQuoteItems(form: IForm, formGroup: any): IQuoteLine[] {
+    const choiceControls: IFormControl[] = this.getChoiceControls(form);
+    let selectedQuoteLines: IQuoteLine[] = form.options.quoteLines ? [...form.options.quoteLines] : [];
+    if (form.options.quoteSizeCalculation === 'odo') {
+      this.calculateODOSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
     }
-  }
 
-  getSkuList() {
-    return this.quoteItems$.getValue();
-  }
-
-  async setQuoteItems(formGroup: any) {
-    let selectedQuoteLines: IQuoteLine[] = [];
-    const form = this.formService.form$.getValue();
-
-    if (form.options.quoteLines)
-      selectedQuoteLines.push(...form.options.quoteLines!);
-
-    const fields = form.options.quoteSizeFields!;
-
-    if (form.options.quoteSizeCalculation === 'odo' && 'width' in fields && 'height' in fields)
-      this.calculateODOSize(formGroup, selectedQuoteLines, fields);
-
-    if (form.options.quoteSizeCalculation === 'sdh' && 'sizeTable' in fields)
-      this.calculateSDHSize(formGroup, selectedQuoteLines, fields);
+    if (form.options.quoteSizeCalculation === 'sdh') {
+      this.calculateSDHSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
+    }
 
     for (const groupId of Object.keys(formGroup)) {
       const selectedValues = Array.isArray(formGroup[groupId]) ? formGroup[groupId] : [formGroup[groupId]];
-      const formControl = this.choiceControls.find(control => control.id === groupId);
+      const formControl = choiceControls.find(control => control.id === groupId);
 
-      if (formControl)
+      if (formControl) {
         selectedValues.forEach((selectedValue: any) => {
           const selectedChoice = formControl.options?.choices?.find(choice => choice.value === selectedValue);
-          if (selectedChoice && selectedChoice.quoteLine)
+          if (selectedChoice && selectedChoice.quoteLine) {
             selectedQuoteLines.push(selectedChoice.quoteLine);
+          }
         });
+      }
     }
-
-    selectedQuoteLines = this.combineQuoteLines(selectedQuoteLines);
-    selectedQuoteLines.sort((a, b) => a.order - b.order || a.sku.localeCompare(b.sku));
-    this.quoteItems$.next(selectedQuoteLines);
+    selectedQuoteLines = this.combineQuoteLines(formGroup, selectedQuoteLines);
+    return selectedQuoteLines.sort((a, b) => a.order - b.order || a.sku.localeCompare(b.sku));
   }
 
-  calculateODOSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
+  private calculateODOSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
     const { width, height } = fields;
 
     if (width && height) {
@@ -80,12 +46,12 @@ export class QuoteService{
       const heightValue = formGroup[height];
       if (widthValue !== undefined && heightValue !== undefined) {
         const size = Math.ceil((((widthValue < 2000 ? 2000 : widthValue) - 2000) / 100) + 1) + (Math.ceil(((heightValue < 2000 ? 2000 : heightValue) - 2000) / 100) * 12);
-        selectedQuoteLines.push({sku: 'ODO0' + ('0' + size).slice(-2), order: 20}, {sku: 'ODO' + (size + 99), order: 20});
+        selectedQuoteLines.push({ sku: 'ODO0' + ('0' + size).slice(-2), order: 20 }, { sku: 'ODO' + (size + 99), order: 20 });
       }
     }
   }
 
-  calculateSDHSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
+  private calculateSDHSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
     const table = formGroup[fields.sizeTable];
 
     for (const row of table) {
@@ -93,28 +59,18 @@ export class QuoteService{
       if (!isNaN(size)) {
         size = size < 1 ? 1 : size;
         if (row['Hoogte'] > 2500) size++;
-        selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 100}, {sku: 'SDH0' + ('0' + size).slice(-2), order: 100});
+        selectedQuoteLines.push({ sku: 'SDH' + (size + 100), order: 100 }, { sku: 'SDH0' + ('0' + size).slice(-2), order: 100 });
       }
     }
   }
 
-  combineQuoteLines(quoteLines: IQuoteLine[]): IQuoteLine[] {
-    const groupedLines: { [sku: string]: IQuoteLine } = {};
-    quoteLines.forEach(quoteLine => {
-      if (quoteLine.amountField){
-        quoteLine.amount = parseFloat(this.formService.formGroup$.getValue().getRawValue()[quoteLine.amountField])
-      }
-      groupedLines[quoteLine.sku] = {...quoteLine, amount: (groupedLines[quoteLine.sku]?.amount || 0) + (quoteLine.amount || 1)}
-    });
-    return Object.values(groupedLines);
-  }
-
-  setChoiceControls() {
-    const formControls = this.formService.form$.getValue().pages.flatMap(page => page.controls);
+  private getChoiceControls(form: IForm): IFormControl[] {
+    const choiceControls: IFormControl[] = [];
+    const formControls = form.pages.flatMap(page => page.controls);
 
     const pushControlToList = (control: IFormControl) => {
       if (control.options?.choices) {
-        this.choiceControls.push(control);
+        choiceControls.push(control);
       }
     };
 
@@ -129,5 +85,21 @@ export class QuoteService{
         pushControlToList(control);
       }
     });
+
+    return choiceControls;
+  }
+
+  private combineQuoteLines(formGroup: any, quoteLines: IQuoteLine[]): IQuoteLine[] {
+    const groupedLines: { [sku: string]: IQuoteLine } = {};
+    quoteLines.forEach(quoteLine => {
+      if (quoteLine.amountField) {
+        quoteLine.amount = parseFloat(formGroup[quoteLine.amountField]) || 1;
+      }
+      groupedLines[quoteLine.sku] = {
+        ...quoteLine,
+        amount: (groupedLines[quoteLine.sku]?.amount || 0) + (quoteLine.amount || 1)
+      };
+    });
+    return Object.values(groupedLines);
   }
 }

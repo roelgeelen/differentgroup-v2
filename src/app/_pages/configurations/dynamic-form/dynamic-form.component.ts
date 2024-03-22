@@ -164,7 +164,7 @@ export class DynamicFormComponent implements OnInit {
     }).then((result) => {
       if (!result.isDismissed) {
         this.loading = true;
-        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed,  this.quoteService.getSkuList()).subscribe({
+        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed,  this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue())).subscribe({
           error: () => {
             Swal.fire({
               title: 'Error',

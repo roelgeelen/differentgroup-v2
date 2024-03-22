@@ -10,13 +10,8 @@ import {QuotationItemComponent} from "./quotation-item.component";
 import {ApiQuoteService} from "../../../../_services/api-quote.service";
 import {DecimalPipe} from "@angular/common";
 import {QuoteService} from "./quote.service";
-import {
-  concatMap, delay, filter,
-  forkJoin, from,
-  mergeMap, of, Subscription,
-  tap, timer
-} from "rxjs";
-import {catchError} from "rxjs/operators";
+import {Subscription} from "rxjs";
+import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
 
 @Component({
   selector: 'app-quotation',
@@ -38,16 +33,20 @@ export class QuotationComponent implements OnInit, OnDestroy {
 
   constructor(
     private apiQuoteService: ApiQuoteService,
-    private quoteService: QuoteService
+    private quoteService: QuoteService,
+    private formService:FormService
   ) {
   }
 
   ngOnInit(): void {
-    this.quoteItemsSubscription = this.quoteService.quoteItems$.subscribe(i => {
-      setTimeout(() => {
-        this.quoteItems = i;
+    this.quoteItemsSubscription = this.formService.formGroup$.subscribe(formGroup => {
+      // console.log(this.formService.form$.getValue(), this.formService.formGroup$.getValue())
+      this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue())
+      this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
+      formGroup.valueChanges.subscribe(group => {
+        this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
         this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
-      });
+      })
     })
   }
 
@@ -55,7 +54,6 @@ export class QuotationComponent implements OnInit, OnDestroy {
     if (this.quoteItemsSubscription) {
       this.quoteItemsSubscription.unsubscribe();
     }
-    this.quoteService.ngOnDestroy();
   }
 
   protected getFetchedProduct(productSku: string) {
