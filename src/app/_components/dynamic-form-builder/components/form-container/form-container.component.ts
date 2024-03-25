@@ -53,8 +53,13 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public showControl(item: IFormControl) {
-    return(this.utilityService.isShow(item.options?.dependent??[]) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
+    const isShow = (this.utilityService.isShow(item.options?.dependent ?? []) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
+    if (!isShow) {
+      this.formService.formGroup$.getValue().controls[item.id].reset();
+    }
+    return isShow;
   }
+
   public get connectedLists() {
     return this.dragDropService.dropLists;
   }
@@ -96,7 +101,7 @@ export class FormContainerComponent implements AfterViewInit {
     }).then((result) => {
       if (result.isConfirmed) {
         const c = controls[index];
-        if (c.options?.image){
+        if (c.options?.image) {
           this.apiFormService.removeFormAttachment(this.formService.form$.getValue().id!.toString(), c.options.image.id).subscribe();
         }
         controls.splice(index, 1);

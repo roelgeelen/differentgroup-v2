@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatInputModule} from "@angular/material/input";
-import {FormControl, FormsModule, NgForm, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, NgForm, ReactiveFormsModule} from "@angular/forms";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {MatIconModule} from "@angular/material/icon";
 
@@ -20,9 +20,7 @@ export class PreviewDialogComponent implements OnInit {
   editUrl = true;
 
   constructor(
-    private sanitizer: DomSanitizer,
-    public dialogRef: MatDialogRef<PreviewDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { url3D?: string },
+    private sanitizer: DomSanitizer, @Inject(MAT_DIALOG_DATA) public data: { url3D?: string },
   ) {
   }
 
@@ -39,8 +37,7 @@ export class PreviewDialogComponent implements OnInit {
   }
 
   private loadUrl() {
-    // const url = new URL(this.data.url3D!);
-    this.data.url3D = this.data.url3D!+'';
+    this.data.url3D = this.data.url3D!+'&kiosk=1';
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.url3D);
     this.showIframe = true;
     this.editUrl = false;
