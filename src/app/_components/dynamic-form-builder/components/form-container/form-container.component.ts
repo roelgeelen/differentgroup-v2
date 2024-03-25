@@ -53,11 +53,7 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public showControl(item: IFormControl) {
-    const isShow = (this.utilityService.isShow(item.options?.dependent ?? []) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
-    if (!isShow) {
-      this.formService.formGroup$.getValue().controls[item.id].reset();
-    }
-    return isShow;
+    return (this.utilityService.isShow(item.options?.dependent ?? []) && (item.options?.visibility?.showInForm === undefined || item.options?.visibility?.showInForm))
   }
 
   public get connectedLists() {
@@ -110,5 +106,9 @@ export class FormContainerComponent implements AfterViewInit {
       }
     });
 
+  }
+
+  setValue(item: any) {
+    console.log(item)
   }
 }

@@ -41,6 +41,7 @@ export class FormService {
   }
 
   public onControlValueChanged(control: IFormControl | null) {
+    console.log(control)
     this.controlValueChanged$.next(control);
   }
 
