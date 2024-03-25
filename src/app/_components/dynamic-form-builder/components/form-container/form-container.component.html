@@ -118,7 +118,7 @@
     @switch (item.type) {
       @case ('InfoBox') {
         <app-info-box [control]="item" [selected]="item.id == selectedControl?.id"
-                      [isBuilder]="isBuilder" (change)="setValue(item)"></app-info-box>
+                      [isBuilder]="isBuilder"></app-info-box>
       }
       @case ('InfoImage') {
         <app-info-image [control]="item" [selected]="item.id == selectedControl?.id"

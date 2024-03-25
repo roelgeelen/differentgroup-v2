@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {AsyncPipe, NgIf} from "@angular/common";
@@ -28,6 +28,7 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
 import {IFormControl} from "../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
 import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-form',
@@ -57,13 +58,14 @@ import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-c
     ],
   standalone: true
 })
-export class BuilderComponent implements OnInit {
+export class BuilderComponent implements OnInit, OnDestroy {
   tabIndex = 0;
   showInvisible = true;
   currentUser: User | undefined;
-  loading = false;
+  loading$: Observable<boolean> | undefined;
   formSettings = false;
   settingsDrawer = false;
+  private formServiceSubscription: Subscription | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -74,13 +76,13 @@ export class BuilderComponent implements OnInit {
     private utilityService: UtilityService
   ) {
     this.formService.setForm(null);
-    this.formService.loadingForm$.subscribe(l => this.loading = l)
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
     });
   }
 
   ngOnInit() {
+    this.loading$ = this.formService.loadingForm$;
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {
@@ -99,10 +101,16 @@ export class BuilderComponent implements OnInit {
         })
       }
     });
-    this.formService.selectedControl$.subscribe(value => {
+    this.formServiceSubscription = this.formService.selectedControl$.subscribe(value => {
       this.settingsDrawer = !!value;
       this.formSettings = false;
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.formServiceSubscription) {
+      this.formServiceSubscription.unsubscribe();
+    }
   }
 
   openFormSettings() {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -41,6 +41,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {v4 as uuidV4} from "uuid";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-control-options',
@@ -77,7 +78,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
   ],
   styleUrl: './control-options.component.scss'
 })
-export class ControlOptionsComponent implements OnInit {
+export class ControlOptionsComponent implements OnInit, OnDestroy {
   @Output() onClose = new EventEmitter<any>();
   editor: Editor;
   toolbar: Toolbar = [
@@ -90,6 +91,8 @@ export class ControlOptionsComponent implements OnInit {
   dependentOptions: IFormControl[] = [];
   progress: number = 0;
   currentUser: User | undefined;
+  formServiceSubscription: Subscription | undefined;
+  dependentSubscription: Subscription | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -104,14 +107,23 @@ export class ControlOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formService.selectedControl$.subscribe(c => {
+    this.formServiceSubscription = this.formService.selectedControl$.subscribe(c => {
       if (c && c.options?.dependent !== undefined) {
         this.dependentOptions = this.getAvailableDependentFields;
       }
     })
-    this.dependentControl.valueChanges.subscribe(value => {
+    this.dependentSubscription = this.dependentControl.valueChanges.subscribe(value => {
       this.dependentOptions = this.getAvailableDependentFields;
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.formServiceSubscription) {
+      this.formServiceSubscription.unsubscribe();
+    }
+    if (this.dependentSubscription) {
+      this.dependentSubscription.unsubscribe();
+    }
   }
 
   close() {

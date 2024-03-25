@@ -30,8 +30,9 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
 import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
 import {ApiQuoteService} from "../../../_services/api-quote.service";
-import {firstValueFrom} from "rxjs";
+import {firstValueFrom, Subscription} from "rxjs";
 import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
+import {IColumn} from "../../../_components/dynamic-form-builder/form-controls/columns/column.interface";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -57,7 +58,7 @@ import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-c
   ],
   styleUrl: './dynamic-form.component.scss'
 })
-export class DynamicFormComponent implements OnInit {
+export class DynamicFormComponent implements OnInit, OnDestroy {
   customerId: string = '';
   config: IConfiguration | null = null;
   tabIndex = 0;
@@ -65,6 +66,7 @@ export class DynamicFormComponent implements OnInit {
   saving = false;
   loading = false;
   dealFieldsToUpdate: { [key: string]: any } = {};
+  private formServiceSubscription: Subscription | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -75,7 +77,6 @@ export class DynamicFormComponent implements OnInit {
     private utilityService: UtilityService,
     private apiConfigurationService: ApiConfigurationService,
     private quoteService: QuoteService,
-    private apiQuoteService: ApiQuoteService,
   ) {
     this.formService.setForm(null);
     this.authService.currentUser.subscribe(user => {
@@ -87,17 +88,47 @@ export class DynamicFormComponent implements OnInit {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('configId') !== null) {
         this.customerId = queryParams.get('dealId')!;
-        // this.apiFormService.getForm()
         this.apiCustomerService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
           this.setForm(c);
         });
       }
     });
-    this.formService.controlValueChanged$.subscribe(control => {
+    this.formServiceSubscription = this.formService.controlValueChanged$.subscribe(control => {
+      this.updateFormValues()
       if (control?.options?.toDeal) {
         this.dealFieldsToUpdate[control.options.toDeal] = this.formService.formGroup$.getValue().getRawValue()[control.id!];
       }
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.formServiceSubscription) {
+      this.formServiceSubscription.unsubscribe();
+    }
+  }
+
+  private updateFormValues() {
+    const form = this.formService.formGroup$.value.getRawValue();
+    this.formService.form$.value.pages.forEach(page => {
+      page.controls.forEach(control => {
+        if (form[control.id] !== null || form[control.id] !== undefined) {
+          if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
+            this.formService.formGroup$.value.get(control.id)?.reset();
+          }
+        }
+        if (control.type === 'Columns' && Array.isArray(control.columns)) {
+          control.columns.forEach((col: IColumn) => {
+            col.container.controls.forEach((c) => {
+              if (form[control.id] !== null || form[control.id] !== undefined) {
+                if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
+                  this.formService.formGroup$.value.get(control.id)?.reset();
+                }
+              }
+            })
+          })
+        }
+      })
     })
   }
 
@@ -114,7 +145,7 @@ export class DynamicFormComponent implements OnInit {
     try {
       const deal = await firstValueFrom(
         this.apiConfigurationService.getDeal(this.config?.id!, Object.values(fields)).pipe()
-      ) || { properties: {} };
+      ) || {properties: {}};
       return this.replaceValuesBasedOnKeys(deal, fields);
     } catch (error) {
       console.error("Error fetching deal:", error);
@@ -122,7 +153,9 @@ export class DynamicFormComponent implements OnInit {
     }
   }
 
-  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: string }): { [key: string]: string } {
+  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: string }): {
+    [key: string]: string
+  } {
     const result: { [key: string]: string } = {};
 
     for (const hubspotFieldKey in fields) {
@@ -150,8 +183,9 @@ export class DynamicFormComponent implements OnInit {
   }
 
   public showPage(page: IFormPage) {
-    return(this.utilityService.isShow(page.dependent??[]))
+    return (this.utilityService.isShow(page.dependent ?? []))
   }
+
   submit() {
     Swal.fire({
       title: 'Wil je de artikelen toevoegen aan de huidige offerte?',
@@ -164,7 +198,7 @@ export class DynamicFormComponent implements OnInit {
     }).then((result) => {
       if (!result.isDismissed) {
         this.loading = true;
-        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed,  this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue())).subscribe({
+        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed, this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue())).subscribe({
           error: () => {
             Swal.fire({
               title: 'Error',
@@ -220,7 +254,7 @@ export class DynamicFormComponent implements OnInit {
       const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
 
       item.controls.forEach((control) => {
-        const dep = this.utilityService.isShow(control.options?.dependent??[]);
+        const dep = this.utilityService.isShow(control.options?.dependent ?? []);
         const controlOptions = control.options || {};
 
         if (dep) {
@@ -231,7 +265,7 @@ export class DynamicFormComponent implements OnInit {
 
             control.columns?.forEach((column) => {
               column.container.controls.forEach((colControl) => {
-                const colDep = this.utilityService.isShow(colControl.options?.dependent??[]);
+                const colDep = this.utilityService.isShow(colControl.options?.dependent ?? []);
                 const colControlOptions = colControl.options || {};
 
                 if (colDep) {
@@ -340,15 +374,6 @@ export class DynamicFormComponent implements OnInit {
               newValue: updatedItem.value
             });
           }
-          // if (updatedItem.type==='Table'){
-          //   if (JSON.stringify(originalItem?.value) !== JSON.stringify(updatedItem.value)){
-          //     console.log("changed")
-          //   } else {
-          //     console.log("orgineel")
-          //   }
-          //   console.log(originalItem!.value)
-          //   console.log(updatedItem.value)
-          // }
         }
 
         if (updatedItem.columns && originalItem?.columns) {

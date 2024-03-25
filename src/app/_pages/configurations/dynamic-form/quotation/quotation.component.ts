@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -40,12 +40,11 @@ export class QuotationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quoteItemsSubscription = this.formService.formGroup$.subscribe(formGroup => {
-      // console.log(this.formService.form$.getValue(), this.formService.formGroup$.getValue())
-      this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue())
-      this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
       formGroup.valueChanges.subscribe(group => {
-        this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
-        this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
+        setTimeout(()=>{
+          this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
+          this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
+        })
       })
     })
   }

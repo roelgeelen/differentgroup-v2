@@ -17,10 +17,9 @@
           <div></div>
           <div>
             <mat-slide-toggle [(ngModel)]="showInvisible" color="primary">verborgen velden</mat-slide-toggle>
-            <button mat-raised-button color="primary" [disabled]="loading" (click)="saveForm()">
-              <mat-icon *ngIf="!loading">save</mat-icon>
-              <mat-spinner class="white" *ngIf="loading" [diameter]="20">save</mat-spinner>
-
+            <button mat-raised-button color="primary" [disabled]="loading$ | async" (click)="saveForm()">
+              <mat-icon *ngIf="!(loading$ | async)">save</mat-icon>
+              <mat-spinner class="white" *ngIf="loading$ | async" [diameter]="20"></mat-spinner>
             </button>
             <button mat-raised-button color="primary" (click)="openFormSettings();$event.stopPropagation()">
               <mat-icon>settings</mat-icon>

@@ -1,6 +1,6 @@
 <mat-form-field class="field" [formGroup]="form">
   <mat-label>{{control?.options?.title}}</mat-label>
-  <mat-select [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id" (focusout)="formService.onControlValueChanged(control!)">
+  <mat-select [required]="control?.options?.validators?.required ?? false" [formControlName]="control!.id" [id]="control!.id" (change)="formService.onControlValueChanged(control!)">
     @for (choice of control?.options?.choices;track choice) {
       <mat-option [value]="choice.value">
         @if (choice?.quoteLine && isBuilder){<mat-icon>request_quote</mat-icon>}

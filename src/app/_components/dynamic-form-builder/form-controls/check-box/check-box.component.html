@@ -1,5 +1,5 @@
 <div [formGroup]="form" class="question">
-  <mat-selection-list color="primary" [formControlName]="control!.id" [id]="control!.id" (focusout)="formService.onControlValueChanged(control!)">
+  <mat-selection-list color="primary" [formControlName]="control!.id" [id]="control!.id" (change)="formService.onControlValueChanged(control!)">
     @for (choice of control?.options?.choices; track choice) {
       <mat-list-option [value]="choice.value" togglePosition="before">
         @if (choice?.quoteLine && isBuilder) {

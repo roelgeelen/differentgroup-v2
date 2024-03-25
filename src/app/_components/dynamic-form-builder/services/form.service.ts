@@ -5,6 +5,7 @@ import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
 import {IColumn} from "../form-controls/columns/column.interface";
+import {UtilityService} from "./utility.service";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
@@ -41,7 +42,6 @@ export class FormService {
   }
 
   public onControlValueChanged(control: IFormControl | null) {
-    console.log(control)
     this.controlValueChanged$.next(control);
   }
 

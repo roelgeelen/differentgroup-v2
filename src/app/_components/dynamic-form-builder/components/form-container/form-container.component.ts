@@ -69,8 +69,6 @@ export class FormContainerComponent implements AfterViewInit {
   }
 
   public dragMoved(event: CdkDragMove<IFormControl>) {
-    // @ts-ignore
-    console.log(event.source.dropContainer.id);
     this.dragDropService.dragMoved(event);
   }
 
@@ -106,9 +104,5 @@ export class FormContainerComponent implements AfterViewInit {
       }
     });
 
-  }
-
-  setValue(item: any) {
-    console.log(item)
   }
 }
