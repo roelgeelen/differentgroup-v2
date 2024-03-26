@@ -22,7 +22,11 @@
             </button>
           </div>
           <hr>
-          <h2>Configuraties</h2>
+          <div class="configurations-header">
+            <h2>Configuraties</h2>
+            <a mat-button color="primary" href="http://localhost:58241/customers/{{customer.id}}?sig={{customer.signature}}" target="_blank">Klant portaal</a>
+          </div>
+
           @defer (when configurations !== null) {
             @for (config of configurations; track config) {
               <mat-card>

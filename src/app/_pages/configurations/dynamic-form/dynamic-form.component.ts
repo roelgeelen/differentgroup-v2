@@ -111,24 +111,28 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   private updateFormValues() {
     const form = this.formService.formGroup$.value.getRawValue();
     this.formService.form$.value.pages.forEach(page => {
-      page.controls.forEach(control => {
-        if (form[control.id] !== null || form[control.id] !== undefined) {
-          if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
-            this.formService.formGroup$.value.get(control.id)?.reset();
+      if (this.showPage(page)) {
+        page.controls.forEach(control => {
+          if (form[control.id] !== null || form[control.id] !== undefined) {
+            if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
+              this.formService.formGroup$.value.get(control.id)?.reset();
+            }
           }
-        }
-        if (control.type === 'Columns' && Array.isArray(control.columns)) {
-          control.columns.forEach((col: IColumn) => {
-            col.container.controls.forEach((c) => {
-              if (form[control.id] !== null || form[control.id] !== undefined) {
-                if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
-                  this.formService.formGroup$.value.get(control.id)?.reset();
+          if (control.type === 'Columns' && Array.isArray(control.columns)) {
+            control.columns.forEach((col: IColumn) => {
+              col.container.controls.forEach((c) => {
+                if (form[control.id] !== null || form[control.id] !== undefined) {
+                  if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
+                    this.formService.formGroup$.value.get(control.id)?.reset();
+                  }
                 }
-              }
+              })
             })
-          })
-        }
-      })
+          }
+        })
+      } else {
+
+      }
     })
   }
 

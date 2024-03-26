@@ -19,6 +19,15 @@
       margin: 0;
     }
 
+    .configurations-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      a {
+        margin-right: 10px;
+      }
+    }
+
     mat-card {
       background-color: white;
       margin: 10px;

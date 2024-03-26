@@ -87,6 +87,7 @@ export class OverviewComponent {
     this.apiCustomerService.findCustomer(id).subscribe({
       next: (c) => {
         this.customer = c;
+        console.log(this.customer)
         this.findFormTemplates();
         this.getConfigurations();
       },
