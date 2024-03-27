@@ -20,7 +20,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import {
   IFormControlOptionsVisibility
 } from "../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
-import {ITheme, ThemeService} from "../../../_helpers/theme.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({

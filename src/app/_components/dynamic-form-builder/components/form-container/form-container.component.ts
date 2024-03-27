@@ -8,7 +8,7 @@ import {
 import {
   AfterViewInit,
   Component,
-  Input,
+  Input, OnDestroy,
   ViewChild,
 } from '@angular/core';
 import {IFormPage} from '../../models/form-container.interface';
@@ -19,13 +19,14 @@ import Swal from "sweetalert2";
 import {UtilityService} from "../../services/utility.service";
 import {FormControlsService} from "../../form-controls/form-controls.service";
 import {ApiFormService} from "../../../../_services/api-form.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
   styleUrls: ['./form-container.component.scss']
 })
-export class FormContainerComponent implements AfterViewInit {
+export class FormContainerComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
   @Input() container: IFormPage | undefined;
   @Input() showOutline = true;
@@ -33,6 +34,7 @@ export class FormContainerComponent implements AfterViewInit {
   @Input() isBuilder = false;
   @Input() id = '';
   selectedControl: IFormControl | null = null;
+  selectedControlSubscription: Subscription;
 
   constructor(
     private dragDropService: DragDropService,
@@ -41,9 +43,15 @@ export class FormContainerComponent implements AfterViewInit {
     private formControlsService: FormControlsService,
     private apiFormService: ApiFormService
   ) {
-    this.formService.selectedControl$.subscribe((control) =>
+    this.selectedControlSubscription = this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
     );
+  }
+
+  ngOnDestroy() {
+    if (this.selectedControlSubscription) {
+      this.selectedControlSubscription.unsubscribe();
+    }
   }
 
   ngAfterViewInit(): void {

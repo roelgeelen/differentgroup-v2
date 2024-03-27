@@ -3,7 +3,9 @@
 
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
-        <app-quotation></app-quotation>
+        <app-quotation>
+          <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
+        </app-quotation>
       }
     </mat-drawer>
 
@@ -17,6 +19,10 @@
         <div class="buttons">
           <div></div>
           <div>
+            @if(config){
+              <mat-slide-toggle [(ngModel)]="config.published" color="primary">Gepubliceerd</mat-slide-toggle>
+            }
+
             <button mat-raised-button color="primary"
                     [routerLink]="'/customers/'+customerId+'/configurations/'+config?.id"
                     [queryParams]="{type:'intern'}">
@@ -31,9 +37,6 @@
               <mat-icon *ngIf="!saving">save</mat-icon>
               <mat-spinner class="white" *ngIf="saving" [diameter]="20">save</mat-spinner>
             </button>
-            @if (form.options.createQuotation) {
-              <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
-            }
           </div>
 
         </div>

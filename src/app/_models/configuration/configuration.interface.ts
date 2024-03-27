@@ -15,6 +15,7 @@ export interface IConfiguration {
   createdAt?: string;
   updatedBy?: string;
   updatedAt?: string;
+  published: boolean;
 }
 
 export interface IConfigurationItem {

@@ -29,10 +29,11 @@ import {ApiConfigurationService} from "../../../_services/api-configuration.serv
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
-import {ApiQuoteService} from "../../../_services/api-quote.service";
 import {firstValueFrom, Subscription} from "rxjs";
 import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
 import {IColumn} from "../../../_components/dynamic-form-builder/form-controls/columns/column.interface";
+import {CanDeactivateType} from "../../../_helpers/guards/can-deactivate.guard";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -54,7 +55,8 @@ import {IColumn} from "../../../_components/dynamic-form-builder/form-controls/c
     QuotationComponent,
     NgIf,
     FormPageComponent,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    MatSlideToggle
   ],
   styleUrl: './dynamic-form.component.scss'
 })
@@ -67,6 +69,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   loading = false;
   dealFieldsToUpdate: { [key: string]: any } = {};
   private formServiceSubscription: Subscription | undefined;
+  isSaved = true;
 
   constructor(
     private authService: AuthenticationService,
@@ -95,6 +98,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       }
     });
     this.formServiceSubscription = this.formService.controlValueChanged$.subscribe(control => {
+      this.isSaved = false;
       this.updateFormValues()
       if (control?.options?.toDeal) {
         this.dealFieldsToUpdate[control.options.toDeal] = this.formService.formGroup$.getValue().getRawValue()[control.id!];
@@ -105,6 +109,25 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.formServiceSubscription) {
       this.formServiceSubscription.unsubscribe();
+    }
+  }
+
+  canDeactivate(): CanDeactivateType {
+    if (!this.isSaved) {
+      return Swal.fire({
+        title: "Pagina verlaten?",
+        text: "Je hebt nog niet alles opgeslagen.",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonColor: '#2e3785',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Ja, verlaten",
+        denyButtonText: `Annuleren`
+      }).then((result) => {
+        return result.isConfirmed;
+      });
+    } else {
+      return true;
     }
   }
 
@@ -131,12 +154,19 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
           }
         })
       } else {
-
+        page.controls.forEach(control => {
+          if ('columns' in control) {
+            control.columns!.forEach(col => col.container.controls.forEach(c => this.formService.formGroup$.value.get(c.id)?.reset()));
+          } else {
+            this.formService.formGroup$.value.get(control.id)?.reset();
+          }
+        });
       }
     })
   }
 
   async setForm(configuration: IConfiguration) {
+    this.isSaved = true;
     let values = this.convertConfigurationToRawJson(configuration.values || []);
     this.formService.setForm(configuration.form, values);
     if (Object.keys(values).length === 0) {

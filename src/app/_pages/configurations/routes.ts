@@ -3,6 +3,7 @@ import {DynamicFormComponent} from "./dynamic-form/dynamic-form.component";
 import {OverviewComponent} from "./overview/overview.component";
 import {ViewConfigurationComponent} from "./view-configuration/view-configuration.component";
 import {ConfigurationsComponent} from "./configurations.component";
+import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
 
 export const CONFIGURATIONS_ROUTES: Route[] = [
   {
@@ -20,5 +21,6 @@ export const CONFIGURATIONS_ROUTES: Route[] = [
   {
     path: ':dealId/configurations/:configId/edit',
     component: DynamicFormComponent,
+    canDeactivate: [canDeactivateGuard]
   }
 ];

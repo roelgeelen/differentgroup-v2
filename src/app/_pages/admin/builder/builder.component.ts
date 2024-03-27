@@ -25,37 +25,39 @@ import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {FormOptionsComponent} from "./form-options/form-options.component";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
-import {IFormControl} from "../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
 import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-container.interface";
 import {Observable, Subscription} from "rxjs";
+import {CanDeactivateType} from "../../../_helpers/guards/can-deactivate.guard";
+import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-form',
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        AsyncPipe,
-        MatTabsModule,
-        SharedFormBuilderModule,
-        MatProgressSpinnerModule,
-        FormsModule,
-        MatIconModule,
-        FlexModule,
-        NewControlsComponent,
-        ControlOptionsComponent,
-        NgIf,
-        MatSidenavModule,
-        ConfigurationHistoryComponent,
-        MatCardModule,
-        MatRippleModule,
-        MatTooltipModule,
-        FormOptionsComponent,
-        FormPageComponent
-    ],
+  imports: [
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    AsyncPipe,
+    MatTabsModule,
+    SharedFormBuilderModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    MatIconModule,
+    FlexModule,
+    NewControlsComponent,
+    ControlOptionsComponent,
+    NgIf,
+    MatSidenavModule,
+    ConfigurationHistoryComponent,
+    MatCardModule,
+    MatRippleModule,
+    MatTooltipModule,
+    FormOptionsComponent,
+    FormPageComponent
+  ],
   standalone: true
 })
 export class BuilderComponent implements OnInit, OnDestroy {
@@ -65,6 +67,7 @@ export class BuilderComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean> | undefined;
   formSettings = false;
   settingsDrawer = false;
+  lastSavedForm: IForm | null = null;
   private formServiceSubscription: Subscription | undefined;
 
   constructor(
@@ -86,10 +89,11 @@ export class BuilderComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('formId') !== null) {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {
+          this.lastSavedForm = JSON.parse(JSON.stringify(f));
           this.formService.setForm(f, {})
         });
       } else {
-        this.formService.setForm({
+        this.lastSavedForm = {
           title: 'Nieuw formulier',
           published: false,
           pages: [{
@@ -98,7 +102,8 @@ export class BuilderComponent implements OnInit, OnDestroy {
           options: {
             createQuotation: false
           }
-        })
+        }
+        this.formService.setForm(JSON.parse(JSON.stringify(this.lastSavedForm)))
       }
     });
     this.formServiceSubscription = this.formService.selectedControl$.subscribe(value => {
@@ -110,6 +115,25 @@ export class BuilderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.formServiceSubscription) {
       this.formServiceSubscription.unsubscribe();
+    }
+  }
+
+  canDeactivate(): CanDeactivateType {
+    if (JSON.stringify(this.lastSavedForm) !== JSON.stringify(this.formService.form$.value)) {
+      return Swal.fire({
+        title: "Pagina verlaten?",
+        text: "Je hebt nog niet alles opgeslagen.",
+        icon: "warning",
+        showDenyButton: true,
+        confirmButtonColor: '#2e3785',
+        cancelButtonColor: '#d33',
+        confirmButtonText: "Ja, verlaten",
+        denyButtonText: `Annuleren`
+      }).then((result) => {
+        return result.isConfirmed;
+      });
+    } else {
+      return true;
     }
   }
 
@@ -133,13 +157,15 @@ export class BuilderComponent implements OnInit, OnDestroy {
   }
 
   public showPage(page: IFormPage) {
-    return(this.utilityService.isShow(page.dependent??[]))
+    return (this.utilityService.isShow(page.dependent ?? []))
   }
+
   saveForm() {
     this.formService.setLoadingStatus(true);
     const form = this.formService.form$.getValue();
     form.updatedBy = this.currentUser?.name;
     this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
+      this.lastSavedForm = JSON.parse(JSON.stringify(f));
       this.formService.setForm(f);
       this.formService.setLoadingStatus(false);
       this.location.replaceState(`/admin/forms/${f.id}/builder`);

@@ -24,7 +24,7 @@
           <hr>
           <div class="configurations-header">
             <h2>Configuraties</h2>
-            <a mat-button color="primary" href="http://localhost:58241/customers/{{customer.id}}?sig={{customer.signature}}" target="_blank">Klant portaal</a>
+            <a mat-button color="primary" href="https://configurations.differentdoors.nl/customers/{{customer.id}}?sig={{customer.signature}}" target="_blank">Klant portaal</a>
           </div>
 
           @defer (when configurations !== null) {
@@ -33,7 +33,11 @@
                 <mat-card-header>
                   <mat-card-title-group>
                     <mat-card-title>{{ config.title }}</mat-card-title>
-                    <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}</mat-card-subtitle>
+                    <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
+                      @if(config.published){
+                      <span class="published">Gepubliceerd</span>
+                      }
+                    </mat-card-subtitle>
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                       <mat-icon>more_vert</mat-icon>
                     </button>

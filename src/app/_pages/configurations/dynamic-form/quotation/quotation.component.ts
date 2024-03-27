@@ -40,6 +40,8 @@ export class QuotationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quoteItemsSubscription = this.formService.formGroup$.subscribe(formGroup => {
+      this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), formGroup.getRawValue())
+      this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
       formGroup.valueChanges.subscribe(group => {
         setTimeout(()=>{
           this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)

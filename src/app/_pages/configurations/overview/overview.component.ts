@@ -87,7 +87,6 @@ export class OverviewComponent {
     this.apiCustomerService.findCustomer(id).subscribe({
       next: (c) => {
         this.customer = c;
-        console.log(this.customer)
         this.findFormTemplates();
         this.getConfigurations();
       },
@@ -107,7 +106,8 @@ export class OverviewComponent {
       customer: this.customer!,
       form: form,
       title: form.title,
-      updatedBy: this.currentUser?.name
+      updatedBy: this.currentUser?.name,
+      published: false
     }
     form.updatedBy = this.currentUser?.name;
     this.apiCustomerService.createConfiguration(this.customer!.dealId!, newConfig).subscribe({
@@ -167,7 +167,8 @@ export class OverviewComponent {
             title: result.value,
             updatedBy: this.currentUser?.name,
             values: c.values,
-            preview: c.preview
+            preview: c.preview,
+            published: false
           }
           this.apiCustomerService.createConfiguration(this.customer!.dealId!, newConfig).subscribe({
             next: (conf) => {

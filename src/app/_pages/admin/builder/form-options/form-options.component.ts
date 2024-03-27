@@ -29,7 +29,6 @@ import {User} from "../../../../_auth/models/User";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {MatDialog} from "@angular/material/dialog";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
-import {ChoiceDialogComponent} from "../control-options/choice-dialog/choice-dialog.component";
 import {TabSettingsDialogComponent} from "./tab-settings-dialog/tab-settings-dialog.component";
 
 @Component({

@@ -35,6 +35,14 @@
       mat-card-header {
         padding: 10px !important;
 
+        .published {
+          margin: 0 10px;
+          padding: 3px 6px;
+          border: #189383 solid 1px;
+          border-radius: 5px;
+          color: #189383;
+        }
+
         &.clickable {
           &:hover {
             cursor: pointer;
