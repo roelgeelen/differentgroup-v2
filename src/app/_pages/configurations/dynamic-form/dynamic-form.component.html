@@ -4,7 +4,16 @@
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
         <app-quotation>
-          <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
+          <ng-container validate>
+            <mat-error>
+            @for (error of getFormValidationErrors(); track error) {
+              <li>{{formService.findControlById(error)?.options?.label}}</li>
+            }
+            </mat-error>
+          </ng-container>
+<!--          <mat-error *ngIf="getFormValidationErrors().length != 0">Controleer de-->
+<!--            velden: {{getFormValidationErrors()}}</mat-error>-->
+          <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>
         </app-quotation>
       }
     </mat-drawer>

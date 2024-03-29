@@ -202,6 +202,21 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     return result;
   }
 
+  getFormValidationErrors(): string[] {
+    let formError: string[] = [];
+    const formGroup = this.formService.formGroup$.value;
+    Object.keys(formGroup.controls).forEach(key => {
+      // @ts-ignore
+      const controlErrors: ValidationErrors = formGroup.get(key).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(keyError => {
+          formError.push(key)
+        });
+      }
+    });
+    return formError;
+  }
+
   get tabCount(): number {
     return this.formService.form$.getValue().pages.length;
   }
