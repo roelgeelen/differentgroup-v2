@@ -1,5 +1,4 @@
 @use 'sass:map';
-
 // Styles for the components that are based on the current theme.
 @mixin theme($theme) {
   $theme-primary: map.get($theme, primary);
@@ -8,68 +7,67 @@
   $theme-background: map.get($theme, background);
   //$theme-foreground: map.get($theme, foreground);
 
-  // primary colors
-  $primary: map.get($theme-primary, 500);
-  $primary-800: map.get($theme-primary, 800);
-  $primary-50: map.get($theme-primary, 50);
+  :root {
+    // primary colors
+    --primary: #{map.get($theme-primary, 500)};
+    --primary-800: #{map.get($theme-primary, 800)};
+    --primary-50: #{map.get($theme-primary, 50)};
 
-  // accent colors
-  $accent: map.get($theme-accent, 500);
+    // accent colors
+    --accent: #{map.get($theme-accent, 500)};
 
-  // warn colors
-  $warn: map.get($theme-warn, 500);
-  $warn-50: map.get($theme-warn, 50);
+    // warn colors
+    --warn: #{map.get($theme-warn, 500)};
+    --warn-50: #{map.get($theme-warn, 50)};
 
-  // background colors
-  $background: map.get($theme-background, background);
-  $background-accent: map.get($theme-background, background-accent);
+    // background colors
+    --background: #{map.get($theme-background, background)};
+    --background-accent: #{map.get($theme-background, background-accent)};
+  }
+}
 
-  // foreground colors
-  //$fg-color: map.get($theme-foreground, color);
+.primary-text {
+  color: var(--primary);
+}
+.primary {
+  background-color: var(--primary);
+}
+.primary-50 {
+  background-color: var(--primary-50);
+}
 
-  .primary-text {
-    color: $primary;
-  }
-  .primary {
-    background-color: $primary;
-  }
-  .primary-50 {
-    background-color: $primary-50;
+.warn-text {
+  color: var(--warn);
+}
+.warn {
+  background-color: var(--warn);
+}
+.warn-50 {
+  background-color: var(--warn-50);
+}
+.background-accent {
+  background-color: var(--background-accent) !important;
+}
+body {
+  background-color: var(--background);
+}
+.footer {
+  background-color: var(--background);
+}
+
+@keyframes loading {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    background-color: var(--accent);
   }
 
-  .warn-text {
-    color: $warn;
-  }
-  .warn {
-    background-color: $warn;
-  }
-  .warn-50 {
-    background-color: $warn-50;
-  }
-  .background-accent {
-    background-color: $background-accent !important;
-  }
-  body {
-    background-color: $background;
-  }
-  .footer {
-    background-color: $background;
+  50% {
+    transform: perspective(120px) rotateX(180deg) rotateY(0deg);
+    background-color: var(--primary-800);
   }
 
-  @keyframes loading {
-    0% {
-      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
-      background-color: $accent;
-    }
-
-    50% {
-      transform: perspective(120px) rotateX(180deg) rotateY(0deg);
-      background-color: $primary-800;
-    }
-
-    100% {
-      transform: perspective(120px) rotateX(180deg) rotateY(-180deg);
-      background-color: $accent;
-    }
+  100% {
+    transform: perspective(120px) rotateX(180deg) rotateY(-180deg);
+    background-color: var(--accent);
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {ICustomer, IRecentCustomer} from "../_models/configuration/customer.interface";
 import {IConfiguration} from "../_models/configuration/configuration.interface";
@@ -14,8 +14,20 @@ export class ApiCustomerService {
 
   constructor(private http: HttpClient) {
   }
-  findRecentCustomers(name:string,page: number) {
-    return this.http.get<IPage<IRecentCustomer[]>>(`${environment.apiLocal}/v2/customer?username=${name}&size=5&page=${page}`);
+
+  findRecentCustomers(options: { username?: string, name?: string, page: number, size: number }) {
+    const {username, name, page, size} = options;
+    let params = new HttpParams();
+    if (username !== undefined) {
+      params = params.append('username', username);
+    }
+    if (name !== undefined) {
+      params = params.append('name', name);
+    }
+    params = params.append('size', size);
+    params = params.append('page', page.toString());
+
+    return this.http.get<IPage<IRecentCustomer[]>>(`${environment.apiLocal}/v2/customer`, {params});
   }
 
   findCustomer(id: string) {
@@ -42,7 +54,7 @@ export class ApiCustomerService {
     return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/move`, customerId);
   }
 
-  upload(id:string, configId: string, field: string, file: File){
+  upload(id: string, configId: string, field: string, file: File) {
     const formData: FormData = new FormData();
     formData.append('file', file);
     return this.http.post<IFormAttachment>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/fields/${field}/attachments`, formData, {

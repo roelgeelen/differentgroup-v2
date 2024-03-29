@@ -1,0 +1,41 @@
+
+.bg-white {
+  background-color: white !important;
+}
+
+.form {
+  padding: 20px;
+
+  .form-content {
+    flex: 1;
+    background-color: white;
+
+    h2 {
+      font-weight: 500;
+      padding: 1rem;
+      margin: 0;
+    }
+
+
+    .search {
+      display: flex;
+      justify-content: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+
+      button {
+        height: 55px
+      }
+    }
+
+    .mat-cell {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .mat-mdc-row:hover .mat-mdc-cell {
+      background-color: var(--primary-50);
+    }
+  }
+}
+

@@ -72,7 +72,7 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   getRecentCustomers() {
-    this.apiCustomerService.findRecentCustomers(this.currentUser!.name, 0).subscribe(c => {
+    this.apiCustomerService.findRecentCustomers({username: this.currentUser!.name, page: 0, size: 5}).subscribe(c => {
       this.customers = c.content;
     })
   }

@@ -9,5 +9,7 @@ export interface IRecentCustomer
 {
   dealId?: string;
   name: string;
+  updatedBy: string;
   updatedAt: string;
+  count: number;
 }

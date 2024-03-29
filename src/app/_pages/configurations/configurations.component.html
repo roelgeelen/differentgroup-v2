@@ -15,9 +15,12 @@
         </button>
       </form>
       <hr>
-      <h2>Recente configuraties</h2>
+      <div class="configurations-header">
+        <h2>Recente configuraties</h2>
+        <a mat-button color="primary" routerLink="search">Alle configuraties</a>
+      </div>
       @defer (when customers !== null) {
-        @for (customer of customers;track customer) {
+        @for (customer of customers; track customer) {
           <mat-card>
             <mat-card-header [routerLink]="'/customers/'+customer.dealId" class="clickable">
               <mat-card-title>{{ customer.name }}</mat-card-title>
