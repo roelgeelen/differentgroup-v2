@@ -10,6 +10,7 @@
     <hr>
     @defer (when forms !== null) {
       @for (form of forms;track form) {
+        <div class="template-item">
         <mat-card [routerLink]="form.id+'/builder'">
           <mat-card-header>
             @if (form.published) {
@@ -23,6 +24,20 @@
             <b>Laast gewijzigd:</b> {{form.updatedBy}} {{form.updatedAt | date: 'dd-MM-yyyy HH:mm'}}
           </mat-card-content>
         </mat-card>
+        <button mat-icon-button  [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="duplicateForm(form)">
+              <mat-icon>control_point_duplicate</mat-icon>
+              <span class="menu-label">Dupliceren</span>
+            </button>
+            <button mat-menu-item (click)="deleteForm(form)">
+              <mat-icon>delete</mat-icon>
+              <span class="menu-label">Verwijderen</span>
+            </button>
+          </mat-menu>
+        </div>
       } @empty {
         <div>
           Nog geen formulieren aangemaakt
@@ -30,6 +45,11 @@
       }
     } @placeholder ()  {
       <mat-spinner></mat-spinner>
+    }
+    @if (loading) {
+      <div class="loading-overlay fixed">
+        <div class="loading"></div>
+      </div>
     }
   </div>
 </div>

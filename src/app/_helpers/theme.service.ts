@@ -28,8 +28,8 @@ export class ThemeService {
     {
       displayName: 'Ambassa',
       name: 'ambassa-theme',
-      imageDark: 'assets/images/ambassa.png',
-      imageLight: 'assets/images/ambassa-white.png',
+      imageDark: 'assets/images/ambassa_zwart.svg',
+      imageLight: 'assets/images/ambassa.svg',
     }
   ];
 

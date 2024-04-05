@@ -7,6 +7,7 @@
 @include mat.core();
 
 $dark-primary-text: rgba(black, 0.87);
+$dark-background: #231e1f;
 $light-primary-text: white;
 $background-color: #fafafa;
 $background-accent-color: #ebf2f4;
@@ -94,7 +95,8 @@ $theme: mat.define-light-theme((
 $background: map-get($theme, background);
 $background: map_merge($background, (
   background: $background-color,
-  background-accent:$background-accent-color
+  background-accent:$background-accent-color,
+  background-dark:$dark-background
 ));
 $theme: map_merge($theme, (background: $background));
 

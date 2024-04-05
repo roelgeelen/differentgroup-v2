@@ -23,6 +23,7 @@
     // background colors
     --background: #{map.get($theme-background, background)};
     --background-accent: #{map.get($theme-background, background-accent)};
+    --background-dark: #{map.get($theme-background, background-dark)};
   }
 }
 
