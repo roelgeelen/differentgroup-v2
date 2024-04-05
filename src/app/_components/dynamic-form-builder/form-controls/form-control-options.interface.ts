@@ -28,6 +28,7 @@ export interface IFormControlOptions {
   type?: string;
   steps?: number;
   toDeal?: string;
+  inApp?: boolean;
   validators?: {
     required?: boolean;
     min?: number;

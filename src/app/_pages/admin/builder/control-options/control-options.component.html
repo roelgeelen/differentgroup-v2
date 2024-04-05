@@ -235,6 +235,14 @@
                   }
                 </div>
               }
+              @if (control.options.inApp !== undefined){
+                <div class="label">In app</div>
+                <div class="tab-content">
+                  <mat-slide-toggle [(ngModel)]="control.options.inApp" color="primary">
+                    Zichtbaar in App
+                  </mat-slide-toggle>
+                </div>
+              }
               @if (control.options.toDeal !== undefined) {
               <div class="label">Hubspot koppeling</div>
               <div class="tab-content">

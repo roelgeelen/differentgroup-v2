@@ -40,6 +40,11 @@
                 }
               </span>
               <div class="label-info">
+                @if (item.options.inApp){
+                  <mat-icon class="help-icon primary-text">
+                    phone_iphone
+                  </mat-icon>
+                }
                 @if (item.options.toDeal){
                   <img class="hubspot-icon" [matTooltip]="item.options.toDeal!" matTooltipPosition="above" src="assets/images/icons/hubspot.png">
                 }

@@ -15,6 +15,7 @@ export class ImageUpload implements IFormControl<IFormControlOptions, IConfigura
       label: options?.label ?? 'Afbeelding',
       help: options?.help ?? '',
       note: options?.note ?? '',
+      inApp: options?.inApp ?? false,
       visibility: {
         intern: options?.visibility?.intern ?? true,
         extern: options?.visibility?.extern ?? true,
