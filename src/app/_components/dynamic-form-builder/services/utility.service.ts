@@ -17,9 +17,9 @@ export class UtilityService {
 
   private isDependent(item: IFormControlOptionsDependent[]) {
     let found = true;
-    item.forEach((dep, index) => {
+    for (let dep of item) {
       if (dep.values.length !== 0) {
-        const formGroupValue = this.formService.formGroup$.getValue().controls[dep.field];
+        const formGroupValue = this.formService.formGroup$.value.controls[dep.field];
         if (formGroupValue !== undefined) {
           if (Array.isArray(formGroupValue.value)) {
             found =
@@ -29,11 +29,14 @@ export class UtilityService {
           } else {
             found = dep.values.includes(formGroupValue.value);
           }
+          if (found){
+            break;
+          }
         } else {
-          item.splice(index, 1);
+          item.splice(item.indexOf(dep), 1);
         }
       }
-    });
+    }
     return found;
   }
 }
