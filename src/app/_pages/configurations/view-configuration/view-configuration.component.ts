@@ -26,23 +26,23 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   selector: 'app-view-configuration',
   templateUrl: './view-configuration.component.html',
   standalone: true,
-    imports: [
-        MatButtonModule,
-        MatIconModule,
-        RouterLink,
-        SharedModule,
-        MatProgressSpinnerModule,
-        MatSidenavModule,
-        QuotationComponent,
-        ConfigurationHistoryComponent,
-        KeyValuePipe,
-        NgIf,
-        MatSelectModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatMenuModule,
-        FormPageComponent
-    ],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    RouterLink,
+    SharedModule,
+    MatProgressSpinnerModule,
+    MatSidenavModule,
+    QuotationComponent,
+    ConfigurationHistoryComponent,
+    KeyValuePipe,
+    NgIf,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatMenuModule,
+    FormPageComponent
+  ],
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
@@ -64,6 +64,7 @@ export class ViewConfigurationComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
   }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       if (params.get('configId') !== null) {
@@ -117,6 +118,16 @@ export class ViewConfigurationComponent implements OnInit {
           return true;
         }
         const visibility = parent.options?.visibility?.[this.visibleFor.key as keyof IFormControlOptionsVisibility];
+        if (visibility && 'columns' in value) {
+          value.columns = value.columns?.filter((cValue) => {
+            const cParent = this.parentFormControl(controls, cValue.id!);
+            if (!cParent) {
+              return true;
+            }
+            const cVisibility = cParent.options?.visibility?.[this.visibleFor.key as keyof IFormControlOptionsVisibility];
+            return cVisibility !== undefined ? cVisibility : true;
+          });
+        }
         return visibility !== undefined ? visibility : true;
       });
     });
