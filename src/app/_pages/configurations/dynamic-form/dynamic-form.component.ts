@@ -452,4 +452,9 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
 
     return {createdBy: this.currentUser?.name, changes: changes};
   }
+
+  getFieldTitle(error: string) {
+    const field = this.formService.findControlById(error);
+    return field?.options?.label || field?.options?.title;
+  }
 }

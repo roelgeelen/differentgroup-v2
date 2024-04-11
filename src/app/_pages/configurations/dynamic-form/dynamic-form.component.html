@@ -7,7 +7,7 @@
           <ng-container validate>
             <mat-error>
             @for (error of getFormValidationErrors(); track error) {
-              <li>{{formService.findControlById(error)?.options?.label}}</li>
+              <li>{{getFieldTitle(error)}}</li>
             }
             </mat-error>
           </ng-container>
