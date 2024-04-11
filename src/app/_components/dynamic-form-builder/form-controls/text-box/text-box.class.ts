@@ -19,6 +19,7 @@ export class TextBox implements IFormControl<IFormControlOptions, string> {
       placeholder: options?.placeholder ?? 'Type hier...',
       type: options?.type ?? 'text',
       toDeal: options?.toDeal ?? '',
+      inApp: options?.inApp ?? false,
       validators: options?.validators ?? {
         required: options?.validators?.required ?? false
       },
