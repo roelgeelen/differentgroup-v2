@@ -42,8 +42,8 @@ export class ApiCustomerService {
     return this.http.post<IConfiguration>(`${environment.apiLocal}/v2/customer/${id}/configurations`, config);
   }
 
-  getConfiguration(id: string, configId: string) {
-    return this.http.get<IConfiguration>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}`);
+  getConfiguration(id: string, configId: string, type?: string) {
+    return this.http.get<IConfiguration>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}?type=${type}`);
   }
 
   updateConfiguration(id: string, configId: string, config: IConfiguration) {

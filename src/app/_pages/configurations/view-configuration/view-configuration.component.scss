@@ -32,17 +32,24 @@ mat-drawer{
         font-size: 18px;
       }
       .form-section{
-        border-top: 1px solid black;
+        border-bottom: 1px solid black;
         width: 100%;
-        margin-top: 10px;
-        &.first{
-          border-top: none;
+        padding: 10px 0;
+        &.last{
+          border-bottom: none;
         }
         h2 {
           margin-top:5px;
           margin-bottom: 10px;
-          &.break{
-            border-top: 1px solid darkgray;
+        }
+        h3 {
+          margin: 10px 0;
+          //&.break{
+          //  border-top: 1px solid darkgray;
+          //}
+          span{
+            font-size: 13px;
+            font-weight: 100;
           }
         }
         img {
@@ -80,7 +87,7 @@ mat-drawer{
             background-color: #f1f1f1;
           }
           th {
-            width: 170px;
+            width: 200px;
             text-align: start;
             vertical-align: baseline;
             span{

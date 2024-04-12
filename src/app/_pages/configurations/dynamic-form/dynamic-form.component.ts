@@ -277,15 +277,8 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     if (this.config) {
       this.saving = true;
       this.config.updatedBy = this.currentUser?.name;
-      const currentConfigValues = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
-      if (this.config.values) {
-        const change = this.detectChanges(this.config.values!, currentConfigValues);
-        if (change.changes.length > 0) {
-          this.apiConfigurationService.createConfigurationChange(this.config.id!, change).subscribe();
-        }
-      }
-      this.config.values = currentConfigValues;
-      this.setForm(this.config);
+      this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
+      // this.setForm(this.config);
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
         error: () => this.saving = false,
         complete: () => this.saving = false
@@ -398,59 +391,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       this.config!.preview = {url3D: ''}
     }
     this.dialog.open(PreviewDialogComponent, {data: this.config?.preview});
-  }
-
-  detectChanges(originalValues: IConfigurationItem[], updatedValues: IConfigurationItem[]): IConfigChanges {
-    const changes: IFieldChange[] = [];
-
-    const detectChangesRecursive = (originalItems: IConfigurationItemValue[], updatedItems: IConfigurationItemValue[], parentField: string = '') => {
-      updatedItems.forEach((updatedItem) => {
-        const originalItem = originalItems.find(item => item.id === updatedItem.id);
-
-        if (!['InfoImage', 'InfoBox', 'Divider', 'Calculation'].includes(updatedItem.type)) {
-          if (!originalItem) {
-            changes.push({
-              fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
-              fieldType: updatedItem.type,
-              oldValue: null,
-              newValue: updatedItem.value
-            });
-          } else if (originalItem.value !== updatedItem.value) {
-            changes.push({
-              fieldName: `${parentField}${parentField ? '.' : ''}${updatedItem.title}`,
-              fieldType: updatedItem.type,
-              oldValue: originalItem.value,
-              newValue: updatedItem.value
-            });
-          }
-        }
-
-        if (updatedItem.columns && originalItem?.columns) {
-          detectChangesRecursive(originalItem.columns, updatedItem.columns, `${parentField}${parentField ? '.' : ''}${updatedItem.title}`);
-        }
-      });
-
-      originalItems.forEach((originalItem) => {
-        const updatedItem = updatedItems.find(item => item.id === originalItem.id);
-        if (!updatedItem && !['InfoImage', 'InfoBox', 'Divider', 'Calculation'].includes(originalItem.type)) {
-          changes.push({
-            fieldName: `${parentField}${parentField ? '.' : ''}${originalItem.title}`,
-            fieldType: originalItem.type,
-            oldValue: originalItem.value,
-            newValue: null
-          });
-        }
-      });
-    };
-
-    updatedValues.forEach((updatedItem) => {
-      const originalItem = originalValues.find(item => item.page === updatedItem.page);
-      if (originalItem) {
-        detectChangesRecursive(originalItem.values, updatedItem.values);
-      }
-    });
-
-    return {createdBy: this.currentUser?.name, changes: changes};
   }
 
   getFieldTitle(error: string) {

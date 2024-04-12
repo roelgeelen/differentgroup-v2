@@ -13,7 +13,7 @@ import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "../dynamic-form/quotation/quotation.component";
 import {ConfigurationHistoryComponent} from "./configuration-history/configuration-history.component";
-import {KeyValuePipe, NgIf} from "@angular/common";
+import {DatePipe, KeyValuePipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
@@ -41,15 +41,18 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
     ReactiveFormsModule,
     FormsModule,
     MatMenuModule,
-    FormPageComponent
+    FormPageComponent,
+    DatePipe
   ],
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
+  dealId: string = '';
+  configId: string = '';
   configuration: IConfiguration | null = null;
   visibleFor: { key: string, label: string } = {key: 'intern', label: 'Intern'};
   safe3dUrl: SafeResourceUrl = '';
-  values: IConfigurationItem[] = [];
+  loading = false;
 
   viewOptions = [
     {key: 'intern', label: 'Intern'},
@@ -68,68 +71,30 @@ export class ViewConfigurationComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       if (params.get('configId') !== null) {
-        this.apiCustomerService.getConfiguration(params.get('dealId')!, params.get('configId')!).subscribe(c => {
-          this.configuration = c;
-          if (this.configuration?.preview?.url3D) {
-            this.getSafeUrl(this.configuration?.preview?.url3D)
+        this.dealId = params.get('dealId')!;
+        this.configId = params.get('configId')!;
+        this.route.queryParams.subscribe(params => {
+          const typeParam = params['type'];
+          if (typeParam) {
+            if (typeParam === 'intern' || typeParam === 'extern' || typeParam === 'customer') {
+              this.visibleFor = this.viewOptions.find(option => option.key === typeParam)!;
+              this.getConfiguration(this.dealId, this.configId, this.visibleFor.key);
+            }
           }
-          this.removeInvisibleItems()
         });
       }
     });
-    this.route.queryParams.subscribe(params => {
-      const typeParam = params['type'];
-      if (typeParam) {
-        if (typeParam === 'intern' || typeParam === 'extern' || typeParam === 'customer') {
-          this.visibleFor = this.viewOptions.find(option => option.key === typeParam)!;
-        }
+  }
+
+  getConfiguration(dealId: string, configId: string, type: string) {
+    this.configuration = null;
+    this.loading = true;
+    this.apiCustomerService.getConfiguration(dealId, configId, type).subscribe(c => {
+      this.configuration = c;
+      if (this.configuration?.preview?.url3D) {
+        this.getSafeUrl(this.configuration?.preview?.url3D)
       }
-    });
-  }
-
-  mapFormControls() {
-    const controls: IFormControl[] = [];
-    this.configuration?.form.pages.forEach((page) => {
-      page.controls.forEach((control) => {
-        if ('columns' in control) {
-          control.columns?.forEach((colValue) => {
-            if (colValue.container && colValue.container.controls) {
-              controls.push(...colValue.container.controls);
-            }
-          });
-        }
-        controls.push(control);
-      });
-    });
-    return controls;
-  }
-
-  parentFormControl(controls: IFormControl[], id: string) {
-    return controls.find(control => control.id === id);
-  }
-
-  removeInvisibleItems() {
-    const controls = this.mapFormControls();
-    this.values = this.configuration?.values ? JSON.parse(JSON.stringify(this.configuration.values)) : [];
-    this.values.forEach((page) => {
-      page.values = page.values.filter((value) => {
-        const parent = this.parentFormControl(controls, value.id!);
-        if (!parent) {
-          return true;
-        }
-        const visibility = parent.options?.visibility?.[this.visibleFor.key as keyof IFormControlOptionsVisibility];
-        if (visibility && 'columns' in value) {
-          value.columns = value.columns?.filter((cValue) => {
-            const cParent = this.parentFormControl(controls, cValue.id!);
-            if (!cParent) {
-              return true;
-            }
-            const cVisibility = cParent.options?.visibility?.[this.visibleFor.key as keyof IFormControlOptionsVisibility];
-            return cVisibility !== undefined ? cVisibility : true;
-          });
-        }
-        return visibility !== undefined ? visibility : true;
-      });
+      this.loading = false;
     });
   }
 
@@ -139,7 +104,7 @@ export class ViewConfigurationComponent implements OnInit {
 
   changeVisibleFor(value: { key: string, label: string }) {
     this.visibleFor = value;
-    this.removeInvisibleItems()
+    this.getConfiguration(this.dealId, this.configId, this.visibleFor.key);
     const navigationExtras: NavigationExtras = {
       relativeTo: this.route,
       queryParams: {type: this.visibleFor.key},
