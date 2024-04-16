@@ -138,7 +138,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         page.controls.forEach(control => {
           if (form[control.id] !== null || form[control.id] !== undefined) {
             if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
-              this.formService.formGroup$.value.get(control.id)?.reset();
+              this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
             }
           }
           if (control.type === 'Columns' && Array.isArray(control.columns)) {
@@ -146,7 +146,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
               col.container.controls.forEach((c) => {
                 if (form[control.id] !== null || form[control.id] !== undefined) {
                   if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
-                    this.formService.formGroup$.value.get(control.id)?.reset();
+                    this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
                   }
                 }
               })
@@ -158,7 +158,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
           if ('columns' in control) {
             control.columns!.forEach(col => col.container.controls.forEach(c => this.formService.formGroup$.value.get(c.id)?.reset()));
           } else {
-            this.formService.formGroup$.value.get(control.id)?.reset();
+            this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
           }
         });
       }
@@ -278,15 +278,14 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       this.saving = true;
       this.config.updatedBy = this.currentUser?.name;
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
-      // this.setForm(this.config);
+      this.setForm(this.config).then();
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
         error: () => this.saving = false,
         complete: () => this.saving = false
       });
 
       if (Object.keys(this.dealFieldsToUpdate).length !== 0) {
-        this.apiConfigurationService.updateToDeal(this.config.id!, this.dealFieldsToUpdate).subscribe();
-        this.dealFieldsToUpdate = {};
+        this.apiConfigurationService.updateToDeal(this.config.id!, this.dealFieldsToUpdate).subscribe(s => this.dealFieldsToUpdate = {});
       }
     }
   }

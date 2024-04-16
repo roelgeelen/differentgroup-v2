@@ -30,6 +30,7 @@ export class QuotationComponent implements OnInit, OnDestroy {
   quoteItems: IQuoteLine[] = [];
   fetchedProducts: IQuoteLineProduct[] = [];
   private quoteItemsSubscription: Subscription | undefined;
+  private valueChangeSubscription: Subscription | undefined;
 
   constructor(
     private apiQuoteService: ApiQuoteService,
@@ -42,7 +43,7 @@ export class QuotationComponent implements OnInit, OnDestroy {
     this.quoteItemsSubscription = this.formService.formGroup$.subscribe(formGroup => {
       this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), formGroup.getRawValue())
       this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
-      formGroup.valueChanges.subscribe(group => {
+      this.valueChangeSubscription = formGroup.valueChanges.subscribe(group => {
         setTimeout(()=>{
           this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
           this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
@@ -51,9 +52,13 @@ export class QuotationComponent implements OnInit, OnDestroy {
     })
   }
 
+
   ngOnDestroy(): void {
     if (this.quoteItemsSubscription) {
       this.quoteItemsSubscription.unsubscribe();
+    }
+    if (this.valueChangeSubscription) {
+      this.valueChangeSubscription.unsubscribe();
     }
   }
 
