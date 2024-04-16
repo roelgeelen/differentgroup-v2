@@ -51,6 +51,7 @@ export class ChoiceDialogComponent {
     this.numberFields = this.formService.getAvailableFields((control) => {
       return control.options?.type === 'number'
     })
+    console.log(this.numberFields)
   }
 
   addQuoteLine() {
@@ -66,7 +67,7 @@ export class ChoiceDialogComponent {
   }
 
   controlSearchFunction(option: any): string {
-    return option?.options?.label !== '' ? option?.options?.label : option?.options?.title ?? '';
+    return (option?.options?.label !== '' && option?.options?.label !== undefined) ? option?.options?.label : option?.options?.title ?? '';
   }
 
   valueFunction(option: any): any {

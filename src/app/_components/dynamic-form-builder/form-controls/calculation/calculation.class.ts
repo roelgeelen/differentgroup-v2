@@ -14,8 +14,9 @@ export class Calculation implements IFormControl<IFormControlOptions, string> {
     this.options = {
       title: options?.title ?? '',
       calcDuration: options?.calcDuration ?? false,
+      type: options?.type ?? 'text',
+      toDeal: options?.toDeal ?? '',
       visibility: {
-        showInForm: options?.visibility?.showInForm ?? true,
         intern: options?.visibility?.intern ?? true,
         extern: options?.visibility?.extern ?? true,
         customer: options?.visibility?.customer ?? true

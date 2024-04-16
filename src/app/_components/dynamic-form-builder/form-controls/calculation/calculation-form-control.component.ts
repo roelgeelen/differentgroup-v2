@@ -1,4 +1,4 @@
-import {Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {IFormControl} from "../form-control.interface";
 import {FormService} from "../../services/form.service";
@@ -27,6 +27,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 export class CalculationFormControlComponent implements ControlValueAccessor, OnInit {
   @Input() control!: IFormControl;
   @Input() form!: FormGroup;
+  @Output() change = new EventEmitter();
 
   choiceControls: IFormControl[] = [];
   duration: number = 0;
@@ -122,11 +123,15 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
 
   onValueChange(): void {
     try {
-      const newValue = this.calculate(this.control.value).toString();
+      let newValue = this.calculate(this.control.value).toString();
+      if (this.control.options?.type === 'number'){
+        newValue = parseInt(newValue).toString();
+      }
       if (this.value !== newValue) {
         this.value = newValue;
         this.onChange(this.value);
         this.onTouched();
+        this.change.emit();
       }
     } catch (e) {
 

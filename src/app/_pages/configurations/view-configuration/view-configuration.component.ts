@@ -3,11 +3,10 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {ActivatedRoute, NavigationExtras, Router, RouterLink} from "@angular/router";
 import {
-  IConfiguration, IConfigurationItem,
+  IConfiguration,
 } from "../../../_models/configuration/configuration.interface";
 import {ApiCustomerService} from "../../../_services/api-customer.service";
 import {SharedModule} from "../../../shared.module";
-import {IFormControl} from "../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -17,9 +16,6 @@ import {DatePipe, KeyValuePipe, NgIf} from "@angular/common";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
-import {
-  IFormControlOptionsVisibility
-} from "../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 
 @Component({

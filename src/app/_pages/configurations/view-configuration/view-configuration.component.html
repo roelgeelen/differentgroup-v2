@@ -135,14 +135,14 @@
                               @if (value.columns[index]) {
                                 <td>
                                   @if (value.columns[index].title) {
-                                    <span>{{ value.columns[index].title }}</span><br>
+                                    <span>{{ value.columns[index].title }}:</span>
                                   }
-                                  {{ value.columns[index].value }}
+                                  {{ (value.columns[index].value|isArray) ? value.columns[index].value.join(', ') :value.columns[index].value }}
                                 </td>
                               }
                             }
                           } @else if (!value.columns) {
-                            <td colspan="3">{{ value.value }}</td>
+                            <td colspan="3">{{ (value.value|isArray) ? value.value.join(', ') :value.value }}</td>
                           }
                         </tr>
                       </table>

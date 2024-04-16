@@ -1,4 +1,4 @@
-@if (formService.selectedControl$ | async;as control) {
+@if (formService.selectedControl$ | async; as control) {
   @if (control.options !== undefined) {
     <mat-card class="options-card">
       <mat-card-header>
@@ -74,7 +74,7 @@
                 <mat-form-field appearance="outline">
                   <mat-label>Type</mat-label>
                   <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
-                    @for (type of inputTypes;track type) {
+                    @for (type of inputTypes; track type) {
                       <mat-option [value]="type.value">
                         {{ type.name }}
                       </mat-option>
@@ -82,8 +82,22 @@
                   </mat-select>
                 </mat-form-field>
               }
+              @if (control.options.type !== undefined && control.type === 'Calculation') {
+                <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select [(ngModel)]="control.options!.type" [ngModelOptions]="{standalone:true}">
+                    <mat-option [value]="'text'">
+                      Tekst
+                    </mat-option>
+                    <mat-option [value]="'number'">
+                      Nummer
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              }
               @if (control.options!.calcDuration !== undefined) {
-                <mat-slide-toggle [(ngModel)]="control.options!.calcDuration" color="primary">Bereken tijd</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="control.options!.calcDuration" color="primary">Bereken tijd
+                </mat-slide-toggle>
                 @if (control.options!.calcDuration) {
                   <span class="help warn-50 warn-text">Gebruik "this.duration"</span>
                 }
@@ -92,10 +106,11 @@
                 <div class="label">Opties</div>
                 <div class="tab-content">
                   @if (control.options!.customChoice !== undefined) {
-                    <mat-slide-toggle [(ngModel)]="control.options!.customChoice" color="primary">Anders</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="control.options!.customChoice" color="primary">Anders
+                    </mat-slide-toggle>
                   }
                   <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.choices!, $event)">
-                    @for (option of control.options.choices!;track option) {
+                    @for (option of control.options.choices!; track option) {
                       <div class="option-box" cdkDrag>
                         <div class="option-box-placeholder" *cdkDragPlaceholder></div>
                         <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
@@ -114,14 +129,14 @@
                 <div class="label">Kolommen</div>
                 <div class="tab-content">
                   <div cdkDropList class="options-list" (cdkDropListDropped)="drop(control.options.columns!, $event)">
-                    @for (option of control.options.columns!;track option) {
+                    @for (option of control.options.columns!; track option) {
                       <div class="option-box" cdkDrag>
                         <div class="option-box-placeholder" *cdkDragPlaceholder></div>
                         <mat-icon class="move-icon" cdkDragHandle>drag_indicator</mat-icon>
                         <input [(ngModel)]="option.key" [ngModelOptions]="{standalone:true}">
                         <select [(ngModel)]="option.type" [ngModelOptions]="{standalone:true}">
                           @for (option of inputTypes; track option) {
-                            <option [value]="option.value">{{option.name}}</option>
+                            <option [value]="option.value">{{ option.name }}</option>
                           }
                         </select>
                         <mat-icon class="close-icon" (click)="removeFromList(control.options.columns!, $index)">close
@@ -141,7 +156,7 @@
                       <mat-label>Standaard waarde</mat-label>
                       <mat-select [multiple]="true" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
                                   (ngModelChange)="updateValue($event)">
-                        @for (option of control.options.choices!;track option) {
+                        @for (option of control.options.choices!; track option) {
                           <mat-option [value]="option.value">{{ option.value }}</mat-option>
                         }
                       </mat-select>
@@ -151,7 +166,7 @@
                       <mat-label>Standaard waarde</mat-label>
                       <mat-select [multiple]="false" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
                                   (ngModelChange)="updateValue($event)">
-                        @for (option of control.options.choices!;track option) {
+                        @for (option of control.options.choices!; track option) {
                           <mat-option [value]="option.value">{{ option.value }}</mat-option>
                         }
                       </mat-select>
@@ -165,7 +180,13 @@
                     [(ngModel)]="control.value"
                     (ngModelChange)="updateValue($event)"
                   ></ngx-editor>
-                } @else {
+                } @else if (control.type === 'Calculation'){
+                  <mat-form-field>
+                    <mat-label>Berekening</mat-label>
+                    <textarea matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
+                              (ngModelChange)="updateValue($event)" [type]="'text'"></textarea>
+                  </mat-form-field>
+                }@else {
                   <mat-form-field>
                     <mat-label>Standaard waarded</mat-label>
                     <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
@@ -188,7 +209,8 @@
                 <div class="label">Regels</div>
                 <div class="tab-content">
                   @if (control.options.validators.required !== undefined && control.options.dependent?.length === 0) {
-                    <mat-slide-toggle [(ngModel)]="control.options.validators.required" color="primary">Verplicht</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="control.options.validators.required" color="primary">Verplicht
+                    </mat-slide-toggle>
                   }
                   @if (control.options.type === 'number') {
 
@@ -235,7 +257,7 @@
                   }
                 </div>
               }
-              @if (control.options.inApp !== undefined){
+              @if (control.options.inApp !== undefined) {
                 <div class="label">In app</div>
                 <div class="tab-content">
                   <mat-slide-toggle [(ngModel)]="control.options.inApp" color="primary">
@@ -244,21 +266,23 @@
                 </div>
               }
               @if (control.options.toDeal !== undefined) {
-              <div class="label">Hubspot koppeling</div>
-              <div class="tab-content">
+                <div class="label">Hubspot koppeling</div>
+                <div class="tab-content">
                   <mat-form-field appearance="outline">
                     <mat-label>Veld id</mat-label>
                     <input matInput [(ngModel)]="control.options!.toDeal" [ngModelOptions]="{standalone:true}">
                   </mat-form-field>
-              </div>
+                </div>
               }
               @if (control.options.dependent !== undefined && (control.options.visibility?.showInForm === undefined || control.options.visibility?.showInForm)) {
                 <div class="label mb">
                   <span>Afhankelijkheden</span>
-                  <mat-icon class="primary-text" matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">info_outlined</mat-icon>
+                  <mat-icon class="primary-text" matTooltip="Tonen wanneer {veld} heeft een van de volgende waardes">
+                    info_outlined
+                  </mat-icon>
                 </div>
-                @for (dependent of control.options.dependent;track dependent) {
-                  @if (formService.findControlById(dependent.field);as depControl) {
+                @for (dependent of control.options.dependent; track dependent) {
+                  @if (formService.findControlById(dependent.field); as depControl) {
                     @if ($index !== 0) {
                       <div class="dependent-separator">of</div>
                     }
@@ -267,7 +291,7 @@
                         <mat-label>{{ depControl.options!.label }}</mat-label>
                         <mat-select [multiple]="true" [(ngModel)]="dependent.values"
                                     [ngModelOptions]="{standalone:true}">
-                          @for (choice of depControl.options!.choices!;track choice) {
+                          @for (choice of depControl.options!.choices!; track choice) {
                             <mat-option [value]="choice.value">{{ choice.value }}</mat-option>
                           }
                         </mat-select>

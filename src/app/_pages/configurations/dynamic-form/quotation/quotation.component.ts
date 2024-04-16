@@ -45,8 +45,14 @@ export class QuotationComponent implements OnInit, OnDestroy {
       this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
       this.valueChangeSubscription = formGroup.valueChanges.subscribe(group => {
         setTimeout(()=>{
-          this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
-          this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
+          const newQuoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
+          const newSkus = newQuoteItems.map(i => i.sku);
+          if (JSON.stringify(this.quoteItems.map(i => i.sku)) !== JSON.stringify(newSkus)){
+            this.quoteItems = newQuoteItems;
+            this.apiQuoteService.searchProducts(newSkus).subscribe(r => this.fetchedProducts = r.results)
+          } else {
+            this.quoteItems = newQuoteItems;
+          }
         })
       })
     })
