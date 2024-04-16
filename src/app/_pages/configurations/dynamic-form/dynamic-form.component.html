@@ -3,7 +3,7 @@
 
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
-        <app-quotation>
+        <app-quotation [btw]="config ? config.customer.btw : 21">
           <ng-container validate>
             <mat-error>
             @for (error of getFormValidationErrors(); track error) {

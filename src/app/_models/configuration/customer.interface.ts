@@ -3,6 +3,7 @@ export interface ICustomer
   id: string;
   dealId?: string;
   name: string;
+  btw: number;
   signature: string;
 }
 export interface IRecentCustomer

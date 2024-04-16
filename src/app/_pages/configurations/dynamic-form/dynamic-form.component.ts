@@ -24,7 +24,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "./quotation/quotation.component";
 import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component";
-import {IConfigChanges, IFieldChange} from "../../../_models/configuration/configuration-change.interface";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import Swal from "sweetalert2";

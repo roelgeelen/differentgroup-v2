@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -12,6 +12,7 @@ import {DecimalPipe} from "@angular/common";
 import {QuoteService} from "./quote.service";
 import {Subscription} from "rxjs";
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-quotation',
@@ -27,6 +28,7 @@ import {FormService} from "../../../../_components/dynamic-form-builder/services
   styleUrl: './quotation.component.scss'
 })
 export class QuotationComponent implements OnInit, OnDestroy {
+  @Input() btw!: number;
   quoteItems: IQuoteLine[] = [];
   fetchedProducts: IQuoteLineProduct[] = [];
   private quoteItemsSubscription: Subscription | undefined;
