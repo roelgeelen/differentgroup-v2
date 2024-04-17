@@ -34,8 +34,10 @@
                   <mat-card-title-group>
                     <mat-card-title>{{ config.title }}</mat-card-title>
                     <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
-                      @if(config.published){
-                      <span class="published">Gepubliceerd</span>
+                      @if(config.amount){
+                      <span class="label amount">€ {{ config.amount | number : '1.2-2' }}</span>
+                      }@if(config.published){
+                      <span class="label published">Gepubliceerd</span>
                       }
                     </mat-card-subtitle>
                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">

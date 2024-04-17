@@ -35,12 +35,18 @@
       mat-card-header {
         padding: 10px !important;
 
-        .published {
-          margin: 0 10px;
+        .label {
+          margin: 0 0 0 10px;
           padding: 3px 6px;
-          border: #189383 solid 1px;
           border-radius: 5px;
-          color: #189383;
+          &.published {
+            border: #189383 solid 1px;
+            color: #189383;
+          }
+          &.amount {
+            border: var(--primary) solid 1px;
+            color: var(--primary);
+          }
         }
 
         &.clickable {

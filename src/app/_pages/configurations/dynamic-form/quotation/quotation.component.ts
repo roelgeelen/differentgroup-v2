@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -29,6 +29,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class QuotationComponent implements OnInit, OnDestroy {
   @Input() btw!: number;
+  @Output() totalPrice = new EventEmitter();
   quoteItems: IQuoteLine[] = [];
   fetchedProducts: IQuoteLineProduct[] = [];
   private quoteItemsSubscription: Subscription | undefined;
@@ -37,27 +38,35 @@ export class QuotationComponent implements OnInit, OnDestroy {
   constructor(
     private apiQuoteService: ApiQuoteService,
     private quoteService: QuoteService,
-    private formService:FormService
+    private formService: FormService
   ) {
   }
 
   ngOnInit(): void {
     this.quoteItemsSubscription = this.formService.formGroup$.subscribe(formGroup => {
-      this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), formGroup.getRawValue())
+      this.getQuote(formGroup.getRawValue())
+      // this.quoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), formGroup.getRawValue())
+      // this.totalPrice.emit(this.calculateTotalPrice(this.quoteItems));
       this.apiQuoteService.searchProducts(this.quoteItems.map(i => i.sku)).subscribe(r => this.fetchedProducts = r.results)
       this.valueChangeSubscription = formGroup.valueChanges.subscribe(group => {
-        setTimeout(()=>{
-          const newQuoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
-          const newSkus = newQuoteItems.map(i => i.sku);
-          if (JSON.stringify(this.quoteItems.map(i => i.sku)) !== JSON.stringify(newSkus)){
-            this.quoteItems = newQuoteItems;
-            this.apiQuoteService.searchProducts(newSkus).subscribe(r => this.fetchedProducts = r.results)
-          } else {
-            this.quoteItems = newQuoteItems;
-          }
-        })
+        this.getQuote(group);
       })
     })
+  }
+
+  getQuote(group: any) {
+    const newQuoteItems = this.quoteService.getQuoteItems(this.formService.form$.getValue(), group)
+    const newSkus = newQuoteItems.map(i => i.sku);
+    if (JSON.stringify(this.quoteItems.map(i => i.sku)) !== JSON.stringify(newSkus)) {
+      this.quoteItems = newQuoteItems;
+      this.apiQuoteService.searchProducts(newSkus).subscribe(r => {
+        this.fetchedProducts = r.results
+        this.totalPrice.emit(this.calculateTotalPrice(newQuoteItems));
+      })
+    } else {
+      this.quoteItems = newQuoteItems;
+      this.totalPrice.emit(this.calculateTotalPrice(newQuoteItems));
+    }
   }
 
 
@@ -74,10 +83,10 @@ export class QuotationComponent implements OnInit, OnDestroy {
     return this.fetchedProducts.find(product => product.properties.hs_sku === productSku);
   }
 
-  calculateTotalPrice(): number {
+  calculateTotalPrice(items: IQuoteLine[]): number {
     let totalPrice = 0;
 
-    for (const quoteItem of this.quoteItems) {
+    for (const quoteItem of items) {
       const prod = this.getFetchedProduct(quoteItem.sku);
       if (prod) {
         totalPrice += (quoteItem.amount! * parseFloat(prod.properties?.price ?? '0'));

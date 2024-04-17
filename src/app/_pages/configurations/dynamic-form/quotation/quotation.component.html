@@ -19,7 +19,7 @@
           <span class="txt">Totaal</span>
         </div>
         <div class="item-text price">
-          <span class="txt">€ {{ calculateTotalPrice() | number : '1.2-2' }}</span>
+          <span class="txt">€ {{ calculateTotalPrice(quoteItems) | number : '1.2-2' }}</span>
         </div>
       </div>
       <div class="total-item btw">
@@ -28,7 +28,7 @@
           <span class="txt">btw {{btw}}%</span>
         </div>
         <div class="item-text price">
-          <span class="txt">€ {{ (calculateTotalPrice() * (btw/100)) | number : '1.2-2' }}</span>
+          <span class="txt">€ {{ (calculateTotalPrice(quoteItems) * (btw/100)) | number : '1.2-2' }}</span>
         </div>
       </div>
       <div class=" total-item total">
@@ -36,7 +36,7 @@
           <span class="txt">Totaal inclusief btw</span>
         </div>
         <div class="item-text price">
-          <span class="txt">€ {{ (calculateTotalPrice() * ((btw/100)+1)) | number : '1.2-2' }}</span>
+          <span class="txt">€ {{ (calculateTotalPrice(quoteItems) * ((btw/100)+1)) | number : '1.2-2' }}</span>
         </div>
       </div>
     </div>

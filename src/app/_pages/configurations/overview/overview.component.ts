@@ -10,7 +10,7 @@ import {ApiCustomerService} from "../../../_services/api-customer.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ICustomer} from "../../../_models/configuration/customer.interface";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {DatePipe} from "@angular/common";
+import {DatePipe, DecimalPipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
@@ -41,7 +41,8 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
     DatePipe,
     RouterLink,
     MatMenuModule,
-    FormPageComponent
+    FormPageComponent,
+    DecimalPipe
   ],
   styleUrl: './overview.component.scss'
 })

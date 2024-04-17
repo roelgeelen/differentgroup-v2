@@ -3,7 +3,7 @@
 
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
-        <app-quotation [btw]="config ? config.customer.btw : 21">
+        <app-quotation [btw]="config ? config.customer.btw : 21" (totalPrice)="setTotalPrice($event)">
           <ng-container validate>
             <mat-error>
             @for (error of getFormValidationErrors(); track error) {

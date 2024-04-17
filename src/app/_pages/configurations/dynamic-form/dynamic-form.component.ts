@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormService} from "../../../_components/dynamic-form-builder/services/form.service";
 import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
@@ -21,7 +21,7 @@ import {MatInputModule} from "@angular/material/input";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
 import {UtilityService} from "../../../_components/dynamic-form-builder/services/utility.service";
 import {MatDialog} from "@angular/material/dialog";
-import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatDrawer, MatSidenavModule} from "@angular/material/sidenav";
 import {QuotationComponent} from "./quotation/quotation.component";
 import {PreviewDialogComponent} from "./preview-dialog/preview-dialog.component";
 import {ApiConfigurationService} from "../../../_services/api-configuration.service";
@@ -60,6 +60,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
   styleUrl: './dynamic-form.component.scss'
 })
 export class DynamicFormComponent implements OnInit, OnDestroy {
+  @ViewChild('drawer') public drawer?: MatDrawer;
   customerId: string = '';
   config: IConfiguration | null = null;
   tabIndex = 0;
@@ -69,6 +70,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   dealFieldsToUpdate: { [key: string]: any } = {};
   private formServiceSubscription: Subscription | undefined;
   isSaved = true;
+  totalPrice = 0;
 
   constructor(
     private authService: AuthenticationService,
@@ -93,6 +95,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         this.apiCustomerService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
           this.setForm(c);
+          this.drawer?.open();
         });
       }
     });
@@ -109,6 +112,10 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     if (this.formServiceSubscription) {
       this.formServiceSubscription.unsubscribe();
     }
+  }
+
+  setTotalPrice(price: number){
+    this.totalPrice = price;
   }
 
   canDeactivate(): CanDeactivateType {
@@ -137,7 +144,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         page.controls.forEach(control => {
           if (form[control.id] !== null || form[control.id] !== undefined) {
             if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
-              this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
+              this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
             }
           }
           if (control.type === 'Columns' && Array.isArray(control.columns)) {
@@ -145,7 +152,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
               col.container.controls.forEach((c) => {
                 if (form[control.id] !== null || form[control.id] !== undefined) {
                   if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
-                    this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
+                    this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
                   }
                 }
               })
@@ -157,7 +164,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
           if ('columns' in control) {
             control.columns!.forEach(col => col.container.controls.forEach(c => this.formService.formGroup$.value.get(c.id)?.reset()));
           } else {
-            this.formService.formGroup$.value.get(control.id)?.reset({}, { emitEvent: false });
+            this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
           }
         });
       }
@@ -246,7 +253,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (!result.isDismissed) {
         this.loading = true;
-        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed, this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue())).subscribe({
+        this.apiConfigurationService.createInvoice(this.config?.id!, !result.isConfirmed, this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue())).subscribe({
           error: () => {
             Swal.fire({
               title: 'Error',
@@ -258,6 +265,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
             this.loading = false;
           },
           complete: () => {
+            this.apiCustomerService.updateConfigAmount(this.customerId, this.config?.id!, this.totalPrice).subscribe()
             Swal.fire({
               title: 'Gelukt!',
               html: ``,

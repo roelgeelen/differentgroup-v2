@@ -16,6 +16,7 @@ export interface IConfiguration {
   updatedBy?: string;
   updatedAt?: string;
   published: boolean;
+  amount?: number;
 }
 
 export interface IConfigurationItem {

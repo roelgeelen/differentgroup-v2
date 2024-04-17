@@ -50,6 +50,10 @@ export class ApiCustomerService {
     return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}`, config);
   }
 
+  updateConfigAmount(id: string, configId: string, amount: number) {
+    return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/amount`, amount);
+  }
+
   moveConfiguration(id: string, configId: string, customerId: string) {
     return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/move`, customerId);
   }
