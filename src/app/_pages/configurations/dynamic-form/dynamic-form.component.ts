@@ -306,6 +306,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   generateConfigurationValue(form: IForm, values: any): IConfigurationItem[] {
+    console.log(values)
     return form.pages.map((item) => {
       const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
 
@@ -323,16 +324,14 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
               column.container.controls.forEach((colControl) => {
                 const colDep = this.utilityService.isShow(colControl.options?.dependent ?? []);
                 const colControlOptions = colControl.options || {};
-
                 if (colDep) {
                   const colValue: IConfigurationItemValue = {
                     id: colControl.id,
                     type: colControl.type,
                     title: colControlOptions.title || colControlOptions.label || '',
                     subtitle: colControlOptions.subtitle || '',
-                    value: values[colControl.id] || colControl.type!=='Calculation'?control.value:'' || ''
+                    value: values[colControl.id] || (colControl.type!=='Calculation'?control.value:'') || ''
                   };
-
                   if (this.shouldAddConfigurationItem(colValue)) {
                     shouldAddValue = true;
                     columnValues.push(colValue);
