@@ -10,7 +10,7 @@ import {ApiCustomerService} from "../../../_services/api-customer.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ICustomer} from "../../../_models/configuration/customer.interface";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {DatePipe, DecimalPipe} from "@angular/common";
+import {DatePipe, DecimalPipe, KeyValuePipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
@@ -42,14 +42,15 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
     RouterLink,
     MatMenuModule,
     FormPageComponent,
-    DecimalPipe
+    DecimalPipe,
+    KeyValuePipe
   ],
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent {
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
-  templates: IForm[] = [];
+  templates: { [kind: string]: IForm[] } = {};
   currentUser: User | undefined;
   configurations: IConfiguration[] | null = null
   paramId: string = '';
@@ -74,7 +75,13 @@ export class OverviewComponent {
   }
 
   findFormTemplates() {
-    this.apiFormService.getForms().subscribe(f => this.templates = f);
+    this.apiFormService.getForms().subscribe(f =>{
+      this.templates = f.reduce(
+        (result: any, currentValue: any) => {
+          (result[currentValue['kind']] = result[currentValue['kind']] || []).push(currentValue);
+          return result;
+        }, {});
+    });
   }
 
   getConfigurations() {

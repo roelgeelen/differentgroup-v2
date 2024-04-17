@@ -42,7 +42,7 @@ body {
   }
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
@@ -104,5 +104,25 @@ mat-spinner {
     height: 40px;
     z-index: 10;
     animation: loading 2s infinite ease-in-out;
+  }
+}
+
+.snackbar-success {
+  .mdc-snackbar__surface {
+    background-color: #189383 !important;
+  }
+
+  .mdc-snackbar__label {
+    color: white !important;
+  }
+}
+
+.snackbar-error {
+  .mdc-snackbar__surface {
+    background-color: var(--warn) !important;
+  }
+
+  .mdc-snackbar__label {
+    color: white !important;
   }
 }

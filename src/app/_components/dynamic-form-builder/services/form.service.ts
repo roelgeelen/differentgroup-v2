@@ -51,7 +51,7 @@ export class FormService {
 
   public setForm(form: IForm | null, values?: any) {
     this.selectedControl$.next(null);
-    this.form$.next(form!==null ? form : {
+    this.form$.next(form !== null ? form : {
       title: '',
       pages: [],
       options: {}
@@ -89,7 +89,7 @@ export class FormService {
     return null;
   }
 
-  getAvailableFields(condition:((option: IFormControl) => boolean)) {
+  getAvailableFields(condition: ((option: IFormControl) => boolean)) {
     const fields: IFormControl[] = [];
     const formControls = this.form$.value.pages.flatMap(page => page.controls);
 
@@ -170,7 +170,7 @@ export class FormService {
         validators.push(Validators.max(max));
       }
     }
-    const value = values?.[control.id] ?? control.value ?? '';
+    const value = values?.[control.id] || (control.type !== 'Calculation' ? control.value : '') || '';
 
     if (control.options?.toDeal) {
       this._hubspotFields[control.id] = control.options.toDeal;

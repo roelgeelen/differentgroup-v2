@@ -1,8 +1,9 @@
-import {Component, EventEmitter, forwardRef, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ControlValueAccessor, FormGroup, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {IFormControl} from "../form-control.interface";
 import {FormService} from "../../services/form.service";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'calculation-form-control',
@@ -24,11 +25,12 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   ],
   standalone: true
 })
-export class CalculationFormControlComponent implements ControlValueAccessor, OnInit {
+export class CalculationFormControlComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() control!: IFormControl;
   @Input() form!: FormGroup;
   @Output() change = new EventEmitter();
 
+  valueChangeSubscription: Subscription|null=null;
   choiceControls: IFormControl[] = [];
   duration: number = 0;
   value: string = '';
@@ -41,9 +43,15 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
   constructor(private formService: FormService) {
   }
 
+  ngOnDestroy() {
+    if(this.valueChangeSubscription){
+      this.valueChangeSubscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
     this.initValue();
-    this.form.valueChanges.subscribe((value) => {
+    this.valueChangeSubscription = this.form.valueChanges.subscribe((value) => {
       if (this.control?.options?.calcDuration) {
         this.setDuration(value);
       }
@@ -56,8 +64,10 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
       this.setChoiceControls();
       this.setDuration(this.form.getRawValue());
     }
-    this.onValueChange();
-    this.form.get(this.control.id)?.patchValue(this.value);
+    setTimeout(()=>{
+      this.onValueChange();
+    })
+
   }
 
   writeValue(value: any): void {
@@ -133,9 +143,7 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
         this.onTouched();
         this.change.emit();
       }
-    } catch (e) {
-
-    }
+    } catch (_) {}
   }
 
   calculate(calc?: string): any {

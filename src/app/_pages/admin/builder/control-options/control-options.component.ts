@@ -92,7 +92,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   progress: number = 0;
   currentUser: User | undefined;
   formServiceSubscription: Subscription | undefined;
-  dependentSubscription: Subscription | undefined;
+  valueChangeSubscription: Subscription | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -112,7 +112,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
         this.dependentOptions = this.getAvailableDependentFields;
       }
     })
-    this.dependentSubscription = this.dependentControl.valueChanges.subscribe(value => {
+    this.valueChangeSubscription = this.dependentControl.valueChanges.subscribe(value => {
       this.dependentOptions = this.getAvailableDependentFields;
     })
   }
@@ -121,8 +121,8 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     if (this.formServiceSubscription) {
       this.formServiceSubscription.unsubscribe();
     }
-    if (this.dependentSubscription) {
-      this.dependentSubscription.unsubscribe();
+    if (this.valueChangeSubscription) {
+      this.valueChangeSubscription.unsubscribe();
     }
   }
 

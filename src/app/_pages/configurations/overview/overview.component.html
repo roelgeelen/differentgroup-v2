@@ -8,10 +8,14 @@
             <mat-form-field appearance="fill" class="w75">
               <mat-label>Formulier</mat-label>
               <mat-select [(ngModel)]="newForm">
-                @for (temp of templates; track temp) {
-                  <mat-option [value]="temp">
-                    {{ temp.title }}
-                  </mat-option>
+                @for (group of templates|keyvalue; track group) {
+                  <mat-optgroup [label]="group.key">
+                    @for (temp of group.value; track temp){
+                      <mat-option [value]="temp">
+                        {{ temp.title }}
+                      </mat-option>
+                    }
+                  </mat-optgroup>
                 }
               </mat-select>
             </mat-form-field>

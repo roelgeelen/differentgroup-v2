@@ -33,6 +33,7 @@ import {IFormPage} from "../../../_components/dynamic-form-builder/models/form-c
 import {IColumn} from "../../../_components/dynamic-form-builder/form-controls/columns/column.interface";
 import {CanDeactivateType} from "../../../_helpers/guards/can-deactivate.guard";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-dynamic-form',
@@ -81,6 +82,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     private utilityService: UtilityService,
     private apiConfigurationService: ApiConfigurationService,
     private quoteService: QuoteService,
+    private _snackBar: MatSnackBar
   ) {
     this.formService.setForm(null);
     this.authService.currentUser.subscribe(user => {
@@ -287,8 +289,14 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
       this.setForm(this.config).then();
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
-        error: () => this.saving = false,
-        complete: () => this.saving = false
+        error: () => {
+          this.saving = false
+          this._snackBar.open('Kon configuratie niet opslaan.', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-error']});
+        },
+        complete: () => {
+          this.saving = false;
+          this._snackBar.open('Configuratie opgeslagen!', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-success']});
+        }
       });
 
       if (Object.keys(this.dealFieldsToUpdate).length !== 0) {
@@ -322,7 +330,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
                     type: colControl.type,
                     title: colControlOptions.title || colControlOptions.label || '',
                     subtitle: colControlOptions.subtitle || '',
-                    value: values[colControl.id] || colControl.value || ''
+                    value: values[colControl.id] || colControl.type!=='Calculation'?control.value:'' || ''
                   };
 
                   if (this.shouldAddConfigurationItem(colValue)) {
@@ -348,7 +356,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
               type: control.type,
               title: controlOptions.title || controlOptions.label || '',
               subtitle: controlOptions.subtitle || controlOptions.note || '',
-              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || control.value || '',
+              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || (control.type!=='Calculation'?control.value:'') || '',
               fields: control.options?.columns
             };
             if (this.shouldAddConfigurationItem(value)) {

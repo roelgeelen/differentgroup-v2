@@ -166,6 +166,7 @@
                       <mat-label>Standaard waarde</mat-label>
                       <mat-select [multiple]="false" [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
                                   (ngModelChange)="updateValue($event)">
+                        <mat-option value=""></mat-option>
                         @for (option of control.options.choices!; track option) {
                           <mat-option [value]="option.value">{{ option.value }}</mat-option>
                         }

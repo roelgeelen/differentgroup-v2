@@ -31,6 +31,7 @@ import {Observable, Subscription} from "rxjs";
 import {CanDeactivateType} from "../../../_helpers/guards/can-deactivate.guard";
 import {IForm} from "../../../_components/dynamic-form-builder/models/form.interface";
 import Swal from "sweetalert2";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-form',
@@ -76,7 +77,8 @@ export class BuilderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private apiFormService: ApiFormService,
     private location: Location,
-    private utilityService: UtilityService
+    private utilityService: UtilityService,
+    private _snackBar: MatSnackBar
   ) {
     this.formService.setForm(null);
     this.authService.currentUser.subscribe(user => {
@@ -91,6 +93,7 @@ export class BuilderComponent implements OnInit, OnDestroy {
         this.apiFormService.getForm(queryParams.get('formId')!).subscribe(f => {
           this.lastSavedForm = JSON.parse(JSON.stringify(f));
           this.formService.setForm(f, {})
+          this.formService.formGroup$.getValue().patchValue({});
         });
       } else {
         this.lastSavedForm = {
@@ -164,11 +167,17 @@ export class BuilderComponent implements OnInit, OnDestroy {
     this.formService.setLoadingStatus(true);
     const form = this.formService.form$.getValue();
     form.updatedBy = this.currentUser?.name;
-    this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe(f => {
-      this.lastSavedForm = JSON.parse(JSON.stringify(f));
-      this.formService.setForm(f);
-      this.formService.setLoadingStatus(false);
-      this.location.replaceState(`/admin/forms/${f.id}/builder`);
+    this.apiFormService.saveForm(this.formService.form$.getValue()).subscribe( {
+      next: (f) => {
+        this.lastSavedForm = JSON.parse(JSON.stringify(f));
+        this.formService.setForm(f);
+        this.formService.setLoadingStatus(false);
+        this.location.replaceState(`/admin/forms/${f.id}/builder`);
+        this._snackBar.open('Formulier opgeslagen', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-success']});
+      },
+      error: () => {
+        this._snackBar.open('Kon formulier niet opslaan', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-error']});
+      }
     });
   }
 
