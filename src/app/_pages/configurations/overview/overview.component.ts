@@ -196,7 +196,7 @@ export class OverviewComponent {
     Swal.fire({
       title: 'Formulier verplaatsen',
       input: 'number',
-      inputPlaceholder:'Deal ID',
+      inputPlaceholder:'Hubspot ID',
       inputValue: config.title + ' copy',
       showCancelButton: true,
       confirmButtonText: 'Verplaatsen',

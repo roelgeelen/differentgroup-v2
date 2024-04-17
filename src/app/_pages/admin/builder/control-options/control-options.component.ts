@@ -42,6 +42,8 @@ import {v4 as uuidV4} from "uuid";
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {Subscription} from "rxjs";
+import {ApiDealService} from "../../../../_services/api-deal.service";
+import {ISchemaProperty} from "../../../../_models/hubspot/schema.interface";
 
 @Component({
   selector: 'app-control-options',
@@ -88,7 +90,9 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   ];
   inputTypes: { value: string, name: string }[] = inputTypes;
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
+  hubspotControl = new FormControl<IFormControl | null>(null);
   dependentOptions: IFormControl[] = [];
+  hubspotFieldOptions:ISchemaProperty[] = [];
   progress: number = 0;
   currentUser: User | undefined;
   formServiceSubscription: Subscription | undefined;
@@ -98,6 +102,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService,
     public formService: FormService,
     private apiFormService: ApiFormService,
+    private apiDealService: ApiDealService,
     public dialog: MatDialog
   ) {
     this.editor = new Editor();
@@ -114,6 +119,9 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     })
     this.valueChangeSubscription = this.dependentControl.valueChanges.subscribe(value => {
       this.dependentOptions = this.getAvailableDependentFields;
+    })
+    this.apiDealService.getDealSchema().subscribe(schema => {
+      this.hubspotFieldOptions = schema.properties;
     })
   }
 
@@ -209,6 +217,14 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
 
   dependentSearchFunction(option: any): string {
     return option?.options?.label ?? '';
+  }
+
+  hubspotSearchFunction(option: any): string {
+    return option?.label ?? '';
+  }
+
+  hubspotValueFunction(option: any): any {
+    return option.name;
   }
 
   updateValue($event: Event) {
