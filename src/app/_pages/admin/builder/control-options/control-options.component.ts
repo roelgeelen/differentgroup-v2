@@ -44,6 +44,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {Subscription} from "rxjs";
 import {ApiDealService} from "../../../../_services/api-deal.service";
 import {ISchemaProperty} from "../../../../_models/hubspot/schema.interface";
+import {FormControlsService} from "../../../../_components/dynamic-form-builder/form-controls/form-controls.service";
+import {DragDropService} from "../../../../_components/dynamic-form-builder/services/drag-drop.service";
 
 @Component({
   selector: 'app-control-options',
@@ -90,7 +92,6 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   ];
   inputTypes: { value: string, name: string }[] = inputTypes;
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
-  hubspotControl = new FormControl<IFormControl | null>(null);
   dependentOptions: IFormControl[] = [];
   hubspotFieldOptions:ISchemaProperty[] = [];
   progress: number = 0;
@@ -103,7 +104,9 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     public formService: FormService,
     private apiFormService: ApiFormService,
     private apiDealService: ApiDealService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private formControlsService: FormControlsService,
+    private dragDropService:DragDropService
   ) {
     this.editor = new Editor();
     this.authService.currentUser.subscribe(user => {
@@ -132,6 +135,19 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     if (this.valueChangeSubscription) {
       this.valueChangeSubscription.unsubscribe();
     }
+  }
+
+  public changeControl(item: IFormControl, newType: any) {
+    let newControl = new this.formControlsService.controlTypes[newType.value](item.options);
+    newControl.id = item.id;
+    newType.value ==='CheckBox' ? newControl.value = [item.value] : item.value instanceof Array ? newControl.value = item.value[0] : newControl.value = item.value;
+    this.formService.form$.value.pages.forEach(p => {
+      const itemIndex = p.controls.findIndex(c => c.id === item.id);
+      if (itemIndex !== -1) {
+        p.controls.splice(itemIndex, 1, newControl)
+      }
+    });
+    this.dragDropService.controlDropped.next(newControl);
   }
 
   close() {
@@ -228,6 +244,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   }
 
   updateValue($event: Event) {
+    console.log(this.formService.formGroup$.getValue()!.controls[this.control.id])
     this.formControl.setValue($event);
   }
 

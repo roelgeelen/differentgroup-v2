@@ -12,6 +12,22 @@
         <mat-tab-group>
           <mat-tab label="Opties">
             <div class="tab-content">
+              @if (control.type === 'RadioBtn' || control.type === 'CheckBox' || control.type === 'Dropdown') {
+                <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select [value]="control.type" (selectionChange)="changeControl(control, $event)">
+                    <mat-option [value]="'RadioBtn'">
+                      Enkele keuze
+                    </mat-option>
+                    <mat-option [value]="'CheckBox'">
+                      Meerkeuze
+                    </mat-option>
+                    <mat-option [value]="'Dropdown'">
+                      Dropdown
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              }
               @if (control.options.label !== undefined) {
                 <mat-form-field appearance="outline">
                   <mat-label>Label</mat-label>
@@ -181,13 +197,13 @@
                     [(ngModel)]="control.value"
                     (ngModelChange)="updateValue($event)"
                   ></ngx-editor>
-                } @else if (control.type === 'Calculation'){
+                } @else if (control.type === 'Calculation') {
                   <mat-form-field>
                     <mat-label>Berekening</mat-label>
                     <textarea matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
                               (ngModelChange)="updateValue($event)" [type]="'text'"></textarea>
                   </mat-form-field>
-                }@else {
+                } @else {
                   <mat-form-field>
                     <mat-label>Standaard waarded</mat-label>
                     <input matInput [(ngModel)]="control.value" [ngModelOptions]="{standalone:true}"
@@ -273,11 +289,11 @@
                                           [searchFunction]="hubspotSearchFunction"
                                           [valueFunction]="hubspotValueFunction"
                                           [(ngModel)]="control.options!.toDeal"
-                                          ></app-autocomplete-field>
-<!--                  <mat-form-field appearance="outline">-->
-<!--                    <mat-label>Veld id</mat-label>-->
-<!--                    <input matInput [(ngModel)]="control.options!.toDeal" [ngModelOptions]="{standalone:true}">-->
-<!--                  </mat-form-field>-->
+                  ></app-autocomplete-field>
+                  <!--                  <mat-form-field appearance="outline">-->
+                  <!--                    <mat-label>Veld id</mat-label>-->
+                  <!--                    <input matInput [(ngModel)]="control.options!.toDeal" [ngModelOptions]="{standalone:true}">-->
+                  <!--                  </mat-form-field>-->
                 </div>
               }
               @if (control.options.dependent !== undefined && (control.options.visibility?.showInForm === undefined || control.options.visibility?.showInForm)) {
