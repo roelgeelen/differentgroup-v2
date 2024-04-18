@@ -28,6 +28,24 @@
                   </mat-select>
                 </mat-form-field>
               }
+              @if (control.type === 'TextBox' || control.type === 'TextArea' || control.type == 'Slider') {
+                <mat-form-field appearance="outline">
+                  <mat-label>Type</mat-label>
+                  <mat-select [value]="control.type" (selectionChange)="changeControl(control, $event)">
+                    <mat-option [value]="'TextBox'">
+                      Tekst veld
+                    </mat-option>
+                    <mat-option [value]="'TextArea'">
+                      Textarea
+                    </mat-option>
+                    @if (control.options.type === 'number') {
+                      <mat-option [value]="'Slider'">
+                        Slider
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              }
               @if (control.options.label !== undefined) {
                 <mat-form-field appearance="outline">
                   <mat-label>Label</mat-label>
