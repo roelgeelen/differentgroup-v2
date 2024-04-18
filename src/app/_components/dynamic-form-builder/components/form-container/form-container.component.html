@@ -28,8 +28,10 @@
           @if (item.id !== selectedControl?.id) {
             <div cdkDragHandle></div>
           }
-          @if (item.options && item.options.label && item.options.label !== '') {
-            <mat-label class="label background-accent">
+          @if (item.options !== undefined) {
+            <div class="label-group">
+              @if (item.options.label && item.options.label !== '') {
+                <mat-label class="label background-accent">
               <span>
                 {{ item.options!.label }}
                 @if (item.options.note) {
@@ -39,28 +41,44 @@
                   *
                 }
               </span>
-              <div class="label-info">
-                @if (item.options.inApp){
-                  <mat-icon class="help-icon primary-text">
-                    phone_iphone
-                  </mat-icon>
-                }
-                @if (item.options.toDeal){
-                  <img class="hubspot-icon" [matTooltip]="item.options.toDeal!" matTooltipPosition="above" src="assets/images/icons/hubspot.png">
-                }
-                @if (item.options.help) {
-                  <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon primary-text">
-                    info_outlined
-                  </mat-icon>
-                }
-                @if (!showControl(item) && showInvisible) {
-                  <mat-icon>visibility_off</mat-icon>
-                } @else if (item.options.dependent!.length > 0) {
-                  <mat-icon>visibility_on</mat-icon>
-                }
-              </div>
-            </mat-label>
+                  <div class="label-info">
+                    @if (item.options.help) {
+                      <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above"
+                                class="help-icon primary-text">
+                        info_outlined
+                      </mat-icon>
+                    }
+                  </div>
+                </mat-label>
+
+              } @else {
+                <mat-label></mat-label>
+              }
+
+              <mat-label [class.background-accent]="item.options.label && item.options.label !== ''">
+                <div class="label-info" [class.overlay]="item.options.label == undefined || item.options.label === ''">
+                  @if (item.options.inApp) {
+                    <mat-icon class="help-icon primary-text">
+                      phone_iphone
+                    </mat-icon>
+                  }
+                  @if (item.options.toDeal) {
+                    <img class="hubspot-icon" [matTooltip]="item.options.toDeal!" matTooltipPosition="above"
+                         src="assets/images/icons/hubspot.png">
+                  }
+                  @if (item.options.dependent) {
+                    @if (!showControl(item) && showInvisible) {
+                      <mat-icon>visibility_off</mat-icon>
+                    } @else if (item.options.dependent!.length > 0) {
+                      <mat-icon>visibility_on</mat-icon>
+                    }
+                  }
+                </div>
+              </mat-label>
+
+            </div>
           }
+
           @if (item.options?.image) {
             @if (item.options?.image?.url) {
               <img [src]="item.options?.image?.url+'?name='+item.options?.image?.name" class="control-image"
@@ -127,13 +145,14 @@
       }
       @case ('InfoImage') {
         <app-info-image [control]="item" [selected]="item.id == selectedControl?.id"
-                      [isBuilder]="isBuilder"></app-info-image>
+                        [isBuilder]="isBuilder"></app-info-image>
       }
       @case ('Divider') {
         <app-divider [control]="item" [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-divider>
       }
       @case ('Calculation') {
-        <app-calculation [control]="item" [selected]="item.id == selectedControl?.id" [form]="formGroup" [isBuilder]="isBuilder"></app-calculation>
+        <app-calculation [control]="item" [selected]="item.id == selectedControl?.id" [form]="formGroup"
+                         [isBuilder]="isBuilder"></app-calculation>
       }
       @case ('TextBox') {
         <app-text-box class="margin-top" [control]="item" [form]="formGroup"
@@ -141,7 +160,7 @@
       }
       @case ('Slider') {
         <app-slider class="margin-top" [control]="item" [form]="formGroup"
-                      [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-slider>
+                    [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-slider>
       }
       @case ('TextArea') {
         <app-text-area [control]="item" [form]="formGroup"
@@ -169,7 +188,7 @@
       }
       @case ('Table') {
         <app-table class="margin-top" [control]="item" [form]="formGroup"
-                    [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-table>
+                   [selected]="item.id == selectedControl?.id" [isBuilder]="isBuilder"></app-table>
       }
       @case ('Columns') {
         <app-form-columns

@@ -307,12 +307,8 @@
                                           [searchFunction]="hubspotSearchFunction"
                                           [valueFunction]="hubspotValueFunction"
                                           [(ngModel)]="control.options!.toDeal"
-                                         (selectionChange)="test($event, control)"
+                                         (selectionChange)="hubspotSelected($event, control)"
                   ></app-autocomplete-field>
-                  <!--                  <mat-form-field appearance="outline">-->
-                  <!--                    <mat-label>Veld id</mat-label>-->
-                  <!--                    <input matInput [(ngModel)]="control.options!.toDeal" [ngModelOptions]="{standalone:true}">-->
-                  <!--                  </mat-form-field>-->
                 </div>
               }
               @if (control.options.dependent !== undefined && (control.options.visibility?.showInForm === undefined || control.options.visibility?.showInForm)) {

@@ -1,4 +1,10 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {Editor, NgxEditorModule, Toolbar} from "ngx-editor";
 import {
   CdkDrag,
@@ -294,7 +300,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  test($event: any, control: IFormControl) {
+  hubspotSelected($event: any, control: IFormControl) {
     if (control.options?.choices !== undefined) {
       const field = this.hubspotFieldOptions.find(f => f.name === $event)
       if (field !== undefined && field?.options.length > 0) {
