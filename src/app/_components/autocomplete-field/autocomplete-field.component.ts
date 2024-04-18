@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormControl, FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms';
 import {AsyncPipe} from '@angular/common';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {IFormControl} from "../dynamic-form-builder/form-controls/form-control.interface";
@@ -47,7 +47,7 @@ export class AutocompleteFieldComponent implements OnInit, OnDestroy {
   @Input() valueFunction: ((option: any) => any) | null = null;
   @Input() searchFunction: ((option: any) => string) | null = null;
   valueChangeSubscription: Subscription | null = null;
-  // @Output() selectedOption = new EventEmitter<any>();
+  @Output() selectionChange = new EventEmitter<string>();
   onChange: any = () => {
   };
   onTouched: any = () => {
@@ -58,7 +58,7 @@ export class AutocompleteFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.valueChangeSubscription){
+    if (this.valueChangeSubscription) {
       this.valueChangeSubscription.unsubscribe();
     }
   }
@@ -94,5 +94,9 @@ export class AutocompleteFieldComponent implements OnInit, OnDestroy {
 
   search(option: any) {
     return this.searchFunction ? this.searchFunction(this.options.find(i => (this.valueFunction ? this.valueFunction(i) : i) === option)) : option;
+  }
+
+  optionSelected($event: MatAutocompleteSelectedEvent) {
+    this.selectionChange.emit($event.option.value)
   }
 }

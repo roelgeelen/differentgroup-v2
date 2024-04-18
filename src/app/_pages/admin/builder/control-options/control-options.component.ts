@@ -46,6 +46,7 @@ import {ApiDealService} from "../../../../_services/api-deal.service";
 import {ISchemaProperty} from "../../../../_models/hubspot/schema.interface";
 import {FormControlsService} from "../../../../_components/dynamic-form-builder/form-controls/form-controls.service";
 import {DragDropService} from "../../../../_components/dynamic-form-builder/services/drag-drop.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-control-options',
@@ -93,7 +94,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   inputTypes: { value: string, name: string }[] = inputTypes;
   dependentControl = new FormControl<IFormControl | null>(null, Validators.required);
   dependentOptions: IFormControl[] = [];
-  hubspotFieldOptions:ISchemaProperty[] = [];
+  hubspotFieldOptions: ISchemaProperty[] = [];
   progress: number = 0;
   currentUser: User | undefined;
   formServiceSubscription: Subscription | undefined;
@@ -106,7 +107,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     private apiDealService: ApiDealService,
     public dialog: MatDialog,
     private formControlsService: FormControlsService,
-    private dragDropService:DragDropService
+    private dragDropService: DragDropService
   ) {
     this.editor = new Editor();
     this.authService.currentUser.subscribe(user => {
@@ -140,7 +141,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   public changeControl(item: IFormControl, newType: any) {
     let newControl = new this.formControlsService.controlTypes[newType.value](item.options);
     newControl.id = item.id;
-    newType.value ==='CheckBox' ? newControl.value = [item.value] : item.value instanceof Array ? newControl.value = item.value[0] : newControl.value = item.value;
+    newType.value === 'CheckBox' ? newControl.value = [item.value] : item.value instanceof Array ? newControl.value = item.value[0] : newControl.value = item.value;
     this.formService.form$.value.pages.forEach(p => {
       const itemIndex = p.controls.findIndex(c => c.id === item.id);
       if (itemIndex !== -1) {
@@ -244,7 +245,6 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   }
 
   updateValue($event: Event) {
-    console.log(this.formService.formGroup$.getValue()!.controls[this.control.id])
     this.formControl.setValue($event);
   }
 
@@ -294,4 +294,30 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     });
   }
 
+  test($event: any, control: IFormControl) {
+    if (control.options?.choices !== undefined) {
+      const field = this.hubspotFieldOptions.find(f => f.name === $event)
+      if (field !== undefined && field?.options.length > 0) {
+        Swal.fire({
+          title: "Hubspot opties overnemen?",
+          text: "Je huidige opties worden verwijderd.",
+          icon: "info",
+          showDenyButton: true,
+          confirmButtonColor: '#2e3785',
+          // cancelButtonColor: '#d33',
+          confirmButtonText: "Ja",
+          denyButtonText: `Nee`
+        }).then((result) => {
+          if (result.isConfirmed) {
+            control.options!.choices = field.options.map(item => {
+              return {
+                id: uuidV4(),
+                value: item.value
+              };
+            })
+          }
+        })
+      }
+    }
+  }
 }
