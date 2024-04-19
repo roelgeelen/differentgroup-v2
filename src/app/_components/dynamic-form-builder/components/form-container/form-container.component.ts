@@ -20,6 +20,7 @@ import {UtilityService} from "../../services/utility.service";
 import {FormControlsService} from "../../form-controls/form-controls.service";
 import {ApiFormService} from "../../../../_services/api-form.service";
 import {Subscription} from "rxjs";
+import {IFormControlOptionsDependent} from "../../form-controls/form-control-options.interface";
 
 @Component({
   selector: 'app-form-container',
@@ -112,5 +113,9 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
       }
     });
 
+  }
+
+  showDependent(dependent: IFormControlOptionsDependent[]) {
+    return dependent.map(item => `${this.formService.findControlById(item.field)?.options?.label}: [${item.values.join(', ')}]`).join('\n');
   }
 }

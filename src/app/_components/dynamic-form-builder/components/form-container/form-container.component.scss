@@ -9,6 +9,9 @@
 .drop-container {
   margin-bottom: 80px;
 }
+::ng-deep .mdc-tooltip__surface {
+  white-space: pre-line; // Allow line break
+}
 
 .control-container {
   position: relative;
@@ -51,6 +54,7 @@
     &.overlay {
       position: absolute;
       right: 0;
+      top: 5px;
       z-index: 1;
       padding: 8px 5px;
     }

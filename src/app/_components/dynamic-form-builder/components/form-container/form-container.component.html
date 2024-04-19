@@ -58,7 +58,7 @@
               <mat-label [class.background-accent]="item.options.label && item.options.label !== ''">
                 <div class="label-info" [class.overlay]="item.options.label == undefined || item.options.label === ''">
                   @if (item.options.inApp) {
-                    <mat-icon class="help-icon primary-text">
+                    <mat-icon class="help-icon primary-text" matTooltip="Zichtbaar in app" matTooltipPosition="above">
                       phone_iphone
                     </mat-icon>
                   }
@@ -68,9 +68,13 @@
                   }
                   @if (item.options.dependent) {
                     @if (!showControl(item) && showInvisible) {
-                      <mat-icon>visibility_off</mat-icon>
+                      <mat-icon [matTooltip]="showDependent(item.options.dependent)" matTooltipPosition="above">
+                        visibility_off
+                      </mat-icon>
                     } @else if (item.options.dependent!.length > 0) {
-                      <mat-icon>visibility_on</mat-icon>
+                      <mat-icon [matTooltip]="showDependent(item.options.dependent)" matTooltipPosition="above">
+                        visibility_on
+                      </mat-icon>
                     }
                   }
                 </div>
