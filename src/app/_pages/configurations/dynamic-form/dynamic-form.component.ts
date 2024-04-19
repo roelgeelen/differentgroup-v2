@@ -430,6 +430,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   getFieldTitle(error: string) {
+    console.log(error)
     const field = this.formService.findControlById(error);
     return field?.options?.label || field?.options?.title;
   }

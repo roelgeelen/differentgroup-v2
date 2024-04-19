@@ -4,15 +4,19 @@
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
         <app-quotation [btw]="config ? config.customer.btw : 21" (totalPrice)="setTotalPrice($event)">
-          <ng-container validate>
-            <mat-error>
-            @for (error of getFormValidationErrors(); track error) {
-              <li>{{getFieldTitle(error)}}</li>
-            }
-            </mat-error>
-          </ng-container>
-<!--          <mat-error *ngIf="getFormValidationErrors().length != 0">Controleer de-->
-<!--            velden: {{getFormValidationErrors()}}</mat-error>-->
+          @if (getFormValidationErrors(); as errors) {
+            <ng-container validate>
+              @if (errors.length > 0) {
+                <mat-error>
+                  @for (error of errors; track error) {
+                    <li>{{ getFieldTitle(error) }}</li>
+                  }
+                </mat-error>
+              }
+            </ng-container>
+          }
+          <!--          <mat-error *ngIf="getFormValidationErrors().length != 0">Controleer de-->
+          <!--            velden: {{getFormValidationErrors()}}</mat-error>-->
           <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>
         </app-quotation>
       }
@@ -28,7 +32,7 @@
         <div class="buttons">
           <div></div>
           <div>
-            @if(config){
+            @if (config) {
               <mat-slide-toggle [(ngModel)]="config.published" color="primary">Gepubliceerd</mat-slide-toggle>
             }
 
