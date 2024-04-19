@@ -20,7 +20,7 @@ export class FormService {
   controlValueChanged$ = new BehaviorSubject<IFormControl | null>(null);
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
   loadingForm$ = new BehaviorSubject<boolean>(false);
-  _hubspotFields: { [key: string]: string } = {};
+  _hubspotFields: { [key: string]: {toDeal: string, type: string} } = {};
 
   constructor(private dragDropService: DragDropService) {
     this.dragDropService.controlDropped.subscribe((control) => {
@@ -173,7 +173,7 @@ export class FormService {
     const value = values?.[control.id] || (control.type !== 'Calculation' ? control.value : '') || '';
 
     if (control.options?.toDeal) {
-      this._hubspotFields[control.id] = control.options.toDeal;
+      this._hubspotFields[control.id] = {toDeal:control.options.toDeal, type: control.type};
     }
 
     return new FormControl(value, validators);

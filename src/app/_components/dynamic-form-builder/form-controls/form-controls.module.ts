@@ -33,6 +33,7 @@ import {TableFormControlComponent} from "./table/table-form-control.component";
 import {CalculationComponent} from "./calculation/calculation.component";
 import {CalculationFormControlComponent} from "./calculation/calculation-form-control.component";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 
 
@@ -51,30 +52,31 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     TableComponent,
     CalculationComponent
   ],
-  imports: [
-    SharedModule,
-    CommonModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatRadioModule,
-    NgxEditorModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DndDirective,
-    FileFormControlComponent,
-    MatProgressBarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSliderModule,
-    SliderFormControlComponent,
-    MatTableModule,
-    TableFormControlComponent,
-    CalculationFormControlComponent,
-    MatTooltipModule
-  ],
+    imports: [
+        SharedModule,
+        CommonModule,
+        MatListModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatRadioModule,
+        NgxEditorModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DndDirective,
+        FileFormControlComponent,
+        MatProgressBarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatSliderModule,
+        SliderFormControlComponent,
+        MatTableModule,
+        TableFormControlComponent,
+        CalculationFormControlComponent,
+        MatTooltipModule,
+        MatProgressSpinner
+    ],
   exports: [
     SliderComponent,
     DropdownComponent,

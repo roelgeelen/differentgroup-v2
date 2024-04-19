@@ -176,6 +176,7 @@ export class BuilderComponent implements OnInit, OnDestroy {
         this._snackBar.open('Formulier opgeslagen', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-success']});
       },
       error: () => {
+        this.formService.setLoadingStatus(false);
         this._snackBar.open('Kon formulier niet opslaan', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-error']});
       }
     });

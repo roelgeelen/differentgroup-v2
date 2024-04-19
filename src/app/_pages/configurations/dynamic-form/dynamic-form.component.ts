@@ -116,7 +116,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  setTotalPrice(price: number){
+  setTotalPrice(price: number) {
     this.totalPrice = price;
   }
 
@@ -146,15 +146,15 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         page.controls.forEach(control => {
           if (form[control.id] !== null || form[control.id] !== undefined) {
             if (control.options?.dependent && !this.utilityService.isShow(control.options?.dependent)) {
-              this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
+              this.formService.formGroup$.value.get(control.id)?.reset(this.resetToCorrectValue(control.type), {emitEvent: false});
             }
           }
           if (control.type === 'Columns' && Array.isArray(control.columns)) {
             control.columns.forEach((col: IColumn) => {
               col.container.controls.forEach((c) => {
-                if (form[control.id] !== null || form[control.id] !== undefined) {
-                  if (control.options?.dependent && this.utilityService.isShow(control.options?.dependent)) {
-                    this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
+                if (form[c.id] !== null || form[c.id] !== undefined) {
+                  if (c.options?.dependent && !this.utilityService.isShow(c.options?.dependent)) {
+                    this.formService.formGroup$.value.get(c.id)?.reset(this.resetToCorrectValue(c.type), {emitEvent: false});
                   }
                 }
               })
@@ -163,14 +163,25 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
         })
       } else {
         page.controls.forEach(control => {
-          if ('columns' in control) {
-            control.columns!.forEach(col => col.container.controls.forEach(c => this.formService.formGroup$.value.get(c.id)?.reset()));
+          if (control.type === 'Columns' && Array.isArray(control.columns)) {
+            control.columns!.forEach((col: IColumn) => {
+              col.container.controls.forEach((c) => this.formService.formGroup$.value.get(c.id)?.reset(this.resetToCorrectValue(c.type), {emitEvent: false}))
+            });
           } else {
-            this.formService.formGroup$.value.get(control.id)?.reset({}, {emitEvent: false});
+            this.formService.formGroup$.value.get(control.id)?.reset(this.resetToCorrectValue(control.type), {emitEvent: false});
           }
         });
       }
     })
+  }
+
+  resetToCorrectValue (type: string) {
+    switch (type){
+      case 'CheckBox':
+        return [];
+      default:
+        return null
+    }
   }
 
   async setForm(configuration: IConfiguration) {
@@ -183,30 +194,33 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   async replaceHubspotFieldValues(): Promise<{ [key: string]: string }> {
-    const fields = this.formService.getHubspotFields();
-    try {
-      const deal = await firstValueFrom(
-        this.apiConfigurationService.getDeal(this.config?.id!, Object.values(fields)).pipe()
-      ) || {properties: {}};
-      return this.replaceValuesBasedOnKeys(deal, fields);
-    } catch (error) {
-      console.error("Error fetching deal:", error);
-      return {};
-    }
+    return new Promise<{ [key: string]: string }>((resolve, reject) => {
+      const fields = this.formService.getHubspotFields();
+      const values = Object.values(fields).map(v => v.toDeal);
+
+      this.apiConfigurationService.getDeal(this.config?.id!, values).subscribe({
+        next: (d) => {
+          resolve(this.replaceValuesBasedOnKeys(d, fields));
+          // resolve({})
+        },
+        error: (err) => {
+          console.error('Error fetching deal:', err);
+          resolve({}); // Return empty object in case of error
+        }
+      });
+    });
   }
 
-  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: string }): {
+  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: {toDeal:string, type:string} }): {
     [key: string]: string
   } {
     const result: { [key: string]: string } = {};
-
     for (const hubspotFieldKey in fields) {
       if (fields.hasOwnProperty(hubspotFieldKey)) {
         const propertyKey = fields[hubspotFieldKey];
-        result[hubspotFieldKey] = deal.properties[propertyKey];
+        result[hubspotFieldKey] = propertyKey.type === 'CheckBox'? deal.properties[propertyKey.toDeal].split(';') : deal.properties[propertyKey.toDeal];
       }
     }
-
     return result;
   }
 
@@ -291,11 +305,21 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
       this.apiCustomerService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
         error: () => {
           this.saving = false
-          this._snackBar.open('Kon configuratie niet opslaan.', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-error']});
+          this._snackBar.open('Kon configuratie niet opslaan.', '', {
+            duration: 2000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-error']
+          });
         },
         complete: () => {
           this.saving = false;
-          this._snackBar.open('Configuratie opgeslagen!', '', {duration: 2000, horizontalPosition: 'end', verticalPosition: 'top', panelClass: ['snackbar-success']});
+          this._snackBar.open('Configuratie opgeslagen!', '', {
+            duration: 2000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['snackbar-success']
+          });
         }
       });
 
@@ -306,7 +330,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   generateConfigurationValue(form: IForm, values: any): IConfigurationItem[] {
-    console.log(values)
     return form.pages.map((item) => {
       const newItem: IConfigurationItem = {page: item.tab ?? '', values: []};
 
@@ -330,7 +353,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
                     type: colControl.type,
                     title: colControlOptions.title || colControlOptions.label || '',
                     subtitle: colControlOptions.subtitle || '',
-                    value: values[colControl.id] || (colControl.type!=='Calculation'?control.value:'') || ''
+                    value: values[colControl.id] || (colControl.type !== 'Calculation' ? control.value : '') || ''
                   };
                   if (this.shouldAddConfigurationItem(colValue)) {
                     shouldAddValue = true;
@@ -355,7 +378,7 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
               type: control.type,
               title: controlOptions.title || controlOptions.label || '',
               subtitle: controlOptions.subtitle || controlOptions.note || '',
-              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || (control.type!=='Calculation'?control.value:'') || '',
+              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || (control.type !== 'Calculation' ? control.value : '') || '',
               fields: control.options?.columns
             };
             if (this.shouldAddConfigurationItem(value)) {

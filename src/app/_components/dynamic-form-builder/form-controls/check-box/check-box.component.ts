@@ -17,12 +17,13 @@ export class CheckBoxComponent extends FormControlComponentBase<CheckBox> implem
   }
 
   ngOnInit(): void {
-    this.form.controls[this.control!.id!].value.forEach((val: any) => {
-      if (val!=='' && !this.control?.options?.choices?.some(choice => choice.value === val)){
-        this.customValue =val;
-      }
-    })
-
+    if (this.control) {
+      this.form.controls[this.control.id].value.forEach((val: any) => {
+        if (val !== '' && !this.control?.options?.choices?.some(choice => choice.value === val)) {
+          this.customValue = val;
+        }
+      })
+    }
   }
 
 }

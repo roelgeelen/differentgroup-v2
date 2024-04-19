@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { FormControlComponentBase } from '../control-component-base.class';
-import { TextArea } from './text-area.class';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {FormControlComponentBase} from '../control-component-base.class';
+import {TextArea} from './text-area.class';
 import {Editor, Toolbar} from "ngx-editor";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../../services/form.service";
@@ -10,7 +10,7 @@ import {FormService} from "../../services/form.service";
   templateUrl: './text-area.component.html',
   styleUrls: ['./text-area.component.scss']
 })
-export class TextAreaComponent extends FormControlComponentBase<TextArea> implements OnInit {
+export class TextAreaComponent extends FormControlComponentBase<TextArea> implements OnDestroy{
   @Input() form!: FormGroup;
   editor: Editor;
   toolbar: Toolbar = [
@@ -28,7 +28,8 @@ export class TextAreaComponent extends FormControlComponentBase<TextArea> implem
     this.editor = new Editor();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnDestroy() {
+    this.editor?.destroy()
 
+  }
 }
