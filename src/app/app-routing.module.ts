@@ -212,6 +212,31 @@ const routes: Routes = [
   //   ]
   // },
   {
+    path: 'admin',
+    canActivate: [AuthGuard],
+    data: {
+      title: 'Admin',
+      icon: 'dashboard',
+      showInNavbar: true,
+      roles: [
+        EnumRoles.FORMULIEREN_BEHEREN,
+      ]
+    },
+    children: [
+      {
+        path: "templates",
+        redirectTo: '/admin/forms',
+        data: {
+          title: 'Beheer formulieren',
+          showInNavbar: true,
+          roles: [
+            EnumRoles.FORMULIEREN_BEHEREN,
+          ]
+        }
+      },
+    ]
+  },
+  {
     path: 'customers',
     loadChildren: () => import('./_pages/configurations/routes').then(mod => mod.CONFIGURATIONS_ROUTES),
     // children: CONFIGURATIONS_ROUTES,
@@ -224,12 +249,9 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    // loadChildren: () => import('./_pages/admin/routes').then(mod => mod.ADMIN_ROUTES),
-    children: ADMIN_ROUTES,
+    loadChildren: () => import('./_pages/admin/routes').then(mod => mod.ADMIN_ROUTES),
     canActivate: [AuthGuard],
     data: {
-      title: 'Admin',
-      showInNavbar: true,
       roles: [
         EnumRoles.FORMULIEREN_BEHEREN,
       ]
