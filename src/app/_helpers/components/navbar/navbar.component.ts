@@ -1,4 +1,4 @@
-import {Component, HostBinding, OnInit, ViewChild} from '@angular/core';
+import {Component, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {User} from "../../../_auth/models/User";
@@ -6,13 +6,15 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
 import {ApiService} from "../../../_services/api.service";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NgIf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {Route, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatButtonModule} from "@angular/material/button";
 import {LocalStorageService} from "../../../_services/local-storage.service";
 import {ITheme, ThemeService} from "../../theme.service";
 import {StyleManager} from "../../style-manager";
+import {NavigationService} from "./navigation.service";
+import {MatTree} from "@angular/material/tree";
 
 @Component({
   selector: 'app-navbar',
@@ -24,7 +26,8 @@ import {StyleManager} from "../../style-manager";
     RouterLink,
     MatIconModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTree
   ],
   styleUrls: ['./navbar.component.scss']
 })
@@ -34,6 +37,13 @@ export class NavbarComponent implements OnInit {
   themes: ITheme[];
   selectedTheme: ITheme;
 
+  routes: Route[] = [];
+
+  private getRoutes(): Route[] {
+    return this.navigation.getNavigationRoutes()
+
+  }
+
   constructor(
     private oauthService: OAuthService,
     private authService: AuthenticationService,
@@ -41,7 +51,8 @@ export class NavbarComponent implements OnInit {
     private sanitizer: DomSanitizer,
     public styleManager: StyleManager,
     private themeService: ThemeService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private navigation: NavigationService
   ) {
     this.themes = themeService.themes;
 
@@ -56,6 +67,21 @@ export class NavbarComponent implements OnInit {
       this.currentUser = user!;
       this.loadProfile();
     });
+  }
+
+  ngOnInit(): void {
+    this.routes = this.getRoutes();
+    this.themeService.theme$.subscribe(t => this.selectedTheme = t);
+  }
+
+  hasPermission(roles: string[]): boolean {
+    if (this.currentUser == undefined) {
+      return false;
+    }
+    if (roles.length === 0) {
+      return true;
+    }
+    return this.currentUser.roles.filter(role => roles.includes(role)).length !== 0;
   }
 
   selectTheme(themeName: string): ITheme {
@@ -79,10 +105,6 @@ export class NavbarComponent implements OnInit {
         this.currentUser.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.profilePic))
       }
     })
-  }
-
-  ngOnInit(): void {
-    this.themeService.theme$.subscribe(t => this.selectedTheme = t);
   }
 
   public logout() {

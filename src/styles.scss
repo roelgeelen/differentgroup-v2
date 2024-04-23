@@ -12,7 +12,7 @@ $color-config: different-doors-theme.$theme;
 
 
 body, html {
-  height: 100%;
+  height: 100vh;
   margin: 0;
 }
 
@@ -28,9 +28,10 @@ body {
 
 
 .content {
-  padding: 8px;
+  height: 100%;
 
   .layout-content {
+    padding: 8px;
     margin: 16px;
     box-sizing: border-box;
 

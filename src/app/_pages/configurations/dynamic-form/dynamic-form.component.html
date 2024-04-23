@@ -1,5 +1,5 @@
 @if (formService.form$ | async; as form) {
-  <mat-drawer-container class="container background-accent" [hasBackdrop]="false">
+  <mat-drawer-container class="container background-accent content" [hasBackdrop]="false">
 
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {

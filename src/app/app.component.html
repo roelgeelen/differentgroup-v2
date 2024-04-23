@@ -1,14 +1,16 @@
 @if (currentUser) {
-  <app-navbar></app-navbar>
-  <div class="minHeight">
-    <router-outlet></router-outlet>
-  </div>
-  <!-- credits -->
-  <div class="footer">
-    <div id="development">
-      <a href="https://get.teamviewer.com/differentdoorsqs">
-        <span>Different group - v2.0</span> | <span>Support</span><br>
-      </a>
+  <div class="content-wrapper">
+    <app-navbar></app-navbar>
+    <div class="wrapper">
+      <router-outlet></router-outlet>
+    </div>
+    <!-- credits -->
+    <div class="footer">
+      <div id="development">
+        <a href="https://get.teamviewer.com/differentdoorsqs">
+          <span>Different group - v2.0</span> | <span>Support</span><br>
+        </a>
+      </div>
     </div>
   </div>
 }

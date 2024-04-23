@@ -29,3 +29,4 @@ export const CONFIGURATIONS_ROUTES: Route[] = [
     canDeactivate: [canDeactivateGuard]
   }
 ];
+

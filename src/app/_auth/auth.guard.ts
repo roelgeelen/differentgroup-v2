@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentUser = this.authService.currentUserValue;
-    if (currentUser && !this.authService.isTokenExpired()) {
+    if (currentUser && this.authService.hasValidAccessToken()) {
       // check if route is restricted by role
       //@ts-ignore
       if (route.data.roles && currentUser.roles.filter(role => route.data.roles.includes(role)).length === 0) {

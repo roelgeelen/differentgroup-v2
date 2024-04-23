@@ -1,9 +1,18 @@
-.minHeight {
-  min-height: calc(100vh - 116px);
+//.minHeight {
+//  min-height: calc(100vh - 115px);
+//}
+
+.content-wrapper{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .wrapper {
+    flex: 1;
+  }
 }
 .footer {
-  position: relative;
-  bottom: 0;
+  //position: relative;
+  //bottom: 0;
   width: 100%;
   padding: 1rem 0;
   text-align: center;

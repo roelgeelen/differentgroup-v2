@@ -175,8 +175,8 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     })
   }
 
-  resetToCorrectValue (type: string) {
-    switch (type){
+  resetToCorrectValue(type: string) {
+    switch (type) {
       case 'CheckBox':
         return [];
       default:
@@ -211,14 +211,16 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: { [key: string]: {toDeal:string, type:string} }): {
+  replaceValuesBasedOnKeys(deal: { id: string, properties: any }, fields: {
+    [key: string]: { toDeal: string, type: string }
+  }): {
     [key: string]: string
   } {
     const result: { [key: string]: string } = {};
     for (const hubspotFieldKey in fields) {
       if (fields.hasOwnProperty(hubspotFieldKey)) {
         const propertyKey = fields[hubspotFieldKey];
-        result[hubspotFieldKey] = propertyKey.type === 'CheckBox'? deal.properties[propertyKey.toDeal].split(';') : deal.properties[propertyKey.toDeal];
+        result[hubspotFieldKey] = propertyKey.type === 'CheckBox' ? deal.properties[propertyKey.toDeal].split(';') : deal.properties[propertyKey.toDeal];
       }
     }
     return result;
@@ -430,7 +432,6 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
   }
 
   getFieldTitle(error: string) {
-    console.log(error)
     const field = this.formService.findControlById(error);
     return field?.options?.label || field?.options?.title;
   }

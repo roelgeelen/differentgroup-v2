@@ -1,9 +1,23 @@
 <mat-toolbar color="primary" class="navbar">
   <a routerLink="/"><img [src]="selectedTheme.imageLight" alt="Logo" height="45" class="logo"></a>
-  <!--  <span class="spacer"></span>-->
-  <button mat-button routerLink="/customers">Formulieren</button>
-  <button mat-button routerLink="/admin/forms">Admin</button>
-  <!-- Voeg meer pagina's toe zoals hierboven -->
+  <!--    <span class="spacer"></span>-->
+  @for (route of routes; track $index) {
+    @if (hasPermission(route.data?.['roles'] ?? [])) {
+      @if (route.children && route.children.length > 0) {
+        <button mat-button [matMenuTriggerFor]="menu">{{ route.data?.['title'] }}</button>
+        <mat-menu #menu="matMenu">
+          @for (sub of route.children; track sub) {
+            @if (hasPermission(sub.data?.['roles'] ?? [])) {
+              <button mat-menu-item [routerLink]="route.path+'/'+sub.path">{{ sub.data?.['title'] }}</button>
+            }
+          }
+        </mat-menu>
+      } @else {
+        <button mat-button [routerLink]="route.path">{{ route.data?.['title'] }}</button>
+      }
+
+    }
+  }
   <span class="spacer"></span>
   <div class="profile" [matMenuTriggerFor]="profileMenu">
     <span class="profile-name">{{ currentUser?.name }}</span>
@@ -17,9 +31,12 @@
     Bedrijf
   </a>
   <mat-menu #enviroments="matMenu">
-    @for (theme of themes;track theme) {
+    @for (theme of themes; track theme) {
       <button (click)="selectTheme(theme.name)" class="menu-item" mat-menu-item>
-        <mat-icon color="primary">{{selectedTheme.name===theme.name?'radio_button_checked':'radio_button_unchecked'}}radio_button_checked</mat-icon>
+        <mat-icon
+          color="primary">{{ selectedTheme.name === theme.name ? 'radio_button_checked' : 'radio_button_unchecked' }}
+          radio_button_checked
+        </mat-icon>
         <span class="menu-item-label">{{ theme.displayName }}</span>
         <img class="menu-item-image" [src]="theme.imageDark">
       </button>

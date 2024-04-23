@@ -14,7 +14,6 @@ import {AsyncPipe} from '@angular/common';
 import {MatAutocompleteModule, MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {IFormControl} from "../dynamic-form-builder/form-controls/form-control.interface";
 import {Subscription} from "rxjs";
 
 @Component({
