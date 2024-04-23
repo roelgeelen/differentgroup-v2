@@ -59,7 +59,7 @@ export class QuoteService {
       if (!isNaN(size)) {
         size = size < 1 ? 1 : size;
         if (row['Hoogte'] > 2500) size++;
-        selectedQuoteLines.push({ sku: 'SDH' + (size + 100), order: 100 }, { sku: 'SDH0' + ('0' + size).slice(-2), order: 100 });
+        selectedQuoteLines.push({ sku: 'SDH' + (size + 100), order: 100 }, { sku: 'SDH0' + ('0' + size).slice(-2), order: 100 }, {sku: 'SDH600', order: 100});
       }
     }
   }
