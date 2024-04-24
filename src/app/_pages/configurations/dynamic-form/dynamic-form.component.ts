@@ -220,7 +220,9 @@ export class DynamicFormComponent implements OnInit, OnDestroy {
     for (const hubspotFieldKey in fields) {
       if (fields.hasOwnProperty(hubspotFieldKey)) {
         const propertyKey = fields[hubspotFieldKey];
-        result[hubspotFieldKey] = propertyKey.type === 'CheckBox' ? deal.properties[propertyKey.toDeal].split(';') : deal.properties[propertyKey.toDeal];
+        const dealValue = deal.properties[propertyKey.toDeal];
+        if (dealValue !== null)
+          result[hubspotFieldKey] = propertyKey.type === 'CheckBox' ? deal.properties[propertyKey.toDeal].split(';') : deal.properties[propertyKey.toDeal];
       }
     }
     return result;

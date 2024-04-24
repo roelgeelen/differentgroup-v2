@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { IQuoteLine } from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
-import { IFormControl } from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
-import { IForm } from "../../../../_components/dynamic-form-builder/models/form.interface";
+import {Injectable} from '@angular/core';
+import {IQuoteLine} from "../../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
+import {IFormControl} from "../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
+import {IForm} from "../../../../_components/dynamic-form-builder/models/form.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuoteService {
 
-  constructor() {}
+  constructor() {
+  }
 
   getQuoteItems(form: IForm, formGroup: any): IQuoteLine[] {
     const choiceControls: IFormControl[] = this.getChoiceControls(form);
@@ -39,27 +40,34 @@ export class QuoteService {
   }
 
   private calculateODOSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
-    const { width, height } = fields;
+    const {width, height} = fields;
 
     if (width && height) {
       const widthValue = formGroup[width];
       const heightValue = formGroup[height];
       if (widthValue !== undefined && heightValue !== undefined) {
         const size = Math.ceil((((widthValue < 2000 ? 2000 : widthValue) - 2000) / 100) + 1) + (Math.ceil(((heightValue < 2000 ? 2000 : heightValue) - 2000) / 100) * 12);
-        selectedQuoteLines.push({ sku: 'ODO0' + ('0' + size).slice(-2), order: 20 }, { sku: 'ODO' + (size + 99), order: 20 });
+        selectedQuoteLines.push({sku: 'ODO0' + ('0' + size).slice(-2), order: 20}, {
+          sku: 'ODO' + (size + 99),
+          order: 20
+        });
       }
     }
   }
 
   private calculateSDHSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
     const table = formGroup[fields.sizeTable];
-
-    for (const row of table) {
-      let size = (Math.ceil(row['Breedte'] / 500) * 500 - 2500) / 500 * 2 + 1;
-      if (!isNaN(size)) {
-        size = size < 1 ? 1 : size;
-        if (row['Hoogte'] > 2500) size++;
-        selectedQuoteLines.push({ sku: 'SDH' + (size + 100), order: 100 }, { sku: 'SDH0' + ('0' + size).slice(-2), order: 100 }, {sku: 'SDH600', order: 100});
+    if (table !== undefined) {
+      for (const row of table) {
+        let size = (Math.ceil(row['Breedte'] / 500) * 500 - 2500) / 500 * 2 + 1;
+        if (!isNaN(size)) {
+          size = size < 1 ? 1 : size;
+          if (row['Hoogte'] > 2500) size++;
+          selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 100}, {
+            sku: 'SDH0' + ('0' + size).slice(-2),
+            order: 100
+          }, {sku: 'SDH600', order: 100});
+        }
       }
     }
   }
