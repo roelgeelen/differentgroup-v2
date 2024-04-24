@@ -15,9 +15,6 @@ const routes: Routes = [
     path: 'verkoop',
     canActivate: [AuthGuard],
     data: {
-      title: 'Verkoop',
-      icon: 'dashboard',
-      showInNavbar: true,
       roles: [
         EnumRoles.AFSPRAKEN,
         EnumRoles.INMETEN,
@@ -25,192 +22,214 @@ const routes: Routes = [
       ]
     },
     children: [
-      // {
-      //   path: "inmeten",
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "verkoop/inmeten",
-      //     title: 'Inmeten',
-      //     showInNavbar: true,
-      //     roles: [
-      //       EnumRoles.INMETEN,
-      //     ]
-      //   }
-      // },
+      {
+        path: "afspraken",
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "verkoop/afspraken",
+          roles: [
+            EnumRoles.AFSPRAKEN,
+          ]
+        }
+      },
+      {
+        path: "inmeten",
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "verkoop/inmeten",
+          roles: [
+            EnumRoles.INMETEN,
+          ]
+        }
+      },
       // {
       //   path: "formulier",
       //   canActivate: [AuthGuard, redirectGuard],
       //   component: HomeComponent,
       //   data: {
       //     externalUrl: "verkoop/formulier",
-      //     title: 'Formulieren (oud)',
-      //     showInNavbar: true,
       //     roles: [
       //       EnumRoles.FORMULIEREN,
       //     ]
       //   }
       // },
       {
-        path: "formulierv2",
-        redirectTo: '/customers',
+        path: "dashboard",
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
         data: {
-          title: 'Formulieren (nieuw)',
-          showInNavbar: true,
+          externalUrl: "verkoop/dashboard",
           roles: [
-            EnumRoles.FORMULIEREN,
+            EnumRoles.INMETEN,
           ]
         }
       },
-      // {
-      //   path: "dashboard",
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "verkoop/dashboard",
-      //     title: 'Dashboard',
-      //     icon: 'dashboard',
-      //     showInNavbar: true,
-      //     roles: [
-      //       EnumRoles.INMETEN,
-      //     ]
-      //   }
-      // },
     ]
   },
-  // {
-  //   path: 'planning',
-  //   canActivate: [AuthGuard],
-  //   data: {
-  //     title: 'Planning',
-  //     icon: 'insert_chart_outlined',
-  //     showInNavbar: true,
-  //     roles: [
-  //       EnumRoles.TRACKING,
-  //       EnumRoles.AFSPRAKEN,
-  //       EnumRoles.PRODUCTIE,
-  //       EnumRoles.GEPRODUCEERD,
-  //     ]
-  //   },
-  //   children: [
-  //     {
-  //       path: 'tracking',
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       component: HomeComponent,
-  //       data: {
-  //         externalUrl: "planning/tracking",
-  //         title: 'Tracking',
-  //         icon: 'maps',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.TRACKING,
-  //           EnumRoles.AFSPRAKEN,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'productie',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "planning/productie",
-  //         title: 'Productie',
-  //         icon: 'bar_chart',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.PRODUCTIE,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'geproduceerd',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "planning/geproduceerd",
-  //         title: 'Geproduceerd',
-  //         icon: 'bar_chart',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.GEPRODUCEERD,
-  //         ]
-  //       },
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: 'magazijn',
-  //   canActivate: [AuthGuard],
-  //   data: {
-  //     title: 'Magazijn',
-  //     icon: 'supervised_user_circle',
-  //     showInNavbar: true,
-  //     roles: [
-  //       EnumRoles.LOGISTIEK,
-  //       EnumRoles.CONTROLE,
-  //       EnumRoles.VOORRAAD,
-  //       EnumRoles.BESTELLINGEN_BEHEREN
-  //     ]
-  //   },
-  //   children: [
-  //     {
-  //       path: 'logistiek',
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       component: HomeComponent,
-  //       data: {
-  //         externalUrl: "magazijn/logistiek",
-  //         title: 'Logistiek',
-  //         icon: 'calendar_today',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.LOGISTIEK,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'controle',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "magazijn/controle",
-  //         title: 'Controle',
-  //         icon: 'playlist_add_check',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.CONTROLE,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'voorraad',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "magazijn/voorraad",
-  //         title: 'Voorraad',
-  //         icon: 'bar_chart',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.VOORRAAD,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'bestellingen',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "magazijn/bestellingen",
-  //         title: 'Bestellingen',
-  //         icon: 'storage',
-  //         showInNavbar: true,
-  //         roles: [
-  //           EnumRoles.BESTELLINGEN_BEHEREN,
-  //         ]
-  //       },
-  //     }
-  //   ]
-  // },
+  {
+    path: 'planning',
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.TRACKING,
+        EnumRoles.AFSPRAKEN,
+        EnumRoles.PRODUCTIE,
+        EnumRoles.GEPRODUCEERD,
+      ]
+    },
+    children: [
+      {
+        path: 'tracking',
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "planning/tracking",
+          roles: [
+            EnumRoles.TRACKING,
+            EnumRoles.AFSPRAKEN,
+          ]
+        },
+      },
+      {
+        path: 'productie',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "planning/productie",
+          roles: [
+            EnumRoles.PRODUCTIE,
+          ]
+        },
+      },
+      {
+        path: 'geproduceerd',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "planning/geproduceerd",
+          roles: [
+            EnumRoles.GEPRODUCEERD,
+          ]
+        },
+      }
+    ]
+  },
+  {
+    path: 'magazijn',
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.LOGISTIEK,
+        EnumRoles.CONTROLE,
+        EnumRoles.VOORRAAD,
+        EnumRoles.BESTELLINGEN_BEHEREN
+      ]
+    },
+    children: [
+      {
+        path: 'logistiek',
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "magazijn/logistiek",
+          roles: [
+            EnumRoles.LOGISTIEK,
+          ]
+        },
+      },
+      {
+        path: 'controle',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "magazijn/controle",
+          roles: [
+            EnumRoles.CONTROLE,
+          ]
+        },
+      },
+      {
+        path: 'voorraad',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "magazijn/voorraad",
+          roles: [
+            EnumRoles.VOORRAAD,
+          ]
+        },
+      },
+      {
+        path: 'bestellingen',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "magazijn/bestellingen",
+          roles: [
+            EnumRoles.BESTELLINGEN_BEHEREN,
+          ]
+        },
+      }
+    ]
+  },
+  {
+    path: 'rapportage',
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.RAPPORTAGE,
+        EnumRoles.FINANCIEEL
+      ]
+    },
+    children: [
+      {
+        path: 'dashboard',
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "rapportage/dashboard",
+          roles: [
+            EnumRoles.RAPPORTAGE,
+          ]
+        },
+      },
+      {
+        path: 'financieel',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "rapportage/financieel",
+          roles: [
+            EnumRoles.FINANCIEEL,
+          ]
+        },
+      },
+    ]
+  },
+  {
+    path: 'hrm',
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.FORMULIEREN_BEHEREN,
+      ]
+    },
+    children: [
+      {
+        path: 'medewerkers',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "hrm/medewerkers",
+          roles: [
+            EnumRoles.ONTWIKKELINGEN_BEHEREN,
+          ]
+        },
+      }
+    ]
+  },
   {
     path: 'admin',
     canActivate: [AuthGuard],
@@ -224,16 +243,27 @@ const routes: Routes = [
     },
     children: [
       {
-        path: "templates",
-        redirectTo: '/admin/forms',
+        path: 'nieuws',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
         data: {
-          title: 'Beheer formulieren',
-          showInNavbar: true,
+          externalUrl: "admin/nieuws",
           roles: [
-            EnumRoles.FORMULIEREN_BEHEREN,
+            EnumRoles.BERICHTEN_BEHEREN,
           ]
-        }
+        },
       },
+      {
+        path: 'roles',
+        component: HomeComponent,
+        canActivate: [AuthGuard, redirectGuard],
+        data: {
+          externalUrl: "admin/roles",
+          roles: [
+            EnumRoles.ROLLEN_BEHEREN,
+          ]
+        },
+      }
     ]
   },
   {

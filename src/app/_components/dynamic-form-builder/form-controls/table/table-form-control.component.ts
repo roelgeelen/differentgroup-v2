@@ -90,7 +90,14 @@ export class TableFormControlComponent implements ControlValueAccessor {
     this.onTouched();
   }
   addRow() {
-    this.data.push({});
+    let newItem:any = {}
+    this.columns.forEach(c => {
+      if (c.value){
+        newItem[c.key] = c.value;
+      }
+    })
+    this.data.push(newItem);
+    this.onValueChange()
   }
 
   removeFromList(index: number) {

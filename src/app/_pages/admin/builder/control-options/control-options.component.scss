@@ -118,7 +118,15 @@ mat-slide-toggle {
     }
   }
 }
-
+.option-title{
+  display: flex;
+  justify-content: space-around;
+  padding: 0 20px;
+  font-size: 13px;
+  span {
+    line-height: 15px;
+  }
+}
 .option-box {
   padding: 5px;
   display: flex;

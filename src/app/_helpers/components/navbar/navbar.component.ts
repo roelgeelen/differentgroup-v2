@@ -1,6 +1,6 @@
-import {Component, HostBinding, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {DomSanitizer} from "@angular/platform-browser";
 import {User} from "../../../_auth/models/User";
 import {AuthenticationService} from "../../../_auth/authentication.service";
 import {ApiService} from "../../../_services/api.service";
@@ -13,8 +13,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {LocalStorageService} from "../../../_services/local-storage.service";
 import {ITheme, ThemeService} from "../../theme.service";
 import {StyleManager} from "../../style-manager";
-import {NavigationService} from "./navigation.service";
 import {MatTree} from "@angular/material/tree";
+import {NAV_CONFIG, NavItem} from "./nav-data";
 
 @Component({
   selector: 'app-navbar',
@@ -37,12 +37,7 @@ export class NavbarComponent implements OnInit {
   themes: ITheme[];
   selectedTheme: ITheme;
 
-  routes: Route[] = [];
-
-  private getRoutes(): Route[] {
-    return this.navigation.getNavigationRoutes()
-
-  }
+  routes: NavItem[] = NAV_CONFIG;
 
   constructor(
     private oauthService: OAuthService,
@@ -52,7 +47,6 @@ export class NavbarComponent implements OnInit {
     public styleManager: StyleManager,
     private themeService: ThemeService,
     private localStorage: LocalStorageService,
-    private navigation: NavigationService
   ) {
     this.themes = themeService.themes;
 
@@ -70,7 +64,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.routes = this.getRoutes();
     this.themeService.theme$.subscribe(t => this.selectedTheme = t);
   }
 

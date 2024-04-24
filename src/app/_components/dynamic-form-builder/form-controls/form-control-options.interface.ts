@@ -40,6 +40,7 @@ export interface IFormControlOptions {
 
 export interface IFormControlOptionsColumns {
   key: string;
+  value?: string;
   type: string;
 }
 
