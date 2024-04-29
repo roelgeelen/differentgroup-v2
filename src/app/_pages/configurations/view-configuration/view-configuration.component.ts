@@ -17,6 +17,9 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {EnumRoles} from "../../../_auth/models/enumRoles";
+import {AuthenticationService} from "../../../_auth/authentication.service";
+import {User} from "../../../_auth/models/User";
 
 @Component({
   selector: 'app-view-configuration',
@@ -43,6 +46,7 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   styleUrl: './view-configuration.component.scss'
 })
 export class ViewConfigurationComponent implements OnInit {
+  currentUser: User | undefined;
   dealId: string = '';
   configId: string = '';
   configuration: IConfiguration | null = null;
@@ -60,8 +64,12 @@ export class ViewConfigurationComponent implements OnInit {
     private apiCustomerService: ApiCustomerService,
     private router: Router,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private authService: AuthenticationService
   ) {
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user!;
+    });
   }
 
   ngOnInit(): void {
@@ -80,6 +88,10 @@ export class ViewConfigurationComponent implements OnInit {
         });
       }
     });
+  }
+
+  get isFORMULIEREN() {
+    return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
   }
 
   getConfiguration(dealId: string, configId: string, type: string) {

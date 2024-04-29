@@ -10,7 +10,7 @@
               <mat-select [(ngModel)]="newForm">
                 @for (group of templates|keyvalue; track group) {
                   <mat-optgroup [label]="group.key">
-                    @for (temp of group.value; track temp){
+                    @for (temp of group.value; track temp) {
                       <mat-option [value]="temp">
                         {{ temp.title }}
                       </mat-option>
@@ -28,7 +28,16 @@
           <hr>
           <div class="configurations-header">
             <h2>Configuraties</h2>
-            <a mat-button color="primary" href="https://configurations.differentdoors.nl/customers/{{customer.id}}?sig={{customer.signature}}" target="_blank">Klant portaal</a>
+            <div>
+              <a mat-button color="primary"
+                 href="https://configurations.{{selectedTheme?.name === 'ambassa-theme' ? 'ambassa': 'differentdoors'}}.nl/customers/{{customer.id}}?sig={{customer.signature}}"
+                 target="_blank">Klant portaal</a>
+              <a mat-button color="primary"
+                 href="https://app-eu1.hubspot.com/contacts/25493451/record/0-3/{{customer.dealId}}"
+                 target="_blank">
+                <img class="hubspot-icon" src="assets/images/icons/hubspot.png">
+              </a>
+            </div>
           </div>
 
           @defer (when configurations !== null) {
@@ -38,40 +47,46 @@
                   <mat-card-title-group>
                     <mat-card-title>{{ config.title }}</mat-card-title>
                     <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
-                      @if(config.amount){
-                      <span class="label amount">€ {{ config.amount | number : '1.2-2' }}</span>
-                      }@if(config.published){
-                      <span class="label published">Gepubliceerd</span>
+                      @if (config.amount) {
+                        <span class="label amount">€ {{ config.amount | number : '1.2-2' }}</span>
+                      }
+                      @if (config.published) {
+                        <span class="label published">Gepubliceerd</span>
                       }
                     </mat-card-subtitle>
-                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                      <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #menu="matMenu">
-                      <button mat-menu-item (click)="duplicateForm(config)">
-                        <mat-icon>control_point_duplicate</mat-icon>
-                        <span class="menu-label">Dupliceren</span>
+                    @if (isFORMULIEREN) {
+                      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>more_vert</mat-icon>
                       </button>
-                      <button mat-menu-item (click)="moveForm(config)">
-                        <mat-icon>swap_horiz</mat-icon>
-                        <span class="menu-label">Verplaatsen</span>
-                      </button>
-                      <button mat-menu-item (click)="deleteConfig(config, $index)">
-                        <mat-icon>delete</mat-icon>
-                        <span class="menu-label">Verwijderen</span>
-                      </button>
-                    </mat-menu>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="duplicateForm(config)">
+                          <mat-icon>control_point_duplicate</mat-icon>
+                          <span class="menu-label">Dupliceren</span>
+                        </button>
+                        <button mat-menu-item (click)="moveForm(config)">
+                          <mat-icon>swap_horiz</mat-icon>
+                          <span class="menu-label">Verplaatsen</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteConfig(config, $index)">
+                          <mat-icon>delete</mat-icon>
+                          <span class="menu-label">Verwijderen</span>
+                        </button>
+                      </mat-menu>
+                    }
                   </mat-card-title-group>
                 </mat-card-header>
                 <mat-card-content>
                 </mat-card-content>
                 <mat-card-actions>
-                  <button mat-raised-button color="primary"
-                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id+'/edit'">
-                    <mat-icon>edit</mat-icon>
-                    <span class="menu-label">Bewerken</span></button>
+                  @if (isFORMULIEREN) {
+                    <button mat-raised-button color="primary"
+                            [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id+'/edit'">
+                      <mat-icon>edit</mat-icon>
+                      <span class="menu-label">Bewerken</span></button>
+                  }
                   <button mat-button color="primary"
-                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id" [queryParams]="{type:'intern'}">
+                          [routerLink]="'/customers/'+customer!.dealId+'/configurations/'+config.id"
+                          [queryParams]="{type:'intern'}">
                     <mat-icon>remove_red_eye</mat-icon>
                     <span class="menu-label">Bekijken</span></button>
                 </mat-card-actions>

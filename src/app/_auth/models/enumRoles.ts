@@ -7,6 +7,7 @@
   BESTELLINGEN_BEHEREN = 'Bestellingen_beheren',
   FORMULIEREN = 'Formulieren',
   FORMULIEREN_BEHEREN = 'Formulieren_beheren',
+  FORMULIEREN_BEKIJKEN = 'Formulieren_bekijken',
   CONTROLE = 'Controle',
   VOORRAAD = 'Voorraad',
   BERICHTEN_BEHEREN = 'Berichten_beheren',

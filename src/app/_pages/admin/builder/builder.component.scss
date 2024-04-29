@@ -51,6 +51,8 @@ mat-drawer {
   padding: 0 20px;
   overflow-y: scroll;
   max-height: calc(100vh - 113px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--background-accent);
 
   .form-body {
     padding: 20px;
@@ -61,9 +63,4 @@ mat-drawer {
     display: flex;
     justify-content: space-between;
   }
-}
-
-/* width */
-::-webkit-scrollbar {
-  width: 0;
 }

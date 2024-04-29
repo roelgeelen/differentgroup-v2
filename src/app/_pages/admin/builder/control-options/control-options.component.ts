@@ -302,9 +302,9 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
 
   hubspotSelected($event: any, control: IFormControl) {
     const field = this.hubspotFieldOptions.find(f => f.name === $event)
-    if (field !== undefined && field?.options.length > 0) {
+    if (field !== undefined) {
       control.options!.label = field.label;
-      if (control.options?.choices !== undefined) {
+      if (field?.options.length > 0 && control.options?.choices !== undefined) {
         Swal.fire({
           title: "Hubspot opties overnemen?",
           text: "Je huidige opties worden verwijderd.",

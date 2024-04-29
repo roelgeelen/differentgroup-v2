@@ -274,6 +274,8 @@ const routes: Routes = [
     data: {
       roles: [
         EnumRoles.FORMULIEREN,
+        EnumRoles.FORMULIEREN_KLANT,
+        EnumRoles.FORMULIEREN_BEKIJKEN,
       ]
     }
   },

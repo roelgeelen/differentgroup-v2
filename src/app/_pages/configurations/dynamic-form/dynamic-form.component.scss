@@ -37,6 +37,10 @@ mat-drawer {
 
 .form-builder {
   padding: 0 20px 20px 20px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 113px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) var(--background-accent);
 }
 
 // Stijlen voor de knoppen en schakelaars

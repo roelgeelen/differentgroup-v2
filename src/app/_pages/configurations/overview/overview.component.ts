@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
@@ -21,6 +21,9 @@ import {IConfiguration} from "../../../_models/configuration/configuration.inter
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
+import {ITheme, ThemeService} from "../../../_helpers/theme.service";
+import {Subscription} from "rxjs";
+import {EnumRoles} from "../../../_auth/models/enumRoles";
 
 @Component({
   selector: 'app-overview',
@@ -47,7 +50,8 @@ import {FormPageComponent} from "../../../_components/dynamic-form-builder/compo
   ],
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent {
+export class OverviewComponent  implements OnDestroy{
+  themeSubscription?: Subscription;
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
   templates: { [kind: string]: IForm[] } = {};
@@ -55,13 +59,15 @@ export class OverviewComponent {
   configurations: IConfiguration[] | null = null
   paramId: string = '';
   loading = false;
+  selectedTheme?: ITheme;
 
   constructor(
     private authService: AuthenticationService,
     private apiCustomerService: ApiCustomerService,
     private apiFormService: ApiFormService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService,
   ) {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('dealId') !== null) {
@@ -72,6 +78,17 @@ export class OverviewComponent {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
     });
+    this.themeSubscription = this.themeService.theme$.subscribe(t => this.selectedTheme = t)
+  }
+
+  ngOnDestroy() {
+    if (this.themeSubscription){
+      this.themeSubscription.unsubscribe();
+    }
+  }
+
+  get isFORMULIEREN() {
+    return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
   }
 
   findFormTemplates() {
@@ -87,6 +104,7 @@ export class OverviewComponent {
   getConfigurations() {
     this.apiCustomerService.getConfigurations(this.customer!.dealId!).subscribe(c => {
       this.configurations = c
+      console.log(c)
     });
   }
 

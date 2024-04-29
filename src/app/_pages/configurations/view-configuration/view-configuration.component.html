@@ -16,9 +16,11 @@
             <button mat-menu-item (click)="changeVisibleFor(view)">{{ view.label }}</button>
           }
         </mat-menu>
-        <button mat-raised-button color="primary" [routerLink]="'edit'">
-          <mat-icon>edit</mat-icon>
-        </button>
+        @if(isFORMULIEREN) {
+          <button mat-raised-button color="primary" [routerLink]="'edit'">
+            <mat-icon>edit</mat-icon>
+          </button>
+        }
       </div>
     </div>
     <div class="quotation-toggle" (click)="drawer.toggle()">
