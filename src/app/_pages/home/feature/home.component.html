@@ -1,0 +1,65 @@
+<div class="wrapper">
+  <div class="wrapper-content">
+    <div class="news">
+      <h1>{{ welkom }}, {{ currentUser?.name }}</h1>
+      <hr>
+      @if (posts$|async; as posts) {
+        @for (post of posts.content; track post) {
+          <app-news-card [post]="post"></app-news-card>
+        }
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+    <div class="widgets">
+      <mat-card class="widget">
+        <mat-card-header>
+          <mat-card-title>BHV noodnummer</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-icon color="warn">phone</mat-icon>
+          Intern nummer: <strong class="primary-text">000</strong><br>
+          <mat-icon color="warn">phone</mat-icon>
+          Externe nummer: <strong><a href="tel:0031495745062" class="primary-text">0495-745062</a></strong>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="widget">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon>event</mat-icon>
+            Kalender
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          @if (events$|async; as events) {
+            @for (event of events; track event) {
+              <app-event-item [event]="event"></app-event-item>
+              @if (!$last) {
+                <mat-divider></mat-divider>
+              }
+            }
+          } @else {
+            <mat-spinner [diameter]="40"></mat-spinner>
+          }
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="widget">
+        <mat-card-header>
+          <mat-card-title>Scherm niet vergrendeld?</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-raised-button color="primary">Verraden</button>
+        </mat-card-actions>
+      </mat-card>
+      <div class="widget appstore">
+        <a href="https://play.google.com/store/apps/details?id=com.differentdoors.differentdoors">
+          <img class="w-100 h-100" src="assets/images/Download_Google_Play.png">
+        </a>
+        <a href="https://apps.apple.com/us/app/different-doors-app/id6449821345">
+          <img class="w-100" src="assets/images/Download_App_Store.png">
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>

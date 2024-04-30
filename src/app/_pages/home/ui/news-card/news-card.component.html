@@ -1,0 +1,29 @@
+<div class="blog-slider" [class.no-content]="post.message=='<p></p>'||post.message==''">
+  <div class="blog-slider__wrp">
+    <div class="blog-slider__header">
+      <span class="blog-slider__code">{{ post.date |date: 'dd MMMM yyyy' }}</span>
+      <div class="blog-slider__title">{{ post.title }}</div>
+    </div>
+    <div class="blog-slider__item">
+      @if (post.image) {
+        <div class="blog-slider__img">
+          @if (image$|async; as image) {
+            @if (image.body) {
+              <img [src]="safeImage(image.body!)">
+            }
+          } @else {
+            <mat-spinner></mat-spinner>
+          }
+        </div>
+      }
+      <div class="blog-slider__content">
+        <!--        <span class="blog-slider__code">{{ post.date |date: 'dd MMMM yyyy' }}</span>-->
+        <!--        <div class="blog-slider__title">{{ post.title }}</div>-->
+        <div class="blog-slider__text" [class.expanded]="isExpanded" [innerHTML]="post.message|safeHtml">
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="blog-slider__pagination"></div>
+</div>

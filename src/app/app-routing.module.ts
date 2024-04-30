@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./_pages/home/home.component";
+import {HomeComponent} from "./_pages/home/feature/home.component";
 import {AuthGuard} from "./_auth/auth.guard";
 import {EnumRoles} from './_auth/models/enumRoles';
 import {ADMIN_ROUTES} from "./_pages/admin/routes";
