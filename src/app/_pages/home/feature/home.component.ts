@@ -15,6 +15,7 @@ import {IEvent} from "../utils/event.interface";
 import {EventItemComponent} from "../ui/event-item/event-item.component";
 import {MatDivider} from "@angular/material/divider";
 import {MatButton} from "@angular/material/button";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-home',
@@ -61,5 +62,27 @@ export class HomeComponent implements OnInit{
     } if(now >= 0 && now < 6) {
       this.welkom = "Nachtwerk?";
     }
+  }
+
+  betrayUser() {
+    Swal.fire({
+      title: 'Ik wil ' + this.currentUser!.name + ' verraden.',
+      showCancelButton: true,
+      imageUrl: 'assets/images/betray.png',
+      imageHeight: 300,
+      confirmButtonText: 'Ja, Verraden',
+      confirmButtonColor: '#2e3785',
+      cancelButtonText: `Nee toch niet`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.homeService.betrayUser(this.currentUser!.name, this.currentUser!.email).subscribe()
+        Swal.fire({
+          title: 'Bedankt voor je oplettendheid, ' +this.currentUser!.name + ' is je niet dankbaar.',
+          icon: 'success',
+          confirmButtonColor: '#2e3785',
+        })
+      }
+    })
   }
 }

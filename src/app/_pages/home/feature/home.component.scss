@@ -4,11 +4,15 @@
   padding: 20px;
   .wrapper-content{
     display: flex;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
     .news {
       flex: 1;
       padding: 0 20px;
     }
     .widgets{
+      margin: 0 auto;
       width: 350px;
       mat-card {
         box-shadow: 0 4px 10px rgba(34, 35, 58, 0.2);
