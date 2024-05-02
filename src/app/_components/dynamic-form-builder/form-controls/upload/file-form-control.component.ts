@@ -1,7 +1,7 @@
 import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {Subject} from "rxjs";
-import {IConfigurationAttachment} from "../../../../_models/configuration/configuration.interface";
+import {IConfigurationAttachment} from "../../../../_pages/configurations/utils/configuration.interface";
 import {DndDirective} from "../../../../_helpers/directives/dnd.directive";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";

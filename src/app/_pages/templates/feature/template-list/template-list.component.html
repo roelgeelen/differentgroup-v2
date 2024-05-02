@@ -1,0 +1,139 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Formulieren</h1>
+      <button mat-flat-button color="primary" routerLink="create">
+        Nieuw
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <hr>
+    <mat-form-field appearance="outline" on>
+      <mat-label>Zoeken</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput type="text" [formControl]="searchControl">
+      @if (pageSearch) {
+        <button matSuffix mat-icon-button aria-label="Clear" (click)="pageSearch=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource">
+      <!-- Name Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Naam</th>
+        <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'"><b>{{ element.title }}</b></td>
+      </ng-container>
+
+      <ng-container matColumnDef="published">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">@if (element.published) {
+          <mat-icon class="published-icon">check_circle_outlined</mat-icon>
+        }</td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="kind">
+        <th mat-header-cell *matHeaderCellDef>Soort</th>
+        <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'"> {{ element.kind }}</td>
+      </ng-container>
+
+      <!--      &lt;!&ndash; Weight Column &ndash;&gt;-->
+      <!--      <ng-container matColumnDef="updatedBy">-->
+      <!--        <th mat-header-cell *matHeaderCellDef> Aangemaakt</th>-->
+      <!--        <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">-->
+      <!--          {{ element.createdBy }} - {{ element.createdAt | date: 'dd-MM-yyyy HH:mm' }}-->
+      <!--        </td>-->
+      <!--      </ng-container>-->
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="updatedAt">
+        <th mat-header-cell *matHeaderCellDef> Bijgewerkt</th>
+        <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">
+          {{ element.updatedBy }} - {{ element.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="options" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="duplicateForm(element)">
+              <mat-icon>control_point_duplicate</mat-icon>
+              <span class="menu-label">Dupliceren</span>
+            </button>
+            <button mat-menu-item (click)="deleteForm(element)">
+              <mat-icon>delete</mat-icon>
+              <span class="menu-label">Verwijderen</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="clickable"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [colSpan]="displayedColumns.length">
+          @if (loading) {
+            <mat-spinner [diameter]="30"></mat-spinner>
+          } @else {
+            Geen templates gevonden
+          }</td>
+      </tr>
+    </table>
+    <hr>
+    <mat-paginator [pageSizeOptions]="[10, 25, 50]"
+                   [length]="totalElem"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   (page)="onPageFired($event)"
+                   showFirstLastButtons>
+    </mat-paginator>
+    <!--    @defer (when forms !== null) {-->
+    <!--      @for (form of forms;track form) {-->
+    <!--        <div class="template-item">-->
+    <!--        <mat-card [routerLink]="form.id+'/builder'">-->
+    <!--          <mat-card-header>-->
+    <!--            @if (form.published) {-->
+    <!--              <mat-icon mat-card-avatar class="published-icon">check_circle_outlined</mat-icon>-->
+    <!--            }-->
+    <!--            <mat-card-title>{{ form.title }}</mat-card-title>-->
+    <!--            <mat-card-subtitle>{{ form.kind }}</mat-card-subtitle>-->
+    <!--          </mat-card-header>-->
+    <!--          <mat-card-content>-->
+    <!--            <b>Aangemaakt:</b> {{form.createdBy}} {{form.createdAt | date: 'dd-MM-yyyy HH:mm'}}<br>-->
+    <!--            <b>Laast gewijzigd:</b> {{form.updatedBy}} {{form.updatedAt | date: 'dd-MM-yyyy HH:mm'}}-->
+    <!--          </mat-card-content>-->
+    <!--        </mat-card>-->
+    <!--        <button mat-icon-button  [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">-->
+    <!--          <mat-icon>more_vert</mat-icon>-->
+    <!--        </button>-->
+    <!--          <mat-menu #menu="matMenu">-->
+    <!--            <button mat-menu-item (click)="duplicateForm(form)">-->
+    <!--              <mat-icon>control_point_duplicate</mat-icon>-->
+    <!--              <span class="menu-label">Dupliceren</span>-->
+    <!--            </button>-->
+    <!--            <button mat-menu-item (click)="deleteForm(form)">-->
+    <!--              <mat-icon>delete</mat-icon>-->
+    <!--              <span class="menu-label">Verwijderen</span>-->
+    <!--            </button>-->
+    <!--          </mat-menu>-->
+    <!--        </div>-->
+    <!--      } @empty {-->
+    <!--        <div>-->
+    <!--          Nog geen formulieren aangemaakt-->
+    <!--        </div>-->
+    <!--      }-->
+    <!--    } @placeholder ()  {-->
+    <!--      <mat-spinner></mat-spinner>-->
+    <!--    }-->
+    @if (loading) {
+      <div class="loading-overlay fixed">
+        <div class="loading"></div>
+      </div>
+    }
+  </div>
+</div>

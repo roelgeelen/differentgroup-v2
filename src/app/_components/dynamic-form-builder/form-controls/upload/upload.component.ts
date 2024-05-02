@@ -2,10 +2,11 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControlComponentBase} from '../control-component-base.class';
 import {ImageUpload} from './image-upload.class';
 import {FormGroup} from "@angular/forms";
-import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {ApiCustomerService} from "../../../../_services/api-customer.service";
+import {HttpClient, HttpEventType, HttpResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {FileFormControlComponent} from "./file-form-control.component";
+import {IFormAttachment} from "../form-control-options.interface";
+import {environment} from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-upload',
@@ -19,7 +20,7 @@ export class UploadComponent extends FormControlComponentBase<ImageUpload> imple
   configId?: string
   progress = 0;
 
-  constructor(private apiCustomerService: ApiCustomerService, private route: ActivatedRoute) {
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
     super();
 
   }
@@ -34,7 +35,7 @@ export class UploadComponent extends FormControlComponentBase<ImageUpload> imple
   }
   handleFile(file: File) {
     if (this.dealId && this.configId) {
-      this.apiCustomerService.upload(this.dealId, this.configId, this.control!.id, file).subscribe({
+      this.upload(this.dealId, this.configId, this.control!.id, file).subscribe({
         next: (data: any) => {
           if (data.type === HttpEventType.UploadProgress) {
             this.progress = Math.round((100 * data.loaded) / data.total);
@@ -48,5 +49,15 @@ export class UploadComponent extends FormControlComponentBase<ImageUpload> imple
         }
       });
     }
+  }
+
+
+  upload(id: string, configId: string, field: string, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post<IFormAttachment>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/fields/${field}/attachments`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

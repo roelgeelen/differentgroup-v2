@@ -1,7 +1,7 @@
 import {IFormControlOptions} from '../form-control-options.interface';
 import {IFormControl} from '../form-control.interface';
 import {v4 as uuidV4} from "uuid";
-import {IConfigurationAttachment} from "../../../../_models/configuration/configuration.interface";
+import {IConfigurationAttachment} from "../../../../_pages/configurations/utils/configuration.interface";
 
 export class ImageUpload implements IFormControl<IFormControlOptions, IConfigurationAttachment|null> {
   readonly id: string = uuidV4();

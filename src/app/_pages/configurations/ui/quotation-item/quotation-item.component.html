@@ -1,0 +1,14 @@
+<div class="configuration-item grid">
+  <div class="item-text name">
+    <span class="sku">{{ item.sku }}</span>
+    <span class="txt">{{ product?.properties?.name }}</span>
+  </div>
+  <div class="item-text price">
+    <span class="amount">{{ item.amount || '1' }} st.</span>
+    @if (product) {
+      <span class="txt">€ {{ calcPrice() }}</span>
+    } @else {
+      <span><mat-spinner [diameter]="30"></mat-spinner></span>
+    }
+  </div>
+</div>

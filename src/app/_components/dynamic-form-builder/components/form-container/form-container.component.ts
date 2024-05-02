@@ -18,9 +18,10 @@ import {IFormControl} from "../../form-controls/form-control.interface";
 import Swal from "sweetalert2";
 import {UtilityService} from "../../services/utility.service";
 import {FormControlsService} from "../../form-controls/form-controls.service";
-import {ApiFormService} from "../../../../_services/api-form.service";
 import {Subscription} from "rxjs";
 import {IFormControlOptionsDependent} from "../../form-controls/form-control-options.interface";
+import {environment} from "../../../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-form-container',
@@ -42,7 +43,7 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
     public formService: FormService,
     public utilityService: UtilityService,
     private formControlsService: FormControlsService,
-    private apiFormService: ApiFormService
+    private http: HttpClient
   ) {
     this.selectedControlSubscription = this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
@@ -105,7 +106,7 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
       if (result.isConfirmed) {
         const c = controls[index];
         if (c.options?.image) {
-          this.apiFormService.removeFormAttachment(this.formService.form$.getValue().id!.toString(), c.options.image.id).subscribe();
+          this.removeFormAttachment(this.formService.form$.getValue().id!.toString(), c.options.image.id).subscribe();
         }
         controls.splice(index, 1);
         this.formService.updateFormGroup();
@@ -117,5 +118,9 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
 
   showDependent(dependent: IFormControlOptionsDependent[]) {
     return dependent.map(item => `${this.formService.findControlById(item.field)?.options?.label}: [${item.values.join(', ')}]`).join('\n');
+  }
+
+  removeFormAttachment(id: string, attachment: string) {
+    return this.http.delete(`${environment.apiLocal}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
   }
 }

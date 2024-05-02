@@ -3,7 +3,6 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./_pages/home/feature/home.component";
 import {AuthGuard} from "./_auth/auth.guard";
 import {EnumRoles} from './_auth/models/enumRoles';
-import {ADMIN_ROUTES} from "./_pages/admin/routes";
 import {redirectGuard} from "./_helpers/guards/redirect.guard";
 
 const routes: Routes = [
@@ -281,7 +280,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./_pages/admin/routes').then(mod => mod.ADMIN_ROUTES),
+    loadChildren: () => import('./_pages/templates/routes').then(mod => mod.ADMIN_ROUTES),
     canActivate: [AuthGuard],
     data: {
       roles: [

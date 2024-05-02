@@ -1,12 +1,12 @@
 import {Route} from "@angular/router";
-import {DynamicFormComponent} from "./dynamic-form/dynamic-form.component";
-import {OverviewComponent} from "./overview/overview.component";
-import {ViewConfigurationComponent} from "./view-configuration/view-configuration.component";
-import {ConfigurationsComponent} from "./configurations.component";
+import {OverviewComponent} from "./feature/customer-detail/customer-detail.component";
+import {ConfigurationsComponent} from "./feature/configurations.component";
 import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
-import {AllConfigurationsComponent} from "./all-configurations/all-configurations.component";
+import {CustomerListComponent} from "./feature/customer-list/customer-list.component";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
+import {ConfigurationEditComponent} from "./feature/configuration-edit/configuration-edit.component";
+import {ConfigurationDetailComponent} from "./feature/configuration-detail/configuration-detail.component";
 
 export const CONFIGURATIONS_ROUTES: Route[] = [
   {
@@ -23,7 +23,7 @@ export const CONFIGURATIONS_ROUTES: Route[] = [
   },
   {
     path: 'search',
-    component: AllConfigurationsComponent,
+    component: CustomerListComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -47,7 +47,7 @@ export const CONFIGURATIONS_ROUTES: Route[] = [
   },
   {
     path: ':dealId/configurations/:configId',
-    component: ViewConfigurationComponent,
+    component: ConfigurationDetailComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -59,7 +59,7 @@ export const CONFIGURATIONS_ROUTES: Route[] = [
   },
   {
     path: ':dealId/configurations/:configId/edit',
-    component: DynamicFormComponent,
+    component: ConfigurationEditComponent,
     canDeactivate: [canDeactivateGuard],
     canActivate: [AuthGuard],
     data: {
