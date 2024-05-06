@@ -10,6 +10,33 @@
     .news {
       flex: 1;
       padding: 0 20px;
+      .home-header {
+        padding: 15px 0;
+        display: flex;
+        letter-spacing: 0.7px;
+        span{
+          font-weight: bold;
+          font-size: 32px;
+          &.username {
+            margin-left: 10px;
+          }
+        }
+      }
+      @media only screen and (max-width: 768px) {
+        .home-header {
+          padding: 10px 0;
+          flex-direction: column;
+          span{
+            font-weight: normal;
+            font-size: 18px;
+            &.username {
+              font-weight: bold;
+              font-size: 32px;
+              margin-left: 0;
+            }
+          }
+        }
+      }
     }
     .widgets{
       margin: 0 auto;

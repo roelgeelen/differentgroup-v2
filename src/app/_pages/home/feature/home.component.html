@@ -1,7 +1,8 @@
 <div class="wrapper">
   <div class="wrapper-content">
     <div class="news">
-      <h1>{{ welkom }}, {{ currentUser?.name }}</h1>
+<!--      <h1>{{ welkom }}, {{ currentUser?.name }}</h1>-->
+      <div class="home-header"><span>{{ welkom }},</span><span class="username">{{ currentUser?.name }}</span></div>
       <hr>
       @if (posts$|async; as posts) {
         @for (post of posts.content; track post) {
