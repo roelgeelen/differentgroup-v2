@@ -43,17 +43,17 @@ const routes: Routes = [
           ]
         }
       },
-      // {
-      //   path: "formulier",
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "verkoop/formulier",
-      //     roles: [
-      //       EnumRoles.FORMULIEREN,
-      //     ]
-      //   }
-      // },
+      {
+        path: "formulier",
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          externalUrl: "verkoop/formulier",
+          roles: [
+            EnumRoles.FORMULIEREN,
+          ]
+        }
+      },
       {
         path: "dashboard",
         canActivate: [AuthGuard, redirectGuard],

@@ -38,6 +38,15 @@ export const NAV_CONFIG: NavItem[] = [
       },
       {
         path: '/customers',
+        title: 'Formulieren (V2)',
+        icon: 'description',
+        roles: [
+          EnumRoles.FORMULIEREN,
+          EnumRoles.FORMULIEREN_KLANT,
+        ]
+      },
+      {
+        path: '/verkoop/formulier',
         title: 'Formulieren',
         icon: 'description',
         roles: [
@@ -45,15 +54,6 @@ export const NAV_CONFIG: NavItem[] = [
           EnumRoles.FORMULIEREN_KLANT,
         ]
       },
-      // {
-      //   extern: true,
-      //   path: 'https://wonderful-ground-054d07e03.4.azurestaticapps.net/customers',
-      //   title: 'Formulieren (V2)',
-      //   icon: 'description',
-      //   roles: [
-      //     EnumRoles.FORMULIEREN_BEHEREN,
-      //   ]
-      // },
       {
         path: '/verkoop/dashboard',
         title: 'Dashboard',
@@ -204,7 +204,7 @@ export const NAV_CONFIG: NavItem[] = [
     children: [
       {
         path: '/admin/forms',
-        title: 'Formulieren beheren',
+        title: 'Formulieren',
         icon: 'edit_document',
         roles: [
           EnumRoles.FORMULIEREN_BEHEREN
