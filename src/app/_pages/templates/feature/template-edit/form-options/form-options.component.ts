@@ -145,7 +145,7 @@ export class FormOptionsComponent implements OnInit {
         height: null,
         width: null
       }
-    } else if ($event === 'sdh') {
+    } else if ($event === 'sdh' || $event === 'zsdh') {
       this.formService.form$.getValue().options.quoteSizeFields = {
         sizeTable: null
       }

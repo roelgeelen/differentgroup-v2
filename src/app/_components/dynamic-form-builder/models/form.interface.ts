@@ -20,6 +20,6 @@ export interface IFormOptions {
   duration?: number;
   createQuotation?: boolean;
   quoteLines?: IQuoteLine[];
-  quoteSizeCalculation?: 'odo' | 'sdh';
+  quoteSizeCalculation?: 'odo' | 'sdh' | 'zsdh';
   quoteSizeFields?: { [key: string]: IFormControl | null };
 }

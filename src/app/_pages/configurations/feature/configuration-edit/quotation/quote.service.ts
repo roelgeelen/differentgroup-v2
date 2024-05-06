@@ -22,6 +22,10 @@ export class QuoteService {
       this.calculateSDHSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
     }
 
+    if (form.options.quoteSizeCalculation === 'zsdh') {
+      this.calculateZSDHSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
+    }
+
     for (const groupId of Object.keys(formGroup)) {
       const selectedValues = Array.isArray(formGroup[groupId]) ? formGroup[groupId] : [formGroup[groupId]];
       const formControl = choiceControls.find(control => control.id === groupId);
@@ -64,6 +68,23 @@ export class QuoteService {
           size = size < 1 ? 1 : size;
           if (row['Hoogte'] > 2500) size++;
           selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 100}, {
+            sku: 'SDH0' + ('0' + size).slice(-2),
+            order: 100
+          }, {sku: 'SDH600', order: 100});
+        }
+      }
+    }
+  }
+
+  private calculateZSDHSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
+    const table = formGroup[fields.sizeTable];
+    if (table !== undefined) {
+      for (const row of table) {
+        let size = (Math.ceil(row['Breedte'] / 500) * 500 - 2500) / 500 * 2 + 1;
+        if (!isNaN(size)) {
+          size = size < 1 ? 1 : size;
+          if (row['Hoogte'] > 2500) size++;
+          selectedQuoteLines.push({
             sku: 'SDH0' + ('0' + size).slice(-2),
             order: 100
           }, {sku: 'SDH600', order: 100});
