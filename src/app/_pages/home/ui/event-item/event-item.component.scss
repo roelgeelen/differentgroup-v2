@@ -1,14 +1,24 @@
 .event {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   border-left: 3px solid var(--primary);
-  padding: 10px 0;
-  transition: background-color 0.3s ease;
+  padding: 7px 0;
   margin: 5px 0;
 
   &.today {
     background-color: var(--primary-50);
+
+    &.birthday {
+      background-image: url("../../../../../assets/images/bday-background.png");
+      background-position: center;
+      .event-body {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
+    }
+  }
+  .event-body {
+    padding: 3px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .event-date {
@@ -32,7 +42,6 @@
 
   .event-details {
     flex-grow: 1;
-
     .event-name {
       margin: 0;
       font-size: 17px;

@@ -1,16 +1,18 @@
-<div class="event" [class.today]="isToday">
-  <div class="event-date">
-    <p class="event-month">{{event.start.dateTime | date: 'MMM'}}</p>
-    <p class="event-day">{{event.start.dateTime | date: 'd'}}</p>
-  </div>
-  <div class="event-details">
-    <p class="event-name">{{event.subject}}</p>
-    <p class="event-subtitle">
-      @if(isBirthday) {
-        {{toInt(event.start.dateTime | date: 'yyyy') - event.bodyPreview}} jaar
-      } @else {
-        {{event.bodyPreview}}
-      }
-    </p>
+<div class="event" [class.today]="isToday" [class.birthday]="isBirthday">
+  <div class="event-body">
+    <div class="event-date">
+      <p class="event-month">{{ event.start.dateTime | date: 'MMM' }}</p>
+      <p class="event-day">{{ event.start.dateTime | date: 'd' }}</p>
+    </div>
+    <div class="event-details">
+      <p class="event-name">{{ event.subject }}</p>
+      <p class="event-subtitle">
+        @if (isBirthday) {
+          {{ toInt(event.start.dateTime | date: 'yyyy') - event.bodyPreview }} jaar
+        } @else {
+          {{ event.bodyPreview }}
+        }
+      </p>
+    </div>
   </div>
 </div>
