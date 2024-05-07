@@ -11,7 +11,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'sales',
+    path: 'verkoop',
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -26,93 +26,33 @@ const routes: Routes = [
         canActivate: [AuthGuard, redirectGuard],
         component: HomeComponent,
         data: {
-          externalUrl: "verkoop/afspraken",
           roles: [
             EnumRoles.AFSPRAKEN,
           ]
         }
       },
-      // {
-      //   path: "inmeten",
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "verkoop/inmeten",
-      //     roles: [
-      //       EnumRoles.INMETEN,
-      //     ]
-      //   }
-      // },
       {
         path: "formulier",
         canActivate: [AuthGuard, redirectGuard],
         component: HomeComponent,
         data: {
-          externalUrl: "verkoop/formulier",
           roles: [
             EnumRoles.FORMULIEREN,
+            EnumRoles.FORMULIEREN_KLANT,
           ]
         }
       },
-      // {
-      //   path: "dashboard",
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "verkoop/dashboard",
-      //     roles: [
-      //       EnumRoles.INMETEN,
-      //     ]
-      //   }
-      // },
-    ]
-  },
-  {
-    path: 'planning',
-    canActivate: [AuthGuard],
-    data: {
-      roles: [
-        EnumRoles.TRACKING,
-        EnumRoles.AFSPRAKEN,
-        EnumRoles.PRODUCTIE,
-        EnumRoles.GEPRODUCEERD,
-      ]
-    },
-    children: [
-      // {
-      //   path: 'tracking',
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   component: HomeComponent,
-      //   data: {
-      //     externalUrl: "planning/tracking",
-      //     roles: [
-      //       EnumRoles.TRACKING,
-      //       EnumRoles.AFSPRAKEN,
-      //     ]
-      //   },
-      // },
-      // {
-      //   path: 'productie',
-      //   component: HomeComponent,
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   data: {
-      //     externalUrl: "planning/productie",
-      //     roles: [
-      //       EnumRoles.PRODUCTIE,
-      //     ]
-      //   },
-      // },
-      // {
-      //   path: 'geproduceerd',
-      //   component: HomeComponent,
-      //   canActivate: [AuthGuard, redirectGuard],
-      //   data: {
-      //     externalUrl: "planning/geproduceerd",
-      //     roles: [
-      //       EnumRoles.GEPRODUCEERD,
-      //     ]
-      //   },
-      // }
+      {
+        path: "formulier/:id",
+        canActivate: [AuthGuard, redirectGuard],
+        component: HomeComponent,
+        data: {
+          roles: [
+            EnumRoles.FORMULIEREN,
+            EnumRoles.FORMULIEREN_KLANT,
+          ]
+        }
+      }
     ]
   },
   {
@@ -132,7 +72,6 @@ const routes: Routes = [
         canActivate: [AuthGuard, redirectGuard],
         component: HomeComponent,
         data: {
-          externalUrl: "magazijn/logistiek",
           roles: [
             EnumRoles.LOGISTIEK,
           ]
@@ -143,7 +82,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "magazijn/controle",
           roles: [
             EnumRoles.CONTROLE,
           ]
@@ -154,7 +92,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "magazijn/voorraad",
           roles: [
             EnumRoles.VOORRAAD,
           ]
@@ -165,7 +102,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "magazijn/bestellingen",
           roles: [
             EnumRoles.BESTELLINGEN_BEHEREN,
           ]
@@ -173,40 +109,6 @@ const routes: Routes = [
       }
     ]
   },
-  // {
-  //   path: 'reports',
-  //   canActivate: [AuthGuard],
-  //   data: {
-  //     roles: [
-  //       EnumRoles.RAPPORTAGE,
-  //       EnumRoles.FINANCIEEL
-  //     ]
-  //   },
-  //   children: [
-  //     {
-  //       path: 'dashboard',
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       component: HomeComponent,
-  //       data: {
-  //         externalUrl: "reports/dashboard",
-  //         roles: [
-  //           EnumRoles.RAPPORTAGE,
-  //         ]
-  //       },
-  //     },
-  //     {
-  //       path: 'financieel',
-  //       component: HomeComponent,
-  //       canActivate: [AuthGuard, redirectGuard],
-  //       data: {
-  //         externalUrl: "reports/financieel",
-  //         roles: [
-  //           EnumRoles.FINANCIEEL,
-  //         ]
-  //       },
-  //     },
-  //   ]
-  // },
   {
     path: 'hrm',
     canActivate: [AuthGuard],
@@ -221,7 +123,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "hrm/medewerkers",
           roles: [
             EnumRoles.ONTWIKKELINGEN_BEHEREN,
           ]
@@ -246,7 +147,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "admin/nieuws",
           roles: [
             EnumRoles.BERICHTEN_BEHEREN,
           ]
@@ -257,7 +157,6 @@ const routes: Routes = [
         component: HomeComponent,
         canActivate: [AuthGuard, redirectGuard],
         data: {
-          externalUrl: "admin/roles",
           roles: [
             EnumRoles.ROLLEN_BEHEREN,
           ]

@@ -46,7 +46,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/sales/formulier',
+        path: '/verkoop/formulier',
         title: 'Formulieren',
         icon: 'description',
         roles: [
@@ -55,7 +55,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/sales/afspraken',
+        path: '/verkoop/afspraken',
         title: 'Afspraken',
         icon: 'map',
         roles: [

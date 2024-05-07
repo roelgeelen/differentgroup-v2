@@ -5,6 +5,9 @@ import {
 
 
 export const redirectGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-  window.open('https://differentgroup.azurewebsites.net/'+route.data['externalUrl'], '_blank');
+  const path = route.pathFromRoot
+    .map(v => v.url.map(segment => segment.toString()).join('/'))
+    .join('/');
+  window.open('https://differentgroup.azurewebsites.net/'+path, '_blank');
   return false;
 };
