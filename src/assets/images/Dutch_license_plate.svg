@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="346.70999"
+   height="79.290001"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   sodipodi:docbase="F:\License plates"
+   sodipodi:docname="Dutch license plate.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   sodipodi:modified="true">
+  <defs
+     id="defs4">
+    <g
+       id="s">
+      <g
+         id="c">
+        <path
+           transform="matrix(0.9510565,0.309017,-0.309017,0.9510565,0,-1)"
+           d="M 0,0 L 0,1 L 0.5,1 L 0,0 z "
+           id="t" />
+        <use
+           id="use3302"
+           transform="scale(-1,1)"
+           xlink:href="#t"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+      <g
+         id="a">
+        <use
+           id="use3305"
+           transform="matrix(0.309017,0.9510565,-0.9510565,0.309017,0,0)"
+           xlink:href="#c"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622" />
+        <use
+           id="use3307"
+           transform="matrix(-0.809017,0.5877853,-0.5877853,-0.809017,0,0)"
+           xlink:href="#c"
+           x="0"
+           y="0"
+           width="744.09448"
+           height="1052.3622" />
+      </g>
+      <use
+         id="use3309"
+         transform="scale(-1,1)"
+         xlink:href="#a"
+         x="0"
+         y="0"
+         width="744.09448"
+         height="1052.3622" />
+    </g>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.1648808"
+     inkscape:cx="172.999"
+     inkscape:cy="-12.777632"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1024"
+     inkscape:window-height="742"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     showgrid="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     width="346.71px"
+     height="79.29px" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-5.5279208,-5.095195)">
+    <rect
+       style="fill:#fbbc01;fill-opacity:1;stroke:#000000;stroke-width:3.09279561;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3216"
+       width="335.62152"
+       height="69.192917"
+       x="11.072082"
+       y="10.14367"
+       ry="5.3568945" />
+    <path
+       style="fill:#003399;fill-opacity:1;fill-rule:evenodd;stroke:#003399;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 42.868685,10.363284 L 42.868685,79.30619 L 16.327325,79.30619 C 13.202305,79.2944 11.615076,77.74483 11.182541,75.04056 L 11.276562,15.666585 C 11.655475,12.509964 13.25521,10.574165 16.327325,10.110746 L 42.868685,10.363284 z "
+       id="path3214"
+       sodipodi:nodetypes="ccccccc" />
+    <g
+       style="fill:#ffcc00"
+       transform="matrix(1.6138444,0,0,1.6138444,27.337182,32.052517)"
+       id="g3313">
+      <use
+         height="1052.3622"
+         width="744.09448"
+         x="0"
+         xlink:href="#s"
+         y="-6"
+         id="use3315" />
+      <use
+         height="1052.3622"
+         width="744.09448"
+         x="0"
+         xlink:href="#s"
+         y="6"
+         id="use3317" />
+      <g
+         id="l">
+        <use
+           height="1052.3622"
+           width="744.09448"
+           y="0"
+           xlink:href="#s"
+           x="-6"
+           id="use3320" />
+        <use
+           height="1052.3622"
+           width="744.09448"
+           y="0"
+           x="0"
+           xlink:href="#s"
+           transform="matrix(-0.809017,-0.5877853,0.5877853,-0.809017,-3,-5.1961524)"
+           id="use3322" />
+        <use
+           height="1052.3622"
+           width="744.09448"
+           y="0"
+           x="0"
+           xlink:href="#s"
+           transform="matrix(-0.809017,0.5877853,-0.5877853,-0.809017,-5.1961524,-3)"
+           id="use3324" />
+        <use
+           height="1052.3622"
+           width="744.09448"
+           y="0"
+           x="0"
+           xlink:href="#s"
+           transform="matrix(0.309017,0.9510565,-0.9510565,0.309017,-5.1961524,3)"
+           id="use3326" />
+        <use
+           height="1052.3622"
+           width="744.09448"
+           y="0"
+           x="0"
+           xlink:href="#s"
+           transform="matrix(0.309017,0.9510565,-0.9510565,0.309017,-3,5.1961524)"
+           id="use3328" />
+      </g>
+      <use
+         height="1052.3622"
+         width="744.09448"
+         y="0"
+         x="0"
+         xlink:href="#l"
+         transform="scale(-1,1)"
+         id="use3330" />
+    </g>
+    <path
+       transform="scale(0.9528738,1.0494569)"
+       style="font-size:16.63579941px;font-style:normal;font-weight:bold;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       d="M 19.673644,63.349144 L 19.673644,51.440901 L 22.013053,51.440901 L 26.886822,59.393268 L 26.886822,51.440901 L 29.120633,51.440901 L 29.120633,63.349144 L 26.708117,63.349144 L 21.907454,55.583605 L 21.907454,63.349144 L 19.673644,63.349144 z M 31.736222,63.349144 L 31.736222,51.538376 L 34.140615,51.538376 L 34.140615,61.342776 L 40.119106,61.342776 L 40.119106,63.349144 L 31.736222,63.349144 z "
+       id="text3367" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.09279561;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect2221"
+       width="335.62152"
+       height="69.192917"
+       x="11.07223"
+       y="10.143804"
+       ry="5.3568945" />
+  </g>
+</svg>

@@ -25,7 +25,9 @@
     --background-accent: #{map.get($theme-background, background-accent)};
     --background-dark: #{map.get($theme-background, background-dark)};
 
+    // material styles
     --mat-table-background-color:#{map.get($theme-background, background)};
+    --mat-paginator-container-background-color:#{map.get($theme-background, background)};
   }
 }
 

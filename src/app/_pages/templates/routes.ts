@@ -5,7 +5,7 @@ import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
 
-export const ADMIN_ROUTES: Route[] = [
+export const routes: Route[] = [
   {
     path: 'forms',
     component: TemplateListComponent,

@@ -4,7 +4,7 @@ import {EnumRoles} from "../../_auth/models/enumRoles";
 import {DashboardComponent} from "./feature/dashboard/dashboard.component";
 import {InmetenComponent} from "./feature/inmeten/inmeten.component";
 
-export const SALES_ROUTES: Route[] = [
+export const routes: Route[] = [
   {
     path: 'dashboard',
     component: DashboardComponent,

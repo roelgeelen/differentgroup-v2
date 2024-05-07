@@ -1,0 +1,15 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Geproduceerd</h1>
+    </div>
+    <div class="page-content">
+      @if(data$ | async; as data){
+      <google-chart [type]="type" [data]="data" [columns]="chartColumns" [options]="myOptions"
+                    [dynamicResize]="true"></google-chart>
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+  </div>
+</div>

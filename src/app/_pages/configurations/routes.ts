@@ -8,7 +8,7 @@ import {EnumRoles} from "../../_auth/models/enumRoles";
 import {ConfigurationEditComponent} from "./feature/configuration-edit/configuration-edit.component";
 import {ConfigurationDetailComponent} from "./feature/configuration-detail/configuration-detail.component";
 
-export const CONFIGURATIONS_ROUTES: Route[] = [
+export const routes: Route[] = [
   {
     path: '',
     component: ConfigurationsComponent,

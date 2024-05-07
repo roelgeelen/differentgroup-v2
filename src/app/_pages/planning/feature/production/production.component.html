@@ -1,0 +1,45 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Productie</h1>
+    </div>
+    <div class="page-content">
+      @if(data$ | async; as data){
+      <google-chart [type]="type" [data]="data" [columns]="chartColumns" [options]="myOptions"
+                    [dynamicResize]="true"></google-chart>
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+      <div class="totals">
+        <div class="round">Deals<br>
+          @if(totalProjects$ | async; as total){
+            <span>{{total.value}}</span>
+          } @else {
+            <mat-spinner diameter="75"></mat-spinner>
+          }
+        </div>
+        <div class="round">Totaal<br>
+          @if(totalOrders$ | async; as total){
+            <span>{{total.value}}</span>
+          } @else {
+            <mat-spinner diameter="75"></mat-spinner>
+          }
+        </div>
+        <div class="round">Plannen<br>
+          @if(totalToSchedule$ | async; as total){
+            <span>{{total.value}}</span>
+          } @else {
+            <mat-spinner diameter="75"></mat-spinner>
+          }
+        </div>
+        <div class="round">UB<br>
+          @if(totalUB$ | async; as total){
+            <span>{{total.value}}</span>
+          } @else {
+            <mat-spinner diameter="75"></mat-spinner>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

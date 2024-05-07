@@ -85,7 +85,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/planning/productie',
+        path: '/planning/production',
         title: 'Productie',
         icon: 'bar_chart',
         roles: [
@@ -93,7 +93,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/planning/geproduceerd',
+        path: '/planning/produced',
         title: 'Geproduceerd',
         icon: 'bar_chart',
         roles: [

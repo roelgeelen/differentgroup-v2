@@ -1,33 +1,34 @@
 import {Route} from "@angular/router";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {DashboardComponent} from "./feature/dashboard/dashboard.component";
-import {FinancialComponent} from "./feature/financial/financial.component";
+import {ProductionComponent} from "./feature/production/production.component";
+import {ProducedComponent} from "./feature/produced/produced.component";
+import {TrackingComponent} from "./feature/tracking/tracking.component";
 
 export const routes: Route[] = [
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: 'production',
+    component: ProductionComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.RAPPORTAGE,
+        EnumRoles.PRODUCTIE,
       ]
     }
   },
   {
-    path: 'financieel',
-    component: FinancialComponent,
+    path: 'produced',
+    component: ProducedComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FINANCIEEL,
+        EnumRoles.GEPRODUCEERD,
       ]
     }
   },
   {
     path: 'tracking',
-    component: FinancialComponent,
+    component: TrackingComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -35,5 +36,5 @@ export const routes: Route[] = [
         EnumRoles.AFSPRAKEN,
       ]
     }
-  }
+  },
 ];

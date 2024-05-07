@@ -1,0 +1,53 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Live locaties</h1>
+    </div>
+    <div class="page-content">
+      <google-map
+        width="100%"
+        [zoom]="9"
+        [center]="center"
+        [options]="options"
+        [height]="height"
+      >
+        @for (marker of markers$ |async; track marker){
+          <map-marker
+            #somemarker="mapMarker"
+            [position]="marker.position"
+            [options]="marker.options"
+            (mapClick)="openInfo(somemarker, marker.vehicle)"
+          >
+          </map-marker>
+        }
+        <map-info-window>
+          <div class="driver-info">
+            <div class="info-header">
+              <div class="title">
+                <h3>{{infoContent?.alias}}</h3>
+                <small>{{infoContent?.location?.timestamp | date: 'yyyy-MM-dd HH:mm'}}</small>
+              </div>
+              <div class="license">
+                {{infoContent?.license_plate?.number}}
+              </div>
+            </div>
+            <div class="info-body">
+              <div>
+                <mat-icon>directions_car</mat-icon>
+                <strong>{{infoContent?.manufacturer?.name}}</strong>
+                <span>{{infoContent?.model?.name}}</span>
+              </div>
+              <div>
+                <mat-icon>network_check</mat-icon>
+                <span>{{infoContent?.location?.speed}} <sup>km/h</sup></span>
+              </div>
+            </div>
+          </div>
+        </map-info-window>
+
+
+        <map-traffic-layer [autoRefresh]="true"></map-traffic-layer>
+      </google-map>
+    </div>
+  </div>
+</div>

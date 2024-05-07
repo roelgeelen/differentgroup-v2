@@ -79,40 +79,40 @@ const routes: Routes = [
       ]
     },
     children: [
-      {
-        path: 'tracking',
-        canActivate: [AuthGuard, redirectGuard],
-        component: HomeComponent,
-        data: {
-          externalUrl: "planning/tracking",
-          roles: [
-            EnumRoles.TRACKING,
-            EnumRoles.AFSPRAKEN,
-          ]
-        },
-      },
-      {
-        path: 'productie',
-        component: HomeComponent,
-        canActivate: [AuthGuard, redirectGuard],
-        data: {
-          externalUrl: "planning/productie",
-          roles: [
-            EnumRoles.PRODUCTIE,
-          ]
-        },
-      },
-      {
-        path: 'geproduceerd',
-        component: HomeComponent,
-        canActivate: [AuthGuard, redirectGuard],
-        data: {
-          externalUrl: "planning/geproduceerd",
-          roles: [
-            EnumRoles.GEPRODUCEERD,
-          ]
-        },
-      }
+      // {
+      //   path: 'tracking',
+      //   canActivate: [AuthGuard, redirectGuard],
+      //   component: HomeComponent,
+      //   data: {
+      //     externalUrl: "planning/tracking",
+      //     roles: [
+      //       EnumRoles.TRACKING,
+      //       EnumRoles.AFSPRAKEN,
+      //     ]
+      //   },
+      // },
+      // {
+      //   path: 'productie',
+      //   component: HomeComponent,
+      //   canActivate: [AuthGuard, redirectGuard],
+      //   data: {
+      //     externalUrl: "planning/productie",
+      //     roles: [
+      //       EnumRoles.PRODUCTIE,
+      //     ]
+      //   },
+      // },
+      // {
+      //   path: 'geproduceerd',
+      //   component: HomeComponent,
+      //   canActivate: [AuthGuard, redirectGuard],
+      //   data: {
+      //     externalUrl: "planning/geproduceerd",
+      //     roles: [
+      //       EnumRoles.GEPRODUCEERD,
+      //     ]
+      //   },
+      // }
     ]
   },
   {
@@ -267,17 +267,32 @@ const routes: Routes = [
   },
   {
     path: 'sales',
-    loadChildren: () => import('./_pages/sales/routes').then(mod => mod.SALES_ROUTES),
+    loadChildren: () => import('./_pages/sales/routes').then(mod => mod.routes),
     canActivate: [AuthGuard],
     data: {
       roles: [
+        EnumRoles.AFSPRAKEN,
         EnumRoles.INMETEN,
+        EnumRoles.FORMULIEREN
+      ]
+    }
+  },
+  {
+    path: 'planning',
+    loadChildren: () => import('./_pages/planning/routes').then(mod => mod.routes),
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.PRODUCTIE,
+        EnumRoles.GEPRODUCEERD,
+        EnumRoles.TRACKING,
+        EnumRoles.AFSPRAKEN,
       ]
     }
   },
   {
     path: 'reports',
-    loadChildren: () => import('./_pages/reports/routes').then(mod => mod.REPORTS_ROUTES),
+    loadChildren: () => import('./_pages/reports/routes').then(mod => mod.routes),
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -288,7 +303,7 @@ const routes: Routes = [
   },
   {
     path: 'customers',
-    loadChildren: () => import('./_pages/configurations/routes').then(mod => mod.CONFIGURATIONS_ROUTES),
+    loadChildren: () => import('./_pages/configurations/routes').then(mod => mod.routes),
     // children: CONFIGURATIONS_ROUTES,
     canActivate: [AuthGuard],
     data: {
@@ -301,7 +316,7 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./_pages/templates/routes').then(mod => mod.ADMIN_ROUTES),
+    loadChildren: () => import('./_pages/templates/routes').then(mod => mod.routes),
     canActivate: [AuthGuard],
     data: {
       roles: [
