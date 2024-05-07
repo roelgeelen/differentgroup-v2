@@ -20,33 +20,33 @@ export class TemplateService {
     }
     params = params.append('size', size);
     params = params.append('page', page);
-    return this.http.get<IPage<IForm[]>>(`${environment.apiLocal}/v2/forms?published=false`, {params});
+    return this.http.get<IPage<IForm[]>>(`${environment.apiUrlV2}/v2/forms?published=false`, {params});
   }
 
   getTemplate(id: string) {
-    return this.http.get<IForm>(`${environment.apiLocal}/v2/forms/${id}`);
+    return this.http.get<IForm>(`${environment.apiUrlV2}/v2/forms/${id}`);
   }
   saveTemplate(form: IForm) {
-    return this.http.post<IForm>(`${environment.apiLocal}/v2/forms`, form);
+    return this.http.post<IForm>(`${environment.apiUrlV2}/v2/forms`, form);
   }
   deleteTemplate(id: string) {
-    return this.http.delete(`${environment.apiLocal}/v2/forms/${id}`);
+    return this.http.delete(`${environment.apiUrlV2}/v2/forms/${id}`);
   }
 
   upload(id:string, field: string, file: File){
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<IFormAttachment>(`${environment.apiLocal}/v2/forms/${id}/fields/${field}/attachments`, formData, {
+    return this.http.post<IFormAttachment>(`${environment.apiUrlV2}/v2/forms/${id}/fields/${field}/attachments`, formData, {
       reportProgress: true,
       observe: 'events'
     });
   }
 
   removeFormAttachment(id: string, attachment: string) {
-    return this.http.delete(`${environment.apiLocal}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
+    return this.http.delete(`${environment.apiUrlV2}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
   }
 
   getDealSchema() {
-    return this.http.get<any>(`${environment.apiLocal}/v2/deals/schema`);
+    return this.http.get<any>(`${environment.apiUrlV2}/v2/deals/schema`);
   }
 }

@@ -26,22 +26,22 @@ export class CustomerService {
     params = params.append('size', size);
     params = params.append('page', page);
 
-    return this.http.get<IPage<IRecentCustomer[]>>(`${environment.apiLocal}/v2/customer`, {params});
+    return this.http.get<IPage<IRecentCustomer[]>>(`${environment.apiUrlV2}/v2/customer`, {params});
   }
 
   findCustomer(id: string) {
-    return this.http.get<ICustomer>(`${environment.apiLocal}/v2/customer/${id}`);
+    return this.http.get<ICustomer>(`${environment.apiUrlV2}/v2/customer/${id}`);
   }
 
   getDeal(id: string, properties: string[]) {
-    return this.http.get<any>(`${environment.apiLocal}/v2/configuration/${id}/deal?properties=${properties.join(',')}`);
+    return this.http.get<any>(`${environment.apiUrlV2}/v2/configuration/${id}/deal?properties=${properties.join(',')}`);
   }
 
   updateToDeal(id: string, change: any) {
-    return this.http.put(`${environment.apiLocal}/v2/configuration/${id}/deal`, change);
+    return this.http.put(`${environment.apiUrlV2}/v2/configuration/${id}/deal`, change);
   }
 
   createInvoice(id: string, replace: boolean, values: IQuoteLine[]) {
-    return this.http.post(`${environment.apiLocal}/v2/configuration/${id}/invoice?replace=${replace}`, values);
+    return this.http.post(`${environment.apiUrlV2}/v2/configuration/${id}/invoice?replace=${replace}`, values);
   }
 }

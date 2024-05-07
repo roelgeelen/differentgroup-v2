@@ -18,7 +18,7 @@ import {SharedModule} from "./shared.module";
   imports: [
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.apiUrl, environment.apiLocal],
+        allowedUrls: [environment.apiUrl, environment.apiUrlV2],
         sendAccessToken: true
       }
     }),

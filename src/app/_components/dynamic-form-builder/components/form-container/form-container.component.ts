@@ -121,6 +121,6 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   removeFormAttachment(id: string, attachment: string) {
-    return this.http.delete(`${environment.apiLocal}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
+    return this.http.delete(`${environment.apiUrlV2}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
   }
 }

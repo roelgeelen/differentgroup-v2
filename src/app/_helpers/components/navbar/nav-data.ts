@@ -11,7 +11,7 @@ export interface NavItem {
 
 export const NAV_CONFIG: NavItem[] = [
   {
-    path: '/verkoop',
+    path: '/sales',
     title: 'Verkoop',
     icon: 'dashboard',
     roles: [
@@ -21,15 +21,15 @@ export const NAV_CONFIG: NavItem[] = [
     ],
     children: [
       {
-        path: '/verkoop/afspraken',
-        title: 'Afspraken',
-        icon: 'map',
+        path: '/sales/dashboard',
+        title: 'Dashboard',
+        icon: 'dashboard',
         roles: [
-          EnumRoles.AFSPRAKEN,
+          EnumRoles.INMETEN,
         ]
       },
       {
-        path: '/verkoop/inmeten',
+        path: '/sales/inmeten',
         title: 'Inmeten',
         icon: 'table_chart',
         roles: [
@@ -46,7 +46,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/verkoop/formulier',
+        path: '/sales/formulier',
         title: 'Formulieren',
         icon: 'description',
         roles: [
@@ -55,13 +55,13 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/verkoop/dashboard',
-        title: 'Dashboard',
-        icon: 'dashboard',
+        path: '/sales/afspraken',
+        title: 'Afspraken',
+        icon: 'map',
         roles: [
-          EnumRoles.INMETEN,
+          EnumRoles.AFSPRAKEN,
         ]
-      }
+      },
     ],
   },
   {
@@ -148,7 +148,7 @@ export const NAV_CONFIG: NavItem[] = [
     ],
   },
   {
-    path: '/rapportage',
+    path: '/reports',
     title: 'Rapportage',
     icon: 'attach_money',
     roles: [
@@ -157,7 +157,7 @@ export const NAV_CONFIG: NavItem[] = [
     ],
     children: [
       {
-        path: '/rapportage/dashboard',
+        path: '/reports/dashboard',
         title: 'Dashboard',
         icon: 'dashboard',
         roles: [
@@ -165,7 +165,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/rapportage/financieel',
+        path: '/reports/financieel',
         title: 'Financieel',
         icon: 'attach_money',
         roles: [

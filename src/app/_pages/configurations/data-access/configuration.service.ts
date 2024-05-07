@@ -18,42 +18,42 @@ export class ConfigurationService {
   }
 
   getTemplates() {
-    return this.http.get<IPage<IForm[]>>(`${environment.apiLocal}/v2/forms?published=true`);
+    return this.http.get<IPage<IForm[]>>(`${environment.apiUrlV2}/v2/forms?published=true`);
   }
 
   getConfigurationChanges(id: string, page: number) {
-    return this.http.get<IPage<IConfigChanges[]>>(`${environment.apiLocal}/v2/configuration/${id}/changes?size=5&page=${page}`);
+    return this.http.get<IPage<IConfigChanges[]>>(`${environment.apiUrlV2}/v2/configuration/${id}/changes?size=5&page=${page}`);
   }
 
   getConfigurations(id: string) {
-    return this.http.get<IConfiguration[]>(`${environment.apiLocal}/v2/customer/${id}/configurations`);
+    return this.http.get<IConfiguration[]>(`${environment.apiUrlV2}/v2/customer/${id}/configurations`);
   }
 
   createConfiguration(id: string, config: IConfiguration) {
-    return this.http.post<IConfiguration>(`${environment.apiLocal}/v2/customer/${id}/configurations`, config);
+    return this.http.post<IConfiguration>(`${environment.apiUrlV2}/v2/customer/${id}/configurations`, config);
   }
 
   getConfiguration(id: string, configId: string, type?: string) {
-    return this.http.get<IConfiguration>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}?type=${type}`);
+    return this.http.get<IConfiguration>(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}?type=${type}`);
   }
 
   updateConfiguration(id: string, configId: string, config: IConfiguration) {
-    return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}`, config);
+    return this.http.put(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}`, config);
   }
 
   updateConfigAmount(id: string, configId: string, amount: number) {
-    return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/amount`, amount);
+    return this.http.put(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}/amount`, amount);
   }
 
   moveConfiguration(id: string, configId: string, customerId: string) {
-    return this.http.put(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/move`, customerId);
+    return this.http.put(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}/move`, customerId);
   }
 
   deleteConfiguration(id: string, configId: string) {
-    return this.http.delete(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}`);
+    return this.http.delete(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}`);
   }
 
   searchProducts(skus: string[]) {
-    return this.http.post<{results:IQuoteLineProduct[]}>(`${environment.apiLocal}/v2/quote/search/products`, skus);
+    return this.http.post<{results:IQuoteLineProduct[]}>(`${environment.apiUrlV2}/v2/quote/search/products`, skus);
   }
 }

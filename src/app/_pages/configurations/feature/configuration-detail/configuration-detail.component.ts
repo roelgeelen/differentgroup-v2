@@ -18,7 +18,6 @@ import {FormPageComponent} from "../../../../_components/dynamic-form-builder/co
 import {EnumRoles} from "../../../../_auth/models/enumRoles";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {User} from "../../../../_auth/models/User";
-import {CustomerService} from "../../data-access/customer.service";
 import {ConfigurationService} from "../../data-access/configuration.service";
 
 @Component({

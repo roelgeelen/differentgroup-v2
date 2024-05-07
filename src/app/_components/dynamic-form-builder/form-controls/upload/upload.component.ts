@@ -55,7 +55,7 @@ export class UploadComponent extends FormControlComponentBase<ImageUpload> imple
   upload(id: string, configId: string, field: string, file: File) {
     const formData: FormData = new FormData();
     formData.append('file', file);
-    return this.http.post<IFormAttachment>(`${environment.apiLocal}/v2/customer/${id}/configurations/${configId}/fields/${field}/attachments`, formData, {
+    return this.http.post<IFormAttachment>(`${environment.apiUrlV2}/v2/customer/${id}/configurations/${configId}/fields/${field}/attachments`, formData, {
       reportProgress: true,
       observe: 'events'
     });
