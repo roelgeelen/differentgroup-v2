@@ -110,7 +110,6 @@ export const NAV_CONFIG: NavItem[] = [
       EnumRoles.LOGISTIEK,
       EnumRoles.CONTROLE,
       EnumRoles.VOORRAAD,
-      EnumRoles.BESTELLINGEN_BEHEREN
     ],
     children: [
       {
@@ -137,14 +136,6 @@ export const NAV_CONFIG: NavItem[] = [
           EnumRoles.VOORRAAD,
         ]
       },
-      {
-        path: '/magazijn/bestellingen',
-        title: 'Bestellingen',
-        icon: 'storage',
-        roles: [
-          EnumRoles.BESTELLINGEN_BEHEREN,
-        ]
-      }
     ],
   },
   {

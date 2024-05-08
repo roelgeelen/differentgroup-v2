@@ -63,7 +63,6 @@ const routes: Routes = [
         EnumRoles.LOGISTIEK,
         EnumRoles.CONTROLE,
         EnumRoles.VOORRAAD,
-        EnumRoles.BESTELLINGEN_BEHEREN
       ]
     },
     children: [
@@ -97,16 +96,6 @@ const routes: Routes = [
           ]
         },
       },
-      {
-        path: 'bestellingen',
-        component: HomeComponent,
-        canActivate: [AuthGuard, redirectGuard],
-        data: {
-          roles: [
-            EnumRoles.BESTELLINGEN_BEHEREN,
-          ]
-        },
-      }
     ]
   },
   {

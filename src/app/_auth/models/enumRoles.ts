@@ -4,7 +4,6 @@
   FORMULIEREN_KLANT = 'Formulieren_klant',
   TRACKING = 'Tracking',
   GEPRODUCEERD = 'Geproduceerd',
-  BESTELLINGEN_BEHEREN = 'Bestellingen_beheren',
   FORMULIEREN = 'Formulieren',
   FORMULIEREN_BEHEREN = 'Formulieren_beheren',
   FORMULIEREN_BEKIJKEN = 'Formulieren_bekijken',

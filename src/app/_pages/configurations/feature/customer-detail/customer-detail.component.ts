@@ -127,12 +127,13 @@ export class OverviewComponent  implements OnDestroy{
 
   addConfiguration(form: IForm) {
     this.loading = true;
+    console.log(form)
     const newConfig: IConfiguration = {
       customer: this.customer!,
       form: form,
       title: form.title,
       updatedBy: this.currentUser?.name,
-      published: false
+      published: form.options?.published??false
     }
     form.updatedBy = this.currentUser?.name;
     this.configurationService.createConfiguration(this.customer!.dealId!, newConfig).subscribe({
