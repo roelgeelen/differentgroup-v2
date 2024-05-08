@@ -113,7 +113,7 @@ export const NAV_CONFIG: NavItem[] = [
     ],
     children: [
       {
-        path: '/magazijn/logistiek',
+        path: '/warehouse/logistic',
         title: 'Logistiek',
         icon: 'calendar_today',
         roles: [
@@ -121,7 +121,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/magazijn/controle',
+        path: '/warehouse/checklist',
         title: 'Controle',
         icon: 'playlist_add_check',
         roles: [
@@ -129,7 +129,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/magazijn/voorraad',
+        path: '/warehouse/stock',
         title: 'Voorraad',
         icon: 'bar_chart',
         roles: [

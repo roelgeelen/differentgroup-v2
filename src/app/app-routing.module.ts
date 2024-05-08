@@ -66,16 +66,16 @@ const routes: Routes = [
       ]
     },
     children: [
-      {
-        path: 'logistiek',
-        canActivate: [AuthGuard, redirectGuard],
-        component: HomeComponent,
-        data: {
-          roles: [
-            EnumRoles.LOGISTIEK,
-          ]
-        },
-      },
+      // {
+      //   path: 'logistiek',
+      //   canActivate: [AuthGuard, redirectGuard],
+      //   component: HomeComponent,
+      //   data: {
+      //     roles: [
+      //       EnumRoles.LOGISTIEK,
+      //     ]
+      //   },
+      // },
       {
         path: 'controle',
         component: HomeComponent,
@@ -175,6 +175,18 @@ const routes: Routes = [
         EnumRoles.GEPRODUCEERD,
         EnumRoles.TRACKING,
         EnumRoles.AFSPRAKEN,
+      ]
+    }
+  },
+  {
+    path: 'warehouse',
+    loadChildren: () => import('./_pages/warehouse/routes').then(mod => mod.routes),
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.LOGISTIEK,
+        EnumRoles.CONTROLE,
+        EnumRoles.VOORRAAD,
       ]
     }
   },

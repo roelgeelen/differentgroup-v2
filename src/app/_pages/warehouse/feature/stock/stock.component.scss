@@ -1,0 +1,29 @@
+google-chart {
+  width: 100%;
+}
+.totals{
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  .round {
+    font-size: 55px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: white;
+    padding: 50px 23px;
+    margin: 30px auto;
+    line-height: 1.2;
+    mat-spinner {
+      margin: 0 auto;
+    }
+    span {
+      font-size: 70px;
+    }
+  }
+
+  .round {
+    border: 15px solid #06af85;
+  }
+}

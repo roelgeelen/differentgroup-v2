@@ -1,0 +1,26 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Voorraad</h1>
+    </div>
+    <div class="page-content">
+      @if(data$ | async; as data){
+      <google-chart [type]="type" [data]="data" [columns]="chartColumns" [options]="myOptions"
+                    [dynamicResize]="true"></google-chart>
+        <div class="totals">
+          <div class="round">Binnen<br>
+            <span>{{value}}</span>
+          </div>
+          <div class="round">ODHD<br>
+            <span>{{valueH}}</span>
+          </div>
+          <div class="round">Verwacht<br>
+            <span>{{valueExpected}}</span>
+          </div>
+        </div>
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+  </div>
+</div>

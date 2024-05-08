@@ -42,7 +42,7 @@ import {debounceTime, map, Observable, switchMap, tap} from "rxjs";
 })
 export class TemplateListComponent implements OnInit {
   currentUser: User | undefined;
-  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'options'];
+  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'icons','options'];
   dataSource: MatTableDataSource<IForm> = new MatTableDataSource<IForm>();
   loading = false;
   searchControl = new FormControl<string>('');

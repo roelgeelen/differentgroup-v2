@@ -27,6 +27,7 @@
     "@angular/router": "^17.3.4",
     "angular-google-charts": "^2.2.3",
     "angular-oauth2-oidc": "^17.0.2",
+    "date-fns": "^3.6.0",
     "jwt-decode": "^4.0.0",
     "ngx-editor": "^17.0.2",
     "npm-check-updates": "^16.14.18",

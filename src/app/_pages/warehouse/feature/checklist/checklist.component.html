@@ -1,0 +1,107 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Controle</h1>
+    </div>
+    <div class="page-content">
+      <div class="filter">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="prev()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <mat-form-field appearance="fill" class="h-100">
+          <mat-label>Selecteer een week</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="date" (dateChange)="getChecklist()" disabled>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="next()">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+        <mat-button-toggle-group class="type-filter" [(ngModel)]="type" (change)="getChecklist()">
+          <mat-button-toggle value="OPENSLAANDE">Openslaande</mat-button-toggle>
+          <mat-button-toggle value="HOUT">Hout</mat-button-toggle>
+          <mat-button-toggle value="STORING">Storing</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      @if (table$ | async; as table){
+      <table mat-table [dataSource]="table">
+        <ng-container matColumnDef="workDate">
+          <th mat-header-cell *matHeaderCellDef> Uitvoer datum</th>
+          <td mat-cell *matCellDef="let element" > {{element.workDate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="workTime">
+          <th mat-header-cell *matHeaderCellDef> Tijd</th>
+          <td mat-cell *matCellDef="let element" > {{element.workTime}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="customer">
+          <th mat-header-cell *matHeaderCellDef> Klant</th>
+          <td mat-cell *matCellDef="let element" > {{element.customer}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="customerNo">
+          <th mat-header-cell *matHeaderCellDef>Debiteur nummer</th>
+          <td mat-cell *matCellDef="let element" > {{element.customerNo}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="no">
+          <th mat-header-cell *matHeaderCellDef> Project nummer</th>
+          <td mat-cell *matCellDef="let element" > {{element.no}} </td>
+        </ng-container>
+
+
+        <!-- City Column -->
+        <ng-container matColumnDef="employee">
+          <th mat-header-cell *matHeaderCellDef> Monteur</th>
+          <td mat-cell *matCellDef="let element" > {{element.employee}} </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="memo">
+          <th mat-header-cell *matHeaderCellDef> Memo</th>
+          <td mat-cell *matCellDef="let element" > {{element.memo}} </td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="shortMemo">
+          <th mat-header-cell *matHeaderCellDef> Korte memo</th>
+          <td mat-cell *matCellDef="let element" > {{element.shortMemo}} </td>
+        </ng-container>
+
+        <!-- Short description Column -->
+        <ng-container matColumnDef="link">
+          <th mat-header-cell *matHeaderCellDef> Link</th>
+          <td mat-cell *matCellDef="let element" >
+            @if(element.no){
+              <a [href]="'https://info.differentdoors.nl/configuratie-menu/montage/p'+ element.no" target="_blank">Configuratie</a>
+            }</td>
+        </ng-container>
+
+        <ng-container matColumnDef="check">
+          <th mat-header-cell *matHeaderCellDef> Klaargezet</th>
+          <td mat-cell *matCellDef="let element" >
+            <mat-checkbox [(ngModel)]="element.priorityCode" color="primary" (click)="updatePriority(element)"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+
+
+    </div>
+  </div>
+</div>

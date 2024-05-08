@@ -53,6 +53,17 @@
             {{ element.updatedBy }} - {{ element.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="icons">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">
+            @if (element.options.createQuotation) {
+              <mat-icon color="primary">description</mat-icon>
+            }
+            @if (element.options.published) {
+              <mat-icon color="primary">public</mat-icon>
+            }
+          </td>
+        </ng-container>
         <ng-container matColumnDef="options" stickyEnd>
           <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
