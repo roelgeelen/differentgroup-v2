@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="page-content">
-      <mat-form-field appearance="outline" on>
+      <mat-form-field appearance="outline">
         <mat-label>Zoeken</mat-label>
         <mat-icon matPrefix>search</mat-icon>
         <input matInput type="text" [formControl]="searchControl">
@@ -53,7 +53,7 @@
             {{ element.updatedBy }} - {{ element.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
           </td>
         </ng-container>
-        <ng-container matColumnDef="icons">
+        <ng-container matColumnDef="options">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">
             @if (element.options.createQuotation) {
@@ -64,7 +64,7 @@
             }
           </td>
         </ng-container>
-        <ng-container matColumnDef="options" stickyEnd>
+        <ng-container matColumnDef="actions" stickyEnd>
           <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button [matMenuTriggerFor]="menu">

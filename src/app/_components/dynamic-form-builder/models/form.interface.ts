@@ -21,6 +21,6 @@ export interface IFormOptions {
   createQuotation?: boolean;
   published?: boolean;
   quoteLines?: IQuoteLine[];
-  quoteSizeCalculation?: 'odo' | 'sdh' | 'zsdh';
+  quoteSizeCalculation?: 'odo' | 'sdh' | 'zsdh' | 'old';
   quoteSizeFields?: { [key: string]: IFormControl | null };
 }

@@ -25,6 +25,9 @@ export class QuoteService {
     if (form.options.quoteSizeCalculation === 'zsdh') {
       this.calculateZSDHSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
     }
+    if (form.options.quoteSizeCalculation === 'old') {
+      this.calculateOLDSize(formGroup, selectedQuoteLines, form.options.quoteSizeFields);
+    }
 
     for (const groupId of Object.keys(formGroup)) {
       const selectedValues = Array.isArray(formGroup[groupId]) ? formGroup[groupId] : [formGroup[groupId]];
@@ -58,6 +61,21 @@ export class QuoteService {
       }
     }
   }
+  private calculateOLDSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
+    const {width, height} = fields;
+
+    if (width && height) {
+      const widthValue = formGroup[width];
+      const heightValue = formGroup[height];
+      if (widthValue !== undefined && heightValue !== undefined) {
+        const size = Math.ceil((((widthValue < 900 ? 900 : widthValue) - 900) / 100) + 1) + (Math.ceil(((heightValue < 2000 ? 2000 : heightValue) - 2000) / 100) * 7);
+        selectedQuoteLines.push({sku: 'OLD0' + ('0' + size).slice(-2), order: 20}, {
+          sku: 'OLD' + (size + 99),
+          order: 20
+        });
+      }
+    }
+  }
 
   private calculateSDHSize(formGroup: any, selectedQuoteLines: IQuoteLine[], fields: any) {
     const table = formGroup[fields.sizeTable];
@@ -67,10 +85,10 @@ export class QuoteService {
         if (!isNaN(size)) {
           size = size < 1 ? 1 : size;
           if (row['Hoogte'] > 2500) size++;
-          selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 100}, {
+          selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 1}, {
             sku: 'SDH0' + ('0' + size).slice(-2),
-            order: 100
-          }, {sku: 'SDH600', order: 100});
+            order: 1
+          }, {sku: 'SDH600', order: 1});
         }
       }
     }
@@ -86,8 +104,8 @@ export class QuoteService {
           if (row['Hoogte'] > 2500) size++;
           selectedQuoteLines.push({
             sku: 'SDH0' + ('0' + size).slice(-2),
-            order: 100
-          }, {sku: 'SDH600', order: 100});
+            order: 1
+          }, {sku: 'SDH600', order: 1});
         }
       }
     }

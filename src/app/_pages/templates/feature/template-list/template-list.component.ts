@@ -38,11 +38,14 @@ import {debounceTime, map, Observable, switchMap, tap} from "rxjs";
     MatMenuModule,
     MatPaginatorModule
   ],
-  styleUrl: './template-list.component.scss'
+  styleUrls: [
+    './template-list.component.scss',
+    '../../../../../assets/styles/table-list.scss'
+  ]
 })
 export class TemplateListComponent implements OnInit {
   currentUser: User | undefined;
-  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'icons','options'];
+  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'options', 'actions'];
   dataSource: MatTableDataSource<IForm> = new MatTableDataSource<IForm>();
   loading = false;
   searchControl = new FormControl<string>('');

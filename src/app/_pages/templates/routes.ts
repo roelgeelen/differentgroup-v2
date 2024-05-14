@@ -4,15 +4,35 @@ import {TemplateEditComponent} from "./feature/template-edit/template-edit.compo
 import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
+import {NewsListComponent} from "./feature/news-list/news-list.component";
+import {NewsEditComponent} from "./feature/news-edit/news-edit.component";
 
 export const routes: Route[] = [
+  {
+    path: 'news',
+    component: NewsListComponent,
+    canActivate : [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.FORMULIEREN_BEHEREN,
+      ]
+    },
+  },
+  {
+    path: 'news/:id/edit',
+    component: NewsEditComponent,
+    canActivate : [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.FORMULIEREN_BEHEREN,
+      ]
+    }
+  },
   {
     path: 'forms',
     component: TemplateListComponent,
     canActivate : [AuthGuard],
     data: {
-      title: 'Beheer formulieren',
-      showInNavbar: true,
       roles: [
         EnumRoles.FORMULIEREN_BEHEREN,
       ]

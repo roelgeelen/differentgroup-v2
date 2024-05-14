@@ -140,17 +140,22 @@ export class FormOptionsComponent implements OnInit {
   }
 
   selectSizeCalculation($event: any) {
-    if ($event === 'odo') {
-      this.formService.form$.getValue().options.quoteSizeFields = {
-        height: null,
-        width: null
-      }
-    } else if ($event === 'sdh' || $event === 'zsdh') {
-      this.formService.form$.getValue().options.quoteSizeFields = {
-        sizeTable: null
-      }
-    } else {
-      this.formService.form$.getValue().options.quoteSizeFields = {}
+    switch ($event) {
+      case 'odo':
+      case 'old':
+        this.formService.form$.getValue().options.quoteSizeFields = {
+          height: null,
+          width: null
+        }
+        break;
+      case 'sdh':
+      case 'zsdh':
+        this.formService.form$.getValue().options.quoteSizeFields = {
+          sizeTable: null
+        }
+        break;
+      default:
+        this.formService.form$.getValue().options.quoteSizeFields = {}
     }
   }
 
