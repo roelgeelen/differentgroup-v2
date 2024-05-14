@@ -1,0 +1,73 @@
+<div class="content">
+  <div class="layout-content">
+    <div class="page-header">
+      <h1>Bericht bewerken</h1>
+    </div>
+    <div class="page-content">
+      @if (news$ | async; as news) {
+
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              <mat-slide-toggle [(ngModel)]="news.published" color="primary">Gepubliceerd</mat-slide-toggle>
+            </mat-card-title>
+          </mat-card-header>
+          <br>
+          <mat-card-content>
+            <div class="news-content">
+              <div class="news-text">
+                <mat-form-field appearance="fill">
+                  <mat-label>Titel</mat-label>
+                  <input matInput [(ngModel)]="news.title">
+                </mat-form-field>
+                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                <ngx-editor
+                  [editor]="editor"
+                  [(ngModel)]="news.message"
+                  [disabled]="false"
+                  [placeholder]="'Type hier je tekst...'"
+                ></ngx-editor>
+                @if (progress && progress !== 100) {
+                  <div class="progress">
+                    {{ progress }}%
+                    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+                  </div>
+                }
+                @if (progress === 100){
+                <div class="text-success p-2">
+                  <mat-icon>check_circle_outline</mat-icon>
+                  <span>Geplubiceert!</span>
+                </div>
+                }
+              </div>
+              <div class="news-image">
+                <h3><b>Afbeelding</b></h3>
+                @if (imageSrc || news.image) {
+                  <button mat-mini-fab color="warn" class="remove-image" (click)="clearImage(news)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                }
+                @if (imageSrc){
+                  <img [src]="imageSrc">
+                }@else if (news.image) {
+                  <app-image-loader [image]="news.image"></app-image-loader>
+                } @else {
+                  <img src="/assets/images/placeholder.jpg">
+                }
+                <br>
+                <input type="file" accept="image/*" class="mb-4" (change)="selectFile($event)">
+                <mat-error>Afbeelding is te groot. Max grote is 5mb</mat-error>
+              </div>
+            </div>
+
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="upload(news)">Opslaan</button>
+          </mat-card-actions>
+        </mat-card>
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+    </div>
+  </div>
+</div>

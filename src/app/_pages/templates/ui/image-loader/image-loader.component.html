@@ -1,0 +1,7 @@
+@if (image$|async; as image) {
+  @if (image.body) {
+    <img [src]="safeImage(image.body!)">
+  }
+} @else {
+  <mat-spinner></mat-spinner>
+}

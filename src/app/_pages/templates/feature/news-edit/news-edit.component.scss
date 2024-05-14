@@ -1,0 +1,25 @@
+.news-content {
+  display: flex;
+.news-text{
+  flex: 1;
+  mat-form-field{
+    width: 100%;
+  }
+}
+  .news-image {
+    width: 400px;
+    padding: 10px;
+    margin-left: 10px;
+    img{
+      width: 100%;
+    }
+    .remove-image{
+      z-index: 1;
+      position: absolute;
+      right: 0;
+      transform: translate(-12px, -15px);
+      width: 30px !important;
+      height: 30px;
+    }
+  }
+}
