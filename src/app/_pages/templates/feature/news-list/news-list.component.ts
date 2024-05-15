@@ -24,6 +24,8 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import Swal from "sweetalert2";
+import {HttpEventType, HttpResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-news-list',
@@ -80,7 +82,27 @@ export class NewsListComponent {
     this.getNews();
   }
 
-  delete(element:INews) {
-
+  delete(news:INews) {
+    Swal.fire({
+      title: 'Weet je het zeker?',
+      text: 'Wil je dit nieuws item verwijderen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2e3785',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, verwijderen!',
+      cancelButtonText: 'Annuleren',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.newsService.deleteNews(news.id!).subscribe(r => {
+          if (r.type === HttpEventType.UploadProgress) {
+            // @ts-ignore
+            this.loading = true;
+          } else if (r instanceof HttpResponse) {
+            this.getNews();
+          }
+        })
+      }
+    });
   }
 }

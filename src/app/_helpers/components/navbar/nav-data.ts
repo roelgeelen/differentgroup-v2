@@ -202,7 +202,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/admin/nieuws',
+        path: '/admin/news',
         title: 'Berichten',
         icon: 'message',
         roles: [

@@ -2,6 +2,10 @@
   <div class="layout-content">
     <div class="page-header">
       <h1>Bericht bewerken</h1>
+      <button mat-flat-button color="primary" routerLink="/admin/news">
+        Terug
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
     <div class="page-content">
       @if (news$ | async; as news) {
@@ -56,13 +60,19 @@
                 }
                 <br>
                 <input type="file" accept="image/*" class="mb-4" (change)="selectFile($event)">
-                <mat-error>Afbeelding is te groot. Max grote is 5mb</mat-error>
+                @if(message){
+                  <mat-error>{{message}}</mat-error>
+                }
+
               </div>
             </div>
 
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button color="primary" (click)="upload(news)">Opslaan</button>
+            @if(id){
+            <button mat-raised-button color="warn" (click)="delete(news)">Verwijderen</button>
+            }
           </mat-card-actions>
         </mat-card>
       } @else {

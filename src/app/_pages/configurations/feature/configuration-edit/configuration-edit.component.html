@@ -28,7 +28,7 @@
           <mat-icon>keyboard_arrow_left</mat-icon>
         </div>
       }
-      <div class="form-builder">
+      <div #container class="form-builder">
         <div class="buttons">
           <div></div>
           <div>
@@ -69,11 +69,11 @@
                           ></app-form-container>
                         </div>
                         <div class="form-footer">
-                          <button mat-raised-button color="primary" (click)="prev()"
+                          <button mat-raised-button color="primary" (click)="prev(); container.scrollTop = 0"
                                   [disabled]="tabIndex==0">Vorige
                           </button>
                           @if (tabIndex != (tabCount - 1)) {
-                            <button mat-raised-button color="primary" (click)="next()">Volgende</button>
+                            <button mat-raised-button color="primary" (click)="next(); container.scrollTop = 0">Volgende</button>
                           }
                           @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
                             <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>

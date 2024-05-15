@@ -57,6 +57,9 @@
             <div class="margin-top">
               <mat-slide-toggle [(ngModel)]="form.options.createQuotation" color="primary">Maak offerte
               </mat-slide-toggle>
+            </div><div >
+              <mat-slide-toggle [(ngModel)]="form.options.quotePanelOpen" color="primary">Standaard open
+              </mat-slide-toggle>
             </div>
             @if (form.options.createQuotation) {
               @for (line of form.options.quoteLines; track line) {

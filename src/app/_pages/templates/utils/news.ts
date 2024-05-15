@@ -1,11 +1,11 @@
 export interface INews {
-  id: string;
+  id?: string;
   title: string;
   message: string;
   published: boolean;
-  date: Date;
-  image?: {id: string, uuid: string, pic: Blob};
-  loadedImage: any;
-  url: string;
+  date?: Date;
+  image?: { id: string, uuid: string, pic: Blob };
+  loadedImage?: any;
+  url?: string;
   file?: FormData;
 }

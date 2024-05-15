@@ -19,6 +19,16 @@ export const routes: Route[] = [
     },
   },
   {
+    path: 'news/create',
+    component: NewsEditComponent,
+    canActivate : [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.FORMULIEREN_BEHEREN,
+      ]
+    },
+  },
+  {
     path: 'news/:id/edit',
     component: NewsEditComponent,
     canActivate : [AuthGuard],

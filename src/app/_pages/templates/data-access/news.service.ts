@@ -27,9 +27,22 @@ export class NewsService {
     return this.http.get(`${environment.apiUrl}/images/${uuid}`, {observe: 'response', responseType: 'blob'});
   }
 
-  createNews(post: INews, file: File): Observable<HttpEvent<{}>> {
+  removeimage(uuid: string) {
+    return this.http.delete(`${environment.apiUrl}/posts/${uuid}/image`);
+  }
+
+  deleteNews(uuid: string): Observable<HttpEvent<{}>> {
+    const req = new HttpRequest('DELETE', `${environment.apiUrl}/posts/${uuid}`, null, {
+      reportProgress: true,
+      responseType: 'text'
+    });
+    return this.http.request(req);
+  }
+
+  createNews(post: INews, file?: File): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
-    formdata.append('file', file);
+    if (file)
+      formdata.append('file', file);
     formdata.append('title', post.title);
     formdata.append('content', post.message);
     // @ts-ignore

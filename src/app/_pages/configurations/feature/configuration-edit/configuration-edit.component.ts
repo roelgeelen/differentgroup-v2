@@ -8,7 +8,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {FlexModule} from "@angular/flex-layout";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import {SharedFormBuilderModule} from "../../../../_components/dynamic-form-builder/components/shared-form-builder.module";
+import {
+  SharedFormBuilderModule
+} from "../../../../_components/dynamic-form-builder/components/shared-form-builder.module";
 import {
   IConfiguration,
   IConfigurationItem,
@@ -97,8 +99,12 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
         this.customerId = queryParams.get('dealId')!;
         this.configurationService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
+          console.log(c)
           this.setForm(c);
-          this.drawer?.open();
+          if (c.form.options.quotePanelOpen) {
+            this.drawer?.open();
+          }
+
         });
       }
     });
