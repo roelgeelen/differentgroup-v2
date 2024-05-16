@@ -88,7 +88,7 @@ export class QuoteService {
           selectedQuoteLines.push({sku: 'SDH' + (size + 100), order: 100}, {
             sku: 'SDH0' + ('0' + size).slice(-2),
             order: 100
-          }, {sku: 'SDH600', order: 100});
+          }, {sku: 'SDH600', order: 600});
         }
       }
     }
@@ -105,7 +105,7 @@ export class QuoteService {
           selectedQuoteLines.push({
             sku: 'SDH0' + ('0' + size).slice(-2),
             order: 100
-          }, {sku: 'SDH600', order: 100});
+          }, {sku: 'SDH600', order: 600});
         }
       }
     }

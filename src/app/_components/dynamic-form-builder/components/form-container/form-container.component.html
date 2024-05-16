@@ -19,6 +19,7 @@
           (cdkDragMoved)="dragMoved($event)"
           (cdkDragReleased)="dragReleased($event)"
           (click)="selectControl(item);$event.stopPropagation()"
+          (contextmenu)="onRightClick()"
         >
           @if (item.id === selectedControl?.id) {
             <button mat-mini-fab class="field-remove" color="warn" (click)="removeControl(container!.controls, $index)">

@@ -21,6 +21,7 @@ export class Columns implements IFormControl {
       help: options?.help ?? '',
       note: options?.note ?? '',
       image: options?.image ?? null,
+      inApp: options?.inApp ?? false,
       visibility: {
         intern: options?.visibility?.intern ?? true,
         extern: options?.visibility?.extern ?? true,
