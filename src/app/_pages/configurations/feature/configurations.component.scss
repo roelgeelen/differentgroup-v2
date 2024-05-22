@@ -4,10 +4,19 @@
 
 .form {
   padding: 20px;
+  .legacy-forms {
+    text-align: center;
+    display: block;
+    width: 100%;
+    a {
+      text-decoration: none;
+    }
+  }
 
   .form-content {
     flex: 1;
     background-color: #fafafa;
+
     h2 {
       font-weight: 500;
       padding: 1rem;

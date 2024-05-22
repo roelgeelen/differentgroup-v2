@@ -38,15 +38,6 @@ export const NAV_CONFIG: NavItem[] = [
       },
       {
         path: '/customers',
-        title: 'Formulieren (V2)',
-        icon: 'description',
-        roles: [
-          EnumRoles.FORMULIEREN,
-          EnumRoles.FORMULIEREN_KLANT,
-        ]
-      },
-      {
-        path: '/verkoop/formulier',
         title: 'Formulieren',
         icon: 'description',
         roles: [
@@ -55,7 +46,7 @@ export const NAV_CONFIG: NavItem[] = [
         ]
       },
       {
-        path: '/verkoop/afspraken',
+        path: '/sales/afspraken',
         title: 'Afspraken',
         icon: 'map',
         roles: [
@@ -165,24 +156,24 @@ export const NAV_CONFIG: NavItem[] = [
       },
     ],
   },
-  {
-    path: '/hrm',
-    title: 'HRM',
-    icon: 'supervised_user_circle',
-    roles: [
-      EnumRoles.ONTWIKKELINGEN_BEHEREN
-    ],
-    children: [
-      {
-        path: '/hrm/medewerkers',
-        title: 'Medewerkers',
-        icon: 'group',
-        roles: [
-          EnumRoles.ONTWIKKELINGEN_BEHEREN
-        ]
-      },
-    ],
-  },
+  // {
+  //   path: '/hrm',
+  //   title: 'HRM',
+  //   icon: 'supervised_user_circle',
+  //   roles: [
+  //     EnumRoles.ONTWIKKELINGEN_BEHEREN
+  //   ],
+  //   children: [
+  //     {
+  //       path: '/hrm/medewerkers',
+  //       title: 'Medewerkers',
+  //       icon: 'group',
+  //       roles: [
+  //         EnumRoles.ONTWIKKELINGEN_BEHEREN
+  //       ]
+  //     },
+  //   ],
+  // },
   {
     path: '/admin',
     title: 'Beheer',
@@ -190,7 +181,8 @@ export const NAV_CONFIG: NavItem[] = [
     roles: [
       EnumRoles.FORMULIEREN_BEHEREN,
       EnumRoles.BERICHTEN_BEHEREN,
-      EnumRoles.ROLLEN_BEHEREN
+      EnumRoles.ROLLEN_BEHEREN,
+      EnumRoles.ONTWIKKELINGEN_BEHEREN
     ],
     children: [
       {
@@ -215,6 +207,14 @@ export const NAV_CONFIG: NavItem[] = [
         icon: 'supervisor_account',
         roles: [
           EnumRoles.ROLLEN_BEHEREN,
+        ]
+      },
+      {
+        path: '/admin/employees',
+        title: 'Medewerkers',
+        icon: 'group',
+        roles: [
+          EnumRoles.ONTWIKKELINGEN_BEHEREN,
         ]
       }
     ],
