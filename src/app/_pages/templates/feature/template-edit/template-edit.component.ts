@@ -88,6 +88,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
       if (queryParams.get('formId') !== null) {
         this.templateService.getTemplate(queryParams.get('formId')!).subscribe(f => {
           this.lastSavedForm = JSON.parse(JSON.stringify(f));
+          this.formService.onControlCopied(null);
           this.formService.setForm(f, {})
           this.formService.formGroup$.getValue().patchValue({});
         });
