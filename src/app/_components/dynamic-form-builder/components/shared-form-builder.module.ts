@@ -10,6 +10,7 @@ import {FormControlsModule} from "../form-controls/form-controls.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FlexModule} from "@angular/flex-layout";
+import {MatMenu, MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {FlexModule} from "@angular/flex-layout";
         CdkDragHandle,
         MatTooltipModule,
         MatProgressSpinnerModule,
-        FlexModule
+        FlexModule,
+        MatMenuModule
     ],
   exports: [FormContainerComponent, FormColumnsComponent]
 })

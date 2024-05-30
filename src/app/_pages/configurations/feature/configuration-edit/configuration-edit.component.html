@@ -4,17 +4,20 @@
     <mat-drawer #drawer mode="side" position="end">
       @if (form.options.createQuotation) {
         <app-quotation [btw]="config ? config.customer.btw : 21" (totalPrice)="setTotalPrice($event)">
-          @if (getFormValidationErrors(); as errors) {
-            <ng-container validate>
-              @if (errors.length > 0) {
-                <mat-error>
-                  @for (error of errors; track error) {
-                    <li>{{ getFieldTitle(error) }}</li>
-                  }
-                </mat-error>
-              }
-            </ng-container>
-          }
+          <ng-container>
+            @if (getFormValidationErrors(); as errors) {
+
+              <ng-container validate>
+                @if (errors.length > 0) {
+                  <mat-error>
+                    @for (error of errors; track error) {
+                      <li>{{ getFieldTitle(error) }}</li>
+                    }
+                  </mat-error>
+                }
+              </ng-container>
+            }
+          </ng-container>
           <!--          <mat-error *ngIf="getFormValidationErrors().length != 0">Controleer de-->
           <!--            velden: {{getFormValidationErrors()}}</mat-error>-->
           <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>
@@ -73,7 +76,9 @@
                                   [disabled]="tabIndex==0">Vorige
                           </button>
                           @if (tabIndex != (tabCount - 1)) {
-                            <button mat-raised-button color="primary" (click)="next(); container.scrollTop = 0">Volgende</button>
+                            <button mat-raised-button color="primary" (click)="next(); container.scrollTop = 0">
+                              Volgende
+                            </button>
                           }
                           @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
                             <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>

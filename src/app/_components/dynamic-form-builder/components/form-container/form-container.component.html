@@ -8,8 +8,10 @@
     (cdkDropListDropped)="dropped($event)"
     [cdkDropListConnectedTo]="connectedLists"
     [cdkDropListEnterPredicate]="allowDropPredicate"
+    (contextmenu)="onContextMenu($event)"
   >
     @for (item of container!.controls; track item) {
+
       @if (showControl(item) || showInvisible) {
         <div
           class="control-container"
@@ -19,10 +21,10 @@
           (cdkDragMoved)="dragMoved($event)"
           (cdkDragReleased)="dragReleased($event)"
           (click)="selectControl(item);$event.stopPropagation()"
-          (contextmenu)="onRightClick()"
+          (contextmenu)="selectControl(item);onContextMenu($event, $index)"
         >
           @if (item.id === selectedControl?.id) {
-            <button mat-mini-fab class="field-remove" color="warn" (click)="removeControl(container!.controls, $index)">
+            <button mat-mini-fab class="field-remove" color="warn" (click)="removeControl($index)">
               <mat-icon>close</mat-icon>
             </button>
           }
@@ -108,6 +110,31 @@
         </div>
       }
     }
+    <div style="visibility: hidden; position: fixed"
+         [style.left]="contextMenuPosition.x"
+         [style.top]="contextMenuPosition.y"
+         [matMenuTriggerFor]="contextMenu">
+    </div>
+    <mat-menu #contextMenu="matMenu">
+      <ng-template matMenuContent let-index="index">
+        @if(index!==undefined){
+        <button mat-menu-item (click)="cutControl(index)">
+          <mat-icon>content_cut</mat-icon>
+          <span>Knippen</span>
+        </button>
+        }
+        <button mat-menu-item [disabled]="(formService.copiedControl$ | async)==null" (click)="pasteControl(index)">
+          <mat-icon>content_paste</mat-icon>
+          <span>Plakken</span>
+        </button>
+        @if(index!==undefined){
+        <button mat-menu-item (click)="removeControl(index)">
+          <mat-icon>delete</mat-icon>
+          <span>Verwijderen</span>
+        </button>
+        }
+      </ng-template>
+    </mat-menu>
   </div>
 } @else {
   @for (item of container!.controls; track item) {

@@ -148,6 +148,16 @@ mat-spinner {
   }
 }
 
+.snackbar-info {
+  .mdc-snackbar__surface {
+    background-color: #4b9cff !important;
+  }
+
+  .mdc-snackbar__label {
+    color: white !important;
+  }
+}
+
 .snackbar-error {
   .mdc-snackbar__surface {
     background-color: var(--warn) !important;

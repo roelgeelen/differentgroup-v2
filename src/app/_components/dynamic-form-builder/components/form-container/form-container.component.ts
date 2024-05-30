@@ -22,6 +22,8 @@ import {Subscription} from "rxjs";
 import {IFormControlOptionsDependent} from "../../form-controls/form-control-options.interface";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-form-container',
@@ -30,6 +32,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class FormContainerComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
+  @ViewChild(MatMenuTrigger) contextMenu?: MatMenuTrigger;
   @Input() container: IFormPage | undefined;
   @Input() showOutline = true;
   @Input() showInvisible = false;
@@ -37,13 +40,16 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
   @Input() id = '';
   selectedControl: IFormControl | null = null;
   selectedControlSubscription: Subscription;
+  contextMenuPosition = {x: '0px', y: '0px'};
 
   constructor(
     private dragDropService: DragDropService,
     public formService: FormService,
     public utilityService: UtilityService,
     private formControlsService: FormControlsService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _snackBar: MatSnackBar
+
   ) {
     this.selectedControlSubscription = this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
@@ -92,7 +98,7 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
     this.formService.onControlSelected(item);
   }
 
-  public removeControl(controls: IFormControl[], index: number) {
+  public removeControl(index: number) {
     Swal.fire({
       title: 'Weet je het zeker?',
       text: 'Wil je deze vraag verwijderen?',
@@ -104,11 +110,11 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
       cancelButtonText: 'Annuleren',
     }).then((result) => {
       if (result.isConfirmed) {
-        const c = controls[index];
+        const c = this.container!.controls[index];
         if (c.options?.image) {
           this.removeFormAttachment(this.formService.form$.getValue().id!.toString(), c.options.image.id).subscribe();
         }
-        controls.splice(index, 1);
+        this.container!.controls.splice(index, 1);
         this.formService.updateFormGroup();
         this.formService.onControlSelected(null);
       }
@@ -121,10 +127,38 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   removeFormAttachment(id: string, attachment: string) {
-    return this.http.delete(`${environment.apiUrlV2}/v2/forms/${id}/attachments/${attachment}`, {reportProgress:true, observe: 'events'});
+    return this.http.delete(`${environment.apiUrlV2}/v2/forms/${id}/attachments/${attachment}`, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
-  onRightClick() {
-    return false;
+  onContextMenu(event: MouseEvent, index?: number) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + 'px';
+    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenu!.menuData = {'index': index};
+    this.contextMenu!.menu?.focusFirstItem('mouse');
+    this.contextMenu?.openMenu();
+  }
+
+  cutControl(index: number) {
+    this.formService.onControlCopied(this.container!.controls[index]);
+    this.container!.controls.splice(index, 1);
+    this.formService.updateFormGroup();
+    this.formService.onControlSelected(null);
+    this._snackBar.open('Gekopieerd naar klembord', '', {
+      duration: 2000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: ['snackbar-info']
+    });
+  }
+
+  pasteControl(index: number) {
+    this.container?.controls.splice(index, 0 , this.formService.copiedControl$.value!);
+    this.formService.updateFormGroup();
+    this.formService.onControlSelected(null);
+    this.formService.onControlCopied(null)
   }
 }

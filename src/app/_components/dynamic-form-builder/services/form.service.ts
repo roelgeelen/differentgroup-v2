@@ -5,7 +5,6 @@ import {IForm} from '../models/form.interface';
 import {DragDropService} from './drag-drop.service';
 import {IFormControl} from "../form-controls/form-control.interface";
 import {IColumn} from "../form-controls/columns/column.interface";
-import {UtilityService} from "./utility.service";
 
 @Injectable({providedIn: 'root'})
 export class FormService {
@@ -19,6 +18,7 @@ export class FormService {
   });
   controlValueChanged$ = new BehaviorSubject<IFormControl | null>(null);
   selectedControl$ = new BehaviorSubject<IFormControl | null>(null);
+  copiedControl$ = new BehaviorSubject<IFormControl | null>(null);
   loadingForm$ = new BehaviorSubject<boolean>(false);
   _hubspotFields: { [key: string]: {toDeal: string, type: string} } = {};
 
@@ -39,6 +39,10 @@ export class FormService {
 
   public onControlSelected(control: IFormControl | null) {
     this.selectedControl$.next(control);
+  }
+
+  public onControlCopied(control: IFormControl | null) {
+    this.copiedControl$.next(control);
   }
 
   public onControlValueChanged(control: IFormControl | null) {
