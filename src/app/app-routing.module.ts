@@ -1,12 +1,12 @@
 import { Routes} from '@angular/router';
-import {HomeComponent} from "./_pages/home/feature/home.component";
 import {AuthGuard} from "./_auth/auth.guard";
 import {EnumRoles} from './_auth/models/enumRoles';
 
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadComponent: () => import('./_pages/home/feature/home.component').then((x) => x.HomeComponent),
+    // component: HomeComponent,
   },
   {
     path: 'sales',
