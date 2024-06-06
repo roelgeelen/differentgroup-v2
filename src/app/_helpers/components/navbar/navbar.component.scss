@@ -2,10 +2,23 @@
   background-color: var(--background-dark);
   color: white;
 
+  .mobile-menu-button {
+    display: none;
+  }
+
   .logo {
     margin-right: 16px;
     margin-top: 6px;
   }
+
+  .nav-menu {
+    display: inline-flex;
+
+    .nav-menu-button {
+      margin: auto;
+    }
+  }
+
 
   .spacer {
     flex: 1 1 auto;
@@ -27,41 +40,61 @@
   }
 
   /* Stijlen voor de paginaknoppen */
-  button[mat-icon-button] {
-    color: white;
-    font-size: 18px;
+  //button[mat-icon-button] {
+  //  color: white;
+  //  font-size: 18px;
+  //
+  //  &:hover {
+  //    background-color: rgba(255, 255, 255, 0.1); // Transparante achtergrond bij hover
+  //    border-radius: 50%;
+  //  }
+  //}
+  //}
 
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1); // Transparante achtergrond bij hover
-      border-radius: 50%;
+  ::ng-deep {
+    .mat-mdc-menu-panel {
+      max-width: 330px !important;
+    }
+
+    .mat-mdc-menu-item-text {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .menu-item {
+    display: flex;
+    width: 100%;
+
+    .menu-item-label {
+      width: 100%;
+    }
+
+    .menu-item-image {
+      height: 35px;
+      margin-right: 0;
+      margin-left: auto;
+      padding-left: 8px;
+      order: 1;
     }
   }
 }
 
-::ng-deep {
-  .mat-mdc-menu-panel {
-    max-width: 330px !important;
+@media (max-width: 1024px) {
+  .navbar {
+    justify-content: space-between;
+
+    .mobile-menu-button {
+      display: block;
+    }
+
+    .nav-menu, .spacer, .profile-name {
+      display: none !important;
+    }
+    .profile-pic {
+      margin: 0 1.5px !important;
+    }
   }
 
-  .mat-mdc-menu-item-text {
-    display: flex;
-    align-items: center;
-  }
-}
-
-.menu-item{
-  display: flex;
-  width: 100%;
-  .menu-item-label {
-    width: 100%;
-  }
-
-  .menu-item-image {
-    height: 35px;
-    margin-right: 0;
-    margin-left: auto;
-    padding-left: 8px;
-    order: 1;
-  }
 }
 

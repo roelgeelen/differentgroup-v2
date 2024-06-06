@@ -1,30 +1,42 @@
-<mat-toolbar color="primary" class="navbar">
-  <a routerLink="/"><img [src]="selectedTheme.imageLight" alt="Logo" height="45" class="logo"></a>
-  <!--    <span class="spacer"></span>-->
-  @for (route of routes; track $index) {
-    @if (hasPermission(route.roles)) {
-      @if (route.children && route.children.length > 0) {
-        <button mat-button [matMenuTriggerFor]="menu">{{ route.title }}</button>
-        <mat-menu #menu="matMenu">
-          @for (sub of route.children; track sub) {
-            @if (hasPermission(sub.data?.['roles'] ?? [])) {
-              <button mat-menu-item [routerLink]="sub.path"><mat-icon>{{sub.icon}}</mat-icon>{{ sub.title }}</button>
-            }
-          }
-        </mat-menu>
-      } @else {
-        <button mat-button [routerLink]="route.path">{{ route.title }}</button>
-      }
+<!--<mat-toolbar color="primary" class="navbar">-->
 
+<mat-toolbar color="primary" class="navbar">
+  <button mat-icon-button class="mobile-menu-button" (click)="toggleMenu.emit()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <a routerLink="/"><img [src]="selectedTheme.imageLight" alt="Logo" height="45" class="logo"></a>
+  <div class="nav-menu">
+    @for (route of routes; track $index) {
+      @if (hasPermission(route.roles)) {
+        @if (route.children && route.children.length > 0) {
+          <button mat-button [matMenuTriggerFor]="menu" class="nav-menu-button">{{ route.title }}</button>
+          <mat-menu #menu="matMenu">
+            @for (sub of route.children; track sub) {
+              @if (hasPermission(sub.roles ?? [])) {
+                <button mat-menu-item [routerLink]="sub.path">
+                  <mat-icon>{{ sub.icon }}</mat-icon>
+                  {{ sub.title }}
+                </button>
+              }
+            }
+          </mat-menu>
+        } @else {
+          <button mat-button [routerLink]="route.path">{{ route.title }}</button>
+        }
+      }
     }
-  }
+  </div>
+
   <span class="spacer"></span>
+
   <div class="profile" [matMenuTriggerFor]="profileMenu">
     <span class="profile-name">{{ currentUser?.name }}</span>
     <img [src]="currentUser?.image ? currentUser!.image : 'assets/images/user_placeholder.png'" alt="Profielfoto"
          height="45" class="profile-pic">
   </div>
 </mat-toolbar>
+
 <mat-menu class="profile-menu" #profileMenu="matMenu">
   <a mat-menu-item [matMenuTriggerFor]="enviroments">
     <mat-icon>apartment</mat-icon>

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {IForm} from "../../../../_components/dynamic-form-builder/models/form.interface";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -19,6 +19,7 @@ import {MatInput} from "@angular/material/input";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {debounceTime, map, Observable, switchMap, tap} from "rxjs";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-template-list',
@@ -36,7 +37,8 @@ import {debounceTime, map, Observable, switchMap, tap} from "rxjs";
     MatFormFieldModule,
     MatInput,
     MatMenuModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatTooltip
   ],
   styleUrls: [
     './template-list.component.scss',
@@ -54,7 +56,11 @@ export class TemplateListComponent implements OnInit {
   pageSize: number = 10;
   pageSearch: string = '';
 
-  constructor(private authService: AuthenticationService, private templateService: TemplateService, private router: Router) {
+  constructor(
+    private authService: AuthenticationService,
+    private templateService: TemplateService,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
     });
@@ -63,12 +69,21 @@ export class TemplateListComponent implements OnInit {
       debounceTime(300),
       switchMap((search) => {
         this.pageIndex = 0;
-        return this.getTemplates(search ?? '', this.pageIndex, this.pageSize)
+        this.pageSearch = search??'';
+        this.setParams();
+        return this.getTemplates(this.pageSearch, this.pageIndex, this.pageSize)
       })
     ).subscribe()
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe(params => {
+      this.pageIndex = +(params.get('page') ?? '');
+      this.pageSize = +(params.get('size') ?? '10');
+      this.pageSearch = params.get('query') ?? '';
+      this.searchControl.setValue(this.pageSearch, {emitEvent: false} );
+      //
+    });
     this.getTemplates(this.pageSearch, this.pageIndex, this.pageSize).subscribe();
   }
 
@@ -88,6 +103,7 @@ export class TemplateListComponent implements OnInit {
     this.pageIndex = $event.pageIndex;
     this.pageSize = $event.pageSize;
     this.getTemplates(this.pageSearch, this.pageIndex, this.pageSize).subscribe();
+    this.setParams();
   }
 
   duplicateForm(form: IForm) {
@@ -161,4 +177,18 @@ export class TemplateListComponent implements OnInit {
     });
   }
 
+
+  setParams() {
+    const queryParams = {
+      page: this.pageIndex,
+      size: this.pageSize,
+      query: this.pageSearch
+    };
+    // Use router navigation to update query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
+  }
 }

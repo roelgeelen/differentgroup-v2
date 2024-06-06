@@ -6,6 +6,11 @@
         <mat-form-field appearance="fill" class="w75">
           <mat-label>Naam</mat-label>
           <input matInput type="text" [formControl]="searchControl">
+          @if (pageSearch) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.setValue('');submitSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
         </mat-form-field>
         <button mat-raised-button color="primary">
           <mat-icon>search</mat-icon>

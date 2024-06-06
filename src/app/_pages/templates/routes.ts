@@ -7,8 +7,6 @@ import {EnumRoles} from "../../_auth/models/enumRoles";
 import {NewsListComponent} from "./feature/news-list/news-list.component";
 import {NewsEditComponent} from "./feature/news-edit/news-edit.component";
 import {EmployeesComponent} from "./feature/employees/employees.component";
-import {HomeComponent} from "../home/feature/home.component";
-import {redirectGuard} from "../../_helpers/guards/redirect.guard";
 import {RolesComponent} from "./feature/roles/roles.component";
 
 export const routes: Route[] = [
@@ -18,7 +16,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.BERICHTEN_BEHEREN,
       ]
     },
   },
@@ -28,7 +26,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.BERICHTEN_BEHEREN,
       ]
     },
   },
@@ -38,7 +36,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.BERICHTEN_BEHEREN,
       ]
     }
   },

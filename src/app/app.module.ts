@@ -10,6 +10,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {NavbarComponent} from "./_helpers/components/navbar/navbar.component";
 import {SharedModule} from "./shared.module";
+import {MatButtonModule, MatIconButton} from "@angular/material/button";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
+import {MatSidenavContainer, MatSidenavModule} from "@angular/material/sidenav";
+import {MatTreeModule} from "@angular/material/tree";
+import {MatMenuItem} from "@angular/material/menu";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -29,6 +35,12 @@ import {SharedModule} from "./shared.module";
     BrowserAnimationsModule,
     MatToolbarModule,
     NavbarComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatTreeModule,
+    MatMenuItem,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

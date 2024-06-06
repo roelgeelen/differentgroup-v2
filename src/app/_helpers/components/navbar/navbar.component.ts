@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {DomSanitizer} from "@angular/platform-browser";
 import {User} from "../../../_auth/models/User";
@@ -32,6 +32,7 @@ import {NAV_CONFIG, NavItem} from "./nav-data";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Output() toggleMenu = new EventEmitter<void>();
   currentUser: User | undefined;
   profilePic: Blob | null | undefined;
   themes: ITheme[];
@@ -103,4 +104,6 @@ export class NavbarComponent implements OnInit {
   public logout() {
     this.oauthService.logOut();
   }
+
+    protected readonly JSON = JSON;
 }

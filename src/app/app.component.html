@@ -1,16 +1,53 @@
 @if (currentUser) {
-  <div class="content-wrapper">
-    <app-navbar></app-navbar>
-    <div class="wrapper">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="body">
+
+    <app-navbar (toggleMenu)="sidenav.toggle()"></app-navbar>
+
+    <mat-sidenav-container class="body-container">
+      <mat-sidenav #sidenav mode="over" opened="false">
+        <mat-list role="list">
+          <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node" [class.d-none]="!hasPermission(node.roles)" matTreeNodePadding>
+              <mat-list-item>
+                <a mat-menu-item [routerLink]="node.path" (click)="sidenav.toggle()">
+                  <mat-icon>{{ node.icon }}</mat-icon>
+                  {{ node.title }}</a>
+              </mat-list-item>
+            </mat-tree-node>
+
+
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node;when: hasChild" [class.d-none]="!hasPermission(node.roles)"
+                           matTreeNodePadding>
+              <mat-list-item>
+                <button mat-menu-item matTreeNodeToggle
+                        [attr.aria-label]="'toggle ' + node.title">
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                  </mat-icon>
+                  {{ node.title }}
+                </button>
+              </mat-list-item>
+            </mat-tree-node>
+
+          </mat-tree>
+        </mat-list>
+      </mat-sidenav>
+      <mat-sidenav-content class="content-wrapper">
+        <div class="wrapper">
+          <router-outlet></router-outlet>
+        </div>
+        <div class="footer">
+          <div id="development">
+            <a href="https://get.teamviewer.com/differentdoorsqs">
+              <span>Different group - v2.0</span> | <span>Support</span><br>
+            </a>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+
     <!-- credits -->
-    <div class="footer">
-      <div id="development">
-        <a href="https://get.teamviewer.com/differentdoorsqs">
-          <span>Different group - v2.0</span> | <span>Support</span><br>
-        </a>
-      </div>
-    </div>
+
   </div>
 }

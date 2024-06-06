@@ -8,7 +8,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatRippleModule} from "@angular/material/core";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ICustomer, IRecentCustomer} from "../../utils/customer.interface";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {DatePipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
@@ -64,7 +64,7 @@ import {CustomerService} from "../../data-access/customer.service";
   ],
   styleUrl: './customer-list.component.scss'
 })
-export class CustomerListComponent implements OnInit{
+export class CustomerListComponent implements OnInit {
   searchControl = new FormControl<string>('');
   customer: ICustomer | null = null;
   currentUser: User | undefined;
@@ -84,6 +84,8 @@ export class CustomerListComponent implements OnInit{
   constructor(
     private authService: AuthenticationService,
     private customerService: CustomerService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
@@ -91,11 +93,18 @@ export class CustomerListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getRecentCustomers(this.pageSearch, this.pageIndex, this.pageSize);
+    this.route.queryParamMap.subscribe(params => {
+      this.pageIndex = +(params.get('page') ?? '');
+      this.pageSize = +(params.get('size') ?? '10');
+      this.pageSearch = params.get('query') ?? '';
+      this.searchControl.setValue(this.pageSearch);
+      this.getRecentCustomers(this.pageSearch, this.pageIndex, this.pageSize);
+    });
   }
+
   getRecentCustomers(name: string, page: number, size: number) {
     this.loading = true;
-    this.customerService.findRecentCustomers({name:name, page:page, size:size}).subscribe({
+    this.customerService.findRecentCustomers({name: name, page: page, size: size}).subscribe({
       next: (c) => {
         this.dataSource.data = c.content
         this.totalElem = c.totalElements
@@ -113,11 +122,27 @@ export class CustomerListComponent implements OnInit{
       this.pageSearch = this.searchControl.value;
     }
     this.getRecentCustomers(this.pageSearch, this.pageIndex, this.pageSize);
+    this.setParams();
   }
 
   onPageFired($event: PageEvent) {
     this.pageIndex = $event.pageIndex;
     this.pageSize = $event.pageSize;
     this.getRecentCustomers(this.pageSearch, this.pageIndex, this.pageSize);
+    this.setParams();
+  }
+
+  setParams() {
+    const queryParams = {
+      page: this.pageIndex,
+      size: this.pageSize,
+      query: this.pageSearch
+    };
+    // Use router navigation to update query parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
+    });
   }
 }
