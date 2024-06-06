@@ -1,18 +1,13 @@
 import {Route} from "@angular/router";
-import {TemplateListComponent} from "./feature/template-list/template-list.component";
-import {TemplateEditComponent} from "./feature/template-edit/template-edit.component";
 import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {NewsListComponent} from "./feature/news-list/news-list.component";
-import {NewsEditComponent} from "./feature/news-edit/news-edit.component";
-import {EmployeesComponent} from "./feature/employees/employees.component";
-import {RolesComponent} from "./feature/roles/roles.component";
 
 export const routes: Route[] = [
   {
     path: 'news',
-    component: NewsListComponent,
+    loadComponent: () => import('./feature/news-list/news-list.component').then((x) => x.NewsListComponent),
+    // component: NewsListComponent,
     canActivate : [AuthGuard],
     data: {
       roles: [
@@ -22,7 +17,8 @@ export const routes: Route[] = [
   },
   {
     path: 'news/create',
-    component: NewsEditComponent,
+    loadComponent: () => import('./feature/news-edit/news-edit.component').then((x) => x.NewsEditComponent),
+    // component: NewsEditComponent,
     canActivate : [AuthGuard],
     data: {
       roles: [
@@ -32,7 +28,8 @@ export const routes: Route[] = [
   },
   {
     path: 'news/:id/edit',
-    component: NewsEditComponent,
+    loadComponent: () => import('./feature/news-edit/news-edit.component').then((x) => x.NewsEditComponent),
+    // component: NewsEditComponent,
     canActivate : [AuthGuard],
     data: {
       roles: [
@@ -42,7 +39,8 @@ export const routes: Route[] = [
   },
   {
     path: 'forms',
-    component: TemplateListComponent,
+    loadComponent: () => import('./feature/template-list/template-list.component').then((x) => x.TemplateListComponent),
+    // component: TemplateListComponent,
     canActivate : [AuthGuard],
     data: {
       roles: [
@@ -52,7 +50,8 @@ export const routes: Route[] = [
   },
   {
     path: 'forms/create',
-    component: TemplateEditComponent,
+    loadComponent: () => import('./feature/template-edit/template-edit.component').then((x) => x.TemplateEditComponent),
+    // component: TemplateEditComponent,
     canDeactivate: [canDeactivateGuard],
     canActivate : [AuthGuard],
     data: {
@@ -63,7 +62,8 @@ export const routes: Route[] = [
   },
   {
     path: 'forms/:formId/builder',
-    component: TemplateEditComponent,
+    loadComponent: () => import('./feature/template-edit/template-edit.component').then((x) => x.TemplateEditComponent),
+    // component: TemplateEditComponent,
     canDeactivate: [canDeactivateGuard],
     canActivate : [AuthGuard],
     data: {
@@ -74,7 +74,8 @@ export const routes: Route[] = [
   },
   {
     path: 'employees',
-    component: EmployeesComponent,
+    loadComponent: () => import('./feature/employees/employees.component').then((x) => x.EmployeesComponent),
+    // component: EmployeesComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -84,7 +85,8 @@ export const routes: Route[] = [
   },
   {
     path: 'roles',
-    component: RolesComponent,
+    loadComponent: () => import('./feature/roles/roles.component').then((x) => x.RolesComponent),
+    // component: RolesComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [

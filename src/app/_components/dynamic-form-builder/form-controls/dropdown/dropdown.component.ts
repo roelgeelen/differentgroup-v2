@@ -1,13 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { FormControlComponentBase } from '../control-component-base.class';
 import { Dropdown } from './dropdown.class';
-import {FormGroup} from "@angular/forms";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import {FormService} from "../../services/form.service";
+import { MatIcon } from '@angular/material/icon';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-dropdown',
-  templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.scss']
+    selector: 'app-dropdown',
+    templateUrl: './dropdown.component.html',
+    styleUrls: ['./dropdown.component.scss'],
+    standalone: true,
+    imports: [MatFormField, ReactiveFormsModule, MatLabel, MatSelect, MatOption, MatIcon]
 })
 export class DropdownComponent extends FormControlComponentBase<Dropdown> implements OnInit {
   @Input() form!: FormGroup;

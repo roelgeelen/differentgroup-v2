@@ -1,29 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
-import {MatButton, MatIconButton} from "@angular/material/button";
-import {RouterLink} from "@angular/router";
+import {Component} from '@angular/core';
+import {MatIconModule} from "@angular/material/icon";
+import { MatButtonModule} from "@angular/material/button";
+import {RouterModule} from "@angular/router";
 import {NewsService} from "../../data-access/news.service";
-import {map, Observable, tap} from "rxjs";
+import {map, Observable} from "rxjs";
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef, MatTable,
-  MatTableDataSource
+  MatTableDataSource, MatTableModule
 } from "@angular/material/table";
-import {IForm} from "../../../../_components/dynamic-form-builder/models/form.interface";
-import {FormControl} from "@angular/forms";
-import {IMeasureTable} from "../../../sales/utils/measureTable";
-import {SalesService} from "../../../sales/data-access/sales.service";
-import {format} from "date-fns";
-import {IChecklistItem} from "../../../warehouse/utils/checklist-item";
 import {INews} from "../../utils/news";
 import {AsyncPipe} from "@angular/common";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger} from "@angular/material/menu";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import { MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import Swal from "sweetalert2";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 
@@ -32,27 +20,14 @@ import {HttpEventType, HttpResponse} from "@angular/common/http";
   templateUrl: './news-list.component.html',
   standalone: true,
   imports: [
-    MatIcon,
-    MatButton,
-    RouterLink,
+    MatIconModule,
     AsyncPipe,
-    MatCell,
-    MatCellDef,
-    MatCheckbox,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatProgressSpinner,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    MatHeaderCellDef,
-    MatIconButton,
-    MatMenu,
-    MatMenuItem,
+    MatButtonModule,
+    MatTableModule,
+    RouterModule,
     MatMenuModule,
-    MatPaginator
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   styleUrls: ['./news-list.component.scss','../../../../../assets/styles/table-list.scss']
 })

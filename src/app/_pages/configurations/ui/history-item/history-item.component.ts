@@ -6,8 +6,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatIconModule} from "@angular/material/icon";
 import {IConfigChanges} from "../../utils/configuration-change.interface";
 import {DateAgoPipe} from "../../../../_helpers/pipes/date-ago.pipe";
-import {SharedModule} from "../../../../shared.module";
+
 import {KeyValuePipe} from "@angular/common";
+import {SafeHtmlPipe} from "../../../../_helpers/pipes/safe-html.pipe";
 
 @Component({
   selector: 'history-item',
@@ -20,8 +21,8 @@ import {KeyValuePipe} from "@angular/common";
     MatProgressSpinnerModule,
     MatIconModule,
     DateAgoPipe,
-    SharedModule,
-    KeyValuePipe
+    KeyValuePipe,
+    SafeHtmlPipe
   ],
   styleUrl: 'history-item.component.scss'
 })

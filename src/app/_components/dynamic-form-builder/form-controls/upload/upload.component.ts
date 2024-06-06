@@ -1,17 +1,20 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControlComponentBase} from '../control-component-base.class';
 import {ImageUpload} from './image-upload.class';
-import {FormGroup} from "@angular/forms";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import {HttpClient, HttpEventType, HttpResponse} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {FileFormControlComponent} from "./file-form-control.component";
 import {IFormAttachment} from "../form-control-options.interface";
 import {environment} from "../../../../../environments/environment";
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 @Component({
-  selector: 'app-upload',
-  templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+    selector: 'app-upload',
+    templateUrl: './upload.component.html',
+    styleUrls: ['./upload.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatProgressBar, FileFormControlComponent]
 })
 export class UploadComponent extends FormControlComponentBase<ImageUpload> implements OnInit {
   @ViewChild('imageFormControl', { static: false }) imageFormControl: FileFormControlComponent | undefined;

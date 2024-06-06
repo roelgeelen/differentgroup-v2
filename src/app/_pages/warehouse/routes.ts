@@ -1,14 +1,12 @@
 import {Route} from "@angular/router";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {LogisticComponent} from "./feature/logistic/logistic.component";
-import {StockComponent} from "./feature/stock/stock.component";
-import {ChecklistComponent} from "./feature/checklist/checklist.component";
 
 export const routes: Route[] = [
   {
     path: 'logistic',
-    component: LogisticComponent,
+    loadComponent: () => import('./feature/logistic/logistic.component').then((x) => x.LogisticComponent),
+    // component: LogisticComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -18,7 +16,8 @@ export const routes: Route[] = [
   },
   {
     path: 'stock',
-    component: StockComponent,
+    loadComponent: () => import('./feature/stock/stock.component').then((x) => x.StockComponent),
+    // component: StockComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -28,7 +27,8 @@ export const routes: Route[] = [
   },
   {
     path: 'checklist',
-    component: ChecklistComponent,
+    loadComponent: () => import('./feature/checklist/checklist.component').then((x) => x.ChecklistComponent),
+    // component: ChecklistComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [

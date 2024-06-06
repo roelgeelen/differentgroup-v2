@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
@@ -21,7 +21,7 @@ import {ConfigurationService} from "../../../data-access/configuration.service";
     MatCardModule,
     MatButtonModule,
     MatDividerModule,
-    QuotationItemComponent,
+    forwardRef(()=>QuotationItemComponent),
     DecimalPipe
   ],
   styleUrl: './quotation.component.scss'

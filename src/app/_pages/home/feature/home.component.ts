@@ -6,7 +6,7 @@ import {AsyncPipe} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {IPage} from "../../../_models/page.interface";
-import {SharedModule} from "../../../shared.module";
+
 import {NewsCardComponent} from "../ui/news-card/news-card.component";
 import {AuthenticationService} from "../../../_auth/authentication.service";
 import {User} from "../../../_auth/models/User";
@@ -27,7 +27,6 @@ import Swal from "sweetalert2";
     MatCard,
     MatCardTitle,
     MatCardContent,
-    SharedModule,
     NewsCardComponent,
     MatIcon,
     MatCardHeader,
@@ -35,7 +34,7 @@ import Swal from "sweetalert2";
     MatDivider,
     MatCardActions,
     MatButton
-  ],
+],
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit{

@@ -1,17 +1,12 @@
 import {Route} from "@angular/router";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {DashboardComponent} from "./feature/dashboard/dashboard.component";
-import {InmetenComponent} from "./feature/inmeten/inmeten.component";
-import {redirectGuard} from "../../_helpers/guards/redirect.guard";
-import {HomeComponent} from "../home/feature/home.component";
-import {ConfigurationsOldComponent} from "./feature/configurations-old/configurations-old.component";
-import {AgendasComponent} from "./feature/agendas/agendas.component";
 
 export const routes: Route[] = [
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () => import('./feature/dashboard/dashboard.component').then((x) => x.DashboardComponent),
+    // component: DashboardComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -21,8 +16,9 @@ export const routes: Route[] = [
   },
   {
     path: "formulier",
+    loadComponent: () => import('./feature/configurations-old/configurations-old.component').then((x) => x.ConfigurationsOldComponent),
     canActivate: [AuthGuard],
-    component: ConfigurationsOldComponent,
+    // component: ConfigurationsOldComponent,
     data: {
       roles: [
         EnumRoles.FORMULIEREN,
@@ -32,8 +28,9 @@ export const routes: Route[] = [
   },
   {
     path: "formulier/:id",
+    loadComponent: () => import('./feature/configurations-old/configurations-old.component').then((x) => x.ConfigurationsOldComponent),
     canActivate: [AuthGuard],
-    component: ConfigurationsOldComponent,
+    // component: ConfigurationsOldComponent,
     data: {
       roles: [
         EnumRoles.FORMULIEREN,
@@ -43,7 +40,8 @@ export const routes: Route[] = [
   },
   {
     path: 'inmeten',
-    component: InmetenComponent,
+    loadComponent: () => import('./feature/inmeten/inmeten.component').then((x) => x.InmetenComponent),
+    // component: InmetenComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -53,8 +51,9 @@ export const routes: Route[] = [
   },
   {
     path: "afspraken",
+    loadComponent: () => import('./feature/agendas/agendas.component').then((x) => x.AgendasComponent),
     canActivate: [AuthGuard],
-    component: AgendasComponent,
+    // component: AgendasComponent,
     data: {
       roles: [
         EnumRoles.AFSPRAKEN,

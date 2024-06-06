@@ -5,7 +5,7 @@ import {ActivatedRoute, NavigationExtras, Router, RouterLink} from "@angular/rou
 import {
   IConfiguration,
 } from "../../utils/configuration.interface";
-import {SharedModule} from "../../../../shared.module";
+
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -19,6 +19,8 @@ import {EnumRoles} from "../../../../_auth/models/enumRoles";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {User} from "../../../../_auth/models/User";
 import {ConfigurationService} from "../../data-access/configuration.service";
+import {SafeHtmlPipe} from "../../../../_helpers/pipes/safe-html.pipe";
+import {IsArrayPipe} from "../../../../_helpers/pipes/is-array.pipe";
 
 @Component({
   selector: 'app-configuration-detail',
@@ -28,7 +30,6 @@ import {ConfigurationService} from "../../data-access/configuration.service";
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    SharedModule,
     MatProgressSpinnerModule,
     MatSidenavModule,
     ConfigurationHistoryComponent,
@@ -39,7 +40,9 @@ import {ConfigurationService} from "../../data-access/configuration.service";
     FormsModule,
     MatMenuModule,
     FormPageComponent,
-    DatePipe
+    DatePipe,
+    SafeHtmlPipe,
+    IsArrayPipe
   ],
   styleUrl: './configuration-detail.component.scss'
 })

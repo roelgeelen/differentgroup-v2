@@ -48,7 +48,7 @@
                     <mat-card-title>{{ config.title }}</mat-card-title>
                     <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
                       @if (config.amount) {
-                        <span class="label amount"><mat-icon>request_quote</mat-icon></span>
+                        <span class="label amount"><mat-icon [matTooltip]="'€'+config.amount" matTooltipPosition="above">request_quote</mat-icon></span>
                       }
                       @if (config.published) {
                         <span class="label published">Gepubliceerd</span>

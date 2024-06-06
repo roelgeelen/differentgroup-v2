@@ -12,7 +12,7 @@ import {ControlOptionsComponent} from "./control-options/control-options.compone
 import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
-import {SharedFormBuilderModule} from "../../../../_components/dynamic-form-builder/components/shared-form-builder.module";
+
 import {User} from "../../../../_auth/models/User";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -29,6 +29,9 @@ import {IForm} from "../../../../_components/dynamic-form-builder/models/form.in
 import Swal from "sweetalert2";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {TemplateService} from "../../data-access/template.service";
+import {
+  FormContainerComponent
+} from "../../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 
 @Component({
   selector: 'app-form',
@@ -40,7 +43,6 @@ import {TemplateService} from "../../data-access/template.service";
     MatSlideToggleModule,
     AsyncPipe,
     MatTabsModule,
-    SharedFormBuilderModule,
     MatProgressSpinnerModule,
     FormsModule,
     MatIconModule,
@@ -53,7 +55,8 @@ import {TemplateService} from "../../data-access/template.service";
     MatRippleModule,
     MatTooltipModule,
     FormOptionsComponent,
-    FormPageComponent
+    FormPageComponent,
+    FormContainerComponent
   ],
   standalone: true
 })

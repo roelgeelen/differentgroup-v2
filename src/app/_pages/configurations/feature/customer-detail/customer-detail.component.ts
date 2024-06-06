@@ -24,6 +24,7 @@ import {Subscription} from "rxjs";
 import {EnumRoles} from "../../../../_auth/models/enumRoles";
 import {CustomerService} from "../../data-access/customer.service";
 import {ConfigurationService} from "../../data-access/configuration.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-customer-detail',
@@ -46,11 +47,12 @@ import {ConfigurationService} from "../../data-access/configuration.service";
     MatMenuModule,
     FormPageComponent,
     DecimalPipe,
-    KeyValuePipe
+    KeyValuePipe,
+    MatTooltip
   ],
   styleUrl: './customer-detail.component.scss'
 })
-export class OverviewComponent  implements OnDestroy{
+export class CustomerDetailComponent implements OnDestroy{
   themeSubscription?: Subscription;
   customer: ICustomer | null = null;
   newForm: IForm | null = null;

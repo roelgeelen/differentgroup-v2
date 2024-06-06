@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 import {HttpResponse} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {SharedModule} from "../../../../shared.module";
+
 
 @Component({
   selector: 'app-news-card',
@@ -15,9 +15,8 @@ import {SharedModule} from "../../../../shared.module";
   imports: [
     DatePipe,
     AsyncPipe,
-    MatProgressSpinner,
-    SharedModule
-  ],
+    MatProgressSpinner
+],
   styleUrl: './news-card.component.scss'
 })
 export class NewsCardComponent implements OnInit {

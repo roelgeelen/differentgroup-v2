@@ -1,17 +1,14 @@
 import {Route} from "@angular/router";
-import {OverviewComponent} from "./feature/customer-detail/customer-detail.component";
-import {ConfigurationsComponent} from "./feature/configurations.component";
 import {canDeactivateGuard} from "../../_helpers/guards/can-deactivate.guard";
-import {CustomerListComponent} from "./feature/customer-list/customer-list.component";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {ConfigurationEditComponent} from "./feature/configuration-edit/configuration-edit.component";
-import {ConfigurationDetailComponent} from "./feature/configuration-detail/configuration-detail.component";
+
 
 export const routes: Route[] = [
   {
     path: '',
-    component: ConfigurationsComponent,
+    loadComponent: () => import('./feature/configurations.component').then((x) => x.ConfigurationsComponent),
+    // component: ConfigurationsComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -23,7 +20,8 @@ export const routes: Route[] = [
   },
   {
     path: 'search',
-    component: CustomerListComponent,
+    loadComponent: () => import('./feature/customer-list/customer-list.component').then((x) => x.CustomerListComponent),
+    // component: CustomerListComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -35,7 +33,8 @@ export const routes: Route[] = [
   },
   {
     path: ':dealId',
-    component: OverviewComponent,
+    loadComponent: () => import('./feature/customer-detail/customer-detail.component').then((x) => x.CustomerDetailComponent),
+    // component: CustomerDetailComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -47,7 +46,8 @@ export const routes: Route[] = [
   },
   {
     path: ':dealId/configurations/:configId',
-    component: ConfigurationDetailComponent,
+    loadComponent: () => import('./feature/configuration-detail/configuration-detail.component').then((x) => x.ConfigurationDetailComponent),
+    // component: ConfigurationDetailComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -59,7 +59,8 @@ export const routes: Route[] = [
   },
   {
     path: ':dealId/configurations/:configId/edit',
-    component: ConfigurationEditComponent,
+    loadComponent: () => import('./feature/configuration-edit/configuration-edit.component').then((x) => x.ConfigurationEditComponent),
+    // component: ConfigurationEditComponent,
     canDeactivate: [canDeactivateGuard],
     canActivate: [AuthGuard],
     data: {

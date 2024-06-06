@@ -1,14 +1,12 @@
 import {Route} from "@angular/router";
 import {AuthGuard} from "../../_auth/auth.guard";
 import {EnumRoles} from "../../_auth/models/enumRoles";
-import {ProductionComponent} from "./feature/production/production.component";
-import {ProducedComponent} from "./feature/produced/produced.component";
-import {TrackingComponent} from "./feature/tracking/tracking.component";
 
 export const routes: Route[] = [
   {
     path: 'production',
-    component: ProductionComponent,
+    loadComponent: () => import('./feature/production/production.component').then((x) => x.ProductionComponent),
+    // component: ProductionComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -18,7 +16,8 @@ export const routes: Route[] = [
   },
   {
     path: 'produced',
-    component: ProducedComponent,
+    loadComponent: () => import('./feature/produced/produced.component').then((x) => x.ProducedComponent),
+    // component: ProducedComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [
@@ -28,7 +27,8 @@ export const routes: Route[] = [
   },
   {
     path: 'tracking',
-    component: TrackingComponent,
+    loadComponent: () => import('./feature/tracking/tracking.component').then((x) => x.TrackingComponent),
+    // component: TrackingComponent,
     canActivate: [AuthGuard],
     data: {
       roles: [

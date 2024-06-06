@@ -3,9 +3,10 @@ import { FormControlComponentBase } from '../control-component-base.class';
 import { Divider } from './divider.class';
 
 @Component({
-  selector: 'app-divider',
-  templateUrl: './divider.component.html',
-  styleUrls: ['./divider.component.scss']
+    selector: 'app-divider',
+    templateUrl: './divider.component.html',
+    styleUrls: ['./divider.component.scss'],
+    standalone: true
 })
 export class DividerComponent extends FormControlComponentBase<Divider> implements OnInit {
 

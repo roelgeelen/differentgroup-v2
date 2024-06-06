@@ -27,7 +27,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {SharedModule} from "../../../../../shared.module";
+
 import {IFormControl} from "../../../../../_components/dynamic-form-builder/form-controls/form-control.interface";
 import {FormService} from "../../../../../_components/dynamic-form-builder/services/form.service";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
@@ -52,6 +52,7 @@ import {FormControlsService} from "../../../../../_components/dynamic-form-build
 import {DragDropService} from "../../../../../_components/dynamic-form-builder/services/drag-drop.service";
 import Swal from "sweetalert2";
 import {TemplateService} from "../../../data-access/template.service";
+import {IsArrayPipe} from "../../../../../_helpers/pipes/is-array.pipe";
 
 @Component({
   selector: 'app-control-options',
@@ -72,7 +73,6 @@ import {TemplateService} from "../../../data-access/template.service";
     CdkDrag,
     CdkDragHandle,
     CdkDragPlaceholder,
-    SharedModule,
     MatSlideToggleModule,
     MatCardModule,
     MatDividerModule,
@@ -84,7 +84,8 @@ import {TemplateService} from "../../../data-access/template.service";
     MatProgressSpinnerModule,
     MatProgressBarModule,
     AutocompleteFieldComponent,
-    ClipboardModule
+    ClipboardModule,
+    IsArrayPipe
   ],
   styleUrl: './control-options.component.scss'
 })

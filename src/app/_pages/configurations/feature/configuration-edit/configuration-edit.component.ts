@@ -1,16 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
-import {AsyncPipe, NgIf, NgTemplateOutlet} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
-import {FlexModule} from "@angular/flex-layout";
-import {ActivatedRoute, RouterLink} from "@angular/router";
-import {
-  SharedFormBuilderModule
-} from "../../../../_components/dynamic-form-builder/components/shared-form-builder.module";
+import {ActivatedRoute, RouterModule} from "@angular/router";
+
 import {
   IConfiguration,
   IConfigurationItem,
@@ -29,36 +26,36 @@ import {ConfigurationService} from "../../data-access/configuration.service";
 import {FormPageComponent} from "../../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import Swal from "sweetalert2";
 import {QuoteService} from "./quotation/quote.service";
-import {firstValueFrom, Subscription} from "rxjs";
+import {Subscription} from "rxjs";
 import {IFormPage} from "../../../../_components/dynamic-form-builder/models/form-container.interface";
 import {IColumn} from "../../../../_components/dynamic-form-builder/form-controls/columns/column.interface";
 import {CanDeactivateType} from "../../../../_helpers/guards/can-deactivate.guard";
-import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CustomerService} from "../../data-access/customer.service";
+import {
+  FormContainerComponent
+} from "../../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 
 @Component({
   selector: 'app-configuration-edit',
   templateUrl: './configuration-edit.component.html',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    MatButtonModule,
-    MatTabsModule,
-    SharedFormBuilderModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    FlexModule,
-    MatInputModule,
-    FormsModule,
-    RouterLink,
+    RouterModule,
     MatSidenavModule,
     QuotationComponent,
-    NgIf,
+    AsyncPipe,
+    MatIconModule,
+    MatSlideToggleModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
     FormPageComponent,
-    NgTemplateOutlet,
-    MatSlideToggle
+    ReactiveFormsModule,
+    MatTabsModule,
+    FormContainerComponent,
+    MatInputModule,
   ],
   styleUrl: './configuration-edit.component.scss'
 })
@@ -83,7 +80,6 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
     private configurationService: ConfigurationService,
     public dialog: MatDialog,
     private utilityService: UtilityService,
-    private apiConfigurationService: ConfigurationService,
     private quoteService: QuoteService,
     private _snackBar: MatSnackBar
   ) {

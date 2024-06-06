@@ -18,9 +18,10 @@
               </ng-container>
             }
           </ng-container>
-          <!--          <mat-error *ngIf="getFormValidationErrors().length != 0">Controleer de-->
-          <!--            velden: {{getFormValidationErrors()}}</mat-error>-->
-          <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>
+          <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
+            Offerte maken
+          </button>
+<!--          <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>-->
         </app-quotation>
       }
     </mat-drawer>
@@ -50,8 +51,11 @@
               </button>
             }
             <button mat-raised-button color="primary" (click)="saveForm()" [disabled]="saving">
-              <mat-icon *ngIf="!saving">save</mat-icon>
-              <mat-spinner class="white" *ngIf="saving" [diameter]="20">save</mat-spinner>
+              @if (!saving) {
+                <mat-icon>save</mat-icon>
+              } @else {
+                <mat-spinner class="white" [diameter]="20">save</mat-spinner>
+              }
             </button>
           </div>
 
@@ -81,7 +85,10 @@
                             </button>
                           }
                           @if (tabIndex == (tabCount - 1) && form.options.createQuotation) {
-                            <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
+                            <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
+                              Offerte maken
+                            </button>
+<!--                            <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>-->
                           }
                         </div>
                       </mat-tab>
@@ -97,7 +104,10 @@
                   <div class="form-footer">
                     @if (form.options.createQuotation) {
                       <div></div>
-                      <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>
+                      <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
+                        Offerte maken
+                      </button>
+<!--                      <ng-container *ngTemplateOutlet="submitFormBtn"></ng-container>-->
                     }
                   </div>
 
@@ -117,8 +127,8 @@
     </mat-drawer-content>
   </mat-drawer-container>
 }
-<ng-template #submitFormBtn>
-  <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
-    Offerte maken
-  </button>
-</ng-template>
+<!--<ng-template #submitFormBtn>-->
+<!--  <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">-->
+<!--    Offerte maken-->
+<!--  </button>-->
+<!--</ng-template>-->

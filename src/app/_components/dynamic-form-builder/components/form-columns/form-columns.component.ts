@@ -1,11 +1,16 @@
-import {Component, Input} from '@angular/core';
+import {Component, forwardRef, Input} from '@angular/core';
 import {Columns} from "../../form-controls/columns/columns.class";
+import { FormContainerComponent } from '../form-container/form-container.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatMiniFabButton } from '@angular/material/button';
 
 
 @Component({
-  selector: 'app-form-columns',
-  templateUrl: './form-columns.component.html',
-  styleUrls: ['./form-columns.component.scss']
+    selector: 'app-form-columns',
+    templateUrl: './form-columns.component.html',
+    styleUrls: ['./form-columns.component.scss'],
+    standalone: true,
+  imports: [MatMiniFabButton, MatIcon, forwardRef(() => FormContainerComponent), FormContainerComponent]
 })
 export class FormColumnsComponent {
   @Input() showInvisible = false;

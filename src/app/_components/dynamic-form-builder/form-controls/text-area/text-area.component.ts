@@ -1,14 +1,16 @@
 import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormControlComponentBase} from '../control-component-base.class';
 import {TextArea} from './text-area.class';
-import {Editor, Toolbar} from "ngx-editor";
-import {FormGroup} from "@angular/forms";
+import { Editor, Toolbar, NgxEditorModule } from "ngx-editor";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import {FormService} from "../../services/form.service";
 
 @Component({
-  selector: 'app-text-area',
-  templateUrl: './text-area.component.html',
-  styleUrls: ['./text-area.component.scss']
+    selector: 'app-text-area',
+    templateUrl: './text-area.component.html',
+    styleUrls: ['./text-area.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, NgxEditorModule]
 })
 export class TextAreaComponent extends FormControlComponentBase<TextArea> implements OnDestroy{
   @Input() form!: FormGroup;

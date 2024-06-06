@@ -3,7 +3,10 @@ import {
   CdkDropList,
   CdkDrag,
   CdkDragRelease,
-  CdkDragMove
+  CdkDragMove,
+  CdkDragHandle,
+  CdkDragPlaceholder,
+  CdkDragPreview
 } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
@@ -22,13 +25,61 @@ import {Subscription} from "rxjs";
 import {IFormControlOptionsDependent} from "../../form-controls/form-control-options.interface";
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {MatMenuTrigger} from "@angular/material/menu";
+import {MatMenuTrigger, MatMenuModule} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormColumnsComponent} from '../form-columns/form-columns.component';
+import {TableComponent} from '../../form-controls/table/table.component';
+import {UploadComponent} from '../../form-controls/upload/upload.component';
+import {RadioBtnComponent} from '../../form-controls/radio-btn/radio-btn.component';
+import {CheckBoxComponent} from '../../form-controls/check-box/check-box.component';
+import {DropdownComponent} from '../../form-controls/dropdown/dropdown.component';
+import {TextAreaComponent} from '../../form-controls/text-area/text-area.component';
+import {SliderComponent} from '../../form-controls/slider/slider.component';
+import {TextBoxComponent} from '../../form-controls/text-box/text-box.component';
+import {CalculationComponent} from '../../form-controls/calculation/calculation.component';
+import {DividerComponent} from '../../form-controls/divider/divider.component';
+import {InfoImageComponent} from '../../form-controls/info-image/info-image.component';
+import {InfoBoxComponent} from '../../form-controls/info-box/info-box.component';
+import {NgTemplateOutlet, AsyncPipe} from '@angular/common';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-form-container',
   templateUrl: './form-container.component.html',
-  styleUrls: ['./form-container.component.scss']
+  styleUrls: ['./form-container.component.scss'],
+  standalone: true,
+  imports: [
+    CdkDrag,
+    CdkDropList,
+    MatIconModule,
+    MatButtonModule,
+    CdkDragHandle,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    CdkDragPlaceholder,
+    CdkDragPreview,
+    NgTemplateOutlet,
+    MatMenuModule,
+    AsyncPipe,
+    InfoBoxComponent,
+    InfoImageComponent,
+    DividerComponent,
+    CalculationComponent,
+    TextBoxComponent,
+    SliderComponent,
+    TextAreaComponent,
+    DropdownComponent,
+    CheckBoxComponent,
+    RadioBtnComponent,
+    UploadComponent,
+    TableComponent,
+    FormColumnsComponent
+  ]
 })
 export class FormContainerComponent implements AfterViewInit, OnDestroy {
   @ViewChild(CdkDropList) dropList?: CdkDropList;
@@ -49,7 +100,6 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
     private formControlsService: FormControlsService,
     private http: HttpClient,
     private _snackBar: MatSnackBar
-
   ) {
     this.selectedControlSubscription = this.formService.selectedControl$.subscribe((control) =>
       this.selectedControl = control
@@ -156,7 +206,7 @@ export class FormContainerComponent implements AfterViewInit, OnDestroy {
   }
 
   pasteControl(index: number) {
-    this.container?.controls.splice(index, 0 , this.formService.copiedControl$.value!);
+    this.container?.controls.splice(index, 0, this.formService.copiedControl$.value!);
     this.formService.updateFormGroup();
     this.formService.onControlSelected(null);
     this.formService.onControlCopied(null)

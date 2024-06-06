@@ -1,5 +1,3 @@
-import {IForm} from "../models/form.interface";
-
 export const inputTypes: { value: string, name: string }[] = [
   {value: 'text', name: 'Tekst'},
   {value: 'number', name: 'Nummer'},
@@ -78,7 +76,7 @@ export interface IFormControlOptionsVisibility {
 
 export interface IFormAttachment {
   id: string;
-  form?: IForm;
+  // form?: IForm;
   external?: string;
   field?: string;
   name?: string;
