@@ -35,7 +35,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/routes.json"
+              "src/routes.json",
+              {
+                "glob": "assetlinks.json",
+                "input": "src/",
+                "output": "/.well-known"
+              }
             ],
             "styles": [
               {

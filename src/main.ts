@@ -1,6 +1,5 @@
 import {importProvidersFrom} from '@angular/core';
 import {AppComponent} from './app/app.component';
-import { MatMenuModule} from '@angular/material/menu';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {APP_ROUTES} from './app/app-routing.module';
 import { bootstrapApplication} from '@angular/platform-browser';
@@ -12,7 +11,6 @@ import {PreloadAllModules, provideRouter, withPreloading} from "@angular/router"
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(MatMenuModule),
     importProvidersFrom(OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: [environment.apiUrl, environment.apiUrlV2],

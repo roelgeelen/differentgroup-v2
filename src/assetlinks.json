@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.differentdoors.differentdoors",
+      "sha256_cert_fingerprints": ["E3:65:B8:0B:E5:C7:BF:CF:BE:E8:1E:74:3A:35:49:BC:B4:B6:B4:0A:C4:F8:5C:78:7A:9D:48:E2:14:16:F8:84"]
+    }
+  }
+]
