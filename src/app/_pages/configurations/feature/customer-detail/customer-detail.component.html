@@ -1,4 +1,7 @@
 <div class="form background-accent content">
+  @if (showAppLink) {
+    <a mat-raised-button color="primary" href="https://differentgroup.nl/customers/1">Open app</a>
+  }
   <app-form-page [title]="customer !== null ? customer.name : 'Configuraties'" [prevLink]="'/customers'">
     @defer (when customer !== null) {
       <div class="form-content">
@@ -48,7 +51,8 @@
                     <mat-card-title>{{ config.title }}</mat-card-title>
                     <mat-card-subtitle>{{ config.updatedBy }} {{ config.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
                       @if (config.amount) {
-                        <span class="label amount"><mat-icon [matTooltip]="'€'+config.amount" matTooltipPosition="above">request_quote</mat-icon></span>
+                        <span class="label amount"><mat-icon [matTooltip]="'€'+config.amount"
+                                                             matTooltipPosition="above">request_quote</mat-icon></span>
                       }
                       @if (config.published) {
                         <span class="label published">Gepubliceerd</span>

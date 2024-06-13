@@ -53,6 +53,7 @@ import {MatTooltip} from "@angular/material/tooltip";
   styleUrl: './customer-detail.component.scss'
 })
 export class CustomerDetailComponent implements OnDestroy{
+  showAppLink = false;
   themeSubscription?: Subscription;
   customer: ICustomer | null = null;
   newForm: IForm | null = null;
@@ -84,8 +85,17 @@ export class CustomerDetailComponent implements OnDestroy{
   }
 
   ngOnDestroy() {
+    this.detectMobileDevice();
     if (this.themeSubscription){
       this.themeSubscription.unsubscribe();
+    }
+  }
+
+  detectMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor;
+
+    if (/android/i.test(userAgent) || /iPad|iPhone|iPod/.test(userAgent)) {
+      this.showAppLink = true;
     }
   }
 
