@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
@@ -52,7 +52,7 @@ import {MatTooltip} from "@angular/material/tooltip";
   ],
   styleUrl: './customer-detail.component.scss'
 })
-export class CustomerDetailComponent implements OnDestroy{
+export class CustomerDetailComponent implements OnInit, OnDestroy{
   showAppLink = false;
   themeSubscription?: Subscription;
   customer: ICustomer | null = null;
@@ -84,8 +84,12 @@ export class CustomerDetailComponent implements OnDestroy{
     this.themeSubscription = this.themeService.theme$.subscribe(t => this.selectedTheme = t)
   }
 
-  ngOnDestroy() {
+  ngOnInit() {
     this.detectMobileDevice();
+  }
+
+  ngOnDestroy() {
+
     if (this.themeSubscription){
       this.themeSubscription.unsubscribe();
     }
