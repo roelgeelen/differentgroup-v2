@@ -18,10 +18,12 @@
               </ng-container>
             }
           </ng-container>
-          <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
-            Offerte maken
-          </button>
-<!--          <ng-container *ngTemplateOutlet="submitFormBtn" action></ng-container>-->
+
+          <ng-container action>
+            <button mat-raised-button color="primary" (click)="submit()" [disabled]="!formService.formGroup$.getValue().valid">
+              Offerte maken
+            </button>
+          </ng-container>
         </app-quotation>
       }
     </mat-drawer>

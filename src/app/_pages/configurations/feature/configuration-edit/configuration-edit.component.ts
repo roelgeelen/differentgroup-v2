@@ -275,6 +275,7 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
       cancelButtonText: 'Annuleren'
     }).then((result) => {
       if (!result.isDismissed) {
+        this.saveForm();
         this.loading = true;
         this.customerService.createInvoice(this.config?.id!, !result.isConfirmed, this.quoteService.getQuoteItems(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue())).subscribe({
           error: () => {
