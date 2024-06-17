@@ -3,8 +3,8 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.differentdoors.differentdoors",
-      "sha256_cert_fingerprints": ["E3:65:B8:0B:E5:C7:BF:CF:BE:E8:1E:74:3A:35:49:BC:B4:B6:B4:0A:C4:F8:5C:78:7A:9D:48:E2:14:16:F8:84"]
+      "package_name": "com.example",
+      "sha256_cert_fingerprints": ["BD:5E:3E:D3:45:69:63:9C:86:1C:AC:53:EF:4F:9E:85:77:38:3C:71:D3:EC:AD:39:30:49:46:F4:DD:4A:3F:1E"]
     }
   }
 ]

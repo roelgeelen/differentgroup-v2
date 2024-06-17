@@ -1,0 +1,13 @@
+::ng-deep {
+  .ranking-widget-list-header {
+    display: none !important;
+  }
+  .ranking-widget-position {
+    min-width: 45px;
+  }
+  .ranking-widget-list {
+    li {
+      column-gap: 0 !important;
+    }
+  }
+}

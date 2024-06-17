@@ -16,6 +16,7 @@ import {EventItemComponent} from "../ui/event-item/event-item.component";
 import {MatDivider} from "@angular/material/divider";
 import {MatButton} from "@angular/material/button";
 import Swal from "sweetalert2";
+import {EkPoolComponent} from "../ui/ek-pool/ek-pool.component";
 
 @Component({
   selector: 'app-home',
@@ -33,8 +34,9 @@ import Swal from "sweetalert2";
     EventItemComponent,
     MatDivider,
     MatCardActions,
-    MatButton
-],
+    MatButton,
+    EkPoolComponent
+  ],
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit{
