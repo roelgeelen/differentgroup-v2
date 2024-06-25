@@ -95,12 +95,10 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
         this.customerId = queryParams.get('dealId')!;
         this.configurationService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
-          console.log(c)
           this.setForm(c);
           if (c.form.options.quotePanelOpen) {
             this.drawer?.open();
           }
-
         });
       }
     });
@@ -309,7 +307,8 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
       this.saving = true;
       this.config.updatedBy = this.currentUser?.name;
       this.config.values = this.generateConfigurationValue(this.formService.form$.getValue(), this.formService.formGroup$.getValue().getRawValue());
-      this.setForm(this.config).then();
+      this.isSaved = true;
+      // this.setForm(this.config).then();
       this.configurationService.updateConfiguration(this.customerId, this.config.id!, this.config).subscribe({
         error: () => {
           this.saving = false

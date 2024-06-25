@@ -28,7 +28,7 @@ import {Subscription} from "rxjs";
 export class CalculationFormControlComponent implements ControlValueAccessor, OnInit, OnDestroy {
   @Input() control!: IFormControl;
   @Input() form!: FormGroup;
-  @Output() change = new EventEmitter();
+  // @Output() change = new EventEmitter();
 
   valueChangeSubscription: Subscription|null=null;
   choiceControls: IFormControl[] = [];
@@ -141,7 +141,7 @@ export class CalculationFormControlComponent implements ControlValueAccessor, On
         this.value = newValue;
         this.onChange(this.value);
         this.onTouched();
-        this.change.emit();
+        this.formService.onControlValueChanged(this.control);
       }
     } catch (_) {}
   }

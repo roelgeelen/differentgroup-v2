@@ -104,6 +104,4 @@ export class NavbarComponent implements OnInit {
   public logout() {
     this.oauthService.logOut();
   }
-
-    protected readonly JSON = JSON;
 }
