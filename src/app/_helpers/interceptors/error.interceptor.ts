@@ -1,32 +1,29 @@
-import {Injectable} from '@angular/core';
-import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
-import {Observable, throwError} from 'rxjs';
+import {inject} from '@angular/core';
+import {HttpInterceptorFn} from '@angular/common/http';
+import {throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {MatSnackBar} from "@angular/material/snack-bar";
 
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  duration = 3000;
+export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
+  const snackBar = inject(MatSnackBar);
+  const duration = 3000; // Define your duration here or inject it similarly if needed
 
-  constructor(private _snackBar: MatSnackBar) {
-  }
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(catchError(err => {
-      if ([401, 403].indexOf(err.status) !== -1) {
-        this._snackBar.open('Authenticatie mislukt', 'OK', {duration: this.duration});
+  return next(req).pipe(
+    catchError((err: any) => {
+      if ([401, 403].includes(err.status)) {
+        snackBar.open('Authenticatie mislukt', 'OK', {duration});
       }
 
-      if ([500].indexOf(err.status) !== -1) {
-        this._snackBar.open('Er is iets mis gegaan', 'OK', {duration: this.duration});
+      if ([500].includes(err.status)) {
+        snackBar.open('Er is iets mis gegaan', 'OK', {duration});
       }
 
-      if (err.status <= 0 || [404].indexOf(err.status) !== -1) {
-        this._snackBar.open('Kan server niet bereiken', 'OK', {duration: this.duration});
+      if (err.status <= 0 || [404].includes(err.status)) {
+        snackBar.open('Kan server niet bereiken', 'OK', {duration});
       }
 
       const error = err.error.message || err.error;
-      return throwError(error);
-    }));
-  }
-}
+      return throwError(() => error);
+    })
+  );
+};

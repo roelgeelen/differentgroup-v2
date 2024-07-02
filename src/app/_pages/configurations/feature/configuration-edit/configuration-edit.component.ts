@@ -380,12 +380,13 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
               });
             }
           } else {
+            console.log(values)
             const value: IConfigurationItemValue = {
               id: control.id,
               type: control.type,
               title: controlOptions.title || controlOptions.label || '',
               subtitle: controlOptions.subtitle || controlOptions.note || '',
-              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] || (control.type !== 'Calculation' ? control.value : '') || '',
+              value: control.type === 'InfoImage' ? controlOptions.image : values[control.id] != undefined ? values[control.id] : (control.type !== 'Calculation' ? control.value : undefined)||undefined,
               fields: control.options?.columns
             };
             if (this.shouldAddConfigurationItem(value)) {
@@ -400,9 +401,8 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
   }
 
   shouldAddConfigurationItem(value: IConfigurationItemValue): boolean {
-    const isValueNotEmpty = value.value && ((value.value !== '' && value.value.length > 0) || 'id' in value.value);
     const isTypeAllowed = ['InfoBox', 'Divider', 'InfoImage'].includes(value.type);
-    return isValueNotEmpty || isTypeAllowed;
+    return value.value !== undefined || isTypeAllowed;
   }
 
   convertConfigurationToRawJson(configValues: IConfigurationItem[]): { [key: string]: string; } {

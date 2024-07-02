@@ -123,4 +123,5 @@ export class ConfigurationDetailComponent implements OnInit {
 
     this.router.navigate([], navigationExtras);
   }
+  protected readonly Array = Array;
 }

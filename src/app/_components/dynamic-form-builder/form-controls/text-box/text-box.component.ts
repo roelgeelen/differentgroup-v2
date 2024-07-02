@@ -5,13 +5,14 @@ import { FormGroup, ReactiveFormsModule } from "@angular/forms";
 import {FormService} from "../../services/form.service";
 import { MatInput } from '@angular/material/input';
 import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import {NxNoScrollDirective} from "../../../../_helpers/directives/nx-no-scroll.directive";
 
 @Component({
     selector: 'app-text-box',
     templateUrl: './text-box.component.html',
     styleUrls: ['./text-box.component.scss'],
     standalone: true,
-    imports: [MatFormField, ReactiveFormsModule, MatLabel, MatInput, MatHint]
+  imports: [MatFormField, ReactiveFormsModule, MatLabel, MatInput, MatHint, NxNoScrollDirective]
 })
 export class TextBoxComponent extends FormControlComponentBase<TextBox> implements OnInit {
   @Input() form!: FormGroup;

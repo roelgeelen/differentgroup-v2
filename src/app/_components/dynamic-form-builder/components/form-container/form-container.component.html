@@ -47,7 +47,7 @@
                   <div class="label-info">
                     @if (item.options.help) {
                       <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above"
-                                class="help-icon primary-text">
+                                class="help-icon" color="primary">
                         info_outlined
                       </mat-icon>
                     }
@@ -117,21 +117,21 @@
     </div>
     <mat-menu #contextMenu="matMenu">
       <ng-template matMenuContent let-index="index">
-        @if(index!==undefined){
-        <button mat-menu-item (click)="cutControl(index)">
-          <mat-icon>content_cut</mat-icon>
-          <span>Knippen</span>
-        </button>
+        @if (index !== undefined) {
+          <button mat-menu-item (click)="cutControl(index)">
+            <mat-icon>content_cut</mat-icon>
+            <span>Knippen</span>
+          </button>
         }
         <button mat-menu-item [disabled]="(formService.copiedControl$ | async)==null" (click)="pasteControl(index)">
           <mat-icon>content_paste</mat-icon>
           <span>Plakken</span>
         </button>
-        @if(index!==undefined){
-        <button mat-menu-item (click)="removeControl(index)">
-          <mat-icon>delete</mat-icon>
-          <span>Verwijderen</span>
-        </button>
+        @if (index !== undefined) {
+          <button mat-menu-item (click)="removeControl(index)">
+            <mat-icon>delete</mat-icon>
+            <span>Verwijderen</span>
+          </button>
         }
       </ng-template>
     </mat-menu>
@@ -154,7 +154,8 @@
               }
             </span>
             @if (item.options.help) {
-              <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon">info_outlined
+              <mat-icon [matTooltip]="item.options.help!" matTooltipPosition="above" class="help-icon" color="primary">
+                info_outlined
               </mat-icon>
             }
           </mat-label>

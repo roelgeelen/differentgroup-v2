@@ -37,7 +37,7 @@ import {MatInputModule} from "@angular/material/input";
 
       } @else {
           @if (error) {
-              <mat-error>Bestand is te groot. Max grote is 5MB</mat-error>
+              <mat-error>Bestand is te groot. Max grote is 6MB</mat-error>
           }
           <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
               <input type="file" id="fileDropRef" #fileInput [accept]="accept" (change)="fileBrowseHandler($event)"/>
@@ -94,7 +94,7 @@ export class FileFormControlComponent implements ControlValueAccessor {
 
   checkFile(files: FileList) {
     const file = files.item(0);
-    if (file !== null && file.size < 5000000) {
+    if (file !== null && file.size < 6000000) {
       this.error = false;
       this.fileSelected.emit(file);
     } else {
