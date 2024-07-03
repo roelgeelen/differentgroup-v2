@@ -174,8 +174,7 @@ export class FormService {
         validators.push(Validators.max(max));
       }
     }
-    const value = values?.[control.id] || (control.type !== 'Calculation' ? control.value : '') || '';
-    // const value = values?.[control.id] !== undefined ? values?.[control.id] : (control.type !== 'Calculation' ? control.value : undefined) || undefined;
+    const value = values?.[control.id] !== undefined ? values?.[control.id] : (control.type !== 'Calculation' ? control.value : undefined) || undefined;
     if (control.options?.toDeal) {
       this._hubspotFields[control.id] = {toDeal: control.options.toDeal, type: control.type};
     }

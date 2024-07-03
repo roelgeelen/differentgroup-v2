@@ -4,6 +4,7 @@
     [editor]="editor"
     [placeholder]="control?.options?.placeholder ?? ''"
     [formControlName]="control!.id" [id]="control!.id"
+    outputFormat="html"
     (focusout)="formService.onControlValueChanged(control!)"
   ></ngx-editor>
 </div>
