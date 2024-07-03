@@ -380,7 +380,6 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
               });
             }
           } else {
-            console.log(values)
             const value: IConfigurationItemValue = {
               id: control.id,
               type: control.type,
