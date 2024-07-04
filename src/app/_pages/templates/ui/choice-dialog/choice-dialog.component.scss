@@ -12,9 +12,16 @@
   & > * {
     width: 100%;
   }
+  .option-box {
+    display: flex;
+    justify-content: space-between;
+    button{
+      margin-top: 7px;
+    }
+  }
 }
 .mat-mdc-dialog-content{
-  width: 500px;
+  width: 750px;
 }
 .mat-mdc-dialog-actions {
   border-top: 1px solid;

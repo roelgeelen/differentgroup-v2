@@ -36,8 +36,8 @@ export class QuoteService {
       if (formControl) {
         selectedValues.forEach((selectedValue: any) => {
           const selectedChoice = formControl.options?.choices?.find(choice => choice.value === selectedValue);
-          if (selectedChoice && selectedChoice.quoteLine) {
-            selectedQuoteLines.push(selectedChoice.quoteLine);
+          if (selectedChoice && selectedChoice.quoteLines) {
+            selectedQuoteLines.push(...selectedChoice.quoteLines);
           }
         });
       }

@@ -55,12 +55,23 @@ export class ChoiceDialogComponent {
   }
 
   addQuoteLine() {
-    this.data.quoteLine = {sku: '', order: 100}
+    if (this.data.quoteLines === undefined) {
+     this.data.quoteLines = [];
+    }
+    this.data.quoteLines!.push({sku: '', order: 100});
   }
 
-  removeQuoteLine() {
-    this.data.quoteLine = undefined;
+  removeFromList(choices: any[], index: number) {
+    choices.splice(index, 1);
   }
+
+  // addQuoteLine() {
+  //   this.data.quoteLine = {sku: '', order: 100}
+  // }
+
+  // removeQuoteLine() {
+  //   this.data.quoteLine = undefined;
+  // }
 
   onNoClick(): void {
     this.dialogRef.close();

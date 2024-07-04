@@ -8,28 +8,28 @@
     </mat-form-field>
   </div>
   @if (formService.form$.getValue().options.createQuotation) {
-    <div class="label">Offerte regel@if (data.quoteLine) {
-      <mat-icon color="warn" (click)="removeQuoteLine()" matTooltip="Verwijder offerte regel"
-                matTooltipPosition="above">close
-      </mat-icon>
-    }</div>
+    <div class="label">Offerte regels</div>
     <div class="option-content">
-      @if (data.quoteLine) {
-        <mat-form-field>
-          <mat-label>SKU</mat-label>
-          <input matInput [(ngModel)]="data.quoteLine!.sku" type="text">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Volgorde</mat-label>
-          <input matInput [(ngModel)]="data.quoteLine!.order" type="number">
-        </mat-form-field>
-        <app-autocomplete-field [options]="numberFields" title="Aantal veld"
-                                [searchFunction]="controlSearchFunction"
-                                [valueFunction]="valueFunction"
-                                [(ngModel)]="data.quoteLine!.amountField"></app-autocomplete-field>
-      } @else {
-        <button mat-flat-button color="primary" (click)="addQuoteLine()">+ Offerte regel toevoegen</button>
+      @for (line of data.quoteLines; track line) {
+        <div class="option-box">
+          <mat-form-field appearance="outline">
+            <mat-label>SKU</mat-label>
+            <input matInput [(ngModel)]="line.sku" placeholder="sku" type="text">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Volgorde</mat-label>
+            <input matInput [(ngModel)]="line.order" type="number">
+          </mat-form-field>
+          <app-autocomplete-field [options]="numberFields" title="Aantal veld"
+                                            [searchFunction]="controlSearchFunction"
+                                            [valueFunction]="valueFunction"
+                                            [(ngModel)]="line.amountField"></app-autocomplete-field>
+          <button mat-mini-fab color="warn" (click)="removeFromList(data.quoteLines!, $index)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
       }
+      <button mat-flat-button color="primary" (click)="addQuoteLine()">+ Offerte regel toevoegen</button>
     </div>
   }
 </div>

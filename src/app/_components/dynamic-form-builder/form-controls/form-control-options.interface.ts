@@ -45,7 +45,7 @@ export interface IFormControlOptionsColumns {
 export interface IFormControlOptionsChoices {
   id: string;
   value: string;
-  quoteLine?: IQuoteLine;
+  quoteLines?: IQuoteLine[];
   duration?: number;
 }
 
