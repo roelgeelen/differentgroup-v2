@@ -360,7 +360,7 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
                     type: colControl.type,
                     title: colControlOptions.title || colControlOptions.label || '',
                     subtitle: colControlOptions.subtitle || '',
-                    value: values[colControl.id] || (colControl.type !== 'Calculation' ? control.value : '') || ''
+                    value: values[colControl.id] || (colControl.type !== 'Calculation' ? control.value : undefined) || undefined
                   };
                   if (this.shouldAddConfigurationItem(colValue)) {
                     shouldAddValue = true;

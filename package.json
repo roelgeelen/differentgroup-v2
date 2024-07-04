@@ -29,7 +29,7 @@
     "angular-oauth2-oidc": "^17.0.2",
     "date-fns": "^3.6.0",
     "jwt-decode": "^4.0.0",
-    "ngx-editor": "^17.0.2",
+    "ngx-editor": "^17.5.4",
     "npm-check-updates": "^16.14.18",
     "rxjs": "~7.8.1",
     "sweetalert2": "^11.6.13",
