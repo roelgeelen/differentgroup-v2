@@ -38,7 +38,7 @@
               "src/routes.json",
               {
                 "glob": "assetlinks.json",
-                "input": "src/",
+                "input": "src/assets/",
                 "output": "/.well-known"
               }
             ],
