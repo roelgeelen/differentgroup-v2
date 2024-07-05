@@ -100,6 +100,7 @@ export class ConfigurationDetailComponent implements OnInit {
     this.loading = true;
     this.configurationService.getConfiguration(dealId, configId, type).subscribe(c => {
       this.configuration = c;
+      console.log(c)
       if (this.configuration?.preview?.url3D) {
         this.getSafeUrl(this.configuration?.preview?.url3D)
       }
