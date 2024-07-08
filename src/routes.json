@@ -4,6 +4,11 @@
       "route": "/*",
       "serve": "/index.html",
       "statusCode": 200
+    },
+    {
+      "route": "/.well-known/assetlinks.json",
+      "serve": "/.well-known/assetlinks.json",
+      "statusCode": 200
     }
   ]
 }
