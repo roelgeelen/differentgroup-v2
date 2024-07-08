@@ -99,13 +99,14 @@ export class QuoteService {
     if (table !== undefined) {
       for (const row of table) {
         let size = (Math.ceil(row['Breedte'] / 500) * 500 - 2500) / 500 * 2 + 1;
+        console.log(size)
         if (!isNaN(size)) {
           size = size < 1 ? 1 : size;
           if (row['Hoogte'] > 2500) size++;
           selectedQuoteLines.push({
-            sku: 'SDH0' + ('0' + size).slice(-2),
+            sku: 'ZSDH0' + ('0' + size).slice(-2),
             order: 100
-          }, {sku: 'SDH600', order: 600});
+          }, {sku: 'ZSDH1'+ ('0' + size).slice(-2), order: 100});
         }
       }
     }
