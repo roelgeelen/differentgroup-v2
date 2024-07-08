@@ -106,7 +106,7 @@ export class QuoteService {
           selectedQuoteLines.push({
             sku: 'ZSDH0' + ('0' + size).slice(-2),
             order: 100
-          }, {sku: 'ZSDH1'+ ('0' + size).slice(-2), order: 100});
+          }, {sku: 'ZSDH1'+ ('0' + size).slice(-2), order: 100}, {sku: 'SDH600', order: 600});
         }
       }
     }
