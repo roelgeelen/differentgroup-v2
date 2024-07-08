@@ -39,7 +39,7 @@
               {
                 "glob": "assetlinks.json",
                 "input": "src/assets/",
-                "output": "/.well-known"
+                "output": "/.well-known/"
               }
             ],
             "styles": [
