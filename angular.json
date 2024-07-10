@@ -36,13 +36,9 @@
               "src/favicon.ico",
               "src/assets",
               "src/routes.json",
+              "src/assets/apple-app-site-association",
               {
                 "glob": "assetlinks.json",
-                "input": "src/assets/",
-                "output": "/.well-known/"
-              },
-              {
-                "glob": "apple-app-site-association",
                 "input": "src/assets/",
                 "output": "/.well-known/"
               }
