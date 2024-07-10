@@ -37,4 +37,16 @@ export const routes: Route[] = [
       ]
     }
   },
+  {
+    path: 'stock',
+    loadComponent: () => import('./feature/stock/stock.component').then((x) => x.StockComponent),
+    // component: TrackingComponent,
+    canActivate: [AuthGuard],
+    data: {
+      roles: [
+        EnumRoles.TRACKING,
+        EnumRoles.AFSPRAKEN,
+      ]
+    }
+  },
 ];

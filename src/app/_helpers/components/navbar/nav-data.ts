@@ -91,6 +91,14 @@ export const NAV_CONFIG: NavItem[] = [
           EnumRoles.GEPRODUCEERD,
         ]
       },
+      {
+        path: '/planning/stock',
+        title: 'Voorraad',
+        icon: 'bar_chart',
+        roles: [
+          EnumRoles.GEPRODUCEERD,
+        ]
+      },
     ],
   },
   {
