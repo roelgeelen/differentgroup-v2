@@ -42,7 +42,7 @@
                 "output": "/.well-known/"
               },
               {
-                "glob": "apple-app-site-association",
+                "glob": "apple-app-site-association.json",
                 "input": "src/assets/",
                 "output": "/.well-known/"
               }
