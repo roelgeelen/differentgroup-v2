@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "BA6SL69YRG.com.differentdoors.differentdoors"
+        ],
+        "paths": [
+          "/customers/*"
+        ]
+      }
+    ]
+  }
+}
