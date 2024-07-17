@@ -1,4 +1,4 @@
-@if (currentUser) {
+@if (auth.isLoading$ | async) {
   <div class="body">
 
     <app-navbar (toggleMenu)="sidenav.toggle()"></app-navbar>
@@ -50,4 +50,6 @@
     <!-- credits -->
 
   </div>
+} @else {
+  <mat-spinner></mat-spinner>
 }
