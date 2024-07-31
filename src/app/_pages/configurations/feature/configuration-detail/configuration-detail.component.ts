@@ -16,11 +16,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import {EnumRoles} from "../../../../_auth/models/enumRoles";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
-import {User} from "../../../../_auth/models/User";
 import {ConfigurationService} from "../../data-access/configuration.service";
 import {SafeHtmlPipe} from "../../../../_helpers/pipes/safe-html.pipe";
 import {IsArrayPipe} from "../../../../_helpers/pipes/is-array.pipe";
+import {AuthService, User} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-configuration-detail',
@@ -66,9 +65,9 @@ export class ConfigurationDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private authService: AuthenticationService
+    private auth: AuthService
   ) {
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }
@@ -92,7 +91,11 @@ export class ConfigurationDetailComponent implements OnInit {
   }
 
   get isFORMULIEREN() {
-    return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
+    //TODO:
+
+    console.log(this.currentUser)
+    return true
+    // return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
   }
 
   getConfiguration(dealId: string, configId: string, type: string) {

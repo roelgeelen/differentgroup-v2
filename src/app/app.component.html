@@ -1,4 +1,4 @@
-@if (auth.isLoading$ | async) {
+@if (auth.isAuthenticated$ | async; as isAuth) {
   <div class="body">
 
     <app-navbar (toggleMenu)="sidenav.toggle()"></app-navbar>
@@ -51,5 +51,5 @@
 
   </div>
 } @else {
-  <mat-spinner></mat-spinner>
+  <app-loading></app-loading>
 }

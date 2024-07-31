@@ -39,8 +39,7 @@ import {DndDirective} from "../../../../../_helpers/directives/dnd.directive";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {User} from "../../../../../_auth/models/User";
-import {AuthenticationService} from "../../../../../_auth/authentication.service";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {ChoiceDialogComponent} from "../../../ui/choice-dialog/choice-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {v4 as uuidV4} from "uuid";
@@ -107,7 +106,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
   valueChangeSubscription: Subscription | undefined;
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     public formService: FormService,
     private templateService: TemplateService,
     public dialog: MatDialog,
@@ -115,7 +114,7 @@ export class ControlOptionsComponent implements OnInit, OnDestroy {
     private dragDropService: DragDropService
   ) {
     this.editor = new Editor();
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }

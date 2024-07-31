@@ -13,8 +13,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from '@angular/common';
 import {FormService} from "../../../../_components/dynamic-form-builder/services/form.service";
 
-import {User} from "../../../../_auth/models/User";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatCardModule} from "@angular/material/card";
 import {MatRippleModule} from "@angular/material/core";
@@ -71,7 +70,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
   private formServiceSubscription: Subscription | undefined;
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     public formService: FormService,
     private route: ActivatedRoute,
     private templateService: TemplateService,
@@ -80,7 +79,7 @@ export class TemplateEditComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar
   ) {
     this.formService.setForm(null);
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }

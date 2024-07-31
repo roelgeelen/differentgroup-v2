@@ -13,8 +13,6 @@ import {
   IConfigurationItem,
   IConfigurationItemValue
 } from "../../utils/configuration.interface";
-import {User} from "../../../../_auth/models/User";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
 import {MatInputModule} from "@angular/material/input";
 import {IForm} from "../../../../_components/dynamic-form-builder/models/form.interface";
 import {UtilityService} from "../../../../_components/dynamic-form-builder/services/utility.service";
@@ -36,6 +34,7 @@ import {CustomerService} from "../../data-access/customer.service";
 import {
   FormContainerComponent
 } from "../../../../_components/dynamic-form-builder/components/form-container/form-container.component";
+import {AuthService, User} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-configuration-edit',
@@ -73,7 +72,7 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
   totalPrice = 0;
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     public formService: FormService,
     private route: ActivatedRoute,
     private customerService: CustomerService,
@@ -84,7 +83,7 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar
   ) {
     this.formService.setForm(null);
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }

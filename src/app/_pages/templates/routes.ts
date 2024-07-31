@@ -11,7 +11,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.BERICHTEN_BEHEREN,
+        EnumRoles.MANAGE_NEWS,
       ]
     },
   },
@@ -22,7 +22,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.BERICHTEN_BEHEREN,
+        EnumRoles.MANAGE_NEWS,
       ]
     },
   },
@@ -33,7 +33,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.BERICHTEN_BEHEREN,
+        EnumRoles.MANAGE_NEWS,
       ]
     }
   },
@@ -44,7 +44,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.MANAGE_FORMS,
       ]
     }
   },
@@ -56,7 +56,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.MANAGE_FORMS,
       ]
     }
   },
@@ -68,7 +68,7 @@ export const routes: Route[] = [
     canActivate : [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.MANAGE_FORMS,
       ]
     }
   },
@@ -83,15 +83,15 @@ export const routes: Route[] = [
       ]
     },
   },
-  {
-    path: 'roles',
-    loadComponent: () => import('./feature/roles/roles.component').then((x) => x.RolesComponent),
-    // component: RolesComponent,
-    canActivate: [AuthGuard],
-    data: {
-      roles: [
-        EnumRoles.ROLLEN_BEHEREN,
-      ]
-    },
-  }
+  // {
+  //   path: 'roles',
+  //   loadComponent: () => import('./feature/roles/roles.component').then((x) => x.RolesComponent),
+  //   // component: RolesComponent,
+  //   canActivate: [AuthGuard],
+  //   data: {
+  //     roles: [
+  //       EnumRoles.ROLLEN_BEHEREN,
+  //     ]
+  //   },
+  // }
 ];

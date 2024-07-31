@@ -10,7 +10,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.LOGISTIEK,
+        EnumRoles.VIEW_LOGISTICS,
       ]
     }
   },
@@ -21,7 +21,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.VOORRAAD,
+        EnumRoles.VIEW_INVENTORY,
       ]
     }
   },
@@ -32,7 +32,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.CONTROLE,
+        EnumRoles.READ_CHECKLIST,
       ]
     }
   },

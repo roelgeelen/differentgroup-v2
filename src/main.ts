@@ -6,7 +6,7 @@ import {withInterceptorsFromDi, provideHttpClient, withInterceptors, HTTP_INTERC
 import { environment as env } from './environments/environment';
 import {PreloadAllModules, provideRouter, withPreloading} from "@angular/router";
 import {ErrorInterceptor} from "./app/_helpers/interceptors/error.interceptor";
-import {provideAuth0} from "@auth0/auth0-angular";
+import {authHttpInterceptorFn, provideAuth0} from "@auth0/auth0-angular";
 
 
 bootstrapApplication(AppComponent, {
@@ -17,15 +17,15 @@ bootstrapApplication(AppComponent, {
     //     sendAccessToken: true
     //   }
     // })),
-    provideHttpClient(withInterceptorsFromDi(), withInterceptors([ErrorInterceptor])),
-    provideAnimations(),
-    provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
     provideAuth0({
       ...env.auth,
       httpInterceptor: {
         ...env.httpInterceptor,
       },
     }),
+    provideHttpClient(withInterceptorsFromDi(), withInterceptors([ErrorInterceptor, authHttpInterceptorFn])),
+    provideAnimations(),
+    provideRouter(APP_ROUTES, withPreloading(PreloadAllModules)),
   ]
 })
   .catch(err => console.error(err));

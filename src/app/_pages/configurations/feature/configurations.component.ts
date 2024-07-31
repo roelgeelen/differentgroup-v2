@@ -12,13 +12,12 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {AsyncPipe, DatePipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
-import {User} from "../../../_auth/models/User";
-import {AuthenticationService} from "../../../_auth/authentication.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../_components/dynamic-form-builder/components/form-page/form-page.component";
 import {Observable} from "rxjs";
 import {IPage} from "../../../_models/page.interface";
 import {CustomerService} from "../data-access/customer.service";
+import {AuthService, User} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-configurations',
@@ -51,7 +50,7 @@ export class ConfigurationsComponent implements OnInit {
   error: string = '';
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     private customerService: CustomerService,
     private router: Router,
     private route: ActivatedRoute
@@ -65,7 +64,7 @@ export class ConfigurationsComponent implements OnInit {
         });
       }
     });
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }

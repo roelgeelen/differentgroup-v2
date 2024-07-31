@@ -1,11 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {OAuthService} from "angular-oauth2-oidc";
-import {DomSanitizer} from "@angular/platform-browser";
-import {User} from "../../../_auth/models/User";
-import {AuthenticationService} from "../../../_auth/authentication.service";
-import {ApiService} from "../../../_services/api.service";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {NgIf} from "@angular/common";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {Route, RouterLink} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
@@ -15,6 +10,8 @@ import {ITheme, ThemeService} from "../../theme.service";
 import {StyleManager} from "../../style-manager";
 import {MatTree} from "@angular/material/tree";
 import {NAV_CONFIG, NavItem} from "./nav-data";
+import {AuthService} from "@auth0/auth0-angular";
+import {AuthenticationService} from "../../../_auth/authentication.service";
 
 @Component({
   selector: 'app-navbar',
@@ -27,24 +24,23 @@ import {NAV_CONFIG, NavItem} from "./nav-data";
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    MatTree
+    MatTree,
+    AsyncPipe
   ],
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
   @Output() toggleMenu = new EventEmitter<void>();
-  currentUser: User | undefined;
-  profilePic: Blob | null | undefined;
+  userPermissions: string[] = [];
   themes: ITheme[];
   selectedTheme: ITheme;
 
   routes: NavItem[] = NAV_CONFIG;
 
   constructor(
-    private oauthService: OAuthService,
-    private authService: AuthenticationService,
-    private apiService: ApiService,
-    private sanitizer: DomSanitizer,
+    // private oauthService: OAuthService,
+    private authenticationService: AuthenticationService,
+    protected auth:AuthService,
     public styleManager: StyleManager,
     private themeService: ThemeService,
     private localStorage: LocalStorageService,
@@ -58,9 +54,8 @@ export class NavbarComponent implements OnInit {
     } else {
       this.selectedTheme = this.selectTheme(ThemeService.defaultTheme.name);
     }
-    this.authService.currentUser.subscribe(user => {
-      this.currentUser = user!;
-      this.loadProfile();
+    this.authenticationService.permissions$.subscribe(p => {
+      this.userPermissions = p!;
     });
   }
 
@@ -69,13 +64,10 @@ export class NavbarComponent implements OnInit {
   }
 
   hasPermission(roles: string[]): boolean {
-    if (this.currentUser == undefined) {
-      return false;
-    }
     if (roles.length === 0) {
       return true;
     }
-    return this.currentUser.roles.filter(role => roles.includes(role)).length !== 0;
+    return this.userPermissions.filter(role => roles.includes(role)).length !== 0;
   }
 
   selectTheme(themeName: string): ITheme {
@@ -90,18 +82,7 @@ export class NavbarComponent implements OnInit {
     return ThemeService.defaultTheme;
   }
 
-
-  loadProfile() {
-    this.apiService.getProfilePicture().subscribe(pic => {
-      if (pic.body?.size !== 0) {
-        this.profilePic = pic.body;
-        // @ts-ignore
-        this.currentUser.image = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(this.profilePic))
-      }
-    })
-  }
-
   public logout() {
-    this.oauthService.logOut();
+    this.auth.logout();
   }
 }

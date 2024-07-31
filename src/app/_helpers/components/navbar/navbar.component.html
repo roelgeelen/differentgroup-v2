@@ -29,12 +29,13 @@
   </div>
 
   <span class="spacer"></span>
-
+  @if (auth.user$|async; as user){
   <div class="profile" [matMenuTriggerFor]="profileMenu">
-    <span class="profile-name">{{ currentUser?.name }}</span>
-    <img [src]="currentUser?.image ? currentUser!.image : 'assets/images/user_placeholder.png'" alt="Profielfoto"
+    <span class="profile-name">{{ user.name!.split(' | ')[0] }}</span>
+    <img [src]="user.picture" alt="Profielfoto"
          height="45" class="profile-pic">
   </div>
+  }
 </mat-toolbar>
 
 <mat-menu class="profile-menu" #profileMenu="matMenu">

@@ -10,8 +10,12 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: any) => {
-      if ([401, 403].includes(err.status)) {
+      if ([401].includes(err.status)) {
         snackBar.open('Authenticatie mislukt', 'OK', {duration});
+      }
+
+      if ([403].includes(err.status)) {
+        snackBar.open('Niet de juiste rechten', 'OK', {duration});
       }
 
       if ([500].includes(err.status)) {
@@ -21,8 +25,7 @@ export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
       if (err.status <= 0 || [404].includes(err.status)) {
         snackBar.open('Kan server niet bereiken', 'OK', {duration});
       }
-
-      const error = err.error.message || err.error;
+      const error = err.message || err.error;
       return throwError(() => error);
     })
   );

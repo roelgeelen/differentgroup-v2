@@ -10,7 +10,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.PRODUCTIE,
+        EnumRoles.VIEW_PRODUCTION,
       ]
     }
   },
@@ -21,7 +21,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.GEPRODUCEERD,
+        EnumRoles.VIEW_PRODUCED,
       ]
     }
   },
@@ -32,8 +32,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.TRACKING,
-        EnumRoles.AFSPRAKEN,
+        EnumRoles.VIEW_TRACKING,
       ]
     }
   },
@@ -44,8 +43,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.TRACKING,
-        EnumRoles.AFSPRAKEN,
+        EnumRoles.VIEW_INVENTORY
       ]
     }
   },

@@ -2,9 +2,9 @@
   "domain": "differentgroup.eu.auth0.com",
   "clientId": "IuYlL1GaYrEuPOi8RrbR3TQIfAN2ZCkB",
   "authorizationParams": {
-    "audience": "https://api.differentgroup.nl"
+    "audience": "https://api.differentgroup.nl/"
   },
-  "apiUri": "http://localhost:3010",
+  "apiUri": "https://6a72-81-173-49-231.ngrok-free.app",
   "appUri": "http://localhost:4200",
   "errorPath": "/error"
 }

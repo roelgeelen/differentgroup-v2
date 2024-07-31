@@ -12,9 +12,8 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-        EnumRoles.FORMULIEREN_BEKIJKEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS
       ]
     }
   },
@@ -25,9 +24,8 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-        EnumRoles.FORMULIEREN_BEKIJKEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS
       ]
     }
   },
@@ -38,9 +36,8 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-        EnumRoles.FORMULIEREN_BEKIJKEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS
       ]
     }
   },
@@ -51,9 +48,8 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-        EnumRoles.FORMULIEREN_BEKIJKEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS
       ]
     }
   },
@@ -65,8 +61,8 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
+        EnumRoles.EDIT_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS
       ]
     }
   }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
+import {map, Observable} from 'rxjs';
+import {AuthService} from "@auth0/auth0-angular";
 import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
@@ -9,27 +10,28 @@ import {AuthenticationService} from "./authentication.service";
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
+    private auth: AuthService,
     private authService: AuthenticationService
   ) {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const currentUser = this.authService.currentUserValue;
-    if (currentUser && this.authService.hasValidAccessToken()) {
-      // check if route is restricted by role
-      //@ts-ignore
-      if (route.data.roles && currentUser.roles.filter(role => route.data.roles.includes(role)).length === 0) {
-        //@ts-ignore
-        // role not authorised so redirect to home page
-        this.router.navigate(['/']);
+    return this.auth.isAuthenticated$.pipe(
+      map(isAuthenticated => {
+        if (isAuthenticated) {
+          const userPermissions = this.authService.currentUserPermissions;
+          if (route.data['roles'] && !route.data['roles'].some((role: string) => userPermissions!.includes(role))) {
+            // Role not authorised, redirect to home page
+            this.router.navigate(['/']);
+            return false;
+          }
+          // Authorised, return true
+          return true;
+        }
+        // Not logged in, redirect to login page with the return url
+        localStorage.setItem('returnUrl', state.url);
+        this.router.navigate(['/login']);
         return false;
-      }
-      // authorised so return true
-      return true;
-    }
-    localStorage.setItem('returnUrl', state.url);
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/']);
-    return false;
+      })
+    );
   }
-
 }

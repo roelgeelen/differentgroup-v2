@@ -6,6 +6,7 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./_pages/home/feature/home.component').then((x) => x.HomeComponent),
+    // canActivate:[AuthGuard]
     // component: HomeComponent,
   },
   {
@@ -14,9 +15,11 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.AFSPRAKEN,
-        EnumRoles.INMETEN,
-        EnumRoles.FORMULIEREN
+        EnumRoles.READ_APPOINTMENTS,
+        EnumRoles.VIEW_MEASUREMENT,
+        // EnumRoles.AFSPRAKEN,
+        // EnumRoles.INMETEN,
+        // EnumRoles.FORMULIEREN
       ]
     }
   },
@@ -26,10 +29,14 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.PRODUCTIE,
-        EnumRoles.GEPRODUCEERD,
-        EnumRoles.TRACKING,
-        EnumRoles.AFSPRAKEN,
+        EnumRoles.VIEW_PRODUCTION,
+        EnumRoles.VIEW_PRODUCED,
+        EnumRoles.VIEW_TRACKING,
+        EnumRoles.VIEW_INVENTORY,//TODO: same as magazijn
+        // EnumRoles.PRODUCTIE,
+        // EnumRoles.GEPRODUCEERD,
+        // EnumRoles.TRACKING,
+        // EnumRoles.AFSPRAKEN,
       ]
     }
   },
@@ -39,9 +46,12 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.LOGISTIEK,
-        EnumRoles.CONTROLE,
-        EnumRoles.VOORRAAD,
+        EnumRoles.VIEW_LOGISTICS,
+        EnumRoles.READ_CHECKLIST,
+        EnumRoles.VIEW_INVENTORY,
+        // EnumRoles.LOGISTIEK,
+        // EnumRoles.CONTROLE,
+        // EnumRoles.VOORRAAD,
       ]
     }
   },
@@ -51,8 +61,10 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.RAPPORTAGE,
-        EnumRoles.FINANCIEEL,
+        EnumRoles.VIEW_REPORTS,
+        EnumRoles.VIEW_FINANCIAL,
+        // EnumRoles.RAPPORTAGE,
+        // EnumRoles.FINANCIEEL,
       ]
     }
   },
@@ -62,9 +74,11 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-        EnumRoles.FORMULIEREN_BEKIJKEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
+        // EnumRoles.FORMULIEREN,
+        // EnumRoles.FORMULIEREN_KLANT,
+        // EnumRoles.FORMULIEREN_BEKIJKEN,
       ]
     }
   },
@@ -74,7 +88,8 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.FORMULIEREN_BEHEREN,
+        EnumRoles.MANAGE_FORMS
+        // EnumRoles.FORMULIEREN_BEHEREN,
       ]
     }
   },

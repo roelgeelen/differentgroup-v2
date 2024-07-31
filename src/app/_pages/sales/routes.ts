@@ -10,7 +10,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.INMETEN,
+        EnumRoles.VIEW_MEASUREMENT,
       ]
     }
   },
@@ -21,8 +21,8 @@ export const routes: Route[] = [
     // component: ConfigurationsOldComponent,
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
       ]
     }
   },
@@ -33,8 +33,8 @@ export const routes: Route[] = [
     // component: ConfigurationsOldComponent,
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
       ]
     }
   },
@@ -45,7 +45,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.INMETEN,
+        EnumRoles.VIEW_MEASUREMENT,
       ]
     }
   },
@@ -56,7 +56,7 @@ export const routes: Route[] = [
     // component: AgendasComponent,
     data: {
       roles: [
-        EnumRoles.AFSPRAKEN,
+        EnumRoles.READ_APPOINTMENTS,
       ]
     }
   }

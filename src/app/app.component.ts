@@ -1,9 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {AuthenticationService} from './_auth/authentication.service';
-import {authConfig} from './_auth/auth.config';
-import {User} from './_auth/models/User';
-import {NAV_CONFIG, NavItem} from "./_helpers/components/navbar/nav-data";
+import {NavItem} from "./_helpers/components/navbar/nav-data";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {
   MatTreeFlatDataSource,
@@ -18,6 +14,8 @@ import {NavbarComponent} from './_helpers/components/navbar/navbar.component';
 import {AuthService} from "@auth0/auth0-angular";
 import {AsyncPipe} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {LoadingComponent} from "./_components/loading/loading.component";
+import {AuthenticationService} from "./_auth/authentication.service";
 
 interface FlatNode extends NavItem {
   expandable: boolean;
@@ -42,15 +40,23 @@ interface FlatNode extends NavItem {
     RouterModule,
     MatIconModule,
     AsyncPipe,
-    MatProgressSpinner
+    MatProgressSpinner,
+    LoadingComponent
   ]
 })
 export class AppComponent implements OnInit {
 
-  constructor(public auth: AuthService) {
+  constructor(private authService: AuthenticationService, protected auth: AuthService) {
   }
 
   ngOnInit(): void {
+    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      if (!isAuthenticated) {
+        this.auth.loginWithRedirect();
+      } else {
+        this.authService.login()
+      }
+    })
     // this.auth.loginWithRedirect();
   }
 
@@ -127,13 +133,14 @@ export class AppComponent implements OnInit {
   // }
   //
   hasPermission(roles: string[]): boolean {
-    return true
-    // if (this.currentUser == undefined) {
-    //   return false;
-    // }
-    // if (roles.length === 0) {
-    //   return true;
-    // }
-    // return this.currentUser.roles.filter(role => roles.includes(role)).length !== 0;
+    // return true
+    const userPermissions = this.authService.currentUserPermissions;
+    if (userPermissions == null) {
+      return false;
+    }
+    if (roles.length === 0) {
+      return true;
+    }
+    return userPermissions.filter(role => roles.includes(role)).length !== 0;
   }
 }

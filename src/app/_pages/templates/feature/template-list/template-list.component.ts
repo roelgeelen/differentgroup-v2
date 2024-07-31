@@ -8,8 +8,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {DatePipe} from "@angular/common";
 import {MatMenuModule} from "@angular/material/menu";
 import Swal from "sweetalert2";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
-import {User} from "../../../../_auth/models/User";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {TemplateService} from "../../data-access/template.service";
 import {
   MatTableDataSource, MatTableModule
@@ -57,11 +56,11 @@ export class TemplateListComponent implements OnInit {
   pageSearch: string = '';
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     private templateService: TemplateService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
     this.searchControl.valueChanges.pipe(

@@ -24,8 +24,7 @@ import {FormService} from "../../../../../_components/dynamic-form-builder/servi
 import {IFormPage} from "../../../../../_components/dynamic-form-builder/models/form-container.interface";
 import Swal from "sweetalert2";
 import {Router} from "@angular/router";
-import {User} from "../../../../../_auth/models/User";
-import {AuthenticationService} from "../../../../../_auth/authentication.service";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {MatDialog} from "@angular/material/dialog";
 import {AutocompleteFieldComponent} from "../../../../../_components/autocomplete-field/autocomplete-field.component";
 import {TabSettingsDialogComponent} from "../../../ui/tab-settings-dialog/tab-settings-dialog.component";
@@ -64,13 +63,13 @@ export class FormOptionsComponent implements OnInit {
   @Output() onClose = new EventEmitter<any>();
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     public formService: FormService,
     private templateService: TemplateService,
     private router: Router,
     public dialog: MatDialog
   ) {
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }
