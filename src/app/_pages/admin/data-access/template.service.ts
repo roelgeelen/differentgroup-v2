@@ -4,6 +4,7 @@ import {IForm} from "../../../_components/dynamic-form-builder/models/form.inter
 import {environment} from "../../../../environments/environment";
 import {IFormAttachment} from "../../../_components/dynamic-form-builder/form-controls/form-control-options.interface";
 import {IPage} from "../../../_models/page.interface";
+import {IRole} from "../utils/role";
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,9 @@ export class TemplateService {
 
   getDealSchema() {
     return this.http.get<any>(`${environment.apiUrlV2}/v2/deals/schema`);
+  }
+
+  getRoles() {
+    return this.http.get<IRole[]>(`${environment.apiUrlV2}/v2/forms/roles`);
   }
 }

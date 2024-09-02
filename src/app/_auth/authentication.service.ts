@@ -34,8 +34,6 @@ export class AuthenticationService {
     if (token) {
       try {
         const decodedToken = jwtDecode<{permissions:string[]}>(token);
-        console.log(decodedToken.permissions || [])
-
         return decodedToken.permissions || [];
       } catch (error) {
         console.error('Error decoding token:', error);

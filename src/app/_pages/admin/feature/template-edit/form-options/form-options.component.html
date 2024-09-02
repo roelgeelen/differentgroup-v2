@@ -43,6 +43,27 @@
         </mat-tab>
         <mat-tab label="Extra">
           <div class="tab-content">
+            @if (roles$|async; as roles) {
+              <div class="label margin-bottom">Bevoegdheden</div>
+
+                <mat-form-field>
+                  <mat-label>Rollen</mat-label>
+                  <mat-select [(ngModel)]="form.options.roles" multiple>
+                    <mat-select-trigger>
+                      {{ form.options.roles?.[0] || '' }}
+                      @if ((form.options.roles?.length || 0) > 1) {
+                        <span class="example-additional-selection">
+                        (+{{ (form.options.roles?.length || 0) - 1 }} andere)
+                      </span>
+                      }
+                    </mat-select-trigger>
+                    @for (role of roles; track role) {
+                      <mat-option [value]="role.name">{{ role.name }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+            }
             <div class="label margin-bottom">Opties</div>
             <div class="margin-top">
               <mat-slide-toggle [(ngModel)]="form.options.published" color="primary">Standaard gepubliceerd
@@ -59,7 +80,7 @@
               </mat-slide-toggle>
             </div>
             @if (form.options.createQuotation) {
-              <div >
+              <div>
                 <mat-slide-toggle [(ngModel)]="form.options.quotePanelOpen" color="primary">Standaard open
                 </mat-slide-toggle>
               </div>

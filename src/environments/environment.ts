@@ -12,10 +12,9 @@ const { domain, clientId, authorizationParams: { audience }, apiUri, errorPath }
 
 export const environment = {
   production: false,
-  apiUrl:"https://6a72-81-173-49-231.ngrok-free.app",
-  apiUrlV2:"https://api.differentgroup.nl/differentgroupv2",
-  auth: {
-    domain,
+  apiUrl:"http://localhost:8082",
+  apiUrlV2:"http://localhost:8081",
+  auth: {domain,
     clientId,
     authorizationParams: {
       ...(audience && audience !== 'YOUR_API_IDENTIFIER' ? { audience } : null),
@@ -24,6 +23,6 @@ export const environment = {
     errorPath,
   },
   httpInterceptor: {
-    allowedList: [`${apiUri}/*`, 'http://localhost:8082/*'],
+    allowedList: [`${apiUri}/*`, 'http://localhost:8081/*'],
   },
 };

@@ -53,6 +53,19 @@
             {{ element.updatedBy }} - {{ element.updatedAt | date: 'dd-MM-yyyy HH:mm' }}
           </td>
         </ng-container>
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">
+            @if ((element.options.roles?.length || 0) > 0) {
+              <span [matTooltip]="element.options.roles" matTooltipPosition="above" class="template-role">
+            {{ element.options.roles?.[0] }}
+                @if ((element.options.roles?.length || 0) > 1) {
+                  (+{{ (element.options.roles?.length || 0) - 1 }} andere)
+                }
+              </span>
+            }
+          </td>
+        </ng-container>
         <ng-container matColumnDef="options">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element" [routerLink]="element.id+'/builder'">

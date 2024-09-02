@@ -84,7 +84,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'admin',
-    loadChildren: () => import('./_pages/templates/routes').then(mod => mod.routes),
+    loadChildren: () => import('./_pages/admin/routes').then(mod => mod.routes),
     canActivate: [AuthGuard],
     data: {
       roles: [

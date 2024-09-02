@@ -46,7 +46,7 @@ import {MatTooltip} from "@angular/material/tooltip";
 })
 export class TemplateListComponent implements OnInit {
   currentUser: User | undefined;
-  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'options', 'actions'];
+  displayedColumns: string[] = ['published', 'title', 'kind', 'updatedAt', 'roles', 'options', 'actions'];
   dataSource: MatTableDataSource<IForm> = new MatTableDataSource<IForm>();
   loading = false;
   searchControl = new FormControl<string>('');

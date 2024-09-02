@@ -29,6 +29,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {AutocompleteFieldComponent} from "../../../../../_components/autocomplete-field/autocomplete-field.component";
 import {TabSettingsDialogComponent} from "../../../ui/tab-settings-dialog/tab-settings-dialog.component";
 import {TemplateService} from "../../../data-access/template.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {IForm} from "../../../../../_components/dynamic-form-builder/models/form.interface";
+import {IRole} from "../../../utils/role";
 
 @Component({
   selector: 'app-form-options',
@@ -60,6 +63,8 @@ export class FormOptionsComponent implements OnInit {
   currentUser: User | undefined;
   numberFields: IFormControl[] = [];
   tableFields: IFormControl[] = [];
+
+  roles$?: Observable<IRole[]>;
   @Output() onClose = new EventEmitter<any>();
 
   constructor(
@@ -75,6 +80,7 @@ export class FormOptionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.roles$ = this.templateService.getRoles()
     this.tableFields = this.formService.getAvailableFields((control) => {
       return control.type === 'Table'
     });

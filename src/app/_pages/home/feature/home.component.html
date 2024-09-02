@@ -2,11 +2,15 @@
   <div class="wrapper-content">
     <div class="news">
 <!--      <h1>{{ welkom }}, {{ currentUser?.name }}</h1>-->
-      <div class="home-header"><span>{{ welkom }},</span><span class="username">{{ currentUser?.name!.split(' | ')[0] }}</span></div>
+      <div class="home-header"><span>{{ welkom }},</span><span class="username">{{ currentUser?.name }}</span></div>
       <hr>
       @if (posts$|async; as posts) {
         @for (post of posts.content; track post) {
           <app-news-card [post]="post"></app-news-card>
+        } @empty {
+          <div class="text-center w-100">
+            Nog geen berichten.
+          </div>
         }
       } @else {
         @if (postsError){

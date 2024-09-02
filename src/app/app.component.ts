@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavItem} from "./_helpers/components/navbar/nav-data";
+import {NAV_CONFIG, NavItem} from "./_helpers/components/navbar/nav-data";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {
   MatTreeFlatDataSource,
@@ -45,18 +45,24 @@ interface FlatNode extends NavItem {
   ]
 })
 export class AppComponent implements OnInit {
+  userPermissions: string[] = [];
 
   constructor(private authService: AuthenticationService, protected auth: AuthService) {
+    this.dataSource.data = NAV_CONFIG;
   }
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      console.log(isAuthenticated)
       if (!isAuthenticated) {
         this.auth.loginWithRedirect();
       } else {
         this.authService.login()
       }
     })
+    this.authService.permissions$.subscribe(p => {
+      this.userPermissions = p!;
+    });
     // this.auth.loginWithRedirect();
   }
 
@@ -83,64 +89,11 @@ export class AppComponent implements OnInit {
 
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
-  //
-  // constructor(
-  //   private oauthService: OAuthService,
-  //   private authService: AuthenticationService
-  // ) {
-  //   this.dataSource.data = NAV_CONFIG;
-  // }
-  //
-  // async ngOnInit() {
-  //   this.configureOAuth();
-  //   await this.handleAuthentication();
-  //   this.setupSilentRefresh();
-  //   this.subscribeToCurrentUser();
-  // }
 
-  // configureOAuth() {
-  //   this.oauthService.configure(authConfig);
-  // }
-  //
-  // async handleAuthentication() {
-  //   try {
-  //     await this.oauthService.loadDiscoveryDocumentAndLogin();
-  //     if (this.oauthService.hasValidIdToken()) {
-  //       this.authService.login();
-  //     }
-  //   } catch (error) {
-  //     console.error('Authentication error:', error);
-  //     // Handle authentication errors gracefully
-  //   }
-  // }
-  //
-  // setupSilentRefresh() {
-  //   this.oauthService.setupAutomaticSilentRefresh();
-  // }
-  //
-  // subscribeToCurrentUser() {
-  //   this.authService.currentUser.subscribe(user => {
-  //     this.currentUser = user;
-  //   });
-  // }
-  //
-  // get isUserLoggedIn() {
-  //   return !!this.currentUser;
-  // }
-  //
-  // public logout() {
-  //   this.oauthService.logOut();
-  // }
-  //
   hasPermission(roles: string[]): boolean {
-    // return true
-    const userPermissions = this.authService.currentUserPermissions;
-    if (userPermissions == null) {
-      return false;
-    }
     if (roles.length === 0) {
       return true;
     }
-    return userPermissions.filter(role => roles.includes(role)).length !== 0;
+    return this.userPermissions.filter(role => roles.includes(role)).length !== 0;
   }
 }

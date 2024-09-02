@@ -83,15 +83,4 @@ export const routes: Route[] = [
       ]
     },
   },
-  // {
-  //   path: 'roles',
-  //   loadComponent: () => import('./feature/roles/roles.component').then((x) => x.RolesComponent),
-  //   // component: RolesComponent,
-  //   canActivate: [AuthGuard],
-  //   data: {
-  //     roles: [
-  //       EnumRoles.ROLLEN_BEHEREN,
-  //     ]
-  //   },
-  // }
 ];
