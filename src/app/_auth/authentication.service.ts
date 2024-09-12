@@ -29,6 +29,14 @@ export class AuthenticationService {
     return this.permissionsSubject$.value;
   }
 
+  public hasPermission(roles: string[]): boolean {
+    if (roles.length === 0) {
+      return true;
+    }
+    let permissions = this.currentUserPermissions ||[];
+    return permissions.filter(role => roles.includes(role)).length !== 0;
+  }
+
   async convertTokenToUser(): Promise<string[] | null> {
     const token = await lastValueFrom(this.auth.getAccessTokenSilently());
     if (token) {

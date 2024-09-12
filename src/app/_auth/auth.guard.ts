@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
         }
 
         // Not logged in, redirect to login page with the return url
-        localStorage.setItem('returnUrl', state.url);
+        localStorage.setItem('returnUrl', decodeURI(state.url));
         return this.router.createUrlTree(['/login']);
       })
     );

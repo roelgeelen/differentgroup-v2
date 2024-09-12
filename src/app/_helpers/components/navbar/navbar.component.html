@@ -32,8 +32,7 @@
   @if (auth.user$|async; as user){
   <div class="profile" [matMenuTriggerFor]="profileMenu">
     <span class="profile-name">{{ user.name }}</span>
-    <img [src]="user.picture" alt="Profielfoto"
-         height="45" class="profile-pic">
+    <app-avatar [url]="user.picture!"></app-avatar>
   </div>
   }
 </mat-toolbar>

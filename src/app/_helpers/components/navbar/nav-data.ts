@@ -190,7 +190,7 @@ export const NAV_CONFIG: NavItem[] = [
     roles: [
       EnumRoles.MANAGE_FORMS,
       EnumRoles.MANAGE_NEWS,
-      EnumRoles.ONTWIKKELINGEN_BEHEREN
+      EnumRoles.READ_EMPLOYEES
     ],
     children: [
       {
@@ -222,7 +222,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Medewerkers',
         icon: 'group',
         roles: [
-          EnumRoles.ONTWIKKELINGEN_BEHEREN,
+          EnumRoles.READ_EMPLOYEES,
         ]
       }
     ],

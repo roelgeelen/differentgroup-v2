@@ -1,0 +1,67 @@
+<div class="content">
+  <div class="layout-content">
+    @if (user$|async; as user) {
+      <div class="page-header">
+        <div class="user-header">
+          <app-avatar [url]="user.picture!" [size]="75"></app-avatar>
+          <div class="user-info">
+            <h2>{{ user.name }}</h2>
+            <span>
+               {{ user.email }}
+            </span>
+          </div>
+        </div>
+        <div class="actions">
+          <button mat-flat-button color="primary"
+                  [routerLink]="'/admin/employees/'+id+conId?'/conversations/'+conId:''">
+            Annuleren
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="page-content">
+        <form [formGroup]="conversationForm" (ngSubmit)="save()">
+          <mat-form-field class="w100" appearance="outline">
+            <mat-label>Titel</mat-label>
+            <input type="text" formControlName="title" id="title" matInput>
+          </mat-form-field>
+          <div class="conversation-content">
+            <div class="content-header">
+              <h2>Verslag</h2>
+            </div>
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+            <ngx-editor
+              [editor]="editor"
+              formControlName="body"
+              id="body"
+              outputFormat="html"
+              [placeholder]="'Type hier je tekst...'"
+            ></ngx-editor>
+          </div>
+          <div class="conversation-content">
+            <div class="content-header">
+              <h2>Interne opmerking</h2>
+            </div>
+            <ngx-editor-menu [editor]="editor2" [toolbar]="toolbar"></ngx-editor-menu>
+            <ngx-editor
+              [editor]="editor2"
+              formControlName="managerComment"
+              id="managerComment"
+              outputFormat="html"
+              [placeholder]="'Type hier je tekst...'"
+            ></ngx-editor>
+          </div>
+
+          <div class="actions">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!conversationForm.valid">
+              Opslaan
+              <mat-icon>save</mat-icon>
+            </button>
+          </div>
+        </form>
+      </div>
+    } @else {
+      <mat-spinner></mat-spinner>
+    }
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.page-header {
+  .user-header {
+    display: flex;
+
+    h2 {
+      margin-bottom: 5px;
+    }
+
+    .user-info {
+      padding: 5px 20px;
+    }
+  }
+
+  .actions {
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+
+.conversation-content {
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 6px;
+  padding: 32px;
+  margin: 10px 0;
+
+  .content-header {
+    display: flex;
+
+    h2 {
+      margin: 0;
+      line-height: 34px;
+    }
+  }
+
+  ::ng-deep {
+    .NgxEditor__MenuBar {
+      border-radius: 5px;
+      border: solid 0.5px rgb(232, 232, 232);
+    }
+    .NgxEditor__Content {
+      min-height: 100px;
+      overflow: auto;
+    }
+  }
+
+}

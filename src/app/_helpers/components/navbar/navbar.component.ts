@@ -12,6 +12,7 @@ import {MatTree} from "@angular/material/tree";
 import {NAV_CONFIG, NavItem} from "./nav-data";
 import {AuthService} from "@auth0/auth0-angular";
 import {AuthenticationService} from "../../../_auth/authentication.service";
+import {AvatarComponent} from "../avatar/avatar.component";
 
 @Component({
   selector: 'app-navbar',
@@ -25,7 +26,8 @@ import {AuthenticationService} from "../../../_auth/authentication.service";
     MatMenuModule,
     MatButtonModule,
     MatTree,
-    AsyncPipe
+    AsyncPipe,
+    AvatarComponent
   ],
   styleUrls: ['./navbar.component.scss']
 })

@@ -1,0 +1,14 @@
+<h1 mat-dialog-title>Manager toevoegen</h1>
+<div mat-dialog-content>
+  <mat-form-field >
+    <input matInput type="text" [(ngModel)]="email">
+    <mat-hint matSuffix>&#64;differentdoors.nl&nbsp;</mat-hint>
+    @if (sharedError != '') {
+      <mat-hint>{{ sharedError }}</mat-hint>
+    }
+
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="onNoClick()">Ok</button>
+</div>

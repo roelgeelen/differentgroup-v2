@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions, MatDialogClose,
@@ -51,7 +51,6 @@ export class ChoiceDialogComponent {
     this.numberFields = this.formService.getAvailableFields((control) => {
       return control.options?.type === 'number'
     })
-    console.log(this.numberFields)
   }
 
   addQuoteLine() {
@@ -64,14 +63,6 @@ export class ChoiceDialogComponent {
   removeFromList(choices: any[], index: number) {
     choices.splice(index, 1);
   }
-
-  // addQuoteLine() {
-  //   this.data.quoteLine = {sku: '', order: 100}
-  // }
-
-  // removeQuoteLine() {
-  //   this.data.quoteLine = undefined;
-  // }
 
   onNoClick(): void {
     this.dialogRef.close();

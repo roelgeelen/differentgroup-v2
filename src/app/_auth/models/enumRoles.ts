@@ -46,5 +46,7 @@ export enum EnumRoles {
   READ_NEWS = 'read:news',
   READ_CALENDAR = 'read:calendar',
 
-  ONTWIKKELINGEN_BEHEREN = 'Ontwikkelingen_beheren'
+  READ_EMPLOYEES = 'read:employees',
+  MANAGE_EMPLOYEES = 'manage:employees',
+  MANAGE_CONVERSATIONS = 'manage:conversations'
 }

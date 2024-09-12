@@ -1,0 +1,62 @@
+<div class="content">
+  <div class="layout-content">
+    @if (user$|async; as user) {
+      <div class="page-header">
+        <div class="user-header">
+          <app-avatar [url]="user.picture!" [size]="75"></app-avatar>
+          <div class="user-info">
+            <h2>{{ user.name }}</h2>
+            <span>
+               {{ user.email }}
+            </span>
+          </div>
+        </div>
+        <div class="actions">
+          <button mat-flat-button color="primary" routerLink="edit">
+            Bewerken
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-flat-button color="primary" routerLink="/admin/employees/{{id}}">
+            Terug
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="page-content">
+        @if (conversation$|async; as conversation) {
+          <div class="conversation-content">
+            <div class="content-header">
+              <app-avatar [url]="'https://differentgroup.blob.core.windows.net/userpictures/'+conversation.createdBy+'.jpg'" position="right" [matTooltip]="conversation.createdBy!" matTooltipPosition="above"></app-avatar>
+              <div>
+                <h2>{{ conversation.title }}</h2>
+                <small>{{ conversation.createdAt | date: 'yyyy-MM-dd HH:mm' }}</small>
+              </div>
+
+            </div>
+            <div [innerHTML]="conversation.body | safeHtml"></div>
+          </div>
+          @if (conversation.managerComment) {
+            <div class="conversation-content">
+              <div class="content-header">
+                <h2>Interne notitie</h2>
+              </div>
+              <div [innerHTML]="conversation.managerComment | safeHtml"></div>
+            </div>
+          }
+          @if (conversation.comment) {
+            <div class="conversation-content">
+              <div class="content-header">
+                <h2>Opmerking van {{ user.given_name }}</h2>
+              </div>
+
+              <div [innerHTML]="conversation.comment | safeHtml"></div>
+            </div>
+          }
+        }
+      </div>
+    } @else {
+      <mat-spinner></mat-spinner>
+    }
+  </div>
+</div>

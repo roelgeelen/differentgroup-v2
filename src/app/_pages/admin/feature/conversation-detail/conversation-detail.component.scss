@@ -1,0 +1,37 @@
+.page-header {
+  .user-header {
+    display: flex;
+
+    h2 {
+      margin-bottom: 5px;
+    }
+
+    .user-info {
+      padding: 5px 20px;
+    }
+  }
+
+  .actions {
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+
+
+.conversation-content {
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 6px;
+  padding: 32px;
+  margin: 10px 0;
+
+  .content-header {
+    display: flex;
+
+    h2 {
+      margin: 0;
+      line-height: 34px;
+    }
+  }
+
+}
