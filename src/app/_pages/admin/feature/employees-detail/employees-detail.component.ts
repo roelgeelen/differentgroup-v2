@@ -1,12 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AutocompleteFieldComponent} from "../../../../_components/autocomplete-field/autocomplete-field.component";
 import {FormsModule} from "@angular/forms";
-import {MatButton, MatButtonModule} from "@angular/material/button";
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
-import {MatFormField, MatHint, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
-import {MatIcon} from "@angular/material/icon";
-import {MatInput} from "@angular/material/input";
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {MatButtonModule} from "@angular/material/button";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {map, Observable, of} from "rxjs";
 import {EmployeeService} from "../../data-access/employee.service";
@@ -15,15 +10,9 @@ import {IUser} from "../../utils/user";
 import {IRole} from "../../utils/role";
 import {MatChipsModule} from "@angular/material/chips";
 import {
-  MatCell,
-  MatCellDef,
-  MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow,
-  MatHeaderRowDef, MatNoDataRow,
-  MatRow, MatRowDef, MatTable, MatTableDataSource
+  MatTableDataSource, MatTableModule
 } from "@angular/material/table";
-import {MatPaginator, PageEvent} from "@angular/material/paginator";
+import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 import {DataErrorMessageComponent} from "../../../../_components/data-error-message/data-error-message.component";
 import {catchError} from "rxjs/operators";
 import {IConversation} from "../../utils/conversation";
@@ -33,49 +22,44 @@ import {AddManagerDialogComponent} from "../../ui/add-manager-dialog/add-manager
 import {AuthService} from "@auth0/auth0-angular";
 import Swal from "sweetalert2";
 import {AuthenticationService} from "../../../../_auth/authentication.service";
+import {MatCardModule} from "@angular/material/card";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-employees-detail',
   standalone: true,
   imports: [
-    AutocompleteFieldComponent,
+// Core Angular Modules
     FormsModule,
-    MatButton,
-    MatCard,
-    MatCardActions,
-    MatCardContent,
-    MatCardHeader,
-    MatCardTitle,
-    MatFormField,
-    MatIcon,
-    MatInput,
-    MatLabel,
-    MatProgressSpinner,
     RouterLink,
     AsyncPipe,
     DatePipe,
-    MatButtonModule,
-    MatPrefix,
-    MatSuffix,
-    MatChipsModule,
-    MatCell,
-    MatCellDef,
-    MatColumnDef,
-    MatHeaderCell,
-    MatHeaderRow,
-    MatHeaderRowDef,
-    MatPaginator,
-    MatRow,
-    MatRowDef,
-    MatTable,
-    MatHeaderCellDef,
-    MatNoDataRow,
+
+    // Custom Components
+    AutocompleteFieldComponent,
     DataErrorMessageComponent,
     AvatarComponent,
-    MatHint
+
+    // Angular Material Modules
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    MatTooltipModule
   ],
   templateUrl: './employees-detail.component.html',
-  styleUrls: ['./employees-detail.component.scss','../../../../../assets/styles/table-list.scss']
+  styleUrls: ['./employees-detail.component.scss', '../../../../../assets/styles/table-list.scss']
 })
 export class EmployeesDetailComponent implements OnInit {
   id: string | null = null;
@@ -85,7 +69,7 @@ export class EmployeesDetailComponent implements OnInit {
   totalElem: number = 0;
   pageIndex: number = 0;
   pageSize: number = 5;
-  conversationColumns: string[] = ['picture', 'name', 'email', 'last_login'];
+  conversationColumns: string[] = ['picture', 'title', 'created', 'last_login', 'status', 'actions'];
   conversations$!: Observable<MatTableDataSource<IConversation>>;
   conversationError = false;
 
@@ -95,8 +79,8 @@ export class EmployeesDetailComponent implements OnInit {
     protected authService: AuthenticationService,
     private employeeService: EmployeeService,
     public dialog: MatDialog,
-    protected auth:AuthService,
-    ) {
+    protected auth: AuthService,
+  ) {
   }
 
   ngOnInit() {
@@ -125,15 +109,17 @@ export class EmployeesDetailComponent implements OnInit {
   }
 
   editPoints(user: IUser, points: number) {
-    if(this.edit){
+    if (this.edit) {
       this.employeeService.patchEmployeePoints(user.user_id, points).subscribe({
         next: data => {
-          if (data.app_metadata==undefined){
-            data.app_metadata={};
+          if (data.app_metadata == undefined) {
+            data.app_metadata = {};
           }
           user.app_metadata!.points = data.app_metadata.points;
         },
-        error: err => {console.log(err);}
+        error: err => {
+          console.log(err);
+        }
       })
     }
     this.edit = !this.edit
@@ -162,18 +148,39 @@ export class EmployeesDetailComponent implements OnInit {
       confirmButtonText: "Ja",
       denyButtonText: `Annuleren`
     }).then((result) => {
-      if (result.isConfirmed){
-        let managers = [...user.app_metadata?.managers||[]];
+      if (result.isConfirmed) {
+        let managers = [...user.app_metadata?.managers || []];
         managers.splice(managers.indexOf(manager), 1);
         this.employeeService.patchEmployeeManagers(user.user_id, managers).subscribe({
           next: data => {
-            if (data.app_metadata==undefined){
-              data.app_metadata={};
+            if (data.app_metadata == undefined) {
+              data.app_metadata = {};
             }
-            user.app_metadata!.managers = data.app_metadata.managers||[];
+            user.app_metadata!.managers = data.app_metadata.managers || [];
           },
-          error: err => {console.log(err);}
+          error: err => {
+            console.log(err);
+          }
         });
+      }
+    });
+  }
+
+  deleteConversation(conId: string) {
+    Swal.fire({
+      title: 'Weet je het zeker?',
+      text: 'Wil je dit verslag verwijderen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#2e3785',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ja, verwijderen!',
+      cancelButtonText: 'Annuleren',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.employeeService.deleteConversation(this.id!, conId).subscribe(r => {
+          this.getConversations();
+        })
       }
     });
   }

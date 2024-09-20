@@ -4,6 +4,7 @@ export interface IUser {
   manager?: string;
   given_name?: string;
   family_name?: string;
+  job_title?: string;
   picture?: string;
   email?: string;
   email_verified?: boolean;

@@ -6,7 +6,7 @@ export interface IConversation {
   comment?: string;
   createdAt?: string;
   createdBy?: string;
-  isApproved: boolean;
-  isRead: boolean;
+  isApproved?: boolean;
+  isRead?: boolean;
   isPublished: boolean;
 }

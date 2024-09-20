@@ -2,7 +2,7 @@
   <div class="layout-content">
     @if (user$|async; as user) {
       <div class="page-header">
-        <div class="user-header">
+        <div class="user-header" routerLink="/admin/employees/{{id}}">
           <app-avatar [url]="user.picture!" [size]="75"></app-avatar>
           <div class="user-info">
             <h2>{{ user.name }}</h2>
@@ -13,7 +13,7 @@
         </div>
         <div class="actions">
           <button mat-flat-button color="primary"
-                  [routerLink]="'/admin/employees/'+id+conId?'/conversations/'+conId:''">
+                  [routerLink]="'/admin/employees/'+id+(conId?'/conversations/'+conId:'')">
             Annuleren
             <mat-icon>close</mat-icon>
           </button>
@@ -21,11 +21,13 @@
       </div>
       <div class="page-content">
         <form [formGroup]="conversationForm" (ngSubmit)="save()">
-          <mat-form-field class="w100" appearance="outline">
-            <mat-label>Titel</mat-label>
-            <input type="text" formControlName="title" id="title" matInput>
-          </mat-form-field>
+          <mat-slide-toggle formControlName="isPublished" color="primary">Gepubliceerd</mat-slide-toggle>
           <div class="conversation-content">
+            <mat-form-field class="w100" appearance="outline">
+              <mat-label>Titel</mat-label>
+              <input type="text" formControlName="title" id="title" matInput>
+            </mat-form-field>
+
             <div class="content-header">
               <h2>Verslag</h2>
             </div>
@@ -57,8 +59,58 @@
               Opslaan
               <mat-icon>save</mat-icon>
             </button>
+            @if (conId) {
+              <button mat-flat-button color="warn" type="submit" (click)="delete()">
+                Verwijderen
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
           </div>
         </form>
+        <div class="files conversation-content">
+          <div class="content-header">
+            <h2>Bestanden</h2>
+          </div>
+          @if (files$|async; as files) {
+            <div class="files-list">
+              @for (file of files; track file) {
+                <div class="item">
+                  <div class="file">
+                    <div class="name">
+                      <mat-icon>description</mat-icon>
+                      <span>{{ file.name.replace(conId+"-","") }}</span>
+                    </div>
+                    <button mat-icon-button (click)="lockFile(file)">
+                      @if (file.tags.locked == 'true'){
+                      <mat-icon>lock</mat-icon>
+                      } @else {
+                        <mat-icon>lock_open</mat-icon>
+                      }
+                    </button>
+                  </div>
+                  <button mat-icon-button color="warn" (click)="deleteFile(file)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+            @if (progress) {
+              <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+            }
+            <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
+              <input type="file" id="fileDropRef" [accept]="'image'" (change)="fileBrowseHandler($event)"/>
+              <span>Sleep het bestand hierheen</span>
+              <span>of</span>
+              <label class="primary">Bestand kiezen</label>
+            </div>
+            @if (uploadError) {
+              {{ uploadError }}
+            }
+          } @else {
+            <mat-spinner></mat-spinner>
+          }
+        </div>
+
       </div>
     } @else {
       <mat-spinner></mat-spinner>
