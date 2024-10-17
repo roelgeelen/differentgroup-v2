@@ -7,7 +7,7 @@ import {
 } from "../../utils/configuration.interface";
 
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {DomSanitizer, SafeResourceUrl, Title} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {ConfigurationHistoryComponent} from "./configuration-history/configuration-history.component";
 import {DatePipe, KeyValuePipe, NgIf} from "@angular/common";
@@ -15,7 +15,6 @@ import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMenuModule} from "@angular/material/menu";
 import {FormPageComponent} from "../../../../_components/dynamic-form-builder/components/form-page/form-page.component";
-import {EnumRoles} from "../../../../_auth/models/enumRoles";
 import {ConfigurationService} from "../../data-access/configuration.service";
 import {SafeHtmlPipe} from "../../../../_helpers/pipes/safe-html.pipe";
 import {IsArrayPipe} from "../../../../_helpers/pipes/is-array.pipe";
@@ -65,7 +64,8 @@ export class ConfigurationDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private auth: AuthService
+    private auth: AuthService,
+    private titleService:Title
   ) {
     this.auth.user$.subscribe(user => {
       this.currentUser = user!;
@@ -103,7 +103,7 @@ export class ConfigurationDetailComponent implements OnInit {
     this.loading = true;
     this.configurationService.getConfiguration(dealId, configId, type).subscribe(c => {
       this.configuration = c;
-      console.log(c)
+      this.titleService.setTitle(this.configuration?.customer?.name + " - "+ this.configuration.title);
       if (this.configuration?.preview?.url3D) {
         this.getSafeUrl(this.configuration?.preview?.url3D)
       }

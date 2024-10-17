@@ -18,6 +18,7 @@ import {AuthService, User} from "@auth0/auth0-angular";
 import {catchError} from "rxjs/operators";
 import {MatError} from "@angular/material/form-field";
 import {DataErrorMessageComponent} from "../../../_components/data-error-message/data-error-message.component";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -50,7 +51,7 @@ export class HomeComponent implements OnInit{
   eventsError = false;
   welkom: string = 'Welkom';
 
-  constructor(private homeService: HomeService, private auth: AuthService) {
+  constructor(private homeService: HomeService, private auth: AuthService, private titleService: Title) {
     this.getPosts();
     this.getEvents();
     this.auth.user$.subscribe(user => {
@@ -59,6 +60,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.titleService.setTitle("Different Group")
     var now = new Date().getHours();
     if (now >= 6 && now < 12) {
       this.welkom = "Goeiemorgen";

@@ -35,6 +35,8 @@ import {
   FormContainerComponent
 } from "../../../../_components/dynamic-form-builder/components/form-container/form-container.component";
 import {AuthService, User} from "@auth0/auth0-angular";
+import {Title} from "@angular/platform-browser";
+
 
 @Component({
   selector: 'app-configuration-edit',
@@ -80,7 +82,8 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private utilityService: UtilityService,
     private quoteService: QuoteService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private titleService: Title
   ) {
     this.formService.setForm(null);
     this.auth.user$.subscribe(user => {
@@ -94,6 +97,7 @@ export class ConfigurationEditComponent implements OnInit, OnDestroy {
         this.customerId = queryParams.get('dealId')!;
         this.configurationService.getConfiguration(this.customerId, queryParams.get('configId')!).subscribe(c => {
           this.config = c;
+          this.titleService.setTitle(this.config?.customer?.name + " - "+ this.config.title);
           this.setForm(c);
           if (c.form.options.quotePanelOpen) {
             this.drawer?.open();

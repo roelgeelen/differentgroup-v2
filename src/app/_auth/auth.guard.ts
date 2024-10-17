@@ -3,6 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTre
 import {isEmpty, map, Observable} from 'rxjs';
 import {AuthService} from "@auth0/auth0-angular";
 import {AuthenticationService} from "./authentication.service";
+import {Title} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private titleService: Title
   ) {
   }
 
@@ -19,6 +21,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    this.titleService.setTitle(route.title??"Different Group");
     return this.auth.isAuthenticated$.pipe(
       map(isAuthenticated => {
         const userPermissions = this.authService.currentUserPermissions || [];

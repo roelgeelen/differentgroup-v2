@@ -88,7 +88,11 @@
                         <span>{{ file.name.replace(conId + "-", "") }}</span>
                       }
                     </div>
-                    <mat-icon>lock</mat-icon>
+                      @if (file.tags.locked == 'true'){
+                          <mat-icon>lock</mat-icon>
+                      } @else {
+                          <mat-icon>lock_open</mat-icon>
+                      }
                   </div>
                 </div>
               } @empty {

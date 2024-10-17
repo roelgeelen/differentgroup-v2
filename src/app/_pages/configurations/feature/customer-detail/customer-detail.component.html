@@ -33,6 +33,9 @@
             <h2>Configuraties</h2>
             <div>
               <a mat-button color="primary"
+                 href="https://configurations.{{selectedTheme?.name === 'ambassa-theme' ? 'ambassa': 'differentdoors'}}.nl/customers/{{customer.id}}?sig={{customer.signature}}&extern=1"
+                 target="_blank">Leverancier portaal</a>
+              <a mat-button color="primary"
                  href="https://configurations.{{selectedTheme?.name === 'ambassa-theme' ? 'ambassa': 'differentdoors'}}.nl/customers/{{customer.id}}?sig={{customer.signature}}"
                  target="_blank">Klant portaal</a>
               <a mat-button color="primary"
