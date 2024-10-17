@@ -7,7 +7,7 @@ import {
 } from "../../utils/configuration.interface";
 
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {DomSanitizer, SafeResourceUrl, Title} from "@angular/platform-browser";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {ConfigurationHistoryComponent} from "./configuration-history/configuration-history.component";
 import {DatePipe, KeyValuePipe, NgIf} from "@angular/common";
@@ -66,7 +66,8 @@ export class ConfigurationDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private titleService:Title
   ) {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user!;
@@ -100,7 +101,7 @@ export class ConfigurationDetailComponent implements OnInit {
     this.loading = true;
     this.configurationService.getConfiguration(dealId, configId, type).subscribe(c => {
       this.configuration = c;
-      console.log(c)
+      this.titleService.setTitle(this.configuration?.customer?.name + " - "+ this.configuration.title);
       if (this.configuration?.preview?.url3D) {
         this.getSafeUrl(this.configuration?.preview?.url3D)
       }

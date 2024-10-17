@@ -25,6 +25,7 @@ import {EnumRoles} from "../../../../_auth/models/enumRoles";
 import {CustomerService} from "../../data-access/customer.service";
 import {ConfigurationService} from "../../data-access/configuration.service";
 import {MatTooltip} from "@angular/material/tooltip";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-customer-detail',
@@ -71,6 +72,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy{
     private route: ActivatedRoute,
     private router: Router,
     private themeService: ThemeService,
+    private titleService: Title
   ) {
     this.route.paramMap.subscribe(queryParams => {
       if (queryParams.get('dealId') !== null) {
@@ -128,6 +130,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy{
     this.customerService.findCustomer(id).subscribe({
       next: (c) => {
         this.customer = c;
+        this.titleService.setTitle(this.customer.name);
         this.findFormTemplates();
         this.getConfigurations();
       },

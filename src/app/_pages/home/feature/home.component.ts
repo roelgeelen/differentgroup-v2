@@ -16,6 +16,7 @@ import {EventItemComponent} from "../ui/event-item/event-item.component";
 import {MatDivider} from "@angular/material/divider";
 import {MatButton} from "@angular/material/button";
 import Swal from "sweetalert2";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -43,7 +44,7 @@ export class HomeComponent implements OnInit{
   events$: Observable<IEvent[]>
   welkom: string = 'Welkom';
 
-  constructor(private homeService: HomeService, private authService: AuthenticationService) {
+  constructor(private homeService: HomeService, private authService: AuthenticationService, private titleService: Title) {
     this.posts$ = this.homeService.getPosts(0, 4);
     this.events$ = this.homeService.getEvents();
     this.authService.currentUser.subscribe(user => {
@@ -51,6 +52,7 @@ export class HomeComponent implements OnInit{
     });
   }
   ngOnInit() {
+    this.titleService.setTitle("Different Group")
     var now = new Date().getHours();
     if (now >= 6 && now < 12) {
       this.welkom = "Goeiemorgen";
