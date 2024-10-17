@@ -25,50 +25,53 @@
 
       <div class="page-content">
         @if (conversation$|async; as conversation) {
-          <div class="conversation-content">
-            <mat-chip-set>
-              @if (conversation.isPublished) {
-                <mat-chip>Gepubliceerd</mat-chip>
-              }
-              @if (conversation.isRead) {
-                <mat-chip>Gelezen</mat-chip>
-              }
-              @if (conversation.isApproved) {
-                <mat-chip>Goedgekeurd</mat-chip>
-              }
-            </mat-chip-set>
-            <div class="content-header">
-              <app-avatar
-                [url]="'https://differentgroup.blob.core.windows.net/userpictures/'+conversation.createdBy+'.jpg'"
-                position="right" [matTooltip]="conversation.createdBy!" matTooltipPosition="above"></app-avatar>
-              <div>
-                <h2>{{ conversation.title }}</h2>
-                <small>{{ conversation.createdAt | date: 'yyyy-MM-dd HH:mm' }}</small>
-              </div>
+          <div class="conversation">
+            <div class="conversation-content">
+              <mat-chip-set>
+                @if (conversation.isPublished) {
+                  <mat-chip>Gepubliceerd</mat-chip>
+                }
+                @if (conversation.isRead) {
+                  <mat-chip>Gelezen</mat-chip>
+                }
+                @if (conversation.isApproved) {
+                  <mat-chip>Goedgekeurd</mat-chip>
+                }
+              </mat-chip-set>
+              <div class="content-header">
+                <app-avatar
+                  [url]="'https://differentgroup.blob.core.windows.net/userpictures/'+conversation.createdBy+'.jpg'"
+                  position="right" [matTooltip]="conversation.createdBy!" matTooltipPosition="above"></app-avatar>
+                <div>
+                  <h2>{{ conversation.title }}</h2>
+                  <small>{{ conversation.createdAt | date: 'yyyy-MM-dd HH:mm' }}</small>
+                </div>
 
+              </div>
+              <div [innerHTML]="conversation.body | safeHtml"></div>
             </div>
-            <div [innerHTML]="conversation.body | safeHtml"></div>
+
+            @if (conversation.managerComment) {
+              <div class="conversation-content">
+                <div class="content-header">
+                  <h2>Interne notitie</h2>
+                </div>
+                <div [innerHTML]="conversation.managerComment | safeHtml"></div>
+              </div>
+            }
+            @if (conversation.comment) {
+              <div class="conversation-content">
+                <div class="content-header">
+                  <h2>Opmerking van {{ user.given_name }}</h2>
+                </div>
+
+                <div [innerHTML]="conversation.comment | safeHtml"></div>
+              </div>
+            }
           </div>
-          @if (conversation.managerComment) {
-            <div class="conversation-content">
-              <div class="content-header">
-                <h2>Interne notitie</h2>
-              </div>
-              <div [innerHTML]="conversation.managerComment | safeHtml"></div>
-            </div>
-          }
-          @if (conversation.comment) {
-            <div class="conversation-content">
-              <div class="content-header">
-                <h2>Opmerking van {{ user.given_name }}</h2>
-              </div>
-
-              <div [innerHTML]="conversation.comment | safeHtml"></div>
-            </div>
-          }
         }
 
-        <div class="files conversation-content">
+        <div class="files">
           <div class="content-header">
             <h2>Bestanden</h2>
           </div>

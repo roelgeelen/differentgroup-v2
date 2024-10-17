@@ -16,7 +16,9 @@ export const APP_ROUTES: Routes = [
     data: {
       roles: [
         EnumRoles.READ_APPOINTMENTS,
-        EnumRoles.VIEW_MEASUREMENT,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
+        EnumRoles.VIEW_SALES,
         // EnumRoles.AFSPRAKEN,
         // EnumRoles.INMETEN,
         // EnumRoles.FORMULIEREN

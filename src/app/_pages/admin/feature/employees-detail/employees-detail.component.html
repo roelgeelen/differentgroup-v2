@@ -56,14 +56,29 @@
                 <td>
                   <mat-form-field appearance="outline">
                     <mat-label>Punten</mat-label>
-                    <input #newPoints matInput type="number" [disabled]="!edit" [value]="user.app_metadata?.points">
+                    <input #newPoints matInput type="number" [disabled]="!isEditPoints"
+                           [value]="user.app_metadata?.points">
                     @if (authService.hasPermission(['manage:employees'])) {
                       <button mat-icon-button matSuffix (click)="editPoints(user, +newPoints.value)">
-                        <mat-icon>{{ edit ? 'check' : 'edit' }}</mat-icon>
+                        <mat-icon>{{ isEditPoints ? 'check' : 'edit' }}</mat-icon>
                       </button>
                     }
                   </mat-form-field>
                 </td>
+                @if (user.manager == currenUser.email || user.app_metadata?.managers?.includes(currenUser.email!)) {
+                  <td>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Functie groep</mat-label>
+                      <input #newFunction matInput type="text" [disabled]="!isEditFunction"
+                             [value]="user.app_metadata?.function_group">
+                      @if (authService.hasPermission(['manage:employees'])) {
+                        <button mat-icon-button matSuffix (click)="editFunction(user, newFunction.value)">
+                          <mat-icon>{{ isEditFunction ? 'check' : 'edit' }}</mat-icon>
+                        </button>
+                      }
+                    </mat-form-field>
+                  </td>
+                }
                 @if (user.manager) {
                   <td [colSpan]="2">
                     Managers
@@ -107,7 +122,9 @@
                           [url]="'https://differentgroup.blob.core.windows.net/userpictures/'+element.createdBy+'.jpg'"
                           position="right"></app-avatar>
                         @if (element.isPublished) {
-                          <mat-icon class="published-icon" matTooltip="Gepubliceerd" matTooltipPosition="above">check_circle_outlined</mat-icon>
+                          <mat-icon class="published-icon" matTooltip="Gepubliceerd" matTooltipPosition="above">
+                            check_circle_outlined
+                          </mat-icon>
                         }
                       </div>
                     </td>

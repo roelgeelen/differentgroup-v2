@@ -16,7 +16,7 @@ export const NAV_CONFIG: NavItem[] = [
     icon: 'dashboard',
     roles: [
       EnumRoles.READ_APPOINTMENTS,
-      EnumRoles.VIEW_MEASUREMENT,
+      EnumRoles.VIEW_SALES,
       EnumRoles.READ_CONFIGURATIONS,
       EnumRoles.SUPER_CONFIGURATIONS
     ],
@@ -26,15 +26,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Dashboard',
         icon: 'dashboard',
         roles: [
-          EnumRoles.VIEW_MEASUREMENT,
-        ]
-      },
-      {
-        path: '/sales/inmeten',
-        title: 'Inmeten',
-        icon: 'table_chart',
-        roles: [
-          EnumRoles.VIEW_MEASUREMENT,
+          EnumRoles.VIEW_SALES,
         ]
       },
       {

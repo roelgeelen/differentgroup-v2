@@ -80,7 +80,12 @@ export class ConversationEditComponent implements OnInit {
   progress: number | null = null
 
 
-  constructor(private route: ActivatedRoute, private router: Router, private employeeService: EmployeeService) {
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private router: Router,
+    private employeeService: EmployeeService
+  ) {
     this.editor = new Editor();
     this.editor2 = new Editor();
   }
@@ -93,21 +98,25 @@ export class ConversationEditComponent implements OnInit {
       }
       this.conId = params.get('conId');
       if (this.conId !== null) {
-        this.getFiles();
-        this.employeeService.getConversation(this.id!, this.conId!).subscribe({
-          next: (event: any) => {
-            console.log(event)
-            this.conversationForm.setValue({
-              title: event.title,
-              body: event.body,
-              managerComment: event.managerComment,
-              isPublished: event.isPublished
-            })
-          },
-          complete: () => {
+        this.getConversation();
+      }
+    })
+  }
 
-          }
+  getConversation() {
+    this.getFiles();
+    this.employeeService.getConversation(this.id!, this.conId!).subscribe({
+      next: (event: any) => {
+        console.log(event)
+        this.conversationForm.setValue({
+          title: event.title,
+          body: event.body,
+          managerComment: event.managerComment,
+          isPublished: event.isPublished
         })
+      },
+      complete: () => {
+
       }
     })
   }
@@ -146,12 +155,13 @@ export class ConversationEditComponent implements OnInit {
         isPublished: this.conversationForm.controls.isPublished.value || false,
       };
       this.employeeService.createConversation(this.id!, conv).subscribe({
-        next: (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            // this.progress = Math.round((100 * event.loaded) / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.router.navigateByUrl('/admin/employees/' + this.id!)
-          }
+        next: (event: IConversation) => {
+
+          // this.router.navigateByUrl('/admin/employees/' + this.id!)
+          console.log(event);
+          this.conId = event.id!;
+          this.location.replaceState(`/admin/employees/${this.id}/conversations/${event.id}/edit`);
+          this.getConversation();
         },
         complete: () => {
 
@@ -194,13 +204,14 @@ export class ConversationEditComponent implements OnInit {
       this.uploadError = 'Bestand is  te groot';
     }
   }
-  lockFile(file:any){
-    this.employeeService.updateFile(this.id!, this.conId!,file.name, {locked: file.tags.locked != 'true'}).subscribe(r=>{
+
+  lockFile(file: any) {
+    this.employeeService.updateFile(this.id!, this.conId!, file.name, {locked: file.tags.locked != 'true'}).subscribe(r => {
       this.getFiles();
     })
   }
 
-  deleteFile(file:any){
+  deleteFile(file: any) {
     Swal.fire({
       title: 'Weet je het zeker?',
       text: 'Wil je dit bestand verwijderen?',

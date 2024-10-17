@@ -52,7 +52,7 @@ export class TemplateListComponent implements OnInit {
   searchControl = new FormControl<string>('');
   totalElem: number = 0;
   pageIndex: number = 0;
-  pageSize: number = 10;
+  pageSize: number = 2;
   pageSearch: string = '';
 
   constructor(
@@ -78,7 +78,7 @@ export class TemplateListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       this.pageIndex = +(params.get('page') ?? '');
-      this.pageSize = +(params.get('size') ?? '10');
+      this.pageSize = +(params.get('size') ?? '2');
       this.pageSearch = params.get('query') ?? '';
       this.searchControl.setValue(this.pageSearch, {emitEvent: false} );
       //
@@ -92,7 +92,7 @@ export class TemplateListComponent implements OnInit {
       tap({
         next: (c) => {
           this.dataSource.data = c.content;
-          this.totalElem = c.totalElements;
+          this.totalElem = c.page.totalElements;
         }
       })
     );

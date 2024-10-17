@@ -52,6 +52,7 @@ import {AvatarComponent} from "../../../../_helpers/components/avatar/avatar.com
   ]
 })
 export class EmployeesComponent {
+  allEmployees = false;
   totalElem: number = 0;
   pageIndex: number = 0;
   pageSize: number = 10;
@@ -63,9 +64,9 @@ export class EmployeesComponent {
   }
 
   getUsers() {
-    this.table$ = this.employeeService.getEmployees(this.pageIndex, this.pageSize).pipe(
+    this.table$ = this.employeeService.getEmployees(this.pageIndex, this.pageSize, this.allEmployees).pipe(
       map(data => {
-        this.totalElem = data.totalElements;
+        this.totalElem = data.page.totalElements;
         return new MatTableDataSource<User>(data.content)
       })
     );

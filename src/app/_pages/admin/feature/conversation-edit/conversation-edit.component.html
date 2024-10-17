@@ -67,6 +67,7 @@
             }
           </div>
         </form>
+        @if (conId){
         <div class="files conversation-content">
           <div class="content-header">
             <h2>Bestanden</h2>
@@ -110,7 +111,7 @@
             <mat-spinner></mat-spinner>
           }
         </div>
-
+        }
       </div>
     } @else {
       <mat-spinner></mat-spinner>

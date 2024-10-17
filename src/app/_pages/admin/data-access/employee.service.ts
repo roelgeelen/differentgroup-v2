@@ -19,8 +19,8 @@ export class EmployeeService {
     return this.http.get<any>(`${environment.apiUrl}/employees/test`)
   }
 
-  getEmployees(page: number, size: number) {
-    return this.http.get<IPage<IUser[]>>(`${environment.apiUrl}/employees?page=${page}&size=${size}`)
+  getEmployees(page: number, size: number, allEmployees: boolean) {
+    return this.http.get<IPage<IUser[]>>(`${environment.apiUrl}/employees?page=${page}&size=${size}&all=${allEmployees}`)
   }
 
   getEmployee(id: string) {
@@ -33,6 +33,10 @@ export class EmployeeService {
 
   patchEmployeePoints(id: string, points: number) {
     return this.http.patch<IUser>(`${environment.apiUrl}/employees/${id}/points`, points)
+  }
+
+  patchEmployeeFunction(id: string, functionGroup: string) {
+    return this.http.patch<IUser>(`${environment.apiUrl}/employees/${id}/functionGroup`, functionGroup)
   }
 
   getRoles(id: string) {

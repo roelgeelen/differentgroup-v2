@@ -106,7 +106,7 @@ export class CustomerListComponent implements OnInit {
     this.customerService.findRecentCustomers({name: name, page: page, size: size}).subscribe({
       next: (c) => {
         this.dataSource.data = c.content
-        this.totalElem = c.totalElements
+        this.totalElem = c.page.totalElements
       },
       error: (_) => {
         this.loading = false

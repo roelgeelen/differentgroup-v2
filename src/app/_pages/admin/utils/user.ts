@@ -11,7 +11,7 @@ export interface IUser {
   last_login?: string;
   logins_count?: number;
   user_metadata?: any;
-  app_metadata?: { points?:number, managers?:string[]};
+  app_metadata?: { points?:number, managers?:string[], function_group?:string};
   groups?: string[];
 
 }

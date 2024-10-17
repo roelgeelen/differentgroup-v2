@@ -45,7 +45,7 @@ export class NewsListComponent {
   getNews() {
     this.table$ = this.newsService.getNewsList(this.pageIndex, this.pageSize).pipe(
       map(data => {
-        this.totalElem = data.totalElements;
+        this.totalElem = data.page.totalElements;
         return new MatTableDataSource<INews>(data.content)
       })
     );

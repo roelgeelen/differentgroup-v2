@@ -22,7 +22,7 @@
 export enum EnumRoles {
   //pages
   VIEW_PRODUCTION = 'view:production',
-  VIEW_MEASUREMENT = 'view:measurement',
+  VIEW_SALES = 'view:sales',
   VIEW_TRACKING = 'view:tracking',
   VIEW_PRODUCED = 'view:produced',
   VIEW_INVENTORY = 'view:inventory',

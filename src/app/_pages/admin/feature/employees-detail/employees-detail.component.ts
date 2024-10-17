@@ -65,7 +65,8 @@ export class EmployeesDetailComponent implements OnInit {
   id: string | null = null;
   user$!: Observable<IUser>;
   roles$!: Observable<IRole[]>;
-  edit = false;
+  isEditPoints = false;
+  isEditFunction = false;
   totalElem: number = 0;
   pageIndex: number = 0;
   pageSize: number = 5;
@@ -98,7 +99,7 @@ export class EmployeesDetailComponent implements OnInit {
     this.conversationError = false;
     this.conversations$ = this.employeeService.getConversations(this.id!, this.pageIndex, this.pageSize).pipe(
       map(data => {
-        this.totalElem = data.totalElements;
+        this.totalElem = data.page.totalElements;
         return new MatTableDataSource<IConversation>(data.content)
       }),
       catchError(err => {
@@ -109,7 +110,7 @@ export class EmployeesDetailComponent implements OnInit {
   }
 
   editPoints(user: IUser, points: number) {
-    if (this.edit) {
+    if (this.isEditPoints) {
       this.employeeService.patchEmployeePoints(user.user_id, points).subscribe({
         next: data => {
           if (data.app_metadata == undefined) {
@@ -122,7 +123,24 @@ export class EmployeesDetailComponent implements OnInit {
         }
       })
     }
-    this.edit = !this.edit
+    this.isEditPoints = !this.isEditPoints
+  }
+
+  editFunction(user: IUser, functionGroup: string) {
+    if (this.isEditFunction) {
+      this.employeeService.patchEmployeeFunction(user.user_id, functionGroup).subscribe({
+        next: data => {
+          if (data.app_metadata == undefined) {
+            data.app_metadata = {};
+          }
+          user.app_metadata!.function_group = data.app_metadata.function_group;
+        },
+        error: err => {
+          console.log(err);
+        }
+      })
+    }
+    this.isEditFunction = !this.isEditFunction
   }
 
   onPageFired($event: PageEvent) {

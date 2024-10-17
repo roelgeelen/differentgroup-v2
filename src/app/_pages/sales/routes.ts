@@ -10,7 +10,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.VIEW_MEASUREMENT,
+        EnumRoles.VIEW_SALES,
       ]
     }
   },
@@ -35,17 +35,6 @@ export const routes: Route[] = [
       roles: [
         EnumRoles.READ_CONFIGURATIONS,
         EnumRoles.SUPER_CONFIGURATIONS,
-      ]
-    }
-  },
-  {
-    path: 'inmeten',
-    loadComponent: () => import('./feature/inmeten/inmeten.component').then((x) => x.InmetenComponent),
-    // component: InmetenComponent,
-    canActivate: [AuthGuard],
-    data: {
-      roles: [
-        EnumRoles.VIEW_MEASUREMENT,
       ]
     }
   },
