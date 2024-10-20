@@ -11,7 +11,7 @@ const { domain, clientId, audience, apiUri, errorPath } = config as {
 export const environment = {
   production: true,
   apiUrl:"https://api.differentgroup.nl/differentgroup",
-  apiLocal:"https://api.differentgroup.nl/differentgroupv2",
+  apiUrlV2:"https://api.differentgroup.nl/differentgroupv2",
   auth: {
     domain,
     clientId,
@@ -20,6 +20,6 @@ export const environment = {
     errorPath,
   },
   httpInterceptor: {
-    allowedList: [`${apiUri}/*`],
+    allowedList: [`https://api.differentgroup.nl/*`],
   },
 };

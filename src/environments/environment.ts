@@ -12,8 +12,8 @@ const { domain, clientId, authorizationParams: { audience }, apiUri, errorPath }
 
 export const environment = {
   production: false,
-  apiUrl:"http://localhost:8082",
-  apiUrlV2:"http://localhost:8081",
+  apiUrl:"https://api.differentgroup.nl/differentgroup",
+  apiUrlV2:"https://api.differentgroup.nl/differentgroupv2",
   auth: {domain,
     clientId,
     authorizationParams: {
@@ -23,6 +23,6 @@ export const environment = {
     errorPath,
   },
   httpInterceptor: {
-    allowedList: [`${apiUri}/*`, 'http://localhost:8081/*'],
+    allowedList: [`https://api.differentgroup.nl/*`],
   },
 };
