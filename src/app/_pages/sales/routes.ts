@@ -10,7 +10,7 @@ export const routes: Route[] = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.INMETEN,
+        EnumRoles.VIEW_SALES,
       ]
     }
   },
@@ -21,8 +21,8 @@ export const routes: Route[] = [
     // component: ConfigurationsOldComponent,
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
       ]
     }
   },
@@ -33,19 +33,8 @@ export const routes: Route[] = [
     // component: ConfigurationsOldComponent,
     data: {
       roles: [
-        EnumRoles.FORMULIEREN,
-        EnumRoles.FORMULIEREN_KLANT,
-      ]
-    }
-  },
-  {
-    path: 'inmeten',
-    loadComponent: () => import('./feature/inmeten/inmeten.component').then((x) => x.InmetenComponent),
-    // component: InmetenComponent,
-    canActivate: [AuthGuard],
-    data: {
-      roles: [
-        EnumRoles.INMETEN,
+        EnumRoles.READ_CONFIGURATIONS,
+        EnumRoles.SUPER_CONFIGURATIONS,
       ]
     }
   },
@@ -56,7 +45,7 @@ export const routes: Route[] = [
     // component: AgendasComponent,
     data: {
       roles: [
-        EnumRoles.AFSPRAKEN,
+        EnumRoles.READ_APPOINTMENTS,
       ]
     }
   }

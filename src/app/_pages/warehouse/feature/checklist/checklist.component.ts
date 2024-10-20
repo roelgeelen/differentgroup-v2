@@ -71,6 +71,6 @@ export class ChecklistComponent {
   }
 
   updatePriority(element: IChecklistItem) {
-    // this.apiStockroomService.updatePick(element.id, !element.priorityCode).subscribe();
+    this.warehouseService.updatePick(element.id, element.priorityCode).subscribe();
   }
 }

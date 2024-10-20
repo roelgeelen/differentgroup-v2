@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import { Observable } from 'rxjs';
+import {isEmpty, map, Observable} from 'rxjs';
+import {AuthService} from "@auth0/auth0-angular";
 import {AuthenticationService} from "./authentication.service";
 import {Title} from "@angular/platform-browser";
 
@@ -10,29 +11,37 @@ import {Title} from "@angular/platform-browser";
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
+    private auth: AuthService,
     private authService: AuthenticationService,
     private titleService: Title
   ) {
   }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     this.titleService.setTitle(route.title??"Different Group");
-    const currentUser = this.authService.currentUserValue;
-    if (currentUser && this.authService.hasValidAccessToken()) {
-      // check if route is restricted by role
-      //@ts-ignore
-      if (route.data.roles && currentUser.roles.filter(role => route.data.roles.includes(role)).length === 0) {
-        //@ts-ignore
-        // role not authorised so redirect to home page
-        this.router.navigate(['/']);
-        return false;
-      }
-      // authorised so return true
-      return true;
-    }
-    localStorage.setItem('returnUrl', state.url);
-    // not logged in so redirect to login page with the return url
-    this.router.navigate(['/']);
-    return false;
+    return this.auth.isAuthenticated$.pipe(
+      map(isAuthenticated => {
+        const userPermissions = this.authService.currentUserPermissions || [];
+        if (isAuthenticated && userPermissions.length >0) {
+          if (route.data['roles'] && userPermissions) {
+            const hasRequiredRole = route.data['roles'].some((role: string) => userPermissions.includes(role));
+            if (!hasRequiredRole) {
+              // Role not authorised, return UrlTree to redirect to home page
+              return this.router.createUrlTree(['/']);
+            }
+          }
+          // Authorised or no roles required, return true
+          return true;
+        }
+
+        // Not logged in, redirect to login page with the return url
+        localStorage.setItem('returnUrl', decodeURI(state.url));
+        return this.router.createUrlTree(['/login']);
+      })
+    );
   }
 
 }

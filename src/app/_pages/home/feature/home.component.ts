@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HomeService} from "../data-access/home.service";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {IPost} from "../utils/post.interface";
 import {AsyncPipe} from "@angular/common";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
@@ -8,14 +8,16 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} fr
 import {IPage} from "../../../_models/page.interface";
 
 import {NewsCardComponent} from "../ui/news-card/news-card.component";
-import {AuthenticationService} from "../../../_auth/authentication.service";
-import {User} from "../../../_auth/models/User";
 import {MatIcon} from "@angular/material/icon";
 import {IEvent} from "../utils/event.interface";
 import {EventItemComponent} from "../ui/event-item/event-item.component";
 import {MatDivider} from "@angular/material/divider";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatMiniFabButton} from "@angular/material/button";
 import Swal from "sweetalert2";
+import {AuthService, User} from "@auth0/auth0-angular";
+import {catchError} from "rxjs/operators";
+import {MatError} from "@angular/material/form-field";
+import {DataErrorMessageComponent} from "../../../_components/data-error-message/data-error-message.component";
 import {Title} from "@angular/platform-browser";
 
 @Component({
@@ -35,22 +37,28 @@ import {Title} from "@angular/platform-browser";
     MatDivider,
     MatCardActions,
     MatButton,
+    MatError,
+    MatMiniFabButton,
+    DataErrorMessageComponent,
   ],
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit{
   currentUser: User|undefined;
-  posts$: Observable<IPage<IPost[]>>;
-  events$: Observable<IEvent[]>
+  posts$?: Observable<IPage<IPost[]>>;
+  events$?: Observable<{value: IEvent[]}>
+  postsError = false;
+  eventsError = false;
   welkom: string = 'Welkom';
 
-  constructor(private homeService: HomeService, private authService: AuthenticationService, private titleService: Title) {
-    this.posts$ = this.homeService.getPosts(0, 4);
-    this.events$ = this.homeService.getEvents();
-    this.authService.currentUser.subscribe(user => {
+  constructor(private homeService: HomeService, private auth: AuthService, private titleService: Title) {
+    this.getPosts();
+    this.getEvents();
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
   }
+
   ngOnInit() {
     this.titleService.setTitle("Different Group")
     var now = new Date().getHours();
@@ -65,6 +73,26 @@ export class HomeComponent implements OnInit{
     }
   }
 
+  getPosts() {
+    this.postsError = false;
+    this.posts$ = this.homeService.getPosts(0, 4).pipe(
+      catchError(err => {
+        this.postsError = true;
+        return of();
+      })
+    );
+  }
+
+  getEvents() {
+    this.eventsError = false;
+    this.events$ = this.homeService.getEvents().pipe(
+      catchError(err => {
+        this.eventsError = true;
+        return of();
+      })
+    );
+  }
+
   betrayUser() {
     Swal.fire({
       title: 'Ik wil ' + this.currentUser!.name + ' verraden.',
@@ -77,7 +105,7 @@ export class HomeComponent implements OnInit{
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        this.homeService.betrayUser(this.currentUser!.name, this.currentUser!.email).subscribe()
+        this.homeService.betrayUser(this.currentUser!.name!, this.currentUser!.email!).subscribe()
         Swal.fire({
           title: 'Bedankt voor je oplettendheid, ' +this.currentUser!.name + ' is je niet dankbaar.',
           icon: 'success',

@@ -9,7 +9,8 @@
       } @empty {
         <div class="item-placeholder">Nog geen history</div>
       }
-      @if (!data?.last) {
+      @if (data?.page!.totalPages > data?.page!.number){
+<!--      @if (!data?.last) {-->
         <mat-divider></mat-divider>
         <div class="load-more">
           <button mat-icon-button color="primary" (click)="loadMore()">

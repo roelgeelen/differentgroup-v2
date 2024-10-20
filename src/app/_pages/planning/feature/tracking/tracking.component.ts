@@ -2,8 +2,7 @@ import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {GoogleMap, MapInfoWindow, MapMarker, MapTrafficLayer} from "@angular/google-maps";
 import {AsyncPipe, DatePipe} from "@angular/common";
 import {EnumRoles} from "../../../../_auth/models/enumRoles";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
-import {User} from "../../../../_auth/models/User";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {PlanningService} from "../../data-access/planning.service";
 import {forkJoin, map, Observable} from "rxjs";
 import {IVehicle} from "../../utils/vehicle.interface";
@@ -41,8 +40,8 @@ export class TrackingComponent {
     minZoom: 6
   }
 
-  constructor(private authService: AuthenticationService, private planningService: PlanningService) {
-    this.authService.currentUser.subscribe(user => {
+  constructor(private auth: AuthService, private planningService: PlanningService) {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
     const observables = [];
@@ -86,11 +85,15 @@ export class TrackingComponent {
   }
 
   get canViewCars() {
-    return this.currentUser && (this.currentUser.roles.indexOf(EnumRoles.AFSPRAKEN) !== -1);
+    //TODO
+    return true;
+    // return this.currentUser && (this.currentUser.roles.indexOf(EnumRoles.AFSPRAKEN) !== -1);
   }
 
   get canViewBusses() {
-    return this.currentUser && (this.currentUser.roles.indexOf(EnumRoles.TRACKING) !== -1);
+    //TODO
+    return true;
+    // return this.currentUser && (this.currentUser.roles.indexOf(EnumRoles.TRACKING) !== -1);
   }
 
   openInfo(marker: MapMarker | undefined, content: IVehicle) {

@@ -1,4 +1,4 @@
-@if (currentUser) {
+@if (auth.isAuthenticated$ | async; as isAuth) {
   <div class="body">
 
     <app-navbar (toggleMenu)="sidenav.toggle()"></app-navbar>
@@ -39,7 +39,7 @@
         </div>
         <div class="footer">
           <div id="development">
-            <a href="https://get.teamviewer.com/differentdoorsqs">
+            <a href="https://get.teamviewer.com/differentdoorsqs" target="_blank">
               <span>Different group - v2.0</span> | <span>Support</span><br>
             </a>
           </div>
@@ -50,4 +50,6 @@
     <!-- credits -->
 
   </div>
+} @else {
+  <app-loading></app-loading>
 }

@@ -7,9 +7,17 @@
       @if (posts$|async; as posts) {
         @for (post of posts.content; track post) {
           <app-news-card [post]="post"></app-news-card>
+        } @empty {
+          <div class="text-center w-100">
+            Nog geen berichten.
+          </div>
         }
       } @else {
+        @if (postsError){
+          <data-error-message (onReload)="getPosts()"></data-error-message>
+        } @else {
         <mat-spinner></mat-spinner>
+        }
       }
     </div>
     <div class="widgets">
@@ -33,14 +41,18 @@
         </mat-card-header>
         <mat-card-content>
           @if (events$|async; as events) {
-            @for (event of events; track event) {
+            @for (event of events.value; track event) {
               <app-event-item [event]="event"></app-event-item>
               @if (!$last) {
                 <mat-divider></mat-divider>
               }
             }
           } @else {
-            <mat-spinner [diameter]="40"></mat-spinner>
+            @if (eventsError){
+              <data-error-message (onReload)="getEvents()"></data-error-message>
+            } @else {
+              <mat-spinner [diameter]="40"></mat-spinner>
+            }
           }
         </mat-card-content>
       </mat-card>

@@ -1,8 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {AuthenticationService} from './_auth/authentication.service';
-import {authConfig} from './_auth/auth.config';
-import {User} from './_auth/models/User';
 import {NAV_CONFIG, NavItem} from "./_helpers/components/navbar/nav-data";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {
@@ -15,6 +11,11 @@ import {RouterModule} from '@angular/router';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {NavbarComponent} from './_helpers/components/navbar/navbar.component';
+import {AuthService} from "@auth0/auth0-angular";
+import {AsyncPipe} from "@angular/common";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {LoadingComponent} from "./_components/loading/loading.component";
+import {AuthenticationService} from "./_auth/authentication.service";
 
 interface FlatNode extends NavItem {
   expandable: boolean;
@@ -37,11 +38,36 @@ interface FlatNode extends NavItem {
     MatTreeModule,
     MatMenuModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    AsyncPipe,
+    MatProgressSpinner,
+    LoadingComponent
   ]
 })
 export class AppComponent implements OnInit {
-  currentUser: User | null = null;
+  userPermissions: string[] = [];
+
+  constructor(private authService: AuthenticationService, protected auth: AuthService) {
+    this.dataSource.data = NAV_CONFIG;
+  }
+
+  ngOnInit(): void {
+    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      console.log(isAuthenticated)
+      if (!isAuthenticated) {
+        this.auth.loginWithRedirect();
+      } else {
+        this.authService.login()
+      }
+    })
+    this.authService.permissions$.subscribe(p => {
+      this.userPermissions = p!;
+    });
+    // this.auth.loginWithRedirect();
+  }
+
+
+  // currentUser: User | null = null;
   private _transformer = (node: NavItem, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -64,61 +90,10 @@ export class AppComponent implements OnInit {
 
   hasChild = (_: number, node: FlatNode) => node.expandable;
 
-  constructor(
-    private oauthService: OAuthService,
-    private authService: AuthenticationService
-  ) {
-    this.dataSource.data = NAV_CONFIG;
-  }
-
-  async ngOnInit() {
-    this.configureOAuth();
-    await this.handleAuthentication();
-    this.setupSilentRefresh();
-    this.subscribeToCurrentUser();
-  }
-
-  configureOAuth() {
-    this.oauthService.configure(authConfig);
-  }
-
-  async handleAuthentication() {
-    try {
-      await this.oauthService.loadDiscoveryDocumentAndLogin();
-      if (this.oauthService.hasValidIdToken()) {
-        this.authService.login();
-      }
-    } catch (error) {
-      console.error('Authentication error:', error);
-      // Handle authentication errors gracefully
-    }
-  }
-
-  setupSilentRefresh() {
-    this.oauthService.setupAutomaticSilentRefresh();
-  }
-
-  subscribeToCurrentUser() {
-    this.authService.currentUser.subscribe(user => {
-      this.currentUser = user;
-    });
-  }
-
-  get isUserLoggedIn() {
-    return !!this.currentUser;
-  }
-
-  public logout() {
-    this.oauthService.logOut();
-  }
-
   hasPermission(roles: string[]): boolean {
-    if (this.currentUser == undefined) {
-      return false;
-    }
     if (roles.length === 0) {
       return true;
     }
-    return this.currentUser.roles.filter(role => roles.includes(role)).length !== 0;
+    return this.userPermissions.filter(role => roles.includes(role)).length !== 0;
   }
 }

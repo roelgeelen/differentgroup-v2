@@ -15,9 +15,10 @@ export const NAV_CONFIG: NavItem[] = [
     title: 'Verkoop',
     icon: 'dashboard',
     roles: [
-      EnumRoles.AFSPRAKEN,
-      EnumRoles.INMETEN,
-      EnumRoles.FORMULIEREN
+      EnumRoles.READ_APPOINTMENTS,
+      EnumRoles.VIEW_SALES,
+      EnumRoles.READ_CONFIGURATIONS,
+      EnumRoles.SUPER_CONFIGURATIONS
     ],
     children: [
       {
@@ -25,15 +26,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Dashboard',
         icon: 'dashboard',
         roles: [
-          EnumRoles.INMETEN,
-        ]
-      },
-      {
-        path: '/sales/inmeten',
-        title: 'Inmeten',
-        icon: 'table_chart',
-        roles: [
-          EnumRoles.INMETEN,
+          EnumRoles.VIEW_SALES,
         ]
       },
       {
@@ -41,8 +34,8 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Formulieren',
         icon: 'description',
         roles: [
-          EnumRoles.FORMULIEREN,
-          EnumRoles.FORMULIEREN_KLANT,
+          EnumRoles.READ_CONFIGURATIONS,
+          EnumRoles.SUPER_CONFIGURATIONS,
         ]
       },
       {
@@ -50,7 +43,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Afspraken',
         icon: 'map',
         roles: [
-          EnumRoles.AFSPRAKEN,
+          EnumRoles.READ_APPOINTMENTS,
         ]
       },
     ],
@@ -60,10 +53,10 @@ export const NAV_CONFIG: NavItem[] = [
     title: 'Planning',
     icon: 'insert_chart_outlined',
     roles: [
-      EnumRoles.TRACKING,
-      EnumRoles.AFSPRAKEN,
-      EnumRoles.PRODUCTIE,
-      EnumRoles.GEPRODUCEERD,
+      EnumRoles.VIEW_PRODUCTION,
+      EnumRoles.VIEW_PRODUCED,
+      EnumRoles.VIEW_TRACKING,
+      EnumRoles.VIEW_INVENTORY
     ],
     children: [
       {
@@ -71,8 +64,8 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Tracking',
         icon: 'maps',
         roles: [
-          EnumRoles.TRACKING,
-          EnumRoles.AFSPRAKEN,
+          EnumRoles.VIEW_TRACKING,
+          // EnumRoles.AFSPRAKEN,
         ]
       },
       {
@@ -80,7 +73,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Productie',
         icon: 'bar_chart',
         roles: [
-          EnumRoles.PRODUCTIE,
+          EnumRoles.VIEW_PRODUCTION,
         ]
       },
       {
@@ -88,7 +81,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Geproduceerd',
         icon: 'bar_chart',
         roles: [
-          EnumRoles.GEPRODUCEERD,
+          EnumRoles.VIEW_PRODUCED,
         ]
       },
       {
@@ -96,7 +89,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Voorraad',
         icon: 'bar_chart',
         roles: [
-          EnumRoles.GEPRODUCEERD,
+          EnumRoles.VIEW_INVENTORY,
         ]
       },
     ],
@@ -106,9 +99,9 @@ export const NAV_CONFIG: NavItem[] = [
     title: 'Magazijn',
     icon: 'supervised_user_circle',
     roles: [
-      EnumRoles.LOGISTIEK,
-      EnumRoles.CONTROLE,
-      EnumRoles.VOORRAAD,
+      EnumRoles.VIEW_LOGISTICS,
+      EnumRoles.READ_CHECKLIST,
+      EnumRoles.VIEW_INVENTORY,
     ],
     children: [
       {
@@ -116,7 +109,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Logistiek',
         icon: 'calendar_today',
         roles: [
-          EnumRoles.LOGISTIEK,
+          EnumRoles.VIEW_LOGISTICS,
         ]
       },
       {
@@ -124,7 +117,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Controle',
         icon: 'playlist_add_check',
         roles: [
-          EnumRoles.CONTROLE,
+          EnumRoles.READ_CHECKLIST,
         ]
       },
       {
@@ -132,7 +125,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Voorraad',
         icon: 'bar_chart',
         roles: [
-          EnumRoles.VOORRAAD,
+          EnumRoles.VIEW_INVENTORY,
         ]
       },
     ],
@@ -142,8 +135,8 @@ export const NAV_CONFIG: NavItem[] = [
     title: 'Rapportage',
     icon: 'attach_money',
     roles: [
-      EnumRoles.RAPPORTAGE,
-      EnumRoles.FINANCIEEL
+      EnumRoles.VIEW_REPORTS,
+      EnumRoles.VIEW_FINANCIAL,
     ],
     children: [
       {
@@ -151,7 +144,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Dashboard',
         icon: 'dashboard',
         roles: [
-          EnumRoles.RAPPORTAGE
+          EnumRoles.VIEW_REPORTS
         ]
       },
       {
@@ -159,7 +152,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Financieel',
         icon: 'attach_money',
         roles: [
-          EnumRoles.FINANCIEEL
+          EnumRoles.VIEW_FINANCIAL
         ]
       },
     ],
@@ -187,10 +180,9 @@ export const NAV_CONFIG: NavItem[] = [
     title: 'Beheer',
     icon: 'supervised_user_circle',
     roles: [
-      EnumRoles.FORMULIEREN_BEHEREN,
-      EnumRoles.BERICHTEN_BEHEREN,
-      EnumRoles.ROLLEN_BEHEREN,
-      EnumRoles.ONTWIKKELINGEN_BEHEREN
+      EnumRoles.MANAGE_FORMS,
+      EnumRoles.MANAGE_NEWS,
+      EnumRoles.READ_EMPLOYEES
     ],
     children: [
       {
@@ -198,7 +190,7 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Formulieren',
         icon: 'edit_document',
         roles: [
-          EnumRoles.FORMULIEREN_BEHEREN
+          EnumRoles.MANAGE_FORMS
         ]
       },
       {
@@ -206,23 +198,23 @@ export const NAV_CONFIG: NavItem[] = [
         title: 'Berichten',
         icon: 'message',
         roles: [
-          EnumRoles.BERICHTEN_BEHEREN
+          EnumRoles.MANAGE_NEWS
         ]
       },
-      {
-        path: '/admin/roles',
-        title: 'Rollen',
-        icon: 'supervisor_account',
-        roles: [
-          EnumRoles.ROLLEN_BEHEREN,
-        ]
-      },
+      // {
+      //   path: '/admin/roles',
+      //   title: 'Rollen',
+      //   icon: 'supervisor_account',
+      //   roles: [
+      //     EnumRoles.ROLLEN_BEHEREN,
+      //   ]
+      // },
       {
         path: '/admin/employees',
         title: 'Medewerkers',
         icon: 'group',
         roles: [
-          EnumRoles.ONTWIKKELINGEN_BEHEREN,
+          EnumRoles.READ_EMPLOYEES,
         ]
       }
     ],

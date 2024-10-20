@@ -13,8 +13,7 @@ import {DatePipe, DecimalPipe, KeyValuePipe} from "@angular/common";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
 import {IForm} from "../../../../_components/dynamic-form-builder/models/form.interface";
-import {User} from "../../../../_auth/models/User";
-import {AuthenticationService} from "../../../../_auth/authentication.service";
+import {AuthService, User} from "@auth0/auth0-angular";
 import {IConfiguration} from "../../utils/configuration.interface";
 import Swal from "sweetalert2";
 import {MatMenuModule} from "@angular/material/menu";
@@ -66,7 +65,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy{
   selectedTheme?: ITheme;
 
   constructor(
-    private authService: AuthenticationService,
+    private auth: AuthService,
     private customerService: CustomerService,
     private configurationService:ConfigurationService,
     private route: ActivatedRoute,
@@ -80,7 +79,7 @@ export class CustomerDetailComponent implements OnInit, OnDestroy{
         this.findCustomer(queryParams.get('dealId')!)
       }
     });
-    this.authService.currentUser.subscribe(user => {
+    this.auth.user$.subscribe(user => {
       this.currentUser = user!;
     });
     this.themeSubscription = this.themeService.theme$.subscribe(t => this.selectedTheme = t)
@@ -106,7 +105,9 @@ export class CustomerDetailComponent implements OnInit, OnDestroy{
   }
 
   get isFORMULIEREN() {
-    return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
+    //TODO
+    return true;
+    // return this.currentUser && this.currentUser.roles.indexOf(EnumRoles.FORMULIEREN) !== -1;
   }
 
   findFormTemplates() {

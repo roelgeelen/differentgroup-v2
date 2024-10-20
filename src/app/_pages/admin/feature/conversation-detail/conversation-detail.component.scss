@@ -1,0 +1,86 @@
+.page-header {
+  .user-header {
+    display: flex;
+
+    h2 {
+      margin-bottom: 5px;
+    }
+
+    .user-info {
+      padding: 5px 20px;
+    }
+  }
+
+  .actions {
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+
+.page-content {
+  display: flex;
+
+  .files {
+    margin: 10px 0 0 20px !important;
+    border: 1px solid rgb(232, 232, 232);
+    border-radius: 6px;
+    padding: 32px;
+
+    .files-list {
+      .item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        .file {
+          display: flex;
+          justify-content: space-between;
+          width: 300px;
+          padding: 5px;
+          align-items: center;
+          background-color: white;
+          border-radius: 5px;
+          border: 1px solid gray;
+          margin-right: 5px;
+
+          .name {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+
+            span {
+              text-overflow: ellipsis;
+              max-width: 220px;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+}
+
+.conversation {
+  flex: 1;
+}
+
+.conversation-content {
+  border: 1px solid rgb(232, 232, 232);
+  border-radius: 6px;
+  padding: 32px;
+  margin: 10px 0;
+
+  .content-header {
+    display: flex;
+
+    h2 {
+      margin: 0;
+      line-height: 34px;
+    }
+  }
+
+}

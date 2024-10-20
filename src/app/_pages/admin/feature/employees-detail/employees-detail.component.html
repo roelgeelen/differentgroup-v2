@@ -1,0 +1,215 @@
+<div class="content">
+  <div class="layout-content">
+    @if (auth.user$|async; as currenUser) {
+      <div class="page-header">
+        <h1>Medewerker</h1>
+        <button mat-flat-button color="primary" routerLink="/admin/employees">
+          Terug
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      @if (user$|async; as user) {
+        <div class="page-content">
+          <div class="user-header">
+            <app-avatar [url]="user.picture!" [size]="75"></app-avatar>
+            <!--          <img [src]="user.picture" alt="Profielfoto"-->
+            <!--               height="75" class="profile-pic">-->
+            <div class="user-info">
+              <h2>{{ user.name }}</h2>
+              <span>
+               @if (roles$ |async; as roles) {
+                 <mat-chip-set>
+                    @for (role of roles; track role) {
+                      <mat-chip>{{ role.description }}</mat-chip>
+                    }
+                  </mat-chip-set>
+               } @else {
+                 <mat-spinner [diameter]="40"></mat-spinner>
+               }
+            </span>
+            </div>
+          </div>
+          <div class="user-content">
+            <h3>Gegevens</h3>
+            <table class="table">
+              <tr>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Funtie</mat-label>
+                    <input matInput [value]="user.job_title" disabled>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput [value]="user.email" disabled>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Laatst aangemeld</mat-label>
+                    <input matInput [value]="user.last_login|date: 'dd-MM-yyyy HH:mm'" disabled>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Punten</mat-label>
+                    <input #newPoints matInput type="number" [disabled]="!isEditPoints"
+                           [value]="user.app_metadata?.points">
+                    @if (authService.hasPermission(['manage:employees'])) {
+                      <button mat-icon-button matSuffix (click)="editPoints(user, +newPoints.value)">
+                        <mat-icon>{{ isEditPoints ? 'check' : 'edit' }}</mat-icon>
+                      </button>
+                    }
+                  </mat-form-field>
+                </td>
+                @if (user.manager == currenUser.email || user.app_metadata?.managers?.includes(currenUser.email!)) {
+                  <td>
+                    <mat-form-field appearance="outline">
+                      <mat-label>Functie groep</mat-label>
+                      <input #newFunction matInput type="text" [disabled]="!isEditFunction"
+                             [value]="user.app_metadata?.function_group">
+                      @if (authService.hasPermission(['manage:employees'])) {
+                        <button mat-icon-button matSuffix (click)="editFunction(user, newFunction.value)">
+                          <mat-icon>{{ isEditFunction ? 'check' : 'edit' }}</mat-icon>
+                        </button>
+                      }
+                    </mat-form-field>
+                  </td>
+                }
+                @if (user.manager) {
+                  <td [colSpan]="2">
+                    Managers
+                    <mat-chip-set>
+                      <mat-chip class="mat-chip-active" [disabled]="false">{{ user.manager }}</mat-chip>
+                      @for (manager of user.app_metadata?.managers; track manager) {
+                        <mat-chip [removable]="true" (removed)="removeManager(user, manager)">{{ manager }}
+                          @if (user.manager == currenUser.email) {
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                          }
+                        </mat-chip>
+                      }
+                      @if (user.manager == currenUser.email) {
+                        <button mat-mini-fab color="primary" class="add-button" (click)="openDialog(user)">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      }
+                    </mat-chip-set>
+                  </td>
+                }
+              </tr>
+            </table>
+          </div>
+          @if (authService.hasPermission(['manage:conversations']) && (user.manager == currenUser.email || user.app_metadata?.managers?.includes(currenUser.email!))) {
+            <div class="user-content">
+              <div class="title">
+                <h3>Verslagen</h3>
+                <button mat-flat-button color="primary" routerLink="conversations/create">
+                  Nieuw
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+              <hr>
+              @if (conversations$ | async; as table) {
+                <table mat-table [dataSource]="table">
+                  <ng-container matColumnDef="picture">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" [routerLink]="'conversations/'+element.id">
+                      <div class="picture-flex">
+                        <app-avatar
+                          [url]="'https://differentgroup.blob.core.windows.net/userpictures/'+element.createdBy+'.jpg'"
+                          position="right"></app-avatar>
+                        @if (element.isPublished) {
+                          <mat-icon class="published-icon" matTooltip="Gepubliceerd" matTooltipPosition="above">
+                            check_circle_outlined
+                          </mat-icon>
+                        }
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" [routerLink]="'conversations/'+element.id">
+
+                      <b>{{ element.title }}</b></td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="created">
+                    <th mat-header-cell *matHeaderCellDef>Aangemaakt</th>
+                    <td mat-cell *matCellDef="let element" [routerLink]="'conversations/'+element.id">
+                      <b>{{ element.createdAt |date:'dd-MM-yyyy HH:mm' }}</b></td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="last_login">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" [routerLink]="'conversations/'+element.id">
+                      {{ element.last_login }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element" [routerLink]="'conversations/'+element.id">
+                      @if (element.isRead) {
+                        <mat-icon matTooltip="Gelezen" matTooltipPosition="above">remove_red_eye</mat-icon>
+                      }
+                      @if (element.isApproved) {
+                        <mat-icon matTooltip="Goedgekeurd" matTooltipPosition="above">check</mat-icon>
+                      }
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="actions" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+                    <td mat-cell *matCellDef="let element">
+                      <button mat-icon-button [matMenuTriggerFor]="menu">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item [routerLink]="'conversations/'+element.id+'/edit'">
+                          <mat-icon>edit</mat-icon>
+                          <span class="menu-label">Bewerken</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteConversation(element.id)">
+                          <mat-icon>delete</mat-icon>
+                          <span class="menu-label">Verwijderen</span>
+                        </button>
+                      </mat-menu>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="conversationColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: conversationColumns;"></tr>
+
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" [colSpan]="conversationColumns.length">
+                      Geen verslagen gevonden
+                    </td>
+                  </tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 25]"
+                               [length]="totalElem"
+                               [pageIndex]="pageIndex"
+                               [pageSize]="pageSize"
+                               (page)="onPageFired($event)"
+                               showFirstLastButtons>
+                </mat-paginator>
+              } @else {
+                @if (conversationError) {
+                  <data-error-message (onReload)="getConversations()"></data-error-message>
+                } @else {
+                  <mat-spinner [diameter]="40"></mat-spinner>
+                }
+              }
+            </div>
+          }
+        </div>
+
+      } @else {
+        <mat-spinner></mat-spinner>
+      }
+    }
+  </div>
+</div>

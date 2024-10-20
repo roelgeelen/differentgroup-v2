@@ -1,0 +1,10 @@
+{
+  "domain": "differentgroup.eu.auth0.com",
+  "clientId": "IuYlL1GaYrEuPOi8RrbR3TQIfAN2ZCkB",
+  "authorizationParams": {
+    "audience": "https://api.differentgroup.nl/"
+  },
+  "apiUri": "http://localhost:8082",
+  "appUri": "http://localhost:4200",
+  "errorPath": "/error"
+}

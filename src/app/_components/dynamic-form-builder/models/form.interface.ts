@@ -17,6 +17,7 @@ export interface IForm {
 
 export interface IFormOptions {
   model3D?: boolean;
+  roles?: string[];
   duration?: number;
   createQuotation?: boolean;
   quotePanelOpen?: boolean;

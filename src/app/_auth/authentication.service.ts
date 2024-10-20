@@ -1,25 +1,23 @@
 import {Injectable} from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {jwtDecode} from 'jwt-decode'; // Let op: 'jwt-decode' importeren als 'jwt_decode'
-import {User} from './models/User';
-import {Token} from './models/token';
+import {BehaviorSubject, lastValueFrom, Observable} from 'rxjs';
+import {jwtDecode} from 'jwt-decode';
 import {Router} from "@angular/router";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  private permissionsSubject$: BehaviorSubject<string[]|null>;
+  public permissions$: Observable<string[]|null>;
 
-  constructor(private oauthService: OAuthService, private router: Router) {
-    this.currentUserSubject = new BehaviorSubject<User | null>(null);
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private auth: AuthService, private router: Router) {
+    this.permissionsSubject$ = new BehaviorSubject<string[]|null>([]);
+    this.permissions$ = this.permissionsSubject$.asObservable();
   }
 
-  login(): void {
-    this.currentUserSubject.next(this.convertTokenToUser());
+  async login() {
+    this.permissionsSubject$.next(await this.convertTokenToUser());
     const returnUrl = localStorage.getItem('returnUrl');
     localStorage.clear();
     if (returnUrl) {
@@ -27,34 +25,30 @@ export class AuthenticationService {
     }
   }
 
-  public get currentUserValue(): User | null {
-    return this.currentUserSubject.value;
+  public get currentUserPermissions(): string[]|null {
+    return this.permissionsSubject$.value;
   }
 
-  convertTokenToUser(): User | null {
-    const token = this.oauthService.getAccessToken();
-    console.log(token)
+  public hasPermission(roles: string[]): boolean {
+    if (roles.length === 0) {
+      return true;
+    }
+    let permissions = this.currentUserPermissions ||[];
+    return permissions.filter(role => roles.includes(role)).length !== 0;
+  }
+
+  async convertTokenToUser(): Promise<string[] | null> {
+    const token = await lastValueFrom(this.auth.getAccessTokenSilently());
     if (token) {
       try {
-        const decodedToken = jwtDecode<Token>(token);
-        return {
-          id: decodedToken.oid || '',
-          image: undefined,
-          name: decodedToken.name?.split(' | ')[0] || '',
-          email: decodedToken.preferred_username || '',
-          roles: decodedToken.roles || []
-          // Add other custom claims as needed
-        };
+        const decodedToken = jwtDecode<{permissions:string[]}>(token);
+        return decodedToken.permissions || [];
       } catch (error) {
         console.error('Error decoding token:', error);
         return null;
       }
     }
     return null;
-  }
-
-  hasValidAccessToken(): boolean {
-    return this.oauthService.hasValidAccessToken();
   }
 
 }
