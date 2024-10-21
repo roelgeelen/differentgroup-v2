@@ -11,7 +11,7 @@ import {
 } from "@angular/material/table";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {EmployeeService} from "../../data-access/employee.service";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, DatePipe} from "@angular/common";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
@@ -48,7 +48,8 @@ import {AvatarComponent} from "../../../../_helpers/components/avatar/avatar.com
     MatMenuTrigger,
     MatHeaderCellDef,
     MatNoDataRow,
-    AvatarComponent
+    AvatarComponent,
+    DatePipe
   ]
 })
 export class EmployeesComponent {
