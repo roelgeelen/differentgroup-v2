@@ -90,7 +90,9 @@ export const APP_ROUTES: Routes = [
     canActivate: [AuthGuard],
     data: {
       roles: [
-        EnumRoles.MANAGE_FORMS
+        EnumRoles.MANAGE_FORMS,
+        EnumRoles.READ_EMPLOYEES,
+        EnumRoles.MANAGE_NEWS
         // EnumRoles.FORMULIEREN_BEHEREN,
       ]
     }

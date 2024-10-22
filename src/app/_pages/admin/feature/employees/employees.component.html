@@ -8,6 +8,16 @@
       </button>
     </div>
     <div class="page-content">
+<!--      <mat-form-field appearance="outline">-->
+<!--        <mat-label>Zoeken</mat-label>-->
+<!--        <mat-icon matPrefix>search</mat-icon>-->
+<!--        <input matInput type="text" [formControl]="searchControl">-->
+<!--        @if (pageSearch) {-->
+<!--          <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.setValue('')">-->
+<!--            <mat-icon>close</mat-icon>-->
+<!--          </button>-->
+<!--        }-->
+<!--      </mat-form-field>-->
       @if (table$ | async; as table) {
         <table mat-table [dataSource]="table">
           <ng-container matColumnDef="picture">

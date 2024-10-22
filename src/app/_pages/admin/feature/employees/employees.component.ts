@@ -19,6 +19,9 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {RouterLink} from "@angular/router";
 import {User} from "@auth0/auth0-angular";
 import {AvatarComponent} from "../../../../_helpers/components/avatar/avatar.component";
+import {MatFormField, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-configurations-old',
@@ -49,7 +52,13 @@ import {AvatarComponent} from "../../../../_helpers/components/avatar/avatar.com
     MatHeaderCellDef,
     MatNoDataRow,
     AvatarComponent,
-    DatePipe
+    DatePipe,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatPrefix,
+    MatSuffix,
+    ReactiveFormsModule
   ]
 })
 export class EmployeesComponent {
@@ -59,6 +68,8 @@ export class EmployeesComponent {
   pageSize: number = 10;
   displayedColumns: string[] = ['picture','name', 'email', 'last_login'];
   table$!: Observable<MatTableDataSource<User>>;
+  searchControl = new FormControl<string>('');
+  pageSearch: string = '';
 
   constructor(private employeeService: EmployeeService) {
     this.getUsers()
