@@ -19,8 +19,8 @@ export class EmployeeService {
     return this.http.get<any>(`${environment.apiUrl}/employees/test`)
   }
 
-  getEmployees(page: number, size: number, allEmployees: boolean) {
-    return this.http.get<IPage<IUser[]>>(`${environment.apiUrl}/employees?page=${page}&size=${size}&all=${allEmployees}`)
+  getEmployees(page: number, size: number, allEmployees: boolean, search: string) {
+    return this.http.get<IPage<IUser[]>>(`${environment.apiUrl}/employees?page=${page}&size=${size}&all=${allEmployees}&search=${search}`)
   }
 
   getEmployee(id: string) {

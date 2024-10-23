@@ -1,67 +1,69 @@
 <div class="content">
   <div class="layout-content">
     <div class="page-header">
-      <h1>{{allEmployees?'Alle': 'Mijn'}} Medewerkers</h1>
+      <h1>{{ allEmployees ? 'Alle' : 'Mijn' }} Medewerkers</h1>
       <button mat-flat-button color="primary" (click)="allEmployees = !allEmployees; getUsers()">
-        {{allEmployees?'Mijn': 'Alle'}} medewerkers
+        {{ allEmployees ? 'Mijn' : 'Alle' }} medewerkers
         <mat-icon>groups</mat-icon>
       </button>
     </div>
     <div class="page-content">
-<!--      <mat-form-field appearance="outline">-->
-<!--        <mat-label>Zoeken</mat-label>-->
-<!--        <mat-icon matPrefix>search</mat-icon>-->
-<!--        <input matInput type="text" [formControl]="searchControl">-->
-<!--        @if (pageSearch) {-->
-<!--          <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.setValue('')">-->
-<!--            <mat-icon>close</mat-icon>-->
-<!--          </button>-->
-<!--        }-->
-<!--      </mat-form-field>-->
-      @if (table$ | async; as table) {
-        <table mat-table [dataSource]="table">
-          <ng-container matColumnDef="picture">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element" [routerLink]="element.user_id">
-              <app-avatar [url]="element.picture"></app-avatar>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>Naam</th>
-            <td mat-cell *matCellDef="let element" [routerLink]="element.user_id"><b>{{ element.name }}</b></td>
-          </ng-container>
-
-          <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let element" [routerLink]="element.user_id"><b>{{ element.email }}</b></td>
-          </ng-container>
-
-          <ng-container matColumnDef="last_login" stickyEnd>
-            <th mat-header-cell *matHeaderCellDef>Laatste login</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.last_login|date: 'dd-MM-yyyy HH:mm' }}
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-          <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" [colSpan]="displayedColumns.length">
-              Geen medewerkers gevonden
-            </td>
-          </tr>
-        </table>
-        <mat-paginator [pageSizeOptions]="[10, 25, 50]"
-                       [length]="totalElem"
-                       [pageIndex]="pageIndex"
-                       [pageSize]="pageSize"
-                       (page)="onPageFired($event)"
-                       showFirstLastButtons>
-        </mat-paginator>
-      } @else {
-        <mat-spinner></mat-spinner>
+      @if (allEmployees) {
+        <mat-form-field appearance="outline">
+          <mat-label>Zoeken</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input matInput type="text" [formControl]="searchControl">
+          @if (pageSearch) {
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="searchControl.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
       }
+            @if (table !=null) {
+      <table mat-table [dataSource]="table">
+        <ng-container matColumnDef="picture">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element" [routerLink]="element.user_id">
+            <app-avatar [url]="element.picture"></app-avatar>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Naam</th>
+          <td mat-cell *matCellDef="let element" [routerLink]="element.user_id"><b>{{ element.name }}</b></td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element" [routerLink]="element.user_id"><b>{{ element.email }}</b></td>
+        </ng-container>
+
+        <ng-container matColumnDef="last_login" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef>Laatste login</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.last_login|date: 'dd-MM-yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" [colSpan]="displayedColumns.length">
+            Geen medewerkers gevonden
+          </td>
+        </tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]"
+                     [length]="totalElem"
+                     [pageIndex]="pageIndex"
+                     [pageSize]="pageSize"
+                     (page)="onPageFired($event)"
+                     showFirstLastButtons>
+      </mat-paginator>
+            } @else {
+              <mat-spinner></mat-spinner>
+            }
     </div>
   </div>
 </div>

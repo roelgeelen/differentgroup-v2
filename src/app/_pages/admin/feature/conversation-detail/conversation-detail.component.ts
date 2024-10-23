@@ -1,18 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterModule} from "@angular/router";
-import {map, Observable, of} from "rxjs";
+import { Observable} from "rxjs";
 import {EmployeeService} from "../../data-access/employee.service";
 import {IUser} from "../../utils/user";
-import {IRole} from "../../utils/role";
-import {
-  MatTableDataSource
-} from "@angular/material/table";
-import {PageEvent} from "@angular/material/paginator";
-import {catchError} from "rxjs/operators";
 import {IConversation} from "../../utils/conversation";
-import {MatIcon, MatIconModule} from "@angular/material/icon";
+import {MatIconModule} from "@angular/material/icon";
 import {AsyncPipe, DatePipe} from "@angular/common";
-import {MatButton, MatButtonModule} from "@angular/material/button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {SafeHtmlPipe} from "../../../../_helpers/pipes/safe-html.pipe";
 import {MatTooltip} from "@angular/material/tooltip";
