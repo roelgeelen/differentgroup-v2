@@ -53,7 +53,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.isAuthenticated$.subscribe(isAuthenticated => {
-      console.log(isAuthenticated)
       if (!isAuthenticated) {
         this.auth.loginWithRedirect();
       } else {
